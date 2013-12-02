@@ -1,0 +1,67 @@
+# Internal routing configuration to handle ESI
+#_internal:
+#    resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
+#    prefix:   /_internal
+
+# SOME BUNDLES
+admin2:
+    resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
+    prefix: /admin2
+
+_sonata_admin:
+    resource: .
+    type: sonata_admin
+    prefix: /admin2
+maxim_admin:
+    resource: "@MaximAdminBundle/Resources/config/routing.yml"
+    prefix:   /
+# PAYUM
+payum_capture:
+    resource: "@PayumBundle/Resources/config/routing/capture.xml"
+payum_notify:
+    resource: "@PayumBundle/Resources/config/routing/notify.xml"
+
+maxim_application:
+    resource: "@MaximModuleApplicationBundle/Resources/config/routing.yml"
+    prefix: /
+maxim_application_admin:
+    resource: "@MaximModuleApplicationBundle/Resources/config/routing_admin.yml"
+    prefix: /
+maxim_tickets:
+    resource: "@MaximModuleTicketBundle/Resources/config/routing.yml"
+    prefix: /
+maxim_tickets_admin:
+    resource: "@MaximModuleTicketBundle/Resources/config/routing_admin.yml"
+    prefix:
+
+#maxim_eoe_profile:
+#    resource: "@MaximEOEProfileBundle/Resources/config/routing.yml"
+#    prefix: /
+#maxim_forum_vanillabridge:
+#    resource: "@MaximForumVanillaBridgeBundle/Resources/config/routing.yml"
+#    prefix: /
+
+maxim_cms:
+    resource: "@MaximCMSBundle/Resources/config/routing.yml"
+    prefix:   /
+maxim_forum:
+    resource: "@MaximModuleForumBundle/Resources/config/routing.yml"
+    prefix:   /forum
+maxim_forum_admin:
+    resource: "@MaximModuleForumBundle/Resources/config/routing_admin.yml"
+    prefix:   /admin/forum
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+#maxim_install:
+#    resource: "@MaximInstallBundle/Resources/config/routing.yml"
+#    prefix:   /
+#---------------
+# DEFAULT ROUTE
+#---------------
+DEFAULT_MCSUITE_HOMEPAGE:
+  pattern: /{match}
+  defaults: { _controller: MaximCMSBundle:Exception:index }
+  requirements:
+    match: ".+"
+
+

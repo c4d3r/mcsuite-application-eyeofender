@@ -3,30 +3,181 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "72b19371c8fe23f25a38330ca9a73dc4",
+    "hash": "378d7f9674eb85bf55c232d43421b108",
     "packages": [
         {
-            "name": "c4d3r/theme-eoe",
+            "name": "c4d3r/mcsuite-admin",
             "version": "dev-master",
+            "target-dir": "Maxim/AdminBundle",
             "source": {
                 "type": "git",
-                "url": "git@bitbucket.org:c4d3r/theme-eoe.git",
-                "reference": "4eaee557a247c60ff942b071fe008260535edc6c"
+                "url": "git@bitbucket.org:c4d3r/mcsuite-admin.git",
+                "reference": "ab8116ce743d50c5c8df42949c3892c56ff66831"
             },
             "dist": {
                 "type": "vcs",
-                "url": "git@bitbucket.org:c4d3r/theme-eoe.git",
+                "url": "git@bitbucket.org:c4d3r/mcsuite-admin.git",
                 "reference": null,
                 "shasum": null
             },
             "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Maxim\\AdminBundle": ""
+                }
+            },
             "authors": [
                 {
                     "name": "Maxim Geerinck",
                     "email": "c4d3r@hotmail.com"
                 }
             ],
-            "time": "2013-11-26 21:35:58"
+            "time": "2013-12-02 17:05:58"
+        },
+        {
+            "name": "c4d3r/mcsuite-main",
+            "version": "dev-master",
+            "target-dir": "Maxim/CMSBundle",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:c4d3r/mcsuite-main.git",
+                "reference": "ae042c873d431703c44c2ecb316b20b708922a81"
+            },
+            "dist": {
+                "type": "vcs",
+                "url": "git@bitbucket.org:c4d3r/mcsuite-main.git",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Maxim\\CMSBundle": ""
+                }
+            },
+            "authors": [
+                {
+                    "name": "Maxim Geerinck",
+                    "email": "c4d3r@hotmail.com"
+                }
+            ],
+            "time": "2013-12-02 19:06:26"
+        },
+        {
+            "name": "c4d3r/mcsuite-module-application",
+            "version": "dev-master",
+            "target-dir": "Maxim/Module/ApplicationBundle",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:c4d3r/mcsuite-module-application.git",
+                "reference": "8314b387e557f23695cbecf682b4f46b8f0308a7"
+            },
+            "dist": {
+                "type": "vcs",
+                "url": "git@bitbucket.org:c4d3r/mcsuite-module-application.git",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Maxim\\Module\\ApplicationBundle": ""
+                }
+            },
+            "authors": [
+                {
+                    "name": "Maxim Geerinck",
+                    "email": "c4d3r@hotmail.com"
+                }
+            ],
+            "time": "2013-12-02 17:10:12"
+        },
+        {
+            "name": "c4d3r/mcsuite-module-forum",
+            "version": "dev-master",
+            "target-dir": "Maxim/Module/ForumBundle",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:c4d3r/mcsuite-module-forum.git",
+                "reference": "968c4ee96b2028be2ff3b718063ba7a38fe8f353"
+            },
+            "dist": {
+                "type": "vcs",
+                "url": "git@bitbucket.org:c4d3r/mcsuite-module-forum.git",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Maxim\\Module\\ForumBundle": ""
+                }
+            },
+            "authors": [
+                {
+                    "name": "Maxim Geerinck",
+                    "email": "c4d3r@hotmail.com"
+                }
+            ],
+            "time": "2013-12-02 17:43:43"
+        },
+        {
+            "name": "c4d3r/mcsuite-module-ticket",
+            "version": "dev-master",
+            "target-dir": "Maxim/Module/TicketBundle",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:c4d3r/mcsuite-module-ticket.git",
+                "reference": "8e5739f8614086e792b997e24c526ee99adebb9c"
+            },
+            "dist": {
+                "type": "vcs",
+                "url": "git@bitbucket.org:c4d3r/mcsuite-module-ticket.git",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Maxim\\Module\\TicketBundle": ""
+                }
+            },
+            "authors": [
+                {
+                    "name": "Maxim Geerinck",
+                    "email": "c4d3r@hotmail.com"
+                }
+            ],
+            "time": "2013-12-02 17:11:03"
+        },
+        {
+            "name": "c4d3r/mcsuite-theme-eoe",
+            "version": "dev-master",
+            "target-dir": "Maxim/Theme/EOEBundle",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:c4d3r/mcsuite-theme-eoe.git",
+                "reference": "cdec7bba900e519bf54556a09d793a8cab3997a2"
+            },
+            "dist": {
+                "type": "vcs",
+                "url": "git@bitbucket.org:c4d3r/mcsuite-theme-eoe.git",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Maxim\\Theme\\EOEBundle": ""
+                }
+            },
+            "authors": [
+                {
+                    "name": "Maxim Geerinck",
+                    "email": "c4d3r@hotmail.com"
+                }
+            ],
+            "time": "2013-12-02 17:11:40"
         },
         {
             "name": "doctrine/annotations",
@@ -1967,21 +2118,21 @@
         },
         {
             "name": "payum/paypal-express-checkout-nvp",
-            "version": "0.6.4",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Payum/PaypalExpressCheckoutNvp.git",
-                "reference": "5dcde1e622fe7c0b9b5dae0077fda0c08e2d555d"
+                "reference": "1539e5c321068ab1eebd6d52cc0b378f34b7c0e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Payum/PaypalExpressCheckoutNvp/zipball/5dcde1e622fe7c0b9b5dae0077fda0c08e2d555d",
-                "reference": "5dcde1e622fe7c0b9b5dae0077fda0c08e2d555d",
+                "url": "https://api.github.com/repos/Payum/PaypalExpressCheckoutNvp/zipball/1539e5c321068ab1eebd6d52cc0b378f34b7c0e1",
+                "reference": "1539e5c321068ab1eebd6d52cc0b378f34b7c0e1",
                 "shasum": ""
             },
             "require": {
                 "kriswallsmith/buzz": "*",
-                "payum/payum": "0.6.*",
+                "payum/payum": "0.7.x-dev",
                 "php": ">=5.3.2"
             },
             "require-dev": {
@@ -1995,7 +2146,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.6-dev"
+                    "dev-master": "0.7-dev"
                 }
             },
             "autoload": {
@@ -2029,20 +2180,20 @@
                 "paypal",
                 "recurring payment"
             ],
-            "time": "2013-11-19 08:02:01"
+            "time": "2013-11-22 12:32:55"
         },
         {
             "name": "payum/payum",
-            "version": "0.6.5",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Payum/Payum.git",
-                "reference": "7c2826e834e967378c4232ef5eb6a92d3178b460"
+                "reference": "ba046550eca699b1757e63afa8b32bfd716e18e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Payum/Payum/zipball/7c2826e834e967378c4232ef5eb6a92d3178b460",
-                "reference": "7c2826e834e967378c4232ef5eb6a92d3178b460",
+                "url": "https://api.github.com/repos/Payum/Payum/zipball/ba046550eca699b1757e63afa8b32bfd716e18e4",
+                "reference": "ba046550eca699b1757e63afa8b32bfd716e18e4",
                 "shasum": ""
             },
             "require": {
@@ -2073,7 +2224,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.6-dev"
+                    "dev-master": "0.7-dev"
                 }
             },
             "autoload": {
@@ -2099,7 +2250,7 @@
                     "homepage": "https://github.com/Payum/Payum/contributors"
                 }
             ],
-            "description": "Payment lib",
+            "description": "Domain friendly payment framework. Paypal, payex, authorize.net, be2bill, omnipay, recurring paymens, instant notifications and many more",
             "homepage": "http://payum.forma-dev.com",
             "keywords": [
                 "authorize.net",
@@ -2117,38 +2268,38 @@
                 "paypal rest",
                 "recurring payment"
             ],
-            "time": "2013-11-22 12:17:52"
+            "time": "2013-11-25 08:48:16"
         },
         {
             "name": "payum/payum-bundle",
-            "version": "0.6.2",
+            "version": "dev-master",
             "target-dir": "Payum/Bundle/PayumBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Payum/PayumBundle.git",
-                "reference": "33b82cffa59e855c205eb9ed860bea3fdc6dfe14"
+                "reference": "32895ff77d076d2d36eb35275900c8be98f006bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Payum/PayumBundle/zipball/33b82cffa59e855c205eb9ed860bea3fdc6dfe14",
-                "reference": "33b82cffa59e855c205eb9ed860bea3fdc6dfe14",
+                "url": "https://api.github.com/repos/Payum/PayumBundle/zipball/32895ff77d076d2d36eb35275900c8be98f006bf",
+                "reference": "32895ff77d076d2d36eb35275900c8be98f006bf",
                 "shasum": ""
             },
             "require": {
-                "payum/payum": "0.6.*",
+                "payum/payum": "0.7.x-dev",
                 "php": ">=5.3.2",
                 "symfony/framework-bundle": "2.*"
             },
             "require-dev": {
                 "doctrine/orm": "*",
                 "fp/testo": "@dev",
-                "payum/authorize-net-aim": "0.6.*",
-                "payum/be2bill": "0.6.*",
-                "payum/offline": "0.6.*",
-                "payum/omnipay-bridge": "0.6.*",
-                "payum/payex": "0.6.*",
-                "payum/paypal-express-checkout-nvp": "0.6.*",
-                "payum/paypal-pro-checkout-nvp": "0.6.*",
+                "payum/authorize-net-aim": "0.7.x-dev",
+                "payum/be2bill": "0.7.x-dev",
+                "payum/offline": "0.7.x-dev",
+                "payum/omnipay-bridge": "0.7.x-dev",
+                "payum/payex": "0.7.x-dev",
+                "payum/paypal-express-checkout-nvp": "0.7.x-dev",
+                "payum/paypal-pro-checkout-nvp": "0.7.x-dev",
                 "phpunit/phpunit": "*"
             },
             "suggest": {
@@ -2163,7 +2314,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.6-dev"
+                    "dev-master": "0.7-dev"
                 }
             },
             "autoload": {
@@ -2189,11 +2340,12 @@
                     "homepage": "https://github.com/Payum/PayumBundle/contributors"
                 }
             ],
-            "description": "The payment bundle integrates payum libs into symfony2 framework",
+            "description": "Rich payment solutions for symfony2. Paypal, payex, authorize.net, be2bill, omnipay, recurring paymens, instant notifications and many more",
             "homepage": "http://payum.forma-dev.com",
             "keywords": [
                 "authorize.net",
                 "be2bill",
+                "instant notifications",
                 "offline",
                 "omnipay",
                 "payex",
@@ -2203,7 +2355,7 @@
                 "paypal pro checkout",
                 "recurring payment"
             ],
-            "time": "2013-10-31 15:04:50"
+            "time": "2013-11-22 12:34:34"
         },
         {
             "name": "phpcollection/phpcollection",
@@ -3321,13 +3473,18 @@
         "sonata-project/exporter": 0,
         "sonata-project/jquery-bundle": 0,
         "sonata-project/admin-bundle": 0,
-        "payum/payum": 0,
-        "payum/payum-bundle": 0,
-        "payum/paypal-express-checkout-nvp": 0,
+        "payum/payum": 20,
+        "payum/payum-bundle": 20,
+        "payum/paypal-express-checkout-nvp": 20,
         "knplabs/knp-paginator-bundle": 20,
         "exercise/htmlpurifier-bundle": 20,
         "issei/multiple-apps-support": 20,
-        "c4d3r/theme-eoe": 20
+        "c4d3r/mcsuite-main": 20,
+        "c4d3r/mcsuite-admin": 20,
+        "c4d3r/mcsuite-module-forum": 20,
+        "c4d3r/mcsuite-module-application": 20,
+        "c4d3r/mcsuite-module-ticket": 20,
+        "c4d3r/mcsuite-theme-eoe": 20
     },
     "platform": {
         "php": ">=5.3.3"

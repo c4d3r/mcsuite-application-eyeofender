@@ -29,7 +29,7 @@
         },
         {
             "type": "vcs",
-            "url":  "git@bitbucket.org:c4d3r/theme-eoe.git"
+            "url":  "git@bitbucket.org:c4d3r/mcsuite-theme-eoe.git"
         }
     ],
     "require": {
@@ -56,9 +56,9 @@
         "sonata-project/exporter" : "@stable",
         "sonata-project/jquery-bundle" : "@stable",
         "sonata-project/admin-bundle" : "@stable",
-        "payum/payum": "*@stable",
-        "payum/payum-bundle": "*@stable",
-        "payum/paypal-express-checkout-nvp":"*@stable",
+        "payum/payum": "dev-master",
+        "payum/payum-bundle": "dev-master",
+        "payum/paypal-express-checkout-nvp":"dev-master",
         "knplabs/knp-paginator-bundle": "dev-master",
         "exercise/htmlpurifier-bundle": "1.0.*@dev",
         "issei/multiple-apps-support": "dev-master",

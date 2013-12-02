@@ -1,0 +1,10 @@
+maxim_cms:
+   shop:
+      email: purchases@eyeofender.com
+      paypal: https://www.paypal.com/cgi-bin/webscr
+      #paypal: https://sandbox.paypal.com/cgi-bin/webscr
+      currency: GBP
+      currency_symbol: £
+      return: http://themassmc.com/shop
+      cancel: http://themassmc.com/shop/sorry.html
+      ipn: http://themassmc.com/shop/ipn/paypal

@@ -1,0 +1,192 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+parameters:
+   website: 3
+services:
+    twig.extension.text:
+         class: Twig_Extensions_Extension_Text
+         tags:
+             - { name: twig.extension }
+    pdo:
+      class: PDO
+      arguments:
+        - "mysql:host=%database_host%;port=%database_port%;dbname=%database_name%"
+        - "%database_user%"
+        - "%database_password%"
+      calls:
+         - [setAttribute, [3, 2]] # \PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION
+    session.handler.pdo:
+       class:     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler
+       arguments: ["@pdo", "%pdo.db_options%"]
+framework:
+    #esi:             ~
+    #translator:      { fallback: %locale% }
+    secret:          %secret%
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+        #assets_version: SomeVersionScheme
+    default_locale:  "%locale%"
+    trusted_proxies: ~
+    session:
+        handler_id:     session.handler.pdo
+#       cookie_domain:  %session.cookie_domain%
+    fragments:       ~
+    http_method_override: true
+    templating:
+        engines: 'twig'
+        assets_version: 0.07a
+        assets_version_format: "%%s?v=%%s"
+        #assets_base_urls:
+        #   - http://cdn.localhost.com
+        #   - http://cdn1.localhost.com
+        #   - http://cdn2.localhost.com
+        packages:
+           css:
+               version: 0.08
+               version_format: "%%s?v=%%s"
+           jsApp:
+               version: 0.08
+               version_format: "%%s?v=%%s"
+
+# Twig Configuration
+twig:
+    debug:            %kernel.debug%
+    strict_variables: %kernel.debug%
+    exception_controller: Maxim\CMSBundle\Controller\ExceptionController::exceptionAction
+    globals:
+        maintenance: false
+        social_facebook: http://www.google.com
+        # enables the top bar
+        # networks: <false|true>
+        networks: true
+
+# Assetic Configuration
+assetic:
+    debug:          %kernel.debug%
+    use_controller: false
+    write_to: "%kernel.root_dir%/../web/EOE"
+    bundles:        [ 'MaximCMSBundle' ]
+    #java: /usr/bin/java
+    filters:
+        cssrewrite: ~
+        #closure:
+        #    jar: "%kernel.root_dir%/Resources/java/compiler.jar"
+        #    apply_to: "\.css$"
+        yui_css:
+            jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar"
+            apply_to: "\.css$"
+        yui_js:
+            jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar"
+            apply_to: "\.js$"
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   %database_driver%
+        host:     %database_host%
+        port:     %database_port%
+        dbname:   %database_name%
+        user:     %database_user%
+        password: %database_password%
+        charset:  UTF8
+        # if using pdo_sqlite as your database driver, add the path in parameters.yml
+        # e.g. database_path: %kernel.root_dir%/data/data.db3
+        # path:     %database_path%
+
+    orm:
+        default_entity_manager:   default
+        entity_managers:
+            default:
+                connection: default
+                metadata_cache_driver: apc
+                query_cache_driver: apc
+                result_cache_driver: apc
+                mappings:
+                    MaximCMSBundle: ~
+                    MaximModuleTicketBundle: ~
+                    MaximModuleForumBundle: ~
+                    payum:
+                        is_bundle: false
+                        type: xml
+                        dir: %kernel.root_dir%/../vendor/payum/payum/src/Payum/Bridge/Doctrine/Resources/mapping
+                        prefix: Payum\Model
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: %mailer_transport%
+    host:      %mailer_host%
+    username:  %mailer_user%
+    password:  %mailer_password%
+    spool:     { type: memory }
+
+# Payum Configuration
+payum:
+    contexts:
+        paypal_express_checkout_plus_doctrine:
+            paypal_express_checkout_nvp:
+                api:
+                    #options:
+                    #    username:  %paypal.express_checkout.username%
+                    #    password:  %paypal.express_checkout.password%
+                    #    signature: %paypal.express_checkout.signature%
+                    #    sandbox: %paypal.express_checkout.sandbox%
+                    #options:
+                    #    username:  'c4d3r-facilitator_api1.hotmail.com'
+                    #    password:  '1370531911'
+                    #   signature: 'A5dlNjuK3lFO0sbl9JbP7PGWYlfNAG0QiZDCPrw5l4Cl1iAJ4juv4IkT'
+                    #    sandbox: true
+                    options:
+                        username: 'purchases_api1.eyeofender.com'
+                        password: 'XFN7RBRFZ8Y9R5L4'
+                        signature: 'AwxVz5m1pD5T3wcCseXSpNVzLX8RAKrJrfO4ijXLiT9aVe0MMRpjeg8j'
+                        sandbox: false
+                actions:
+                    - maxim_cms.action.store_notification
+            storages:
+                Maxim\CMSBundle\Entity\PaymentDetails:
+                    doctrine:
+                        driver: orm
+                        payment_extension: true
+    security:
+        token_storage:
+            Maxim\CMSBundle\Entity\PayumSecurityToken:
+                doctrine:
+                    driver: orm
+
+# KNP
+knp_paginator:
+    page_range: 10                      # default page range used in pagination control
+    default_options:
+        page_name: page                # page query parameter name
+        sort_field_name: sort          # sort field query parameter name
+        sort_direction_name: direction # sort direction query parameter name
+        distinct: false                 # ensure distinct results, useful when ORM queries are using GROUP BY statements
+    template:
+        pagination: MaximCMSBundle:Pagination:sliding.html.twig     # sliding pagination controls template
+        sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template
+
+# SONATA
+sonata_admin:
+    title:      MCSuite Admin panel
+sonata_block:
+    default_contexts: [cms]
+    blocks:
+        # Enable the SonataAdminBundle block
+        sonata.admin.block.admin_list:
+            contexts:   [admin]
+        # Your other blocks
+
+# HTML PURIFIER
+exercise_html_purifier:
+    default:
+        Cache.SerializerPath: '%kernel.cache_dir%/htmlpurifier'
+        Filter.YouTube: true
+        HTML.SafeIframe: true
+        URI.SafeIframeRegexp: "#^(https?:)?//(www\.youtube(?:-nocookie)?\.com/embed/|player\.vimeo\.com/video/)#"
