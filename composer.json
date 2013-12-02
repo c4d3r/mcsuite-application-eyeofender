@@ -9,12 +9,28 @@
     "repositories": [
         {
             "type": "vcs",
-            "url":  "git@bitbucket.org:c4d3r/theme-eoe.git"
+            "url":  "git@bitbucket.org:c4d3r/mcsuite-main.git"
         },
         {
             "type": "vcs",
-            "url":  "git@bitbucket.org:c4d3r/mcsuite-main.git"
+            "url":  "git@bitbucket.org:c4d3r/mcsuite-admin.git"
         },
+        {
+            "type": "vcs",
+            "url":  "git@bitbucket.org:c4d3r/mcsuite-module-application.git"
+        },
+        {
+            "type": "vcs",
+            "url":  "git@bitbucket.org:c4d3r/mcsuite-module-ticket.git"
+        },
+        {
+            "type": "vcs",
+            "url":  "git@bitbucket.org:c4d3r/mcsuite-module-forum.git"
+        },
+        {
+            "type": "vcs",
+            "url":  "git@bitbucket.org:c4d3r/theme-eoe.git"
+        }
     ],
     "require": {
         "php": ">=5.3.3",
@@ -46,8 +62,12 @@
         "knplabs/knp-paginator-bundle": "dev-master",
         "exercise/htmlpurifier-bundle": "1.0.*@dev",
         "issei/multiple-apps-support": "dev-master",
-        "c4d3r/theme-eoe": "dev-master",
-        "c4d3r/mcsuite-main": "dev-master"
+        "c4d3r/mcsuite-main": "dev-master",
+        "c4d3r/mcsuite-admin": "dev-master",
+        "c4d3r/mcsuite-module-forum": "dev-master",
+        "c4d3r/mcsuite-module-application": "dev-master",
+        "c4d3r/mcsuite-module-ticket": "dev-master",
+        "c4d3r/mcsuite-theme-eoe": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [
