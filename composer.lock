@@ -157,7 +157,7 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:c4d3r/mcsuite-theme-eoe.git",
-                "reference": "cdec7bba900e519bf54556a09d793a8cab3997a2"
+                "reference": "d9b0d4c09020002ccbd86637057e35b0da8e8e84"
             },
             "dist": {
                 "type": "vcs",
@@ -177,7 +177,7 @@
                     "email": "c4d3r@hotmail.com"
                 }
             ],
-            "time": "2013-12-02 17:11:40"
+            "time": "2013-12-02 19:35:58"
         },
         {
             "name": "doctrine/annotations",
