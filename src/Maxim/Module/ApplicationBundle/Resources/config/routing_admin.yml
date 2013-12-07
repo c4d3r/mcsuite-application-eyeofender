@@ -1,0 +1,35 @@
+#admin_application
+admin_application:
+  pattern: /admin/application
+  defaults: { _controller: MaximModuleApplicationBundle:Admin:application }
+admin_application_ajax:
+  pattern: /admin/application/open/ajax
+  defaults: { _controller: MaximModuleApplicationBundle:Admin:applicationList }
+admin_application_accepted_ajax:
+  pattern: /admin/application/accepted/ajax
+  defaults: { _controller: MaximModuleApplicationBundle:Admin:applicationAcceptedList }
+admin_application_delete:
+  pattern: /admin/application/delete
+  defaults: { _controller: MaximModuleApplicationBundle:Admin:application }
+admin_application_view:
+  pattern: /admin/application/view/{id}
+  defaults: { _controller: MaximModuleApplicationBundle:Admin:viewApplication }
+admin_application_deny:
+  pattern: /admin/application/deny
+  defaults: { _controller: MaximModuleApplicationBundle:Admin:applicationDeny }
+admin_application_accept:
+  pattern: /admin/application/accept
+  defaults: { _controller: MaximModuleApplicationBundle:Admin:applicationAccept }
+admin_application_add:
+  pattern: /admin/application/add
+  defaults: { _controller: MaximModuleApplicationBundle:Admin:applicationAddView }
+admin_application_add_ajax:
+  pattern: /admin/application/ajax/add
+  defaults: { _controller: MaximModuleApplicationBundle:Admin:applicationAdd }
+admin_application_reply:
+  pattern: /admin/application/reply/ajax
+  defaults: { _controller: MaximModuleApplicationBundle:Admin:applicationReply }
+
+application_create:
+  pattern: /admin/application/create
+  defaults: { _controller: MaximModuleApplicationBundle:Admin:applicationCreate }

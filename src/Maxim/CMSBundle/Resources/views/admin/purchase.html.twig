@@ -1,0 +1,95 @@
+{% extends 'MaximCMSBundle:admin:index.html.twig' %}
+
+{% block head %}
+{% javascripts
+'@MaximCMSBundle/Resources/public/plugins/jqplot/jquery.jqplot.js'
+'@MaximCMSBundle/Resources/public/plugins/jqplot/plugins/jqplot.highlighter.min.js'
+'@MaximCMSBundle/Resources/public/plugins/jqplot/plugins/jqplot.cursor.min.js'
+'@MaximCMSBundle/Resources/public/plugins/jqplot/plugins/jqplot.json2.min.js'
+'@MaximCMSBundle/Resources/public/plugins/jqplot/plugins/jqplot.dateAxisRenderer.min.js'
+filter='yui_js' output='js/compiled/acp_plugins.js'
+%}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% stylesheets output='css'
+output='acp/css/compiled/acp_plugins.css' filter='yui_css'
+'@MaximCMSBundle/Resources/public/plugins/jqplot/jquery.jqplot.css'
+%}
+<link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>
+{% endstylesheets %}
+
+{% endblock head %}
+{% block middle %}
+
+<div id="middle_menu_top">
+	<div class="vertical">
+		<h1>News</h1>
+	</div>
+</div>
+<div id="middle_menu_small">
+	<ul>
+		<li>
+			<a href="#">News</a>
+		</li>
+		<!--<li><a href="#">test2</a></li>
+		<li><a href="#">test3</a></li>-->
+	</ul>
+</div>
+<div id="middle_content">
+	<div class="window">
+		<div class="window-header">
+			<h6>Add news article</h6>
+		</div>
+		<div class="window-content">
+			<!-- VIEW GRAPH OF PURCHASES -->
+			<div id="total">
+				Total: <span id="purchase_total"></span>
+			</div>
+			<div id="chart" style="margin-left:20px;height:400px;width:700px; "></div>
+            <a href="{{ path('admin_export') }}" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">EXPORT CSV</a>
+		</div>
+	</div>
+</div>
+
+<script>
+$(document).ready(function() {
+	
+	var url= "{{ path('admin_purchase_plot_json')}}";
+
+		$.post(url, {
+
+		}, function(data) {
+			console.log(data);
+			data = jQuery.parseJSON(data);
+			$('#purchase_total').text(data[0]);
+			var plot1 = $.jqplot('chart', [data[1]], {
+			title : 'Purchases',
+			axes : {
+				xaxis : {
+					renderer : $.jqplot.DateAxisRenderer,
+					tickOptions : {
+						formatString : '%b&nbsp;%#d'
+					}
+				},
+				yaxis : {
+					tickOptions : {
+						formatString : '$%.2f'
+					}
+				}
+			},
+			highlighter : {
+				show : true,
+				sizeAdjust : 7.5
+			},
+			cursor : {
+				show : false
+			}
+		});
+		
+		});
+	
+	
+
+	}); 
+</script>
+{% endblock middle %}

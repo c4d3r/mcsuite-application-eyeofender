@@ -6,32 +6,6 @@
     "autoload": {
         "psr-0": { "": "src/" }
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url":  "git@bitbucket.org:c4d3r/mcsuite-main.git"
-        },
-        {
-            "type": "vcs",
-            "url":  "git@bitbucket.org:c4d3r/mcsuite-admin.git"
-        },
-        {
-            "type": "vcs",
-            "url":  "git@bitbucket.org:c4d3r/mcsuite-module-application.git"
-        },
-        {
-            "type": "vcs",
-            "url":  "git@bitbucket.org:c4d3r/mcsuite-module-ticket.git"
-        },
-        {
-            "type": "vcs",
-            "url":  "git@bitbucket.org:c4d3r/mcsuite-module-forum.git"
-        },
-        {
-            "type": "vcs",
-            "url":  "git@bitbucket.org:c4d3r/mcsuite-theme-eoe.git"
-        }
-    ],
     "require": {
         "php": ">=5.3.3",
         "symfony/symfony": "2.3.*",
@@ -56,18 +30,13 @@
         "sonata-project/exporter" : "@stable",
         "sonata-project/jquery-bundle" : "@stable",
         "sonata-project/admin-bundle" : "@stable",
-        "payum/payum": "dev-master",
+        "payum/payum": "0.7.*@dev",
         "payum/payum-bundle": "dev-master",
         "payum/paypal-express-checkout-nvp":"dev-master",
+        "payum/core": "0.7.*@dev",
         "knplabs/knp-paginator-bundle": "dev-master",
         "exercise/htmlpurifier-bundle": "1.0.*@dev",
-        "issei/multiple-apps-support": "dev-master",
-        "c4d3r/mcsuite-main": "dev-master",
-        "c4d3r/mcsuite-admin": "dev-master",
-        "c4d3r/mcsuite-module-forum": "dev-master",
-        "c4d3r/mcsuite-module-application": "dev-master",
-        "c4d3r/mcsuite-module-ticket": "dev-master",
-        "c4d3r/mcsuite-theme-eoe": "dev-master"
+        "issei/multiple-apps-support": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [
@@ -93,7 +62,8 @@
         "symfony-app-dir": "app",
         "symfony-web-dir": "web",
         "incenteev-parameters": {
-            "file": "app/config/parameters.yml"
+            "file": "app/config/parameters.yml",
+            "keep-outdated": true
         },
         "branch-alias": {
             "dev-master": "2.3-dev"

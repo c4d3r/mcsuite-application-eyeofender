@@ -1,0 +1,108 @@
+services:
+#    maxim_cms.example:
+#        class: %maxim_cms.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+   authentication_handler:
+      class: Maxim\CMSBundle\Handler\AuthenticationHandler
+      arguments: [ @templating ]
+      calls:
+        - [ setContainer, [ @service_container ] ]
+
+   # HELPERS
+   maxim_cms.rest.helper:
+     class: Maxim\CMSBundle\Helper\RESTHelper
+     arguments: [@logger]
+
+   maxim_cms.logger:
+      class: Symfony\Bridge\Monolog\Logger
+
+   my_service:
+        class: Monolog\Logger
+        arguments: [@logger]
+        tags:
+            - { name: monolog.logger, channel: server }
+   friend.twig.extension:
+      class: Maxim\CMSBundle\Twig\Extension\FriendExtension
+      tags:
+       - { name: twig.extension }
+      arguments: [@doctrine, @security.context]
+   permission.helper:
+     class: Maxim\CMSBundle\Helper\PermissionHelper
+     arguments: [ @security.context, @doctrine, @logger ]
+   minecraft.helper:
+     class: Maxim\CMSBundle\Helper\MinecraftHelper
+     arguments: [ @logger, @maxim_cms.rest.helper ]
+   account.helper:
+     class: Maxim\CMSBundle\Helper\AccountHelper
+     arguments: [ @service_container, @doctrine, @security.context ]
+   bbcode.helper:
+     class: Maxim\CMSBundle\Helper\BbcodeHelper
+   security.helper:
+     class: Maxim\CMSBundle\Helper\SecurityHelper
+     arguments: [ @service_container, @doctrine, @security.context ]
+   statistic.helper:
+     class: Maxim\CMSBundle\Helper\StatisticHelper
+     arguments: [ @doctrine.orm.entity_manager ]
+   module.helper:
+     class: Maxim\CMSBundle\Helper\ModuleHelper
+     arguments: [ @service_container, @security.context ]
+   purchase.helper:
+     class: Maxim\CMSBundle\Helper\PurchaseHelper
+     arguments: [ @doctrine.orm.entity_manager, @logger ]
+   exception.listener:
+     class: Maxim\CMSBundle\Listeners\ExceptionListener
+     arguments: [@logger, @templating, @security.context]
+     tags:
+       - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+   page_load_listener:
+     class: Maxim\CMSBundle\Listeners\PageLoadListener
+     arguments:
+       security: "@security.context"
+       container: "@service_container"
+     tags:
+       - { name: kernel.event_listener, event: kernel.controller, method: onKernelController, priority: 64 }
+   maxim_cms.configure_menu_listener:
+     class: Maxim\CMSBundle\Listeners\MenuListener
+     arguments: [@logger, @service_container]
+     tags:
+       - { name: kernel.event_listener, event: 'maxim_cms.event_menu', method: configureMenu}
+   maxim_cms.action.store_notification:
+     class: Maxim\CMSBundle\Action\StoreNotificationAction
+     arguments: [ @doctrine.orm.entity_manager, @logger, @purchase.helper, @event_dispatcher, @minecraft.helper, %mysql%]
+   security.access.blacklist_voter:
+      class:      Maxim\CMSBundle\Security\Authorization\Voter\ClientIpVoter
+      arguments:  ["@service_container", [123.123.123.123, 171.171.171.171]]
+      public:     false
+      tags:
+        - { name: security.voter }
+# TWIG
+   maxim_cms.twig.extension.friend:
+     class: Maxim\CMSBundle\Twig\Extension\FriendTwigExtension
+     arguments: [ @doctrine, @security.context ]
+     tags:
+       - { name: twig.extension }
+   maxim_cms.text.twig.extension:
+      class: Maxim\CMSBundle\Twig\Extension\TextExtension
+      arguments: [ @doctrine, @security.context ]
+      tags:
+       - { name: twig.extension }
+# LISTENERS
+   maxim_cms.listener.minecraft_send:
+     class: Maxim\CMSBundle\Listeners\MinecraftSendListener
+     tags:
+       - { name: kernel.event_listener, event: minecraft.send, method: onMinecraftSend }
+     arguments: [ @logger, @minecraft.helper]
+   maxim_cms.listener.announcement:
+     class: Maxim\CMSBundle\Listeners\AnnouncementListener
+     tags:
+       - { name: kernel.event_listener, event: announcement.create, method: onAnnouncementCreate }
+     arguments: [ @logger, @doctrine.orm.entity_manager ]
+
+# REPOSITORIES
+   maxim_cms.repository.purchase:
+     class: Maxim\CMSBundle\Entity\PurchaseRepository
+     arguments: [MaximCMSBundle:Purchase]
+     factory_service: doctrine.orm.entity_manager
+     factory_method: getRepository
+     calls:
+        - [ setWebsiteId, [%website%]]

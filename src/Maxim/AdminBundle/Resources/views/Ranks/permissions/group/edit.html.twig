@@ -1,0 +1,52 @@
+{% extends 'MaximAdminBundle:Default:index.html.twig' %}
+{% block content %}
+    <div class="container" style="width:100%;">
+        <h1>Rank statistics</h1>
+        <div class="container-content">
+            <p>Adding later</p>
+        </div>
+    </div>
+    <div class="container" style="width:100%;">
+        <h1>Edit rank</h1>
+        <div class="container-content clearfix">
+            <div id="rank-status" class="alert"></div>
+            <p>Editing rank: {{ rank.name }}</p>
+            <!-- ADD PAGE -->
+            <form action="{{ path('admin_permgroup_edit') }}" id="frmEditPermissions" class="form-clean" method="post">
+                <p>
+                    <select id="permissions" class="multiselect" multiple="multiple" name="permissions[]">
+
+                        {% for application in applications %}
+                            <option value="{{ application.id }}">{{ application.name }}</option>
+                        {% endfor %}
+                        {% for permission in permissions %}
+                            <option value="{{ permission.id }}" selected="selected">{{ permission.name }}</option>
+                        {% endfor %}
+                    </select>
+                </p>
+                <input type="hidden" name="_admin_rank_id" id="id" value="{{ rank.id }}" />
+                <button type="submit" id="btnPermissionsAdd" class="btn">Save permissions</button>
+            </form>
+        </div>
+        <script>
+            $(document).ready(function(){
+                $("#permissions").multiselect();
+
+                $("#frmEditPermissions").submit(function() {
+                    AJAX.post(
+                            $("#frmEditPermissions").attr("action"),
+                            {
+                                _admin_permissions : $('#permissions').val(),
+                                _admin_rank : $('#id').val()
+                            },
+                            $("#rank-status"), $('#btnPermissionsAdd'));
+                    return false;
+                });
+            });
+        </script>
+    </div>
+    </div>
+    <script>
+        $('#tabs').tabs();
+    </script>
+{% endblock content %}

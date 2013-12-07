@@ -1,0 +1,57 @@
+/* FORMS */
+.form-horizontal {
+
+}
+.form-horizontal input[type="text"], .form-horizontal input[type="password"], .form-horizontal textarea, .form-horizontal select {
+    padding: 8px;
+    border-radius: 3px;
+    border: none;
+
+    display:block;
+    width:100%;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.form-horizontal input[type="text"], .form-horizontal input[type="password"], .form-horizontal textarea {
+    box-shadow: 1px 1px 1px 0px rgb(49, 49, 49);
+    border:1px solid #4d4d4d;
+    width: 100%;
+}
+.form-horizontal input[type="text"]:focus, .form-horizontal input[type="password"]:focus,select:focus, .form-horizontal textarea:focus {
+    outline:0;
+    border:1px solid black;
+
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+.form-horizontal .form-group {
+    width:100%;
+    padding:0;
+}
+.checkbox {
+    color:#FFF;
+}
+label {
+    color:#FEFEFE;
+}
+fieldset {
+    border:none;
+}
+select {
+    padding: 7px;
+    border-radius: 4px;
+}
+.help-block {
+    margin: 0 0 0 5px;
+    font-style: italic;
+    color: rgb(185, 185, 185);
+}
+.box-scroll-content {
+    height: 200px;
+    overflow-y: scroll;
+}

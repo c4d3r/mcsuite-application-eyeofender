@@ -1,0 +1,82 @@
+{% extends 'MaximCMSBundle:Default:index.html.twig' %}
+
+{% block body %}
+<div class="page">
+    <h3 class="page-header">Account profile</h3>
+    <div class="page-content">
+        <div id="AccountProfileStatus" class="alert" style="display:none;"></div>
+        <form class="form-horizontal form-profile" id="frmAccountProfile" action="{{ path('account_profile_save')}}" method="post">
+            <fieldset>
+                <div class="form-group">
+                    <label for="user_email" class="col-lg-2 control-label">Email</label>
+                    <div class="col-lg-10">
+                        <input type="text" name="_user_email" class="form-control" id="user_email" placeholder="{{ setting.email }}"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="user_skype" class="col-lg-2 control-label">Skype</label>
+                    <div class="col-lg-10">
+                        <input type="text" name="_user_skype" class="form-control" id="user_skype" placeholder="{{ setting.skype }}"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="user_username" class="col-lg-2 control-label">Username</label>
+                    <div class="col-lg-10">
+                        <p class="form-control-static">{{ setting.username }}</p>
+                    </div>
+                </div>
+
+                {#<div class="form-group">
+                    <label for="inputLocation" class="col-lg-2 control-label">Location</label>
+                    <div class="col-lg-10">
+                        <p class="form-control-static"><img src="images/msdropdown/icons/blank.gif" class="flag {{ setting.location }}" style="border:none" /></p>
+                    </div>
+                </div>#}
+
+                <div class="form-group">
+                    <label for="user_age" class="col-lg-2 control-label">Age</label>
+                    <div class="col-lg-10">
+                        <p class="form-control-static">{{ setting.age }}</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="usder_lastlogin" class="col-lg-2 control-label">Last Login</label>
+                    <div class="col-lg-10">
+                        <p class="form-control-static">{{ setting.lastLogin|date }}</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="user_lastip" class="col-lg-2 control-label">Last Ip</label>
+                    <div class="col-lg-10">
+                        <p class="form-control-static">{{ setting.lastIp }}</p>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-default btn-primary" id="btnSaveProfile">Save</button>
+            </fieldset>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+//listen for the form beeing submitted
+$(document).ready(function(){
+    $("#frmAccountProfile").submit(function() {
+        //get the url for the form
+        AJAX.post((
+                $("#frmAccountProfile").attr("action")),
+                {
+                    _user_email : $("#user_email").val(),
+                    _user_skype : $("#user_skype").val()
+                },
+                $("#AccountProfileStatus"),
+                $("#btnSaveProfile")
+        );
+        //we dont what the browser to submit the form
+        return false;
+    });
+})
+{% endblock %}

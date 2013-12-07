@@ -1,0 +1,66 @@
+{% extends 'MaximCMSBundle:admin:index.html.twig' %}
+
+{% block middle %}
+<div id="middle_menu_top">
+	<div class="vertical">
+		<h1>Mail</h1>
+	</div>
+</div>
+<div id="middle_menu_small">
+	<ul>
+		<li>
+			<a href="#">Email</a>
+		</li>
+	</ul>
+</div>
+<div id="middle_content">
+	</head>
+	<div class="window">
+		<div class="window-header">
+			<h6>Create e-mail</h6>
+		</div>
+		<div class="window-content">
+			<form action="{{ path('admin_email_send') }}" id="frmSendMail" method="post">
+				<br/>
+				<div>
+					<input type="text" name="_admin_mail_to" id="admin_mail_to" value="{% if email is defined %}{{ email.to }}{% endif %}" placeholder="To:"/>
+				</div>
+				<br/>
+				<div>
+					<input type="text" name="_admin_mail_from" id="admin_mail_from" placeholder="From:"/>
+				</div>
+				<br/>
+				<div>
+					<input type="text" name="_admin_mail_subject" id="admin_mail_subject" placeholder="Subject:"/>
+				</div>
+				<br/>
+				<div>
+					<textarea cols="40" rows="20" name="_admin_mail_body" id="admin_mail_body" placeholder="Body:"></textarea>
+				</div>
+				<button type="submit" id="btnSendMail">Send mail</button>
+			</form>
+			<div id="msgbox"></div>
+		</div>
+	</div>
+</div>
+
+<script>
+$(document).ready(function() {
+	$("#frmSendMail").submit(function() {
+		AJAX.post(
+			$("#frmSendMail").attr("action"), 
+			{
+				_admin_mail_to 		: $("#admin_mail_to").val(),
+				_admin_mail_from 		: $("#admin_mail_from").val(),
+				_admin_mail_subject 	: $("#admin_mail_subject").val(),
+				_admin_mail_body : $("#admin_mail_body").val(),
+			}, 
+			$("#msgbox") ,
+			$('#btnSendMail')
+		);
+		return false;
+	});
+});
+</script>
+
+{% endblock middle %}

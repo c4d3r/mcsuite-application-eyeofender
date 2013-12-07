@@ -1,0 +1,37 @@
+{% extends 'MaximAdminBundle:Default:index.html.twig' %}
+{% block head %}
+    <link href="{{ asset('/bundles/maximmoduleticket/css/admin.css') }}" rel="stylesheet" type="text/css" >
+{% endblock %}
+{% block content %}
+    <div class="container" style="width:100%;">
+        <h1>Edit ticket reply</h1>
+        <div class="container-header">
+            <div id="reply-status"></div>
+            <form action="{{ path('admin_reply_edit_ajax', {'id' : reply.id}) }}" id="frmReply" method="post">
+                <fieldset>
+                    <textarea style="width:100%;height:200px;" id="reply_text">{{ reply.text }}</textarea>
+                    <input type="submit" name="_btnSubmit" class="button" style="float:left;" id="btnSubmit" value="edit reply"/>
+                    <a href="{{ path('admin_module_ticket_view', {'id' : ticket.id }) }}" class="button" style="float:left;margin-top:2px;" >Back</a>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            $('#frmReply').submit(function(e){
+                e.preventDefault();
+
+                AJAX.post(
+                    $("#frmReply").attr("action"),
+                    {
+                        _reply : $('#reply_text').val()
+                    },
+                    $("#reply-status"),
+                    $("#btnSubmit"));
+            });
+        });
+
+    </script>
+    <div class="clearfix"></div>
+{% endblock %}

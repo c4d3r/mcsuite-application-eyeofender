@@ -1,0 +1,127 @@
+{% extends 'MaximCMSBundle:Default:index.html.twig' %}
+{% block body %}
+
+    <div class="page">
+        <h3 class="page-header">Shop</h3>
+        <div class="page-content clearfix clearfix-left">
+
+            <form action="{{ path('shop_step2') }}" method="post" class="frmShop">
+                {# TOP SELLING ITEMS #}
+                {% if topitems|length > 0 %}
+                    <div class="items-header" data-container="items-topselling">
+                        <span class="caret-menu-indicator">-</span>
+                        <h1 class="caret-menu">Top selling items</h1>
+                    </div>
+
+                    <div id="items-topselling" class="items clearfix">
+                        {% for item in topitems %}
+                            <div class="item left">
+                                <div class="clearfix left">
+                                    <div class="media">
+                                        <a class="left" href="#">
+                                            <img class="media-object shop-item-image preload" data-src="{{ item.image }}" src="{{ asset('/bundles/maximcms/images/blank.gif') }}" data-src="holder.js/64x64">
+                                            <noscript>
+                                                <img src="{{ item.image }}" rel="tooltip" data-original-title="martim128" alt="player martim128">
+                                            </noscript>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {# END TOP SELLING ITEMS#}
+
+                {# FEATURED ITEMS #}
+               {# <h1 class="caret-menu" data-container="items-featured"><span class="caret"></span>Featured items</h1>
+                <div id="items-featured" class="items">
+                    <p>Comming soon</p>
+                </div>#}
+                {# END FEATURED ITEMS#}
+
+                <div class="tabbable"> <!-- Only required for left/right tabs -->
+                    <ul class="menu menu-pills clearfix clearfix-left" id="shop-tabs">
+                        {% for key, server in servers %}
+                            {% if key == 0 %}
+                                <li class="active"><a href="#tab{{ server.id }}" data-toggle="tab">{{ server.name }}</a></li>
+                            {% else %}
+                                <li><a href="#tab{{ server.id }}" data-toggle="tab">{{ server.name }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+
+                    <div class="tab-content">
+                        {% for key, server in servers if server.items|length > 0 %}
+                            <div class="tab-pane slide-left{% if key == 0 %} in active{% endif %}" id="tab{{ server.id }}">
+                                <div class="items">
+                                {% for item in server.items if item.visible %}
+
+                                    <div class="item left">
+
+                                        {# item details #}
+                                        <div class="left">
+                                            <div class="media">
+                                                <a class="left" href="#">
+                                                    <img class="media-object shop-item-image preload" data-src="{{ item.image }}" src="{{ asset('/bundles/maximcms/images/blank.gif') }}" data-src="holder.js/64x64">
+                                                </a>
+                                            </div>
+                                            <h3 class="item-name">{{ item.name }}</h3>
+                                            <span class="label label-purple">{{ config.currency }} {{ item.amount + (item.amount * (item.tax / 100)) }}</span>
+                                        </div>
+
+                                        {# item buttons #}
+                                        <div class="item-buttons">
+                                            <button type="submit" class="btn btn-success" name="_btnBuy" value="{{ item.id }}">Buy</button>
+                                            <button class="btn btn-info" data-toggle="modal" data-target="#item-description-holder{{ item.id }}">Info</button>
+                                        </div>
+
+                                        {# item description holder #}
+                                        <div class="modal fade" id="item-description-holder{{ item.id }}" tabindex="-1" role="dialog" aria-labelledby="item-description-holder{{ item.id }}label" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                        <h4 class="modal-title" id="myModalLabel">{{ item.name }}</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        {{ item.description|raw }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                {% endfor %}
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    $('.item .shop-buttons a').click(function(){
+        console.log('hi');
+        var description = "#shop-item-" + $(this).attr('data-item-id');
+        $(description).slideToggle();
+    });
+
+    $('.items-header').on('click', function(){
+
+        var target = $('#' + $(this).attr('data-container'));
+        var caret = $(this).find('.caret-menu-indicator');
+
+        if($(target).is(":visible")) {
+            $(target).slideUp();
+            $(caret).text("+");
+        } else {
+            console.log("hi");
+            $(target).slideDown();
+            $(caret).text("-");
+        }
+    });
+
+{% endblock scripts %}

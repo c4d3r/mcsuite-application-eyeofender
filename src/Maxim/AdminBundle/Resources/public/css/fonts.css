@@ -1,0 +1,443 @@
+@font-face {
+	font-family: 'icomoon';
+	src:url('/bundles/maximadmin/fonts/icomoon.eot');
+	src:url('/bundles/maximadmin/fonts/icomoon.eot?#iefix') format('embedded-opentype'),
+		url('/bundles/maximadmin/fonts/icomoon.woff') format('woff'),
+		url('/bundles/maximadmin/fonts/icomoon.ttf') format('truetype'),
+		url('/bundles/maximadmin/fonts/icomoon.svg#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+/* Use the following CSS code if you want to use data attributes for inserting your icons */
+[data-icon]:before {
+	font-family: 'icomoon';
+	content: attr(data-icon);
+	speak: none;
+	font-weight: normal;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+}
+
+/* Use the following CSS code if you want to have a class per icon */
+/*
+Instead of a list of all class selectors,
+you can use the generic selector below, but it's slower:
+[class*="icon-"]:before {
+*/
+.icon-untitled:before, .icon-untitled-2:before, .icon-untitled-3:before, .icon-untitled-4:before, .icon-untitled-5:before, .icon-untitled-6:before, .icon-untitled-7:before, .icon-untitled-8:before, .icon-untitled-9:before, .icon-untitled-10:before, .icon-untitled-11:before, .icon-untitled-12:before, .icon-untitled-13:before, .icon-untitled-14:before, .icon-untitled-15:before, .icon-untitled-16:before, .icon-untitled-17:before, .icon-untitled-18:before, .icon-untitled-19:before, .icon-untitled-20:before, .icon-untitled-21:before, .icon-untitled-22:before, .icon-untitled-23:before, .icon-untitled-24:before, .icon-untitled-25:before, .icon-untitled-26:before, .icon-untitled-27:before, .icon-untitled-28:before, .icon-untitled-29:before, .icon-untitled-30:before, .icon-untitled-31:before, .icon-untitled-32:before, .icon-untitled-33:before, .icon-untitled-34:before, .icon-untitled-35:before, .icon-untitled-36:before, .icon-untitled-37:before, .icon-untitled-38:before, .icon-untitled-39:before, .icon-untitled-40:before, .icon-untitled-41:before, .icon-untitled-42:before, .icon-untitled-43:before, .icon-untitled-44:before, .icon-untitled-45:before, .icon-untitled-46:before, .icon-untitled-47:before, .icon-untitled-48:before, .icon-untitled-49:before, .icon-untitled-50:before, .icon-untitled-51:before, .icon-untitled-52:before, .icon-untitled-53:before, .icon-untitled-54:before, .icon-untitled-55:before, .icon-untitled-56:before, .icon-untitled-57:before, .icon-untitled-58:before, .icon-untitled-59:before, .icon-untitled-60:before, .icon-untitled-61:before, .icon-untitled-62:before, .icon-untitled-63:before, .icon-untitled-64:before, .icon-untitled-65:before, .icon-untitled-66:before, .icon-untitled-67:before, .icon-untitled-68:before, .icon-untitled-69:before, .icon-untitled-70:before, .icon-untitled-71:before, .icon-untitled-72:before, .icon-untitled-73:before, .icon-untitled-74:before, .icon-untitled-75:before, .icon-untitled-76:before, .icon-untitled-77:before, .icon-untitled-78:before, .icon-untitled-79:before, .icon-untitled-80:before, .icon-untitled-81:before, .icon-untitled-82:before, .icon-untitled-83:before, .icon-untitled-84:before, .icon-untitled-85:before, .icon-untitled-86:before, .icon-untitled-87:before, .icon-untitled-88:before, .icon-untitled-89:before, .icon-untitled-90:before, .icon-untitled-91:before, .icon-untitled-92:before, .icon-untitled-93:before, .icon-untitled-94:before, .icon-untitled-95:before, .icon-untitled-96:before, .icon-untitled-97:before, .icon-untitled-98:before, .icon-untitled-99:before, .icon-untitled-100:before, .icon-untitled-101:before, .icon-untitled-102:before, .icon-untitled-103:before, .icon-untitled-104:before, .icon-untitled-105:before, .icon-untitled-106:before, .icon-untitled-107:before, .icon-untitled-108:before, .icon-untitled-109:before, .icon-untitled-110:before, .icon-untitled-111:before, .icon-untitled-112:before, .icon-untitled-113:before, .icon-untitled-114:before, .icon-untitled-115:before, .icon-untitled-116:before, .icon-untitled-117:before, .icon-untitled-118:before, .icon-untitled-119:before, .icon-untitled-120:before, .icon-untitled-121:before, .icon-untitled-122:before, .icon-untitled-123:before, .icon-untitled-124:before, .icon-untitled-125:before, .icon-untitled-126:before, .icon-untitled-127:before, .icon-untitled-128:before, .icon-untitled-129:before, .icon-untitled-130:before, .icon-untitled-131:before, .icon-untitled-132:before, .icon-untitled-133:before, .icon-untitled-134:before, .icon-untitled-135:before, .icon-untitled-136:before {
+	font-family: 'icomoon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+}
+.icon-untitled:before {
+	content: "\f002";
+}
+.icon-untitled-2:before {
+	content: "\f003";
+}
+.icon-untitled-3:before {
+	content: "\f005";
+}
+.icon-untitled-4:before {
+	content: "\f006";
+}
+.icon-untitled-5:before {
+	content: "\f007";
+}
+.icon-untitled-6:before {
+	content: "\f009";
+}
+.icon-untitled-7:before {
+	content: "\f00a";
+}
+.icon-untitled-8:before {
+	content: "\f00b";
+}
+.icon-untitled-9:before {
+	content: "\f00c";
+}
+.icon-untitled-10:before {
+	content: "\f00d";
+}
+.icon-untitled-11:before {
+	content: "\f011";
+}
+.icon-untitled-12:before {
+	content: "\f012";
+}
+.icon-untitled-13:before {
+	content: "\f013";
+}
+.icon-untitled-14:before {
+	content: "\f014";
+}
+.icon-untitled-15:before {
+	content: "\f015";
+}
+.icon-untitled-16:before {
+	content: "\f016";
+}
+.icon-untitled-17:before {
+	content: "\f017";
+}
+.icon-untitled-18:before {
+	content: "\f019";
+}
+.icon-untitled-19:before {
+	content: "\f01a";
+}
+.icon-untitled-20:before {
+	content: "\f02c";
+}
+.icon-untitled-21:before {
+	content: "\f02b";
+}
+.icon-untitled-22:before {
+	content: "\f02a";
+}
+.icon-untitled-23:before {
+	content: "\f029";
+}
+.icon-untitled-24:before {
+	content: "\f021";
+}
+.icon-untitled-25:before {
+	content: "\f01e";
+}
+.icon-untitled-26:before {
+	content: "\f01b";
+}
+.icon-untitled-27:before {
+	content: "\f03a";
+}
+.icon-untitled-28:before {
+	content: "\f03e";
+}
+.icon-untitled-29:before {
+	content: "\f040";
+}
+.icon-untitled-30:before {
+	content: "\f06a";
+}
+.icon-untitled-31:before {
+	content: "\f067";
+}
+.icon-untitled-32:before {
+	content: "\f068";
+}
+.icon-untitled-33:before {
+	content: "\f069";
+}
+.icon-untitled-34:before {
+	content: "\f05e";
+}
+.icon-untitled-35:before {
+	content: "\f05d";
+}
+.icon-untitled-36:before {
+	content: "\f05c";
+}
+.icon-untitled-37:before {
+	content: "\f05a";
+}
+.icon-untitled-38:before {
+	content: "\f059";
+}
+.icon-untitled-39:before {
+	content: "\f058";
+}
+.icon-untitled-40:before {
+	content: "\f057";
+}
+.icon-untitled-41:before {
+	content: "\f056";
+}
+.icon-untitled-42:before {
+	content: "\f055";
+}
+.icon-untitled-43:before {
+	content: "\f054";
+}
+.icon-untitled-44:before {
+	content: "\f053";
+}
+.icon-untitled-45:before {
+	content: "\f071";
+}
+.icon-untitled-46:before {
+	content: "\f073";
+}
+.icon-untitled-47:before {
+	content: "\f077";
+}
+.icon-untitled-48:before {
+	content: "\f078";
+}
+.icon-untitled-49:before {
+	content: "\f07a";
+}
+.icon-untitled-50:before {
+	content: "\f07b";
+}
+.icon-untitled-51:before {
+	content: "\f07c";
+}
+.icon-untitled-52:before {
+	content: "\f080";
+}
+.icon-untitled-53:before {
+	content: "\f082";
+}
+.icon-untitled-54:before {
+	content: "\f081";
+}
+.icon-untitled-55:before {
+	content: "\f085";
+}
+.icon-untitled-56:before {
+	content: "\f086";
+}
+.icon-untitled-57:before {
+	content: "\f087";
+}
+.icon-untitled-58:before {
+	content: "\f088";
+}
+.icon-untitled-59:before {
+	content: "\f0a3";
+}
+.icon-untitled-60:before {
+	content: "\f09a";
+}
+.icon-untitled-61:before {
+	content: "\f099";
+}
+.icon-untitled-62:before {
+	content: "\f09d";
+}
+.icon-untitled-63:before {
+	content: "\f09c";
+}
+.icon-untitled-64:before {
+	content: "\f095";
+}
+.icon-untitled-65:before {
+	content: "\f093";
+}
+.icon-untitled-66:before {
+	content: "\f092";
+}
+.icon-untitled-67:before {
+	content: "\f091";
+}
+.icon-untitled-68:before {
+	content: "\f090";
+}
+.icon-untitled-69:before {
+	content: "\f08b";
+}
+.icon-untitled-70:before {
+	content: "\f08c";
+}
+.icon-untitled-71:before {
+	content: "\f0a8";
+}
+.icon-untitled-72:before {
+	content: "\f0a9";
+}
+.icon-untitled-73:before {
+	content: "\f0aa";
+}
+.icon-untitled-74:before {
+	content: "\f0ab";
+}
+.icon-untitled-75:before {
+	content: "\f0ac";
+}
+.icon-untitled-76:before {
+	content: "\f0ad";
+}
+.icon-untitled-77:before {
+	content: "\f0ae";
+}
+.icon-untitled-78:before {
+	content: "\f0c0";
+}
+.icon-untitled-79:before {
+	content: "\f0c2";
+}
+.icon-untitled-80:before {
+	content: "\f0c3";
+}
+.icon-untitled-81:before {
+	content: "\f0c9";
+}
+.icon-untitled-82:before {
+	content: "\f0ca";
+}
+.icon-untitled-83:before {
+	content: "\f0cb";
+}
+.icon-untitled-84:before {
+	content: "\f0e8";
+}
+.icon-untitled-85:before {
+	content: "\f0e7";
+}
+.icon-untitled-86:before {
+	content: "\f0e5";
+}
+.icon-untitled-87:before {
+	content: "\f0e6";
+}
+.icon-untitled-88:before {
+	content: "\f0e4";
+}
+.icon-untitled-89:before {
+	content: "\f0e1";
+}
+.icon-untitled-90:before {
+	content: "\f0e2";
+}
+.icon-untitled-91:before {
+	content: "\f0e0";
+}
+.icon-untitled-92:before {
+	content: "\f0de";
+}
+.icon-untitled-93:before {
+	content: "\f0dd";
+}
+.icon-untitled-94:before {
+	content: "\f0dc";
+}
+.icon-untitled-95:before {
+	content: "\f0db";
+}
+.icon-untitled-96:before {
+	content: "\f0da";
+}
+.icon-untitled-97:before {
+	content: "\f0d9";
+}
+.icon-untitled-98:before {
+	content: "\f0d8";
+}
+.icon-untitled-99:before {
+	content: "\f0d7";
+}
+.icon-untitled-100:before {
+	content: "\f0d5";
+}
+.icon-untitled-101:before {
+	content: "\f0d4";
+}
+.icon-untitled-102:before {
+	content: "\f0d3";
+}
+.icon-untitled-103:before {
+	content: "\f0d2";
+}
+.icon-untitled-104:before {
+	content: "\f0d6";
+}
+.icon-untitled-105:before {
+	content: "\f0ce";
+}
+.icon-untitled-106:before {
+	content: "\f106";
+}
+.icon-untitled-107:before {
+	content: "\f107";
+}
+.icon-untitled-108:before {
+	content: "\f108";
+}
+.icon-untitled-109:before {
+	content: "\f109";
+}
+.icon-untitled-110:before {
+	content: "\f10a";
+}
+.icon-untitled-111:before {
+	content: "\f10b";
+}
+.icon-untitled-112:before {
+	content: "\f10c";
+}
+.icon-untitled-113:before {
+	content: "\f10d";
+}
+.icon-untitled-114:before {
+	content: "\f10e";
+}
+.icon-untitled-115:before {
+	content: "\f110";
+}
+.icon-untitled-116:before {
+	content: "\f113";
+}
+.icon-untitled-117:before {
+	content: "\f114";
+}
+.icon-untitled-118:before {
+	content: "\f115";
+}
+.icon-untitled-119:before {
+	content: "\f0ed";
+}
+.icon-untitled-120:before {
+	content: "\f0ee";
+}
+.icon-untitled-121:before {
+	content: "\f0ec";
+}
+.icon-untitled-122:before {
+	content: "\f0eb";
+}
+.icon-untitled-123:before {
+	content: "\f100";
+}
+.icon-untitled-124:before {
+	content: "\f101";
+}
+.icon-untitled-125:before {
+	content: "\f102";
+}
+.icon-untitled-126:before {
+	content: "\f103";
+}
+.icon-untitled-127:before {
+	content: "\f104";
+}
+.icon-untitled-128:before {
+	content: "\f105";
+}
+.icon-untitled-129:before {
+	content: "\f023";
+}
+.icon-untitled-130:before {
+	content: "\f06b";
+}
+.icon-untitled-131:before {
+	content: "\f084";
+}
+.icon-untitled-132:before {
+	content: "\f0a0";
+}
+.icon-untitled-133:before {
+	content: "\f0c7";
+}
+.icon-untitled-134:before {
+	content: "\f022";
+}
+.icon-untitled-135:before {
+	content: "\f06e";
+}
+.icon-untitled-136:before {
+	content: "\f070";
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>{% block title %}TheFridge{% endblock %}</title>
+	<meta http-equiv="Content-Type" content="text/html" />
+	
+	<link id="page_favicon" href="/bundles/maximcms/favicon.ico" rel="icon" type="image/x-icon" />
+	<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css"/>
+	
+	<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+	{% javascripts
+        '@MaximCMSBundle/Resources/public/plugins/cookie/jquery.cookie.js'
+        '@MaximCMSBundle/Resources/public/plugins/opentip/opentip-jquery.js'
+        '@MaximCMSBundle/Resources/public/js/AJAX.js'
+        '@MaximCMSBundle/Resources/public/js/UI.js'
+        '@MaximCMSBundle/Resources/public/theme/js/*'
+        '@MaximCMSBundle/Resources/public/plugins/reveal/jquery.reveal.js'
+        '@MaximCMSBundle/Resources/public/plugins/backstretch/backstretch.min.js'
+		filter='yui_js'
+        output='themes/default/js/main.js'
+		%}
+	<script type="text/javascript" src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+	<script type="text/javascript">
+		var path_base = "/bundles/maximcms";
+	</script>
+	{% stylesheets
+		output='css'
+        output='themes/default/css/main.css'
+		filter="cssrewrite"
+		filter='yui_css'
+		'@MaximCMSBundle/Resources/public/theme/css/*.css'
+        '@MaximCMSBundle/Resources/public/plugins/reveal/reveal.css' %}
+	<link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>
+	{% endstylesheets %}
+    <!--[if lte IE 8]>
+ 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+</head>

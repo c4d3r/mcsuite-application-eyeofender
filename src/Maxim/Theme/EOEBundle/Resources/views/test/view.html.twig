@@ -1,0 +1,10 @@
+
+{{ paymentTitle }} - Details View"
+
+<div class="block">
+    <ul>
+        {% for key, value in status.model %}
+            <li>{{ key }}: {{ value|json_encode|raw }}</li>
+        {% endfor %}
+    </ul>
+</div>

@@ -1,0 +1,73 @@
+{% extends 'MaximCMSBundle:admin:index.html.twig' %}
+
+{% block middle %}
+    <div id="middle_menu_top">
+        <div class="vertical">
+            <h1>Add Rank</h1>
+        </div>
+    </div>
+    <div id="middle_menu_small">
+        <ul>
+            <li><a href="{{ path('admin_ranks')}}">ranks</a></li>
+            <li><a href="{{ path('admin_ranks_add')}}">edit</a></li>
+            <!--<li><a href="#">test3</a></li>-->
+        </ul>
+    </div>
+    <div id="middle_content">
+        <div class="window">
+            <div class="window-header">
+                <h6>Edit a rank</h6>
+            </div>
+            <div class="window-content">
+                <div id="rank-status" class="alert"></div>
+                <!-- ADD PAGE -->
+                <form action="{{ path('admin_ranks_edit_ajax') }}" id="frmAddRank" method="post">
+                    <p>
+                        <label for="name">Name:</label><br/>
+                        <input type="text" name="_admin_rank_name" class="inputbox" id="name" value="{{ rank.name }}" placeholder="Rank name">
+                    </p>
+                    <p>
+                        <label for="server">Role name</label><br/>
+                        {% include 'MaximCMSBundle:admin/widgets:roles.html.twig' %}
+                    </p>
+                    <p>
+                        <label for="name">Applicable:</label>
+                        <input type="checkbox" name="_admin_rank_applicable" class="inputbox" id="application" >
+                    </p>
+                    <p>
+                        <label for="description">Description:</label><br/>
+                        <textarea name="_admin_rank_description" cols="20" rows="30" class="inputbox" id="description" placeholder="Rank description">{{ rank.description }}</textarea>
+                    </p>
+                    <input type="hidden" name="_admin_rank_id" id="id" value="{{ rank.id }}" />
+                    <button type="submit" id="btnRankAdd" class="btn">Save rank</button>
+                </form>
+                </br/>
+            </div>
+            <script>
+                $(document).ready(function(){
+
+                    $("#admin_rank_roles option[value='{{ rank.roleName }}']").attr("selected", "selected");
+                    $('#application').attr('checked', {{ rank.application }});
+
+                    UI.editor('content', "100%", "600px");
+                    $("#frmAddRank").submit(function() {
+                        for ( instance in CKEDITOR.instances )
+                            CKEDITOR.instances[instance].updateElement();
+
+                        AJAX.post(
+                                $("#frmAddRank").attr("action"),
+                                {
+                                    _admin_rank_name : $('#name').val(),
+                                    _admin_rank_role : $("#admin_rank_roles").val(),
+                                    _admin_rank_application : $("#application").is(':checked'),
+                                    _admin_rank_description : $("#description").val(),
+                                    _admin_rank_id : $('#id').val()
+                                },
+                                $("#rank-status"), $('#btnRankAdd'));
+                        return false;
+                    });
+                });
+            </script>
+        </div>
+    </div>
+{% endblock middle %}

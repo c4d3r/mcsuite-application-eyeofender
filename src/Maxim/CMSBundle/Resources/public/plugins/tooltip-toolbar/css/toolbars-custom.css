@@ -1,0 +1,21 @@
+.gradient {
+    background-color: #FFF !important;
+}
+
+.tool-top .tool-item, .tool-bottom .tool-item {
+    float: left;
+    border-right: 1px solid #FFFFFF;
+    border-left: 1px solid #E4E4E4;
+}
+
+.tool-item {
+    padding-top: 7px;
+}
+
+.tool-container {
+    box-shadow: 0 0 7px #838383;
+}
+
+.tool-item:hover {
+    background: #f1f1f1 !important;
+}

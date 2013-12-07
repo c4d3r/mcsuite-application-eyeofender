@@ -1,0 +1,71 @@
+{% extends 'MaximAdminBundle:Default:index.html.twig' %}
+{% block head %}
+    {% javascripts
+        '@MaximAdminBundle/Resources/public/plugins/jqplot/jquery.jqplot.js'
+        '@MaximAdminBundle/Resources/public/plugins/jqplot/jqplot.highlighter.js'
+        '@MaximAdminBundle/Resources/public/plugins/jqplot/jqplot.cursor.js'
+        '@MaximAdminBundle/Resources/public/plugins/jqplot/jqplot.dateAxisRenderer.js'
+        filter='yui_js'
+        output='assets/admin/js/jqplot.js'
+     %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+{% block content %}
+<div class="container clearfix" style="width:100%;">
+    <h1>Purchase total</h1>
+    <div class="container-content">
+        <div id="purchases-totalamount">Total income this month: <span id="total"></span></div>
+    </div>
+</div>
+<div class="container clearfix" style="width:100%;">
+    <h1>Purchases</h1>
+    <div class="container-content">
+        <div id="graph_purchases" style="height:400px;width:100%; "></div>
+    </div>
+</div>
+<div class="clearfix"></div>
+    <script type="text/javascript">
+        $(function () {
+            var purchases = [];
+
+            $.getJSON("{{ path('admin_purchase_plot_json') }}", function(json) {
+                purchases = json;
+
+                var total = 0;
+                for(var i = 0; i < purchases.length; i++) {
+                    total += parseInt(purchases[i][1]);
+                }
+                if(purchases.length > 0) {
+                    var plot1 = $.jqplot('graph_purchases', [purchases], {
+                        title:'Purchases made in {{ date }}',
+                        axes:{
+                            xaxis:{
+                                renderer:$.jqplot.DateAxisRenderer,
+                                tickOptions:{
+                                    formatString:'%b&nbsp;%#d'
+                                }
+                            },
+                            yaxis:{
+                                tickOptions:{
+                                    formatString:'£%.2f'
+                                }
+                            }
+                        },
+                        highlighter: {
+                            show: true,
+                            sizeAdjust: 7.5
+                        },
+                        cursor: {
+                            show: false
+                        }
+                    });
+                    $('#total').html(total);
+                } else {
+                    $('#graph_purchases').html('<p>No purchases found for this month</p>');
+                }
+
+            });
+        });
+    </script>
+{% endblock %}

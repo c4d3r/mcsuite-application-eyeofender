@@ -1,0 +1,6 @@
+services:
+     #module.loader:
+     #    class: Maxim\Module\TicketBundle\Routing\RouteLoader
+     #    tags:
+     #      - { name: routing.loader }
+     #    arguments: [@doctrine, @logger]

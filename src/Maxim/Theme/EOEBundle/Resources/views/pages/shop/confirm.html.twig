@@ -1,0 +1,52 @@
+{% extends 'MaximCMSBundle:Default:index.html.twig' %}
+
+{% block body %}
+<div class="page">
+	<div class="page-header">
+		<h3>Shop - Confirm</h3>
+	</div>
+	<div class="page-content">
+        <div class="well">
+            <h4>CONFIRMATION</h4>
+			<table class="table">
+                <tr>
+                    <th>Server name:</th>
+                    <td>{{ item.server.name }}</td>
+                </tr>
+				<tr>
+					<th>Rank / Item:</th>
+					<td>{{ item.name }}</td>
+				</tr>
+				<tr>
+					<th>User:</th>
+					<td>{{ user.username }}</td>
+				</tr>
+				<tr>
+                    <th>Price:</th>
+                    <td>{{ config.currency_symbol }} {{ item.amount|number_format(2) }}</td>
+                </tr>
+                <tr>
+                    <th>Tax:</th>
+                    <td>{{ item.tax }}%</td>
+                </tr>
+                <tr>
+                    <th>Grand total:</th>
+                    <td>{{ config.currency_symbol }} {{ (item.amount + (item.amount * (item.tax / 100)))|number_format(2) }}</td>
+                </tr>
+			</table>
+            <h3>Checkout</h3>
+            <div class="panel">
+                <div class="ShopConfirmBox-payment-method">
+                    <form target="paypal" action="{{ path('shop_finish') }}" method="post" style="margin:0;">
+                        <input type="hidden" name="cmd" value="_xclick" />
+                        <input type="hidden" name="custom" value="{{ user.custom }}" />
+                        <input type="hidden" name="_ign" value="{{ user.ign }}" />
+                        <input type="image" value="PAYPAL" name="button_shop_checkout" alt="Submit" src="{{ asset('/bundles/maximcms/images/paypal/checkout-2.png') }}" />
+                        {#<input type="image" value="BTC" name="button_shop_checkout" alt="Submit" src="{{ asset('/bundles/maximcms/images/paypal/checkout-2.png') }}" />#}
+                    </form>
+                </div>
+            </div>
+        </div>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'MaximCMSBundle:Default:index.html.twig' %}
+
+{% block body %}
+    <h1>Applications</h1>
+    {% if application is defined %}
+        <div class="alert" id="status-application-reply" style="display:none"></div>
+        <table class="table" id="tblApplicationSingle">
+            <tr>
+                <th>ID:</th>
+                <td><span class="application-id-{{ application.denied }}">#{{ application.id }}</span></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="width:100%;">
+                    {% for key, detail in application.details %}
+
+                        <h5>{{ key }}</h5>
+                        <p>{{ detail }}</p>
+
+                    {% endfor %}
+                </td>
+            </tr>
+        </table>
+        <h3>Replies</h3>
+        <div class="application-replies">
+            {% for key, reply in replies %}
+                <div class="application-reply">
+                    <div class="application-reply-{% if key is even %}even{% else %}odd{% endif %} clearfix">
+                        <div class="application-reply-side">
+                            <img src="https://minotar.net/avatar/{{ reply.user.username }}/40.png" alt="{{ reply.user.username }}" rel="tooltip" data-original-title="{{ reply.user.username }}"/>
+                            <p>{{ reply.user.username }}</p>
+                        </div>
+
+                        <div class="application-reply-content">
+                            <p>{{ reply.text|raw }}</p>
+                            <span class="application-postedon">{{ reply.date|date('Y-m-d h:i:s') }}</span>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <tr>
+                    <td colspan="2">No replies found</td>
+                </tr>
+            {% endfor %}
+        </div>
+        <hr/>
+        <form action="{{ path('application_reply') }}" method="post" id="frmReplyApplication">
+            <fieldset>
+                <p>
+                    <label for="reply">Text: </label>
+                    <textarea id="reply" name="_reply" cols="30" rows="10" placeholder="Enter your reply here" style="width:90%;"></textarea>
+                </p>
+                <p>
+                    <input type="submit" class="btn btn-info" id="btnReply" name="_btnReply" value="Reply to application"/>
+
+                </p>
+                <input type="hidden" name="_hdnApplication" id="hdnApplication" value="{{ application.id }}"/>
+            </fieldset>
+        </form>
+
+        <style>
+            #tblApplicationSingle th{
+                width:50px;
+            }
+        </style>
+
+    {% else %}
+        <p>Could not find application</p>
+    {% endif %}
+{% endblock %}
+{% block scripts %}
+    $("#frmReplyApplication").submit(function() {
+    //get the url for the form
+    AJAX.post(
+    $("#frmReplyApplication").attr("action"),
+    {
+    _reply : $('#reply').val(),
+    _application : $('#hdnApplication').val()
+    },
+    $("#status-application-reply"),
+    $("#btnReply")
+    );
+    //we dont what the browser to submit the form
+    return false;
+    });
+{% endblock %}

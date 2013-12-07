@@ -1,0 +1,104 @@
+.poll-result-bar{
+	border-radius:3px;
+
+    background: rgb(155,155,155); /* Old browsers */
+    background: -moz-linear-gradient(top, rgba(155,155,155,1) 0%, rgba(71,71,71,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(155,155,155,1)), color-stop(100%,rgba(71,71,71,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, rgba(155,155,155,1) 0%,rgba(71,71,71,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, rgba(155,155,155,1) 0%,rgba(71,71,71,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, rgba(155,155,155,1) 0%,rgba(71,71,71,1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom, rgba(155,155,155,1) 0%,rgba(71,71,71,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9b9b9b', endColorstr='#474747',GradientType=0 ); /* IE6-9 */
+
+	height:25px !important;
+	padding-left:5px;
+	position:relative;
+	top:-12px;
+	z-index:0;
+}
+.poll-result, .poll-total{
+	margin-left:5px;
+	
+}
+.poll-result{
+	clear:both;
+	width:250px;
+}
+.poll-result-text{
+
+}
+.poll-total
+{
+	clear:both;
+	display: block;
+	margin-bottom: -10px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-left: 5px;
+	height:20px;
+	margin-left:0;
+	color:#000;
+}
+.poll-bar{
+	width:150px;
+	float:left;
+}
+.poll-question{
+	font-size:11px;
+}
+
+.pnlPoll{
+	width:230px;
+}	
+
+.pnlPoll-content{
+	background:url('/bundles/maximcms/images/imgContent.png') repeat-y;
+	height:auto;
+	min-height:146px;
+	width:230px;
+
+}
+.pnlPoll-title{
+
+}
+.poll-question{
+	margin-left: 0;
+	display: block;
+	text-align: center;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin-bottom:5px;
+	margin-top:-10px;
+}
+.poll-notlogged{
+	text-align:center;
+	padding-top:10px;
+}
+.poll-result-align
+{
+	text-align:right;
+	float:left;
+	width:53px;
+	margin-right:5px;
+}
+.poll-result-votes
+{
+	display:block;
+}
+.poll-result-votes-percentage
+{
+	display:block;
+}
+.poll-result-answer
+{
+	position:relative;
+	top:8px;
+	left: 5px;
+	z-index: 3;
+    color: #000;
+}
+#poll_module
+{
+	padding-top:10px;
+	margin-left:10px;
+}

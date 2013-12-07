@@ -1,0 +1,250 @@
+{% extends 'MaximCMSBundle:admin:index.html.twig' %}
+
+{% block middle %}
+
+<div id="middle_menu_top">
+	<div class="vertical">
+		<h1>News</h1>
+	</div>
+</div>
+<div id="middle_menu_small">
+	<ul>
+		<li><a href="#">News</a></li>
+		<!--<li><a href="#">test2</a></li>
+		<li><a href="#">test3</a></li>-->
+	</ul>
+</div>
+<div id="middle_content">
+	<div class="window">
+		<div class="window-header">
+			<h6>Add news article</h6>
+		</div>
+		<div class="window-content">
+            <div id="news-status" class="alert"></div>
+			<button type="button" name="" id="create-user" value="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">Add new post</button>
+			<button type="button" name="" id="edit-news" value="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">Edit selected post</button>
+			<button type="button" name="" id="delete-news" value="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">Delete selected news post</button>
+			<!-- VIEW NEWS POSTS -->
+			<table id="table_id">
+			    <thead>
+			        <tr>
+			            <th>ID</th>
+			            <th>TITLE</th>
+			            <th>CONTENT</th>
+			            <th>DATE</th>
+			            <th>AUTHOR</th>
+                        <th>SECTION</th>
+			        </tr>
+			    </thead>
+			    <tbody>
+				    <tr class="odd gradeX">
+			            <td></td>
+			            <td></td>
+			            <td></td>
+			            <td></td>
+			            <td></td>
+                        <td></td>
+			        </tr>
+		        </tbody>
+			</table>	
+			<script>
+			var oTable;
+			var giRedraw = false;
+			$('#delete-news').button();
+			$(document).ready(function() {
+   				$("#table_id tbody").click(function(event) {
+					$(oTable.fnSettings().aoData).each(function (){
+						$(this.nTr).removeClass('row_selected');
+					});
+					$(event.target.parentNode).addClass('row_selected');
+				});
+				
+				/* Add a click handler for the delete row */
+				$('#delete-news').click( function() {
+
+					var anSelected = fnGetSelected( oTable );
+					var aData = oTable.fnGetData(anSelected);
+					/* GET ID FOR AJAX */
+					var id = aData["id"];
+					AJAX.post_noButton(
+						"{{ path('admin_news_delete_ajax') }}", 
+						{
+							_admin_news_id : id
+						}, 
+						$("#news-status")
+					);
+					/* Delete row */
+					oTable.fnDeleteRow( anSelected[0] );
+				} );
+				
+				/* Add a click handler for the edit row */
+				$('#edit-news').click( function() {
+					var anSelected = fnGetSelected( oTable );
+					var aData = oTable.fnGetData(anSelected);
+					$('#admin_news_id_hdn').val(aData["id"]);
+					$('#dialog-form-update #title').val(aData["title"]);
+
+			    	$('#content').val(aData["content"]);
+				} );
+				
+				oTable = $('#table_id').dataTable( {
+					"bSort": true,
+                    "bFilter": true,
+					"bProcessing": true,
+					"bServerSide": true,
+					"sAjaxSource": "{{ path('admin_news_ajax') }}",
+					"aoColumns": [
+						{ "mData": "id" },
+				        { "mData": "title" },
+				        { "mData": "content" },
+				        { "mData": "date" },
+				        { "mData": "user.username" },
+                        { "mData": "section.name" },
+				    ]
+				});
+			});
+			
+			/* Get the rows which are currently selected */
+			function fnGetSelected( oTableLocal )
+			{
+				var aReturn = new Array();
+				var aTrs = oTableLocal.fnGetNodes();
+				
+				for ( var i=0 ; i<aTrs.length ; i++ )
+				{
+					if ( $(aTrs[i]).hasClass('row_selected') )
+					{
+						return (aTrs[i]);
+					}
+				}
+				
+			}
+			</script>
+			<style>
+				.wysiwyg{ width:670px !important;}
+				#frmAddNewsContentIFrame{ width:100% !important }
+				#contentIFrame{ width:100% !important }
+			</style>
+			<!-- ADD USER -->
+			<div id="dialog-form" title="Create new news post">
+			    <form action="{{ path('admin_news_add') }}" id="frmAddNews" method="post">
+			       <p>
+			       		<label for="name">Title</label><br/>
+			       		<input type="text" name="_admin_news_title" class="inputbox" id="title" >
+			       </p>
+			        <p>
+                        <label for="server">Section</label>
+                        {{ render(controller('MaximAdminBundle:Admin:widget', {'widget' : 'news_section'})) }}
+			        </p>
+			         
+			        <p>
+			        	<label for="email" >Content</label>
+			        	<textarea cols="30" rows="20" name="_admin_news_content" id="frmAddNewsContent"></textarea>
+			        </p>
+			    </form>
+			</div>	
+			<div id="dialog-form-update" title="Edit news post">
+			    <form action="{{ path('admin_news_update_ajax') }}" id="frmEditNews" method="post">
+			       <p>
+			       		<label for="name">Title</label><br/>
+			       		<input type="text" name="_admin_news_title" class="inputbox" id="title" >
+			       </p>
+                    <p>
+                        <label for="server">Section</label>
+                        {{ render(controller('MaximAdminBundle:Admin:widget', {'widget' : 'news_section'})) }}
+                    </p>
+			        <p>
+			        	<label for="email" >Content</label>
+			        	
+			        	<textarea cols="80" rows="20" name="_admin_news_content" id="content" value="" style="width:670px;"></textarea>
+			        </p>
+			        <input type="hidden" name="_admin_news_id" value="" id="admin_news_id_hdn"/>
+			    </form>
+			</div>	
+			<script>
+			 	$(function(id) {
+                     UI.editor('content');
+			 		$( "#dialog-form" ).dialog({
+			         	height: 800,
+			         	width: 800,
+			          	modal: true,
+			           	autoOpen: false,
+			           	buttons: {
+			           		"Create news post": function(){
+                                console.log($("#widget_news_section").val());
+								//get the url for the form
+                                for ( instance in CKEDITOR.instances )
+                                    CKEDITOR.instances[instance].updateElement();
+								AJAX.post_noButton(
+									$("#frmAddNews").attr("action"), 
+									{
+										_admin_news_title : $("#title").val(),
+										_admin_news_content : $("#frmAddNewsContent").val(),
+                                        _admin_news_section : $("#widget_news_section").val()
+									},
+
+									$("#news-status")
+								);
+									
+			           		},
+			           		Cancel: function(){
+			           			$(this).dialog("close");
+			           		},
+			           		close: function(){
+			           			$(this).dialog("close");
+			           		}
+			           	}
+			        });
+			 		$('#create-user').button().click(function(){
+			 			$('#dialog-form').dialog("open");
+			 		});
+			       UI.editor($('#frmAddNewsContent'));
+			    });
+			    
+			    $(function(id) {
+                    UI.editor('frmAddNewsContent');
+			 		$( "#dialog-form-update").dialog({
+			         	height: 800,
+			         	width: 800,
+			          	modal: true,
+			           	autoOpen: false,
+			           	buttons: {
+			           		"Edit news post": function(){
+								//get the url for the form
+                                for ( instance in CKEDITOR.instances )
+                                    CKEDITOR.instances[instance].updateElement();
+								AJAX.post_noButton(
+									$("#frmEditNews").attr("action"), 
+									{
+										_admin_news_id : $('#admin_news_id_hdn').val(),
+										_admin_news_title : $("#frmEditNews #title").val(),
+										_admin_news_content : $("#frmEditNews #content").val(),
+                                        _admin_news_section : $("#widget_news_section").val()
+									}, 
+									$("#news-status")
+									);
+									
+			           		},
+			           		Cancel: function(){
+			           			$(this).dialog("close");
+			           		},
+			           		close: function(){
+			           			$(this).dialog("close");
+			           		}
+			           	}
+			        });
+			 		$('#edit-news').button().click(function(){
+			 			$('#dialog-form-update').dialog("open");
+			 		});
+			       UI.editor($('#content'));
+			    });
+			</script>	
+			</br/>
+			{% if error %}
+			    <div>{{ error.message }}</div>
+			{% endif %}
+			<br/><br/><br/>
+		</div>
+	</div>
+</div>
+{% endblock middle %}

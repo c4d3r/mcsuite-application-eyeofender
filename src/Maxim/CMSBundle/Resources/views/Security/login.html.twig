@@ -1,0 +1,24 @@
+{% if error %}
+<div>
+	{{ error.message }}
+</div>
+{% endif %}
+<form action="{{ path('login_check') }}" method="post" id="frmLogin">
+	<div class="status-message status-color-red" id="msgbox" style="display:none;">
+		<p>
+			
+		</p>
+	</div>
+	<fieldset>
+		<input type="text" name="_login_username" id="login_username"/>
+		<input type="password" name="_login_password" id="login_password" />
+		<div class="login-links">
+			<a href="{{ path('account_forgot_password')}}">Retrieve password</a>
+			<a href="{{ path('register')}}">New registration</a>
+		</div>
+		<button type="submit" class="login-button" id="btnLogin">
+			LOGIN
+		</button>
+	</fieldset>
+	
+</form>

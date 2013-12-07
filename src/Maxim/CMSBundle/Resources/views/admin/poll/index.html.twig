@@ -1,0 +1,170 @@
+{% extends 'MaximCMSBundle:admin:index.html.twig' %}
+
+{% block middle %}
+
+<div id="middle_menu_top">
+	<div class="vertical">
+		<h1>Poll</h1>
+	</div>
+</div>
+<div id="middle_menu_small">
+	<ul>
+		<li><a href="#">Poll</a></li>
+		<!--<li><a href="#">test2</a></li>
+		<li><a href="#">test3</a></li>-->
+	</ul>
+</div>
+<div id="middle_content">
+	<div class="window">
+		<div class="window-header">
+			<h6>Open questions</h6>
+		</div>
+		<div class="window-content">
+			<div id="tabs">
+			    <ul>
+			        <li><a href="#tabs-1">Polls</a></li>
+			        <li><a href="#tabs-2">Add poll</a></li>
+			        <li><a href="#tabs-3">Manage poll</a></li>
+			    </ul>
+			    <div id="tabs-1">
+					<!-- VIEW NEWS POSTS -->
+					{% for key, result_question in result_questions %}
+						<table class="admin-poll">
+							<tr>
+								<th>Answer</th>
+								<th>Votes</th>
+								<th>Percentage</th>
+								<th></th>
+							</tr>
+						<h2 class="admin-poll-h2 active-{{ result_question.active }}">{{ result_question.question }}</h2>
+						{% for key2, result_answer in result_answers if (result_answer.question_id == result_question.id) %}
+						<tr>
+							<td class="answer">{{ result_answer.answer }}</td>
+							<td class="amount">{{ result_answer.amount }}</td>
+							<td class="percentage">{{ percentage[key2] | number_format(0)}}%</td>
+							<td>
+								<div class="poll-result-bar" style="width:{{ percentage[key2] | number_format(0)}}%;height:10px;"></div>
+							</td>
+						</tr>
+						{% else %}
+						<p>nothing found</p>
+						{% endfor %}
+						<tr>
+							<td colspan="4" class="total">
+								<span class="poll-total">Total votes: {{ total[key] }}</span>
+							</td>
+						</tr>
+						
+						</table>
+					{% else %}
+						<p>
+							No questions have been found.
+						</p>
+					{% endfor %}
+				</div>	
+				<div id="tabs-2">
+					<form action="{{ path('admin_poll_add_ajax') }}" id="frmPollAdd" method="post">
+						<fieldset>
+							<input type="text" name="_poll_question" id="poll_question" placeholder="poll question:" />
+							<input type="text" name="_poll_answers" id="poll_answers" placeholder="poll question:" style="width:350px;"/>
+							<button type="submit" name="_poll_submit" id="poll_submit">Add question</button>
+						</fieldset>
+					</form>
+					
+				</div>
+				<div id="tabs-3">
+					<form action="{{ path('admin_poll_save_ajax') }}" id="frmPollManage" method="post">
+						<select name="_poll_manage_question" id="poll_manage_question">
+						{% for key, result_question in result_questions %}
+							<option value="{{ result_question.id }}">{{ result_question.question }}</option>
+						{% else %}
+						<option>No polls have been found.</option>
+						{% endfor %}
+						</select><br/>
+						{% for key, result_question in result_questions %}
+							<input type="hidden" id="active_buffer_{{ result_question.id }}" value="{{ result_question.active }}" name="hdnActive"/>
+						{% endfor %}
+						<input type="checkbox" name="_poll_manage_active" id="poll_manage_active"/>Active<br/>
+						<button type="submit" name="_poll_manage_submit" id="poll_manage_submit">Save</button>
+					</form>
+				</div>
+			</div>
+			<div id="msgbox"></div>
+		</div>
+	</div>
+</div>
+<script>
+    $(function() {
+        $( "#tabs" ).tabs();
+        $('#poll_answers').tagit({
+         	allowSpaces: true
+        });
+        
+        //POLL ACTIVE FLAG
+        var buffer = $('#active_buffer_' + $('#poll_manage_question option:selected').val());
+        console.log(buffer.val());
+        if(buffer.val() == 1)
+        {
+        	$('#poll_manage_active').attr("checked", "checked");
+        }
+        else
+        {
+        	$('#poll_manage_active').removeAttr("checked");
+        }
+        $('#poll_manage_question').change(function()
+        {
+        	//GET BUFFER
+        	var buffer = $('#active_buffer_' + $('#poll_manage_question option:selected').val());
+        	
+        	console.log(buffer.val());
+        	//SET ACTIVE
+        	if(buffer.val() == 1)
+        	{
+        		$('#poll_manage_active').attr("checked", "checked");
+        	}
+        	else
+        	{
+        		$('#poll_manage_active').removeAttr("checked");
+        	}
+        });
+        $("#frmPollAdd").submit(function() {
+			//get the url for the form
+			AJAX.post((
+				$("#frmPollAdd").attr("action")), 
+				{ 
+					_poll_question : $("#poll_question").val(), 
+					_poll_answers : $("#poll_answers").val()
+				}, 
+				$("#msgbox"), 
+				$("#poll_submit")
+				);
+			//we dont what the browser to submit the form
+			return false;
+		});
+    });
+    $("#frmPollManage").submit(function() {
+    	console.log('ACTIVE: ' + $('#poll_manage_active').is(':checked'));
+		//get the url for the form
+		AJAX.post((
+			$("#frmPollManage").attr("action")), 
+			{ 
+				_poll_id : $('#poll_manage_question option:selected').val(),
+				_poll_active : $('#poll_manage_active').is(':checked')
+			}, 
+			$("#msgbox"), 
+			$("#poll_submit")
+		);
+		//we dont what the browser to submit the form
+		return false;
+	});
+</script>
+<style>
+	//OVERWRITE TAGIT
+	.tagit li
+	{
+		display:none;
+		float:none !important;
+	}
+
+</style>
+{% endblock middle %} 

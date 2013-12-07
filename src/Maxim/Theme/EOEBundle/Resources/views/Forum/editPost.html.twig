@@ -1,0 +1,43 @@
+{% extends 'MaximModuleForumBundle:Default:index.html.twig' %}
+
+{% block body %}
+    <h2>Edit post</h2>
+
+    {# BREADCRUMB BAR #}
+    <ul class="breadcrumbs">
+        <li><a href="{{ path('forum_view', {'id' : post.thread.forum.id}) }}">{{ post.thread.forum.title }}</a></li>
+        <li><a href="{{ path('forum_thread_view', {'id' : post.thread.forum.id, 'threadid' : post.thread.id}) }}" >{{ post.thread.title }}</a></li>
+        <li>Editing post</li>
+    </ul>
+
+    <form action="{{ path('forum_post_edit_ajax', {'id': post.thread.forum.id, 'threadid': post.thread.id, 'postid' : post.id }) }}" method="post" id="form_edit_post" role="form">
+        <fieldset>
+            <div class="form-group">
+                <label for="post_text">Post text</label>
+                <textarea id="post_text" class="redactor-init">{{ post.text }}</textarea>
+                <br/>
+                <label for="post_reason">Update reason</label>
+                <textarea id="post_reason" class="redactor-init"></textarea>
+            </div>
+            <div id="status-post" class="alert"></div>
+            <button type="submit" class="btn btn-default" style="margin-top:5px;" id="btnEditPost">Edit post</button>
+        </fieldset>
+    </form>
+{% endblock %}
+{% block scripttags %}
+    <script>
+        $('#form_edit_post').submit(function(e) {
+            e.preventDefault();
+
+            AJAX.post(
+                $("#form_edit_post").attr("action"),
+                {
+                    _post_text : $("#post_text").val(),
+                    _reason: $('#post_reason').val()
+                },
+                $("#status-post"),
+                $('#btnEditPost')
+            );
+        });
+    </script>
+{% endblock scripttags%}

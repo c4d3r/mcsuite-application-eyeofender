@@ -1,0 +1,232 @@
+{% extends 'MaximCMSBundle:admin:index.html.twig' %}
+
+{% block middle %}
+<div id="middle_menu_top">
+	<div class="vertical">
+		<h1>Shop</h1>
+	</div>
+</div>
+<div id="middle_menu_small">
+	<ul>
+		<li><a href="#">items</a></li>
+		<!--<li><a href="#">test2</a></li>
+		<li><a href="#">test3</a></li>-->
+	</ul>
+</div>
+<div id="middle_content">
+	<div class="window">
+		<div class="window-header">
+			<h6>SHOP</h6>
+		</div>
+
+		<div class="window-content">
+            <div id="tabs">
+                <ul>
+                    <li><a href="#tabs-1">ITEMS</a></li>
+                    <li><a href="#tabs-2">SECTIONS</a></li>
+                </ul>
+                <div id="tabs-1">
+                    <a href="{{ path('admin_shop_add') }}" alt="add new item" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">Add new item</a>
+                    <button type="button" name="" id="edit-item" value="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">Edit selected item</button>
+                    <button type="button" name="" id="delete-item" value="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">Delete selected item</button>
+                    <div id="msgbox"></div>
+                    <!-- VIEW NEWS POSTS -->
+                    <table id="table_id">
+                        <thead>
+                        <tr>
+                            <th style="width:10px;">ID</th>
+                            <th>NAME</th>
+                            <th>DESCRIPTION</th>
+                            <th style="width:10px;">AMOUNT</th>
+                            <th style="width:10px;">VISIBLE</th>
+                            <th>COMMAND</th>
+                            <th>IMAGE</th>
+                            <th style="width:10px;">REDUCTION</th>
+                            <th>SECTION</th>
+                            <th>SERVER</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="odd gradeX">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <script>
+                        var oTable;
+                        var giRedraw = false;
+
+                        $(document).ready(function() {
+                            $("#table_id tbody").click(function(event) {
+                                $(oTable.fnSettings().aoData).each(function (){
+                                    $(this.nTr).removeClass('row_selected');
+                                });
+                                $(event.target.parentNode).addClass('row_selected');
+                            });
+
+                            /* Add a click handler for the delete row */
+                            $('#delete-item').click( function() {
+
+
+                                var anSelected = fnGetSelected( oTable );
+                                var aData = oTable.fnGetData(anSelected);
+                                /* GET ID FOR AJAX */
+                                var id = aData["id"];
+                                console.log(id);
+                                AJAX.post_noButton(
+                                        "{{ path('admin_shop_ajax_delete') }}",
+                                        {
+                                            _admin_shop_id : id
+                                        },
+                                        $("#msgbox")
+                                );
+                                /* Delete row */
+                                oTable.fnDeleteRow( anSelected[0] );
+                            } );
+
+                            /* Add a click handler for the edit row */
+                            $('#edit-item').click( function() {
+                                var anSelected = fnGetSelected( oTable );
+                                var aData = oTable.fnGetData(anSelected);
+                                var url = "{{ path('admin_shop') }}/edit/" + aData['id'];
+                                window.location.href = url;
+
+                            } );
+
+                            oTable = $('#table_id').dataTable( {
+                                "bSort": true,
+                                "bFilter": true,
+                                "bProcessing": true,
+                                "bServerSide": true,
+                                "sAjaxSource": "{{ path('admin_shop_ajax') }}",
+                                "aoColumns": [
+                                    { "mData": "id" },
+                                    { "mData": "name" },
+                                    { "mData": "description" },
+                                    { "mData": "amount" },
+                                    { "mData": "visible" },
+                                    { "mData": "command" },
+                                    { "mData": "image" },
+                                    { "mData": "reduction" },
+                                    { "mData": "section.name" },
+                                    { "mData": "server.name"}
+                                ]
+                            });
+                        });
+
+
+                    </script>
+                </div>
+                <div id="tabs-2">
+                    <a href="{{ path('admin_shop_section_add') }}" alt="add new item" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">Add new section</a>
+                    <button type="button" name="" id="edit-section" value="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">Edit selected section</button>
+                    <button type="button" name="" id="delete-section" value="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">Delete selected section</button>
+                    <div id="msgbox"></div>
+                    <!-- VIEW NEWS POSTS -->
+                    <table id="table_id1">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>NAME</th>
+                            <th>DESCRIPTION</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="odd gradeX">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <script>
+                        var oTabl1e;
+                        var giRedraw1 = false;
+
+                        $(document).ready(function() {
+                            $("#table_id1 tbody").click(function(event) {
+                                $(oTable1.fnSettings().aoData).each(function (){
+                                    $(this.nTr).removeClass('row_selected');
+                                });
+                                $(event.target.parentNode).addClass('row_selected');
+                            });
+
+                            /* Add a click handler for the delete row */
+                            $('#delete-section').click( function() {
+
+
+                                var anSelected = fnGetSelected( oTable );
+                                var aData = oTable.fnGetData(anSelected);
+                                /* GET ID FOR AJAX */
+                                var id = aData["id"];
+                                console.log(id);
+                                AJAX.post_noButton(
+                                        "{{ path('admin_shop_section_delete_ajax') }}",
+                                        {
+                                            _admin_section_id : id
+                                        },
+                                        $("#msgbox")
+                                );
+                                /* Delete row */
+                                oTable1.fnDeleteRow( anSelected[0] );
+                            } );
+
+                            /* Add a click handler for the edit row */
+                            $('#edit-section').click( function() {
+                                var anSelected = fnGetSelected( oTable1 );
+                                var aData = oTable1.fnGetData(anSelected);
+                                var url = "{{ path('admin_shop_section') }}/edit/" + aData['id'];
+                                window.location.href = url;
+
+                            } );
+
+                            oTable1 = $('#table_id1').dataTable( {
+                                "bSort": true,
+                                "bFilter": true,
+                                "bProcessing": true,
+                                "bServerSide": true,
+                                "sAjaxSource": "{{ path('admin_shop_section_ajax') }}",
+                                "aoColumns": [
+                                    { "mData": "id" },
+                                    { "mData": "name" },
+                                    { "mData": "description" }
+                                ]
+                            });
+                        });
+
+                        /* Get the rows which are currently selected */
+                        function fnGetSelected( oTableLocal )
+                        {
+                            var aReturn = new Array();
+                            var aTrs = oTableLocal.fnGetNodes();
+
+                            for ( var i=0 ; i<aTrs.length ; i++ )
+                            {
+                                if ( $(aTrs[i]).hasClass('row_selected') )
+                                {
+                                    return (aTrs[i]);
+                                }
+                            }
+
+                        }
+                    </script>
+                </div>
+            </div>
+            <script>
+                $(function() {
+                    $( "#tabs" ).tabs();
+                });
+            </script>
+		</div>
+	</div>
+</div>
+{% endblock middle %}

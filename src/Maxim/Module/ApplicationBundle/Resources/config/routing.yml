@@ -1,0 +1,24 @@
+#application
+application_action:
+  pattern: /application/add
+  defaults: { _controller: MaximModuleApplicationBundle:Application:add }
+application:
+  pattern: /application/{id}-{name}
+  defaults: { _controller: MaximModuleApplicationBundle:Application:view }
+server_pattern:
+  pattern: /server
+application_account:
+  pattern: /account/applications
+  defaults: { _controller: MaximModuleApplicationBundle:Application:account }
+application_reply:
+  pattern: /account/application/reply
+  defaults: { _controller: MaximModuleApplicationBundle:Application:reply }
+application_view:
+  pattern: /account/application/{id}-{name}
+  defaults: { _controller: MaximModuleApplicationBundle:Application:accountView }
+application_view_pattern:
+  pattern: /account/application
+applications_list:
+  pattern: /applications
+  defaults: { _controller: MaximModuleApplicationBundle:Application:list }
+

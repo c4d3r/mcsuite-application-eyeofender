@@ -1,0 +1,95 @@
+{% include 'MaximCMSBundle:Default:head.html.twig' %}
+
+<body>
+	
+	<div id="dvWrapper">
+		<a href="/home"><img src="/bundles/maximcms/images/imgLogo.png" alt="Pvpcubes, Minecraft Server logo" class="FloatLeft Logo"/></a>
+		<ul id="Navigation">
+			{% include 'MaximCMSBundle:Default:navigation.html.twig' %}
+		</ul>
+		<div id="dvSlider">
+			{% include 'MaximCMSBundle:Default:slider.html.twig' %}
+		</div>
+		<div id="dvContent">
+			<div id="Content-Left" class="FloatLeft">
+				<div class="Sidebar-Module">
+					<div class="pnlHeader-Small">
+						<h1 class="color-title">TOPVOTERS</h1>
+					</div>
+					<div class="pnlSidebar-content">
+						<div id="voters_module"><img src="/bundles/maximcms/images/preloader.gif" alt="preloader" /></div>
+						<script>
+							$(document).ready(function()
+							{
+
+								AJAX.load("{{ path('topvoters') }}", $('#voters_module'));
+							});	
+						</script>
+					</div>
+				</div>
+				<div class="pnlShoutbox">
+					<div class="pnlShoutbox-title pnlHeader-Small">
+						<h1 class="color-title">SHOUTBOX</h1>
+					</div>
+					<div id="Shouts">
+						<div id="shouts_module"><img src="/bundles/maximcms/images/preloader.gif" alt="preloader" /></div>
+						<script>
+						$(document).ready(function()
+						{
+							AJAX.load("{{ path('ajax_shoutbox_load') }}", $('#shouts_module'));
+						});
+						</script>
+					</div>
+				</div>
+			</div>
+			<div id="Content-Mid" class="FloatLeft ColumnSpace">
+				<div id="Content-Mid" class="FloatLeft ColumnSpace">
+					<div class="pnlHeader-Large">
+						<h1 class="color-title FloatLeft">pvpcubes - Error</h1>
+					</div>
+					<div class="News-Content">
+						<h1>An error has occured, please refresh the page</h1>
+					</div>
+				</div>
+			</div>
+			<div id="Content-Right" class="FloatLeft ColumnSpace">
+				<div id="dvServerStatus">
+					<div class="ServerRealm">
+						<div class="ServerRealm-Title pnlHeader-Small">
+							<h1 class="color-title">PVPCUBES SERVER DETAILS</h1>
+						</div>
+						<div class="ServerRealm-Content pnlContent-Small">
+							<div id="server">
+								<div id="server_module"><img src="/bundles/maximcms/images/preloader.gif" alt="preloader" /></div>
+								<script>
+								$(document).ready(function()
+								{
+									AJAX.load("{{ path('server_view')}}", $('#server_module'));
+								});	
+								</script>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<a href="/connect" class="btnConnection block" ></a>
+				<a href="/shop" class="btnDownloadClient block" ></a>
+				<a href="/register" class="btnRegistration block" ></a>
+		</div>
+
+	</div>
+	<div id="dvFooter">
+		{% include 'MaximCMSBundle:Default:footer.html.twig' %}
+		
+	</div>
+	<script type="text/javascript">
+	$(document).ready(function(){	
+		$("#dvSlider").easySlider({
+			auto: true,
+			continuous: true 
+		});
+	});
+	</script>
+	
+</body>
+</html>	

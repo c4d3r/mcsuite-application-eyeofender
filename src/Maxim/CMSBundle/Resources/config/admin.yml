@@ -1,0 +1,107 @@
+services:
+    sonata.admin.announcement:
+        class: Maxim\CMSBundle\Admin\AnnouncementAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Announcements" }
+        arguments:
+            - ~
+            - Maxim\CMSBundle\Entity\Announcement
+            - ~
+        calls:
+            - [ setTemplate, [edit, MaximCMSBundle:AdminSonata:edit.html.twig]]
+    sonata.admin.shop:
+        class: Maxim\CMSBundle\Admin\ShopAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Shop items" }
+        arguments:
+            - ~
+            - Maxim\CMSBundle\Entity\Shop
+            - ~
+        calls:
+            - [ setTemplate, [edit, MaximCMSBundle:AdminSonata:edit.html.twig]]
+    sonata.admin.shop_section:
+        class: Maxim\CMSBundle\Admin\ShopSectionAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Shop sections" }
+        arguments:
+            - ~
+            - Maxim\CMSBundle\Entity\Section
+            - ~
+        calls:
+            - [ setTemplate, [edit, MaximCMSBundle:AdminSonata:edit.html.twig]]
+    sonata.admin.server:
+        class: Maxim\CMSBundle\Admin\ServerAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Servers" }
+        arguments:
+            - ~
+            - Maxim\CMSBundle\Entity\Server
+            - ~
+    sonata.admin.vote:
+        class: Maxim\CMSBundle\Admin\VoteAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Vote sites" }
+        arguments:
+            - ~
+            - Maxim\CMSBundle\Entity\Vote
+            - ~
+    sonata.admin.serverips:
+        class: Maxim\CMSBundle\Admin\ServerIpAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Server ips" }
+        arguments:
+            - ~
+            - Maxim\CMSBundle\Entity\ServerIp
+            - ~
+    sonata.admin.nodes:
+        class: Maxim\CMSBundle\Admin\CoreNodeAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Nodes" }
+        arguments:
+            - ~
+            - Maxim\CMSBundle\Entity\CoreNode
+            - ~
+        calls:
+            - [ setTemplate, [edit, MaximCMSBundle:AdminSonata:edit.html.twig]]
+    sonata.admin.forum.category:
+        class: Maxim\Module\ForumBundle\Admin\CategoryAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Forum", label: "Categories" }
+        arguments:
+            - ~
+            - Maxim\Module\ForumBundle\Entity\Category
+            - ~
+        calls:
+            - [ setSecurityContext, [@security.context]]
+            - [ setTemplate, [edit, MaximCMSBundle:AdminSonata:edit.html.twig]]
+    sonata.admin.forum.forum:
+        class: Maxim\Module\ForumBundle\Admin\ForumAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Forum", label: "Forums" }
+        arguments:
+            - ~
+            - Maxim\Module\ForumBundle\Entity\Forum
+            - ~
+        calls:
+            - [ setSecurityContext, [@security.context]]
+            - [ setTemplate, [edit, MaximCMSBundle:AdminSonata:edit.html.twig]]
+    sonata.admin.forum.thread:
+         class: Maxim\Module\ForumBundle\Admin\ThreadAdmin
+         tags:
+            - { name: sonata.admin, manager_type: orm, group: "Forum", label: "Threads" }
+         arguments:
+            - ~
+            - Maxim\Module\ForumBundle\Entity\Thread
+            - ~
+         calls:
+            - [ setSecurityContext, [@security.context]]
+            - [ setDoctrine, [@doctrine.orm.entity_manager]]
+            - [ setTemplate, [edit, MaximCMSBundle:AdminSonata:edit.html.twig]]
+    sonata.admin.forum.post:
+         class: Maxim\Module\ForumBundle\Admin\PostAdmin
+         tags:
+            - { name: sonata.admin, manager_type: orm, group: "Forum", label: "Posts" }
+         arguments:
+            - ~
+            - Maxim\Module\ForumBundle\Entity\Post
+            - ~

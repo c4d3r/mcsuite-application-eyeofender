@@ -1,0 +1,67 @@
+{% extends 'MaximCMSBundle:admin:index.html.twig' %}
+
+{% block middle %}
+    <div id="middle_menu_top">
+        <div class="vertical">
+            <h1>Add Rank</h1>
+        </div>
+    </div>
+    <div id="middle_menu_small">
+        <ul>
+            <li><a href="{{ path('admin_ranks')}}">ranks</a></li>
+            <li><a href="{{ path('admin_ranks_add')}}">edit</a></li>
+            <!--<li><a href="#">test3</a></li>-->
+        </ul>
+    </div>
+    <div id="middle_content">
+        <div class="window">
+            <div class="window-header">
+                <h6>Edit a rank</h6>
+            </div>
+            <div class="window-content">
+                <div id="rank-status" class="alert"></div>
+                <p>Editing rank: {{ rank.name }}</p>
+                <!-- ADD PAGE -->
+                <form action="{{ path('admin_permgroup_edit') }}" id="frmEditPermissions" method="post">
+                    <p>
+                        <select id="permissions" class="multiselect" multiple="multiple" name="permissions[]">
+
+                            {% for application in applications %}
+                                <option value="{{ application.id }}">{{ application.name }}</option>
+                            {% endfor %}
+                            {% for permission in permissions %}
+                                <option value="{{ permission.id }}" selected="selected">{{ permission.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </p>
+                    <input type="hidden" name="_admin_rank_id" id="id" value="{{ rank.id }}" />
+                    <button type="submit" id="btnPermissionsAdd" class="btn">Save permissions</button>
+                </form>
+                </br/>
+            </div>
+            <script>
+                $(document).ready(function(){
+                    $("#permissions").multiselect();
+
+                    $("#frmEditPermissions").submit(function() {
+                        AJAX.post(
+                                $("#frmEditPermissions").attr("action"),
+                                {
+                                    _admin_permissions : $('#permissions').val(),
+                                    _admin_rank : $('#id').val()
+                                },
+                                $("#rank-status"), $('#btnPermissionsAdd'));
+                        return false;
+                    });
+                });
+            </script>
+        </div>
+        <style>
+                /* multiselect styles */
+            .multiselect {
+                width: 460px;
+                height: 200px;
+            }
+        </style>
+    </div>
+{% endblock middle %}

@@ -1,0 +1,85 @@
+{% extends 'MaximCMSBundle:Default:index.html.twig' %}
+
+{% block body %}
+<div class="page">
+	<div class="page-header">
+		<h1>Account profile</h1>
+	</div>
+	<div class="page-content">
+		<div id="AccountProfileStatus" class="status-message"></div>
+		<form id="frmAccountProfile" action="{{ path('account_profile_save')}}" method="post">
+			<table style="width:100%;">
+				<tr>
+					<td>Email:</td>
+					<td>
+						<input type="text" name="_user_email" class="inputbox input-text" id="user_email" placeholder="{{ setting.email }}"/>
+					</td>
+				</tr>
+				<tr>
+					<td>Skype:</td>
+					<td>
+						<input type="text" name="_user_skype" class="inputbox input-text" id="user_skype" placeholder="{{ setting.skype }}"/>
+					</td>
+				</tr>
+				<tr>
+					<td><br/></td>
+				</tr>
+				<tr>
+					<td>Username:</td>
+					<td>
+						<input type="text" name="_user_username" class="inputbox input-text" id="user_username" disabled="disabled"/>
+					</td>
+				</tr>
+				<tr>
+					<td>Location:</td>
+					<td>
+						<img src="images/msdropdown/icons/blank.gif" class="flag {{ setting.location }}" style="border:none" />
+					</td>
+				</tr>
+				<tr>
+					<td>Age:</td>
+					<td>
+						<input type="text" name="_user_age" class="inputbox input-text" id="user_age" placeholder="{{ setting.age }}" disabled="disabled"/>
+					</td>
+				</tr>
+				<tr>
+					<td>Last login:</td>
+					<td>
+						<input type="text" name="_user_lastLogin" class="inputbox input-text" id="user_lastLogin" placeholder="{{ setting.lastLogin|date }}" disabled="disabled"/>
+					</td>
+				</tr>
+				<tr>
+					<td>Last ip:</td>
+					<td>
+						<input type="text" name="_user_lastIp" class="inputbox input-text" id="user_lastIp" placeholder="{{ setting.lastIp }}" disabled="disabled"/>
+					</td>
+				</tr>
+				<td>
+					<td colspan="2">
+						<button type="submit" id="btnSaveProfile" class="btnGreen">SAVE</button>
+					</td>
+				</td>
+			</table>
+		</form>
+	</div>
+</div>
+<script>
+	//listen for the form beeing submitted
+$(document).ready(function(){
+	$("#frmAccountProfile").submit(function() {
+		//get the url for the form
+		AJAX.post((
+			$("#frmAccountProfile").attr("action")), 
+			{ 
+				_user_email : $("#user_email").val(), 
+				_user_skype : $("#user_skype").val()
+			}, 
+			$("#AccountProfileStatus"), 
+			$("#btnSaveProfile")
+			);
+		//we dont what the browser to submit the form
+		return false;
+	});
+})
+</script>
+{% endblock %}

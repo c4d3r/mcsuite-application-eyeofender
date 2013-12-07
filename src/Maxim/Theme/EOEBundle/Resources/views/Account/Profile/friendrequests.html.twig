@@ -1,0 +1,73 @@
+{% extends 'MaximCMSBundle:Default:index.html.twig' %}
+{% block body %}
+    <div class="page">
+        <h3 class="page-header">Friend requests</h3>
+        <div class="page-content">
+            <table class="table table-striped" id="friend-requests">
+                {% for request in frequests %}
+                    <tr id="friendrequest-{{ request.user.id }}">
+                        <td style="vertical-align: middle;">
+                            <img src="http://minotar.net/helm/{{ request.user.username }}/40.png" alt="{{ request.user.username }}"/>
+                            <a href="{{ path('profile', { 'name' : request.user.username }) }}">{{ request.user.username }}</a>
+                        </td>
+                        <td style="width: 210px;">
+                            <button id="approve-user-{{ request.user.username }}" value="{{ request.user.id }}" class="approve-user btn btn-success">Approve</button>
+                            <button id="ignore-user-{{ request.user.username }}" value="{{ request.user.id }}" class="ignore-user btn btn-danger">Ignore</button>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <p>You do not have any pending friend requests</p>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock body %}
+{% block scripttags %}
+
+    <script>
+
+        $('.approve-user').on('click', function(){
+
+            // disable button + set status
+            var originalText = $(this).text();
+            $(this).text('approving...').attr("disabled", "disabled");
+
+            // send ajax
+            AJAX.post_regular("{{ path('profile_friendrequest_approve_ajax') }}", {'_userid' : $(this).val() }, function(status){
+
+                if(status.success == true) {
+                    var container = $('#friendrequest-' + status.userid);
+                    container.find('.approve-user').text("User approved!");
+                    container.fadeOut(3500);
+                } else {
+                    AJAX.notify($('global-messagebox'), status)
+                }
+            });
+
+        });
+
+        $('.ignore-user').on('click', function(){
+
+            // disable button + set status
+            var originalText = $(this).text();
+            $(this).text('ignoring...').attr("disabled", "disabled");
+
+            // send ajax
+            AJAX.post_regular("{{ path('profile_friendrequest_ignore_ajax') }}", {'_userid' : $(this).val() }, function(status){
+
+                if(status.success == true) {
+                    var container = $('#friendrequest-' + status.userid);
+                    container.find('.ignore-user').text("Request ignored!");
+                    container.fadeOut(3500);
+                } else {
+                    AJAX.notify($('global-messagebox'), status.message)
+                }
+            });
+
+        });
+    </script>
+
+
+{% endblock scripttags %}

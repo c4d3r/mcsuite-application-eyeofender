@@ -1,0 +1,25 @@
+{% extends 'MaximCMSBundle:Default:index.html.twig' %}
+
+{% block side %}
+    <!-- VOTING MODULE -->
+    {{ module('Vote', 1, {'server' : server.id}) }}
+{% endblock %}
+{% block body %}
+    <div class="page">
+        <div class="page-header">
+            <h1>Server {{ server.name }}</h1>
+        </div>
+        <div class="page-content">
+            <div class="well">
+                <p>{{ server.description }}</p>
+                <ul>
+                    {% for ip in serverips %}
+                        {% if server.id == ip.server.id %}
+                            <li class="label label-info">{{ ip.ip }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,16 @@
+services:
+    maxim_application.menu_builder:
+        class: Maxim\Module\ApplicationBundle\Menu\MenuBuilder
+        arguments: [@event_dispatcher, @logger, @service_container, @doctrine]
+    page_load_listener:
+         class: Maxim\Module\ApplicationBundle\Listeners\PageLoadListener
+         arguments:
+           security: "@security.context"
+           container: "@service_container"
+         tags:
+           - { name: kernel.event_listener, event: kernel.controller, method: onKernelController, priority: 64 }
+    #module.loader:
+    #     class: Maxim\Module\ApplicationBundle\Routing\RouteLoader
+    #     tags:
+    #       - { name: routing.loader }
+    #     arguments: [@doctrine, @logger]

@@ -1,0 +1,134 @@
+{% extends 'MaximCMSBundle:admin:index.html.twig' %}
+
+{% block middle %}
+<style>
+	table tr.even.row_selected td {
+	background-color: #B0BED9;
+}
+
+table tr.odd.row_selected td {
+	background-color: #9FAFD1;
+}
+</style>
+<div id="middle_menu_top">
+	<div class="vertical">
+		<h1>Pages</h1>
+	</div>
+</div>
+<div id="middle_menu_small">
+	<ul>
+		<li><a href="#">page</a></li>
+		<!--<li><a href="#">test2</a></li>
+		<li><a href="#">test3</a></li>-->
+	</ul>
+</div>
+<div id="middle_content">
+	<div class="window">
+		<div class="window-header">
+			<h6>Add news article</h6>
+		</div>
+		<div class="window-content">
+			<a href="{{ path('admin_page_add') }}" alt="add new page" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">Add new page</a>
+			<button type="button" name="" id="edit-news" value="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">Edit selected page</button>
+			<button type="button" name="" id="delete-page" value="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">Delete selected page</button>
+			<div id="msgbox"></div>
+			<!-- VIEW NEWS POSTS -->
+			<table id="table_id">
+			    <thead>
+			        <tr>
+			            <th>ID</th>
+			            <th>NAME</th>
+			            <th>CONTENT</th>
+			            <th>URL</th>
+			            <th>CREATED ON</th>
+			        </tr>
+			    </thead>
+			    <tbody>
+				    <tr class="odd gradeX">
+			            <td></td>
+			            <td></td>
+			            <td></td>
+			            <td></td>
+			            <td></td>
+			        </tr>
+		        </tbody>
+			</table>	
+			<script>
+			var oTable;
+			var giRedraw = false;
+			
+			$(document).ready(function() {
+   				$("#table_id tbody").click(function(event) {
+					$(oTable.fnSettings().aoData).each(function (){
+						$(this.nTr).removeClass('row_selected');
+					});
+					$(event.target.parentNode).addClass('row_selected');
+				});
+				
+				/* Add a click handler for the delete row */
+				$('#delete-page').click( function() {
+					
+					
+					var anSelected = fnGetSelected( oTable );
+					var aData = oTable.fnGetData(anSelected);
+					/* GET ID FOR AJAX */
+					var id = aData["id"];
+					console.log(id);
+					AJAX.post_noButton(
+						"{{ path('admin_page_delete_ajax') }}", 
+						{
+							_admin_page_id : id
+						}, 
+						$("#msgbox") 
+					);
+					/* Delete row */
+					oTable.fnDeleteRow( anSelected[0] );
+				} );
+				
+				/* Add a click handler for the edit row */
+				$('#edit-news').click( function() {
+					var anSelected = fnGetSelected( oTable );
+					var aData = oTable.fnGetData(anSelected);
+					var url = "{{ path('admin_page') }}/edit/" + aData['id'];
+					window.location.href = url;
+					
+				} );
+				
+				oTable = $('#table_id').dataTable( {
+					"bSort": true,
+                    "bFilter": true,
+					"bProcessing": true,
+					"bServerSide": true,
+					"sAjaxSource": "{{ path('admin_page_ajax') }}",
+					"aoColumns": [
+						{ "mData": "id" },
+				        { "mData": "name" },
+				        { "mData": "content" },
+				        { "mData": "url" },
+				        { "mData": "createdOn" },
+				    ]
+				});
+			});
+			
+			/* Get the rows which are currently selected */
+			function fnGetSelected( oTableLocal )
+			{
+				var aReturn = new Array();
+				var aTrs = oTableLocal.fnGetNodes();
+				
+				for ( var i=0 ; i<aTrs.length ; i++ )
+				{
+					if ( $(aTrs[i]).hasClass('row_selected') )
+					{
+						return (aTrs[i]);
+					}
+				}
+				
+			}
+			</script>
+			</br/>
+
+		</div>
+	</div>
+</div>
+{% endblock middle %}

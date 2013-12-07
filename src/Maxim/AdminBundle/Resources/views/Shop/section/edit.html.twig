@@ -1,0 +1,41 @@
+{% extends 'MaximAdminBundle:Default:index.html.twig' %}
+{% block content %}
+    <div class="container" style="width:100%;">
+        <h1>Edit shop section</h1>
+        <div class="container-content clearfix">
+            <div id="page-status" class="alert"></div>
+            <!-- ADD PAGE -->
+            <form action="{{ path('admin_shop_section_edit_ajax') }}" Onsubmit="" id="frmEditSection" method="post">
+                <p>
+                    <label for="name">Name</label><br/>
+                    <input type="text" name="_admin_section_name" class="inputbox" id="name" value="{{ section.name }}">
+                </p>
+                <p>
+                    <label for="description">Description:</label><br/>
+                    <textarea name="_admin_section_description" cols="20" rows="30" class="inputbox" id="description" >{{ section.description }}</textarea>
+                </p>
+                <button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" id="btnSave">save section</button>
+                <div id="msgbox"></div>
+            </form>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <script>
+        $(document).ready(function(){
+            UI.editor('description');
+
+            $("#frmEditSection").submit(function() {
+
+                for ( instance in CKEDITOR.instances )
+                    CKEDITOR.instances[instance].updateElement();
+
+                AJAX.post($("#frmEditSection").attr("action"), {
+                    _admin_section_id : {{ section.id }},
+                    _admin_section_name : $('#name').val(),
+                    _admin_section_description : $('#description').val()
+                }, $("#msgbox"), $('#btnSave'));
+                return false;
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,120 @@
+{% extends 'MaximCMSBundle:Default:index.html.twig' %}
+
+{% block title %}Register{% endblock title %}
+
+{% block body %}
+    <div class="page">
+        <h1 class="page-header">Register</h1>
+        <div class="page-content">
+            {% if register_verified is defined %}
+                <p>
+                    {{ register_verified.message }}
+                </p>
+            {% else %}
+                <div id="msgboxRegister" class="alert" style="display:none;"></div>
+                <form action="{{ path('ajax_register_action') }}" method="post" id="frmRegister" class="form-horizontal" data-validate="parsley">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="register_username">Username</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="_register_username"
+                                   id="register_username"
+                                   placeholder="enter your username here"
+                                   data-minlength="2"
+                                   data-trigger="focusin focusout"
+                                   required="required">
+                            {#<p class="help-block">A - Z, 0 - 9, equal to your minecraft username</p>#}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="register_password">Password</label>
+                            <input type="password"
+                                   class="form-control"
+                                   name="_register_password"
+                                   id="register_password"
+                                   placeholder="enter your pasword here"
+                                   data-minlength="5"
+                                   required="required"
+                                   data-trigger="focusin focusout">
+                            {#<p class="help-block">Min. 5 characters long</p>#}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confirm_password">Confirm Password</label>
+                            <input type="password" class="form-control"
+                                   name="_register_password_confirm"
+                                   id="confirm_password"
+                                   placeholder="Confirm password"
+                                   data-trigger="focusin focusout"
+                                   data-equalto="#register_password"
+                                   required="required">
+                            {#<p class="help-block">Identical to password field above</p>#}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="register_email">Email</label>
+                            <input type="text" class="form-control"
+                                   name="_register_email"
+                                   id="register_email"
+                                   placeholder="youralias@youremail.com"
+                                   data-type="email"
+                                   data-trigger="focusin focusout"
+                                   required="required">
+                            {#<p class="help-block">Your valid email address</p>#}
+                        </div>
+
+                        {#<div class="form-group">
+                            <label for="register_dateOfBirth">Date of birth</label>
+                            <input type="text" class="form-control datepicker" name="_register_dateOfBirth" id="register_dateOfBirth" data-date-format="yyyy-mm-dd">
+                            <p class="help-block">Date of birth (yyyy-mm-dd)</p>
+                        </div>#}
+                        <div class="form-group clearfix" style="margin-bottom:10px;">
+                            <label for="register_dateOfBirth">Date of birth</label>
+                            <div>
+                                <select name="_register_dob_day" id="register_dob_day" style="width:70px !important;" class="left">
+                                    {% for i in 1..31 %}
+                                        <option value="{{ i }}">{{ i }}</option>
+                                    {% endfor %}
+                                </select>
+                                <select name="_register_dob_month" id="register_dob_month" style="width:70px !important;margin-left:5px;" class="left">
+                                    {% for i in 1..12 %}
+                                        <option value="{{ i }}">{{ i }}</option>
+                                    {% endfor %}
+                                </select>
+                                <select name="_register_dob_year" id="register_dob_year" style="width:100px !important;margin-left:5px;" class="left">
+                                    {% for i in 1920..2013 %}
+                                        <option value="{{ i }}">{{ i }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            {#<input type="text" class="form-control datepicker" name="_register_dateOfBirth" id="register_dateOfBirth" data-date-format="yyyy-mm-dd">#}
+                            {#<p class="help-block">Date of birth (dd-mm-yyyy)</p>#}
+                        </div>
+
+                        <div id="register-minecraft" style="margin-left: 30px;">
+
+                            <div class="form-group">
+                                <label for="register_minecraftuser">Minecraft.net username</label>
+                                <input type="text" class="form-control" name="_register_minecraftuser" id="register_minecraftuser" required="required">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="register_minecraftpass">Minecraft.net password</label>
+                                <input type="password" class="form-control" name="_register_minecraftpass" id="register_minecraftpass" required="required">
+                            </div>
+
+                            <div class="alert-box info radius">
+                                <span>We do <span style="font-weight:bold;">NOT</span> save or use your minecraft.net password!</span>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-default" style="margin-top:5px;" id="btnRegister">Register</button>
+                    </fieldset>
+                </form>
+            {% endif %}
+        </div>
+
+    </div>
+{% endblock body %}

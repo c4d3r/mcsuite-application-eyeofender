@@ -1,0 +1,29 @@
+{% extends 'MaximCMSBundle:Default:index.html.twig' %}
+
+{% block body %}
+    <div class="page">
+        <h3 class="page-header">Profile</h3>
+        <div class="page-content">
+            <ul class="menu menu-clean">
+                <li>
+                    <a href="{{ path('account_change_password') }}"><span>Change Password</span></a>
+                </li>
+                <li>
+                    <a href="{{ path('account_default') }}"><span>Account profile</span></a>
+                </li>
+                <li>
+                    <a href="{{ path('shop') }}"><span>Shop</span></a>
+                </li>
+                <li>
+                    <a href="{{ path('tickets_index') }}"><span>Tickets</span></a>
+                </li>
+                <li>
+                    <a href="{{ path('application_account') }}"><span>Applications</span></a>
+                </li>
+                <li>
+                    <a href="{{ path('shop_purchase_history') }}"><span>Purchase History</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

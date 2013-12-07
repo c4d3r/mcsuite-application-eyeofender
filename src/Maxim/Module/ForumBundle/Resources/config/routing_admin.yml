@@ -1,0 +1,56 @@
+########
+# ADMIN
+########
+admin_forum:
+  pattern: /
+  defaults: { _controller: MaximModuleForumBundle:AdminForum:view }
+
+# view
+forum_admin_categories_view:
+  pattern: /categories/view
+  defaults: { _controller: MaximModuleForumBundle:AdminForum:viewCategories }
+forum_admin_forums_view:
+  pattern: /forums/{categoryid}/view
+  defaults: { _controller: MaximModuleForumBundle:AdminForum:viewForums }
+forum_admin_forums_view_pattern:
+  pattern: /forums/
+
+# list - ajax
+forum_admin_category_list_ajax:
+  pattern: /categories/list/ajax
+  defaults: { _controller: MaximModuleForumBundle:AdminForum:listCategories }
+forum_admin_forum_list_ajax:
+  pattern: /forums/{categoryid}/list/ajax
+  defaults: { _controller: MaximModuleForumBundle:AdminForum:listForums }
+
+# edit - ajax
+forum_admin_category_edit_ajax:
+  pattern: /category/{id}/edit/ajax
+  defaults: { _controller: MaximModuleForumBundle:AdminForum:editCategoryAjax }
+forum_admin_forum_edit_ajax:
+  pattern: /forum/{id}/edit/ajax
+  defaults: { _controller: MaximModuleForumBundle:AdminForum:editForumAjax }
+
+# edit - view
+forum_admin_category_edit_view:
+  pattern: /category/{id}/view
+  defaults: { _controller: MaximModuleForumBundle:AdminForum:editCategory }
+forum_admin_forum_edit_view:
+  pattern: /forum/{id}/view
+  defaults: { _controller: MaximModuleForumBundle:AdminForum:editForum }
+
+# delete - ajax
+forum_admin_category_delete_ajax:
+  pattern: /category/{id}/delete/ajax
+  defaults: { _controller: MaximModuleForumBundle:AdminForum:deleteCategoryAjax }
+forum_admin_forum_delete_ajax:
+  pattern: /forum/{id}/delete/ajax
+  defaults: { _controller: MaximModuleForumBundle:AdminForum:deleteForumAjax }
+
+# add - view
+forum_admin_category_add_view:
+  pattern: /category/add
+  defaults: { _controller: MaximModuleForumBundle:AdminForum:addCategoryView }
+forum_admin_forum_add_view:
+  pattern: /forum/add
+  defaults: { _controller: MaximModuleForumBundle:AdminForum:addForumView }

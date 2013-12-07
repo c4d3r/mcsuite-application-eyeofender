@@ -1,0 +1,30 @@
+{% extends 'SonataAdminBundle:CRUD:edit.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+        output='css'
+        output='themes/themass/css/sonata_admin.css'
+        package='css'
+        '@MaximCMSBundle/Resources/public/plugins/redactor/redactor.css'
+    %}
+        <link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock stylesheets %}
+{% block javascripts %}
+    {{ parent() }}
+
+    {% javascripts
+    '@MaximCMSBundle/Resources/public/plugins/redactor/plugins/fontcolor.js'
+    '@MaximCMSBundle/Resources/public/plugins/redactor/plugins/fontfamily.js'
+    '@MaximCMSBundle/Resources/public/plugins/redactor/plugins/emoticons.js'
+    '@MaximCMSBundle/Resources/public/plugins/redactor/redactor.min.js'
+    '@MaximCMSBundle/Resources/public/js/AJAX.js'
+    '@MaximCMSBundle/Resources/public/js/UI.js'
+    '@MaximCMSBundle/Resources/public/js/redactor_init.js'
+    '@MaximCMSBundle/Resources/public/plugins/JAIL/jail.js'
+    output='themes/themass/js/sonata_admin.js'
+    package='jsApp'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

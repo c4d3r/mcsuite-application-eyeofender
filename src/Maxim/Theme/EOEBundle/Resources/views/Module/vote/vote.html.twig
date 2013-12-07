@@ -1,0 +1,9 @@
+{% if votingsites is defined %}
+    <ul class="menu menu-stacked">
+        {% for site in votingsites %}
+            <li>
+                <a href="{{ site.link }}" class="btn menu-button" target="_blank">{{ site.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

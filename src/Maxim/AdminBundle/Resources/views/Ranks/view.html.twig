@@ -1,0 +1,201 @@
+{% extends 'MaximAdminBundle:Default:index.html.twig' %}
+{% block content %}
+    <div class="container" style="width:100%;">
+        <h1>Rank statistics</h1>
+        <div class="container-content">
+            <p>Adding later</p>
+        </div>
+    </div>
+    <div class="container" style="width:100%;">
+        <h1>Ranks</h1>
+        <div class="container-content clearfix">
+            <div id="ranks-status" class="alert"></div>
+            <div id="tabs">
+                <ul>
+                    <li><a href="#tabs-1">RANKS</a></li>
+                    <li><a href="#tabs-2">GROUP PERMISSIONS</a></li>
+                    <li><a href="#tabs-3">USER PERMISSIONS</a></li>
+                </ul>
+                <div id="tabs-1">
+                    <table id="table_ranks">
+                        <thead>
+                        <tr>
+                            <th style="width:20px;">ID:</th>
+                            <th>NAME:</th>
+                            <th>ROLE:</th>
+                            <th>DESCRIPTION</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="odd gradeX">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td style="overflow:hidden;"></td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <script>
+                        var editor; // use a global for the submit and return data rendering in the examples
+                        var oTable;
+                        var giRedraw = false;
+                        $(document).ready(function() {
+                            // Create the form
+
+                            // Edit record
+                            $('#table_ranks').on('click', 'a.editor_edit', function (e) {
+                                e.preventDefault();
+
+                                //call ajax delete request
+                                var url = '{{ path("admin_ranks_view", {'id': 'region_id'}) }}';
+                                url = url.replace("region_id", this.getAttribute("data-id"));
+
+                                var win=window.open(url, '_blank');
+                                win.focus();
+                            });
+
+                            // Delete a record (without asking a user for confirmation)
+                            $('#table_ranks').on('click', 'a.editor_remove', function (e) {
+                                e.preventDefault();
+
+                                //call ajax delete request
+                                var url = '{{ path("admin_rank_delete_ajax", {'id': 'region_id'}) }}';
+                                url = url.replace("region_id", this.getAttribute("data-id"));
+
+                                AJAX.post_url_datatable(url, $(this).parents('tr')[0], oTable);
+                            });
+
+                            oTable = $('#table_ranks').dataTable( {
+                                "bSort": true,
+                                "bFilter": true,
+                                "bProcessing": true,
+                                "bServerSide": true,
+                                "aoColumnDefs": [
+                                    {
+                                        sDefaultContent: '',
+                                        aTargets: [ '_all' ]
+                                    }
+                                ],
+                                "sAjaxSource": "{{ path('admin_ranks_list') }}",
+                                "aoColumns": [
+                                    { "mData": "id" },
+                                    { "mData": "name" },
+                                    { "mData": "roleName" },
+                                    {   "mData": "description",
+                                        "sClass": "center",
+                                        "mRender": function(data, type, full){
+                                            return data.substring(0, 150) + "...";
+                                        }
+                                    },
+                                    {
+                                        "mData": "id",
+                                        "mRender": function( data, type, row) {    // You can use <img> as well if you want
+                                            return '<a href="#" data-id="' + row["id"] + '" class="editor_edit button-small inline">E</a><a href="#" data-id="' + row["id"] + '" class="editor_remove button-small inline">X</a>';
+                                        }
+                                    }
+                                ]
+                            });
+                        });
+                    </script>
+                </div>
+                <div id="tabs-2">
+                    <!-- VIEW NEWS POSTS -->
+                    <table id="table_section">
+                        <thead>
+                        <tr>
+                            <th style="width:20px;">ID:</th>
+                            <th>NAME:</th>
+                            <th>ROLE:</th>
+                            <th>DESCRIPTION</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="odd gradeX">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td style="overflow:hidden;"></td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <script>
+                        var oTable2;
+                        var giRedraw2 = false;
+
+                        $(document).ready(function() {
+                            // Create the form
+
+                            // Edit record
+                            $('#table_section').on('click', 'a.editor_edit', function (e) {
+                                e.preventDefault();
+
+                                //call ajax delete request
+                                var url = '{{ path("admin_permgroup_edit_view", {'id': 'region_id'}) }}';
+                                url = url.replace("region_id", this.getAttribute("data-id"));
+
+                                var win=window.open(url, '_blank');
+                                win.focus();
+                            });
+
+                            oTable2 = $('#table_section').dataTable( {
+                                "bSort": true,
+                                "bFilter": true,
+                                "bProcessing": true,
+                                "bServerSide": true,
+                                "aoColumnDefs": [
+                                    {
+                                        sDefaultContent: '',
+                                        aTargets: [ '_all' ]
+                                    }
+                                ],
+                                "sAjaxSource": "{{ path('admin_permgroup_list') }}",
+                                "aoColumns": [
+                                    { "mData": "id" },
+                                    { "mData": "name" },
+                                    { "mData": "roleName" },
+                                    {   "mData": "description",
+                                        "sClass": "center",
+                                        "mRender": function(data, type, full){
+                                            return data.substring(0, 150);
+                                        }
+                                    },
+                                    {
+                                        "mData": "id",
+                                        "mRender": function( data, type, row) {    // You can use <img> as well if you want
+                                            return '<a href="#" data-id="' + row["id"] + '" class="editor_edit button-small inline">E</a>';
+                                        }
+                                    }
+                                ]
+                            });
+
+                        });
+                        /* Get the rows which are currently selected */
+                        function fnGetSelected( oTableLocal )
+                        {
+                            var aReturn = new Array();
+                            var aTrs = oTableLocal.fnGetNodes();
+
+                            for ( var i=0 ; i<aTrs.length ; i++ )
+                            {
+                                if ( $(aTrs[i]).hasClass('row_selected') )
+                                {
+                                    return (aTrs[i]);
+                                }
+                            }
+                        }
+                    </script>
+                </div>
+                <div id="tabs-3">
+                    <p>Comming soon</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $('#tabs').tabs();
+    </script>
+{% endblock content %}

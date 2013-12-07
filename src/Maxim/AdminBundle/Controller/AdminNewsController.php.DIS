@@ -1,0 +1,146 @@
+<?php
+/**
+ * Project: MCSuite
+ * File: AdminNewsController.php
+ * User: Maxim
+ * Date: 27/04/13
+ * Time: 17:58
+ */
+
+namespace Maxim\AdminBundle\Controller;
+use Maxim\CMSBundle\Entity\News;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Yaml\Yaml;
+use LanKit\DatatablesBundle\Datatables\DataTable;
+
+class AdminNewsController extends Controller{
+
+    public function newsAction()
+    {
+        return $this->render('MaximAdminBundle:News:index.html.twig', array("error" => NULL));
+    }
+
+    public function newsAddViewAction()
+    {
+        $websites = $this->getDoctrine()->getRepository('MaximCMSBundle:Website')->findAll();
+        $data['websites'] = $websites;
+        return $this->render('MaximAdminBundle:News:add.html.twig', $data);
+    }
+    public function newsAddAction()
+    {
+        $request = $this->getRequest();
+        $em = $this->getDoctrine()->getManager();
+        $news_section = $em->getRepository('MaximCMSBundle:NewsSection')->findOneBy(array("id" => $request->request->get('_admin_news_section')));
+        $website = $em->getRepository('MaximCMSBundle:Website')->findOneBy(array("id" => $request->request->get('_admin_news_website')));
+        $news = new News();
+
+        $news->setDate();
+        $news->setTitle($request->request->get('_admin_news_title'));
+        $news->setContent($request->request->get('_admin_news_content'));
+        $news->setSection($news_section);
+        $news->setWebsite($website);
+
+        $user = $this->get('security.context')->getToken()->getUser();
+        $news->setUser($user);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($news);
+        $em->flush();
+
+        $result = array('success' => true, 'message' => 'News post added');
+
+        return new Response(json_encode($result));
+    }
+
+    public function newsListAction() {
+        $datatable = $this->get('lankit_datatables')->getDatatable('MaximCMSBundle:News');
+
+        // The default type for all joins is inner. Change it to left if desired.
+        $datatable->setDefaultJoinType(Datatable::JOIN_LEFT);
+
+        return $datatable->getSearchResults();
+    }
+
+    public function newsDeleteAction($id)
+    {
+        $request = $this->getRequest();
+        if ($request->isXmlHttpRequest()) {
+            $repository = $this->getDoctrine()->getRepository('MaximCMSBundle:News');
+            $news = $repository->findOneById($id);
+            if($news)
+            {
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($news);
+                $em->flush();
+                $result = array("success" => true, "message" => "news post deleted succesfuly");
+            }
+            else
+            {
+                $result = array("success" => false, "message" => "Error deleting news post");
+            }
+
+            return new Response(json_encode($result));
+        }
+    }
+    public function newsEditViewAction($id) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $websites = $em->getRepository('MaximCMSBundle:Website')->findAll();
+        $data['websites'] = $websites;
+
+        $data['news'] = $em->getRepository('MaximCMSBundle:News')->findOneBy(array("id" => $id));
+        if(!$data['news']) { throw $this->createNotFoundException("Could not find news post with id:" . $id); }
+        return $this->render('MaximAdminBundle:News:edit.html.twig', $data);
+    }
+    public function newsUpdateAction()
+    {
+        $request = $this->getRequest();
+        if ($request->isXmlHttpRequest()) {
+            $repository = $this->getDoctrine()->getRepository('MaximCMSBundle:News');
+            $em = $this->getDoctrine()->getManager();
+
+            $logger = $this->get('logger');
+
+            $news_id 		= $request->request->get('_admin_news_id');
+            $news_title 	= $request->request->get('_admin_news_title');
+            $news_content 	= $request->request->get('_admin_news_content');
+            $news_website   = $em->getRepository('MaximCMSBundle:Website')->findOneBy(array("id" => $request->request->get('_admin_news_website')));
+            $news_section   = $em->getRepository('MaximCMSBundle:NewsSection')->findOneBy(array("id" => $request->request->get('_admin_news_section')));
+            $news = $repository->findOneById($news_id);
+
+            if($news)
+            {
+                $news->setTitle($news_title);
+                $news->setContent($news_content);
+                $news->setSection($news_section);
+                $news->setWebsite($news_website);
+                $em->flush();
+                $result = array("success" => true, "message" => "news post edited succesfully");
+            }
+            else
+            {
+                $result = array("success" => false, "message" => "Error editing news post: News post with id ".$news_id." could not be found");
+            }
+
+            return new Response(json_encode($result));
+        }
+    }
+
+    public function getNewsSectionsJsonAction($websiteid)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $website  = $em->getRepository('MaximCMSBundle:Website')->findOneBy(array("id" => $websiteid));
+        $sections = $em->getRepository('MaximCMSBundle:NewsSection')->findBy(array("website" => $website));
+        $output   = array();
+        foreach($sections as $section) {
+            $output[] = array(
+                "id"            => $section->getId(),
+                "name"          => $section->getName(),
+                "description"   => $section->getDescription(),
+            );
+        }
+        return new Response(json_encode($output));
+    }
+}

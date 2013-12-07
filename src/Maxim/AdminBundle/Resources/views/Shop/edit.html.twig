@@ -1,0 +1,132 @@
+{% extends 'MaximAdminBundle:Default:index.html.twig' %}
+{% block content %}
+    <div class="container" style="width:100%;">
+        <h1>Add page</h1>
+        <div class="container-content clearfix">
+            <div id="shop-status" class="alert"></div>
+            <!-- ADD shop -->
+            <form action="{{ path('admin_shop_ajax_edit') }}" class="form-clean" id="frmEditshop" method="post">
+                <p>
+                    <label for="name">Name</label><br/>
+                    <input type="text" name="_admin_shop_name" class="inputbox" id="name" value="{{ shop.name|raw }}">
+                </p>
+                <p>
+                    <label for="amount">Amount</label><br/>
+                    <input type="text" name="_admin_shop_amount" class="inputbox" id="amount" value="{{ shop.amount }}">
+                </p>
+                <p>
+                    <label for="command">Command</label><br/>
+                    <input type="text" name="_admin_shop_command" class="inputbox" id="command" value="{{ shop.command|raw }}">
+                </p>
+                <p>
+                    <label for="reduction">Reduction</label><br/>
+                    <input type="text" name="_admin_shop_reduction" class="inputbox" id="reduction" value="{{ shop.reduction|raw }}">
+                </p>
+                <p>
+                    <label for="image">Image</label><br/>
+                    <input type="text" name="_admin_shop_image" class="inputbox" id="image" value="{{ shop.image|raw }}">
+                </p>
+                <p>
+                    <label for="priority">Priority</label><br/>
+                    <input type="text" name="_admin_shop_priority" class="inputbox" id="priority" value="{{ shop.priority }}">
+                </p>
+                <p>
+                    <select name="_admin_shop_website" id="admin_shop_website" class="selectable" value="Website" data-validate-options="selectable">
+                        <option value="">Choose a website</option>
+                        {% for website in websites %}
+                            {% if website.id == shop.website.id %}
+                                <option selected="selected" value="{{ website.id }}">{{ website.name }}</option>
+                            {% else %}
+                                <option value="{{ website.id }}">{{ website.name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </p>
+
+                <div id="shop_add_servers_panel" style="display:none;">
+                    <p>
+                        <select id="shop_servers"></select>
+                    </p>
+                    <p>
+                        <select name="_admin_shop_section" id="section" class="selectable" value="Section">
+                            <option>choose a section</option>
+                            {% for section in sections %}
+                                {% if section.id == shop.section.id %}
+                                    <option selected="selected" value="{{ section.id }}">{{ section.name }}</option>
+                                {% else %}
+                                    <option value="{{ section.id }}">{{ section.name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </p>
+                </div>
+                <p>
+                    <span class="checkbox-custom-1-span">Visibility:</span>
+                    <div class="checkbox-custom-1">
+                        <input type="checkbox" id="visible" name="check" checked="{{ shop.visible == 1 }}"/>
+                        <label for="visible"></label>
+                    </div>
+                </p>
+
+                <p>
+                    <label for="description">Description:</label><br/>
+                    <textarea name="_admin_shop_description" cols="20" rows="30" class="inputbox" id="description" >{{ shop.description }}</textarea>
+                </p>
+                <button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" id="btnshopSave">save item</button>
+
+            </form>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <script>
+        $(document).ready(function(){
+            UI.editor('description');
+
+            //For choosing website and corresponding servers
+            $('#admin_shop_website').change(function(){
+
+                $('#shop_servers').html('');
+
+                $.getJSON("{{ path('admin_get_servers_pattern') }}" + $('#admin_shop_website').val(), function(result) {
+                    for (var i = 0; i < result.length; i++) {
+                        $('#shop_servers').append(new Option(result[i].name, result[i].id));
+                    }
+                });
+
+                $('#shop_add_servers_panel').slideDown();
+            });
+
+            $.getJSON("{{ path('admin_get_servers_pattern') }}" + $('#admin_shop_website').val(), function(result) {
+                for (var i = 0; i < result.length; i++) {
+                    $('#shop_servers').append(new Option(result[i].name, result[i].id));
+                }
+                $('#shop_add_servers_panel').show();
+                {% if shop.server is defined %}
+                    $('#shop_servers').val("{{ shop.server.id }}");
+                {% endif %}
+            });
+
+            $("#frmEditshop").submit(function() {
+
+                for ( instance in CKEDITOR.instances )
+                    CKEDITOR.instances[instance].updateElement();
+
+                AJAX.post($("#frmEditshop").attr("action"), {
+                    _admin_shop_id : {{ shop.id }},
+                    _admin_shop_name : $('#name').val(),
+                    _admin_shop_description : $('#description').val(),
+                    _admin_shop_amount : $('#amount').val(),
+                    _admin_shop_visible : $('#visible').is(':checked'),
+                    _admin_shop_command : $('#command').val(),
+                    _admin_shop_image : $('#image').val(),
+                    _admin_shop_reduction : $('#reduction').val(),
+                    _admin_shop_section : $('#section').val(),
+                    _admin_shop_server : $("#shop_servers").val(),
+                    _admin_shop_priority : $("#priority").val(),
+                    _admin_shop_website : $('#admin_shop_website').val()
+                }, $("#shop-status"), $('#btnshopSave'));
+                return false;
+            });
+        });
+    </script>
+{% endblock %}

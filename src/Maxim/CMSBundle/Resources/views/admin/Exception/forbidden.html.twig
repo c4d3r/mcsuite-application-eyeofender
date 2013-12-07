@@ -1,0 +1,20 @@
+{% extends 'MaximCMSBundle:admin:index.html.twig' %}
+
+{% block middle %}
+    <div id="middle_menu_top">
+        <div class="vertical">
+            <h1>Forbidden</h1>
+        </div>
+    </div>
+    <div id="middle_content">
+        <div class="window">
+            <div class="window-header">
+                <h6>Access Forbidden</h6>
+            </div>
+            <div class="window-content">
+                <p>You do not have access to this feature.</p>
+                <p>Roles: {% for role in app.user.roles %}{{ role.name }} [{{ role.role }}]{% if not loop.last %}, {% endif %}{% endfor %}</p>
+            </div>
+        </div>
+    </div>
+{% endblock middle %}

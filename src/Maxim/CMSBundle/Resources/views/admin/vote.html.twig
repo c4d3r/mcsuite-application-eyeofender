@@ -1,0 +1,297 @@
+{% extends 'MaximCMSBundle:admin:index.html.twig' %}
+
+{% block middle %}
+<style>
+	table tr.even.row_selected td {
+	background-color: #B0BED9;
+}
+
+table tr.odd.row_selected td {
+	background-color: #9FAFD1;
+}
+</style>
+<div id="middle_menu_top">
+	<div class="vertical">
+		<h1>Vote</h1>
+	</div>
+</div>
+<div id="middle_menu_small">
+	<ul>
+		<li><a href="#">Vote</a></li>
+		<!--<li><a href="#">test2</a></li>
+		<li><a href="#">test3</a></li>-->
+	</ul>
+</div>
+<div id="middle_content">
+	<div class="window">
+		<div class="window-header">
+			<h6>Add Vote</h6>
+		</div>
+		<div class="window-content">
+            <div id="vote-status" class="alert"></div>
+			<button type="button" name="" id="create-vote" value="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">Add vote</button>
+			<button type="button" name="" id="edit-vote" value="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">Edit vote</button>
+			<button type="button" name="" id="delete-vote" value="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">Delete vote</button>
+			<!-- VIEW NEWS POSTS -->
+			<table id="table_id">
+			    <thead>
+			        <tr>
+			            <th>ID</th>
+			            <th>NAME</th>
+			            <th>LINK</th>
+			            <th>IMAGE</th>
+			            <th>RESET</th>
+			            <th>WEBSITE</th>
+			            <th>VOTIFIER</th>
+                        <th>SERVER</th>
+			        </tr>
+			    </thead>
+			    <tbody>
+				    <tr class="odd gradeX">
+			            <td></td>
+			            <td></td>
+			            <td></td>
+			            <td></td>
+			            <td></td>
+			            <td></td>
+			            <td></td>
+                        <td></td>
+			        </tr>
+		        </tbody>
+			</table>	
+			<script>
+			var oTable;
+			var giRedraw = false;
+			
+			$(document).ready(function() {
+   				$("#table_id tbody").click(function(event) {
+					$(oTable.fnSettings().aoData).each(function (){
+						$(this.nTr).removeClass('row_selected');
+					});
+					$(event.target.parentNode).addClass('row_selected');
+				});
+				
+				/* Add a click handler for the delete row */
+				$('#delete-vote').click( function() {
+					
+					
+					var anSelected = fnGetSelected( oTable );
+					var aData = oTable.fnGetData(anSelected);
+					/* GET ID FOR AJAX */
+					var id = aData["id"];
+					AJAX.post_noButton(
+						"{{ path('admin_vote_delete_ajax') }}", 
+						{
+							_admin_vote_id : id
+						}, 
+						$("#vote-status")
+					);
+					/* Delete row */
+					oTable.fnDeleteRow( anSelected[0] );
+				} );
+				
+				/* Add a click handler for the edit row */
+				$('#edit-vote').click( function() {
+					var anSelected = fnGetSelected( oTable );
+					var aData = oTable.fnGetData(anSelected);
+					console.log(aData);
+					$('#admin_vote_id_hdn').val(aData["id"]);
+					$('#dialog-form-update #edit-name').val(aData["name"]);
+			    	$('#dialog-form-update #edit-link').val(aData["link"]);
+			    	$('#dialog-form-update #edit-image').val(aData["image"]);
+			    	$('#dialog-form-update #edit-reset').val(aData["reset"]);
+			    	$('#dialog-form-update #edit-website').val(aData["website"]);
+			    	$('#dialog-form-update #edit-votifier').val(aData["votifier"]);
+				} );
+				
+				oTable = $('#table_id').dataTable( {
+					"bSort": true,
+                    "bFilter": true,
+					"bProcessing": true,
+					"bServerSide": true,
+					"sAjaxSource": "{{ path('admin_vote_ajax') }}",
+					"aoColumns": [
+						{ "mData": "id" },
+				        { "mData": "name" },
+				        { "mData": "link" },
+				        { "mData": "image" },
+				        { "mData": "reset" },
+				        { "mData": "website" },
+				        { "mData": "votifier" },
+                        { "mData": "server.name"}
+				    ]
+				});
+			});
+			
+			/* Get the rows which are currently selected */
+			function fnGetSelected( oTableLocal )
+			{
+				var aReturn = new Array();
+				var aTrs = oTableLocal.fnGetNodes();
+				
+				for ( var i=0 ; i<aTrs.length ; i++ )
+				{
+					if ( $(aTrs[i]).hasClass('row_selected') )
+					{
+						return (aTrs[i]);
+					}
+				}
+				
+			}
+			</script>
+			<!-- ADD USER -->
+			<div id="dialog-form" title="Create new vote link">
+			    <form action="{{ path('admin_vote_add') }}" id="frmAddVote" method="post">
+			       <p>
+			       		<label for="name">Name</label><br/>
+			       		<input type="text" name="_admin_vote_name" class="inputbox" id="name" >
+			       </p>
+			       <p>
+			       		<label for="name">Link</label><br/>
+			       		<input type="text" name="_admin_vote_link" class="inputbox" id="link" >
+			       </p>
+			       <p>
+			       		<label for="name">Image</label><br/>
+			       		<input type="text" name="_admin_vote_image" class="inputbox" id="image" >
+			       </p>
+			       <p>
+			       		<label for="name">reset</label><br/>
+			       		<input type="text" name="_admin_vote_reset" class="inputbox" id="reset" >
+			       </p>
+			       <p>
+			       		<label for="name">website</label><br/>
+			       		<input type="text" name="_admin_vote_website" class="inputbox" id="website" >
+			       </p>
+			       <p>
+			       		<label for="name">votifier</label><br/>
+			       		<input type="text" name="_admin_vote_votifier" class="inputbox" id="votifier" >
+			       </p>
+                    <p>
+                        <label for="server">Server</label>
+                        {{ render(controller('MaximAdminBundle:Admin:widget', {'widget' : 'server'})) }}
+                    </p>
+
+			    </form>
+			</div>	
+			<div id="dialog-form-update" title="Edit Vote link">
+			    <form action="{{ path('admin_vote_update_ajax') }}" id="frmEditVote" method="post">
+			       <p>
+			       		<label for="name">Name</label><br/>
+			       		<input type="text" name="_admin_vote_name" class="inputbox" id="edit-name" >
+			       </p>
+			       <p>
+			       		<label for="name">Link</label><br/>
+			       		<input type="text" name="_admin_vote_link" class="inputbox" id="edit-link" >
+			       </p>
+			       <p>
+			       		<label for="name">Image</label><br/>
+			       		<input type="text" name="_admin_vote_image" class="inputbox" id="edit-image" >
+			       </p>
+			       <p>
+			       		<label for="name">reset</label><br/>
+			       		<input type="text" name="_admin_vote_reset" class="inputbox" id="edit-reset" >
+			       </p>
+			       <p>
+			       		<label for="name">website</label><br/>
+			       		<input type="text" name="_admin_vote_website" class="inputbox" id="edit-website" >
+			       </p>
+			       <p>
+			       		<label for="name">votifier</label><br/>
+			       		<input type="text" name="_admin_vote_votifier" class="inputbox" id="edit-votifier" >
+			       </p>
+                    <p>
+                        <label for="server">Server</label>
+                        {{ render(controller('MaximAdminBundle:Admin:widget', {'widget' : 'server'})) }}
+                    </p>
+			        <input type="hidden" name="_admin_vote_id" value="" id="admin_vote_id_hdn"/>
+			    </form>
+			</div>	
+			<script>
+			 	$(function(id) {
+			 		$( "#dialog-form" ).dialog({
+			         	height: 400,
+			         	width: 500,
+			          	modal: true,
+			           	autoOpen: false,
+			           	buttons: {
+			           		"Create vote": function(){
+								//get the url for the form
+								AJAX.post_noButton(
+									$("#frmAddVote").attr("action"), 
+									{
+										_admin_vote_name : $("#name").val(),
+										_admin_vote_link : $("#link").val(),
+										_admin_vote_image : $("#image").val(),
+										_admin_vote_reset : $("#reset").val(),
+										_admin_vote_website : $("#website").val(),
+										_admin_vote_votifier : $("#votifier").val(),
+                                        _admin_vote_server : $("#dialog-form #widget_server").val()
+									}, 
+									$("#vote-status")
+								);
+									
+			           		},
+			           		Cancel: function(){
+			           			$(this).dialog("close");
+			           		},
+			           		close: function(){
+			           			$(this).dialog("close");
+			           		}
+			           	}
+			        });
+			 		$('#create-vote').button().click(function(){
+			 			$('#dialog-form').dialog("open");
+			 		});
+			       
+			    });
+			    
+			    $(function(id) {
+			 		$( "#dialog-form-update").dialog({
+			         	height: 400,
+			         	width: 500,
+			          	modal: true,
+			           	autoOpen: false,
+			           	buttons: {
+			           		"Edit Vote": function(){
+								//get the url for the form
+                                console.log('testttt: ' + $("#dialog-form-update #widget_server").val());
+								AJAX.post_noButton(
+									$("#frmEditVote").attr("action"), 
+									{
+
+										_admin_vote_id : $('#admin_vote_id_hdn').val(),		
+										_admin_vote_name : $("#edit-name").val(),
+										_admin_vote_link : $("#edit-link").val(),
+										_admin_vote_image : $("#edit-image").val(),
+										_admin_vote_reset : $("#edit-reset").val(),
+										_admin_vote_website : $("#edit-website").val(),
+										_admin_vote_votifier : $("#edit-votifier").val(),
+                                        _admin_vote_server : $("#dialog-form-update #widget_server").val()
+									}, 
+									$("#vote-status")
+									);
+									
+			           		},
+			           		Cancel: function(){
+			           			$(this).dialog("close");
+			           		},
+			           		close: function(){
+			           			$(this).dialog("close");
+			           		}
+			           	}
+			        });
+			 		$('#edit-vote').button().click(function(){
+			 			$('#dialog-form-update').dialog("open");
+			 		});
+			       
+			    });
+			</script>	
+			</br/>
+			{% if error %}
+			    <div>{{ error.message }}</div>
+			{% endif %}
+			<br/><br/><br/>
+		</div>
+	</div>
+</div>
+{% endblock middle %}

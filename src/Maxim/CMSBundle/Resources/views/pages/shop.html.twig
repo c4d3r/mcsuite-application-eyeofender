@@ -1,0 +1,47 @@
+{% extends 'MaximCMSBundle:Default:index.html.twig' %}
+{% block body %}
+	
+<div class="page">
+	<div class="page-header">
+		<h1>Shop</h1>
+	</div>
+	<div class="page-content">
+	<div id="shop">
+			<form action="{{ path('shop_step2') }}" method="post" class="frmShop">
+				{% for item in items %}
+				<div class="shop-item">
+					<img src="{{ asset('bundles/maximcms/' ~ item.image) }}" class="shop-item-image" alt="imgShop" />
+					<div class="shop-item-description">
+						
+						<div class="shop-item-detail">
+							<span class="shop-item-color">{{ item.name }}</span>
+							<span class="shop-item-price">{{ item.amount }} {{ config.currency }}</span>
+						</div>
+	
+						<div class="shop-item-purchase">
+							<a href="javascript:void(0);" onClick="showDescription({{ item.id }})" name="modal" class="shop-info-button">More Info</a>
+							<button type="submit" value="{{ item.id }}" class="shop-buy-button" name="_btnBuy">Buy</button>
+						</div>
+		
+					</div>
+			
+					<div class="shop-item-info" id="item_{{ item.id }}">
+						<p>{{ item.description|raw }}</p>
+					</div>
+					<div class="clear-both"></div>
+				</div>
+				{% else %}
+				<p>No items found</p>
+				{% endfor %}
+			</form>
+		</div>
+	</div>
+</div>
+<script>
+	function showDescription(id)
+	{
+		var element = $("#item_" + id);
+		$(element).slideToggle();
+	}
+</script>
+{% endblock %}

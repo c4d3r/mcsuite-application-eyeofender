@@ -1,0 +1,27 @@
+{% extends 'MaximCMSBundle:Default:index.html.twig' %}
+
+{% block body %}
+
+<div class="page">
+	<div class="page-header">
+		<h1>Login</h1>
+	</div>
+	<div class="page-content">
+		
+		<form action="{{ path('login_check') }}" method="post" id="frmLogin" style="display:block;">
+			<fieldset>
+				<input type="text" name="_login_username" id="login_username"/>
+				<input type="password" name="_login_password" id="login_password" />
+				<div class="login-links">
+					<a href="{{ path('account_forgot_password')}}">Retrieve password</a>
+					<a href="{{ path('register')}}">New registration</a>
+				</div>
+				<button type="submit" class="login-button" >
+					LOGIN
+				</button>
+			</fieldset>
+		</form>
+	</div>
+</div>
+
+{% endblock %}

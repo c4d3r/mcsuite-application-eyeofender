@@ -1,0 +1,58 @@
+{% extends 'MaximCMSBundle:admin:index.html.twig' %}
+
+{% block middle %}
+
+    <div id="middle_menu_top">
+        <div class="vertical">
+            <h1>File editor</h1>
+        </div>
+    </div>
+    <div id="middle_menu_small">
+        <ul>
+            <li><a href="#">File</a></li>
+            <!--<li><a href="#">test2</a></li>
+            <li><a href="#">test3</a></li>-->
+        </ul>
+    </div>
+    <div id="middle_content">
+        <div class="window">
+            <div class="window-header">
+                <h6>Edit file</h6>
+            </div>
+            <div class="window-content">
+                <form action="{{ path('admin_edit_save', { file: file}) }}" id="frmEditFile" method="post">
+                    <textarea id="FileEditorText" name="_admin_file_content">{{ content }}</textarea>
+                    <br/>
+                    <button type="submit" id="file_save" name="_file_save">Save file</button>
+                </form>
+
+            </div>
+        </div>
+        <div id="msgbox"></div>
+    </div>
+	
+	<script src="{{ asset('bundles/maximcms/plugins/codemirror/codemirror.js') }}" type="text/javascript" ></script>
+    {%  if format != false %}
+    <script src="{{ asset('bundles/maximcms/plugins/codemirror/mode/' ~ format ~ '/'  ~ format ~ '.js') }}" type="text/javascript" ></script>
+    
+    {%  endif %}
+    <script>
+        $(function() {
+            var editor = CodeMirror.fromTextArea(document.getElementById("FileEditorText"), {
+                lineNumbers: true,
+                lineWrapping: true
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
+
+            $("#frmEditFile").submit(function() {
+                AJAX.post($("#frmEditFile").attr("action"), {
+                    _admin_file_content : $('#FileEditorText').val()
+                }, $("#msgbox"), $('#file_save'));
+                return false;
+            });
+        });
+    </script>
+{% endblock middle %}

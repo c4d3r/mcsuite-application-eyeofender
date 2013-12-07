@@ -1,0 +1,41 @@
+{% extends 'MaximModuleForumBundle:Default:index.html.twig' %}
+
+{% block body %}
+    <div class="page">
+        <h3 class="page-header">Create a thread for {{ forum.title }}</h3>
+        <div class="page-content">
+            <div id="status-thread" class="alert"></div>
+            <form action="{{ path('forum_thread_create_ajax', {'id' : forum.id}) }}" method="post" id="form_create_thread" class="form-horizontal" role="form">
+                <fieldset>
+                    <div class="form-group">
+                        <label for="thread_title">Thread title</label>
+                        <input type="text" class="form-control" id="thread_title" placeholder="Enter a thread title">
+                    </div>
+                    <div class="form-group">
+                        <label for="thread_description">Thread Description</label>
+                        <textarea id="thread_description" placeholder="Thread description" class="redactor-init"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-default" style="margin-top:5px;" id="btnCreateThread">Create thread</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block scripttags %}
+<script>
+    $('#form_create_thread').submit(function(e) {
+        e.preventDefault();
+
+        AJAX.post(
+                $("#form_create_thread").attr("action"),
+                {
+                    _forumid : {{ forum.id }},
+                    _thread_text : $("#thread_description").val(),
+                    _thread_title : $('#thread_title').val()
+                },
+                $("#status-thread"),
+                $('#btnCreateThread')
+        );
+    });
+</script>
+{% endblock scripttags%}

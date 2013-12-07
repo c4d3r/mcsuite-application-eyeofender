@@ -1,0 +1,301 @@
+#-------
+# ADMIN
+#-------
+admin:
+  pattern: /admin
+  defaults: { _controller: MaximAdminBundle:Admin:index }
+admin_pattern:
+  pattern: /admin
+admin_edit:
+  pattern: /admin/edit/{file}
+  defaults: { _controller: MaximAdminBundle:Admin:edit }
+  requirements:
+     file: ".+"
+admin_export:
+   pattern: /admin/export
+   defaults: { _controller: MaximAdminBundle:Admin:export }
+admin_edit_save:
+  pattern: /admin/file/save/{file}
+  defaults: { _controller: MaximAdminBundle:Admin:save }
+  requirements:
+    file: ".+"
+admin_mail:
+  pattern: /admin/mail
+  defaults: { _controller: MaximAdminBundle:Admin:mail }
+admin_email_send:
+  pattern: /admin/mail/send
+  defaults: { _controller: MaximAdminBundle:Admin:mailSend }
+
+#news
+#admin_news:
+#  pattern: /admin/news
+#  defaults: { _controller: MaximAdminBundle:AdminNews:news }
+#admin_news_ajax:
+#  pattern: /admin/news/ajax
+#  defaults: { _controller: MaximAdminBundle:AdminNews:newsList }
+#admin_news_add:
+#  pattern: /admin/news/add/ajax
+#  defaults: { _controller: MaximAdminBundle:AdminNews:newsAdd}
+#  requirements:
+#    _method: POST
+#admin_news_add_view:
+#  pattern: /admin/news/add
+#  defaults: { _controller: MaximAdminBundle:AdminNews:newsAddView }
+#admin_news_update_ajax:
+#  pattern: /admin/news/update/ajax
+#  defaults: { _controller: MaximAdminBundle:AdminNews:newsUpdate}
+#  requirements:
+#    _method: POST
+#admin_news_delete_ajax:
+#  pattern: /admin/news/delete/{id}
+#  defaults: { _controller: MaximAdminBundle:AdminNews:newsDelete}
+#  requirements:
+#    _method: POST
+#admin_news_edit_view:
+#  pattern: /admin/news/edit/{id}
+#  defaults: { _controller: MaximAdminBundle:AdminNews:newsEditView }
+#admin_get_news_sections_pattern:
+#  pattern: /admin/news/sections/get/
+#admin_get_news_sections:
+#  pattern: /admin/news/sections/get/{websiteid}
+#  defaults: { _controller: MaximAdminBundle:AdminNews:getNewsSectionsJson }
+
+#users
+admin_user:
+  pattern: /admin/users
+  defaults: { _controller: MaximAdminBundle:AdminUser:user }
+admin_user_ajax:
+  pattern: /admin/users/ajax
+  defaults: { _controller: MaximAdminBundle:AdminUser:userList }
+admin_user_add:
+  pattern: /admin/users/add
+  defaults: { _controller: MaximAdminBundle:AdminUser:userAdd}
+  requirements:
+    _method: POST
+admin_user_edit:
+  pattern: /admin/users/view/{userid}
+  defaults: { _controller: MaximAdminBundle:AdminUser:viewUser }
+admin_user_update_ajax:
+  pattern: /admin/users/update/ajax
+  defaults: { _controller: MaximAdminBundle:AdminUser:userUpdate}
+  requirements:
+    _method: POST
+admin_user_delete_ajax:
+  pattern: /admin/users/delete/{userid}/ajax
+  defaults: { _controller: MaximAdminBundle:AdminUser:userDelete}
+  requirements:
+    _method: POST
+admin_ban_user:
+  pattern: /admin/ban
+  defaults: { _controller: MaximAdminBundle:AdminUser:userBan }
+admin_unban_user:
+  pattern: /admin/unban
+  defaults: { _controller: MaximAdminBundle:AdminUser:userUnban }
+
+#ranks
+admin_ranks:
+  pattern: /admin/ranks
+  defaults: { _controller: MaximAdminBundle:AdminRank:listView }
+admin_ranks_list:
+  pattern: /admin/ranks/list
+  defaults: { _controller: MaximAdminBundle:AdminRank:list }
+admin_ranks_add:
+  pattern: /admin/ranks/add
+  defaults: { _controller: MaximAdminBundle:AdminRank:addView }
+admin_ranks_view_pattern:
+  pattern: /admin/ranks
+admin_ranks_view:
+  pattern: /admin/ranks/{id}
+  defaults: { _controller: MaximAdminBundle:AdminRank:view }
+admin_rank_delete_ajax:
+  pattern: /admin/ranks/delete/{id]/ajax
+  defaults: { _controller: MaximAdminBundle:AdminRank:delete }
+admin_ranks_add_ajax:
+  pattern: /admin/ranks/add/ajax
+  defaults: { _controller: MaximAdminBundle:AdminRank:add }
+admin_ranks_edit_ajax:
+  pattern: /admin/ranks/edit/ajax
+  defaults: { _controller: MaximAdminBundle:AdminRank:edit }
+
+#permissions
+admin_permgroup_edit_view:
+  pattern: /admin/permissions/group/edit/{id}
+  defaults: { _controller: MaximAdminBundle:AdminGroupPermissions:edit }
+admin_permgroup_edit_pattern:
+  pattern: /admin/permissions/group/edit
+admin_permgroup_edit:
+  pattern: /admin/permissions/group/save
+  defaults: { _controller: MaximAdminBundle:AdminGroupPermissions:save }
+admin_permgroup_list:
+  pattern: /admin/permissions/group/list/ajax
+  defaults: { _controller: MaximAdminBundle:AdminGroupPermissions:list }
+
+#vote links
+admin_vote:
+  pattern: /admin/vote
+  defaults: { _controller: MaximAdminBundle:AdminVote:vote }
+admin_vote_ajax:
+  pattern: /admin/vote/ajax
+  defaults: { _controller: MaximAdminBundle:AdminVote:voteList }
+admin_vote_add:
+  pattern: /admin/vote/add
+  defaults: { _controller: MaximAdminBundle:AdminVote:voteAdd}
+  requirements:
+    _method: POST
+admin_vote_update_ajax:
+  pattern: /admin/vote/update/ajax
+  defaults: { _controller: MaximAdminBundle:AdminVote:voteUpdate}
+  requirements:
+    _method: POST
+admin_vote_delete_ajax:
+  pattern: /admin/vote/delete/ajax
+  defaults: { _controller: MaximAdminBundle:AdminVote:voteDelete}
+  requirements:
+    _method: POST
+#visitors
+admin_visitors:
+  pattern: /admin/visitors
+  defaults: { _controller: MaximAdminBundle:Admin:visitors }
+#pages
+admin_page_add:
+  pattern: /admin/page/add
+  defaults: { _controller: MaximAdminBundle:AdminPage:pageAddView }
+admin_page:
+  pattern: /admin/page
+  defaults: { _controller: MaximAdminBundle:AdminPage:page }
+admin_page_ajax:
+  pattern: /admin/page/ajax
+  defaults: { _controller: MaximAdminBundle:AdminPage:pageList }
+admin_page_add_ajax:
+  pattern: /admin/page/add/ajax
+  defaults: { _controller: MaximAdminBundle:AdminPage:pageAdd }
+admin_page_edit_ajax:
+  pattern: /admin/page/edit/ajax
+  defaults: { _controller: MaximAdminBundle:AdminPage:pageEditAjax }
+admin_page_delete_ajax:
+  pattern: /admin/page/delete/{id}/ajax
+  defaults: { _controller: MaximAdminBundle:AdminPage:pageDelete }
+admin_page_edit:
+  pattern: /admin/page/edit/{id}
+  defaults: { _controller: MaximAdminBundle:AdminPage:pageEdit }
+#poll
+admin_poll:
+  pattern: /admin/poll
+  defaults: { _controller: MaximAdminBundle:AdminPoll:poll }
+admin_poll_add_ajax:
+  pattern: /admin/poll/add/ajax
+  defaults: { _controller: MaximAdminBundle:AdminPoll:pollAdd }
+admin_poll_save_ajax:
+  pattern: /admin/poll/save/ajax
+  defaults: { _controller: MaximAdminBundle:AdminPoll:pollSave }
+#purchases
+admin_purchase:
+  pattern: /admin/purchase
+  defaults: { _controller: MaximAdminBundle:AdminPurchase:purchase }
+admin_purchase_plot_json:
+  pattern: /admin/purchase/plot/json
+  defaults: { _controller: MaximAdminBundle:AdminPurchase:purchaseJson }
+
+#modules
+admin_module_disable:
+  pattern: /admin/module/disable
+  defaults: { _controller: MaximAdminBundle:Ajax:moduleActive }
+
+
+# MODULES
+
+#shop
+admin_shop:
+  pattern: /admin/shop
+  defaults: { _controller: MaximAdminBundle:AdminShop:shop }
+admin_shop_add:
+  pattern: /admin/shop/add
+  defaults: { _controller: MaximAdminBundle:AdminShop:shopAddView }
+admin_shop_edit:
+  pattern: /admin/shop/edit/{id}
+  defaults: { _controller: MaximAdminBundle:AdminShop:shopEditView }
+
+
+admin_shop_ajax_add:
+  pattern: /admin/shop/ajax/add
+  defaults: { _controller: MaximAdminBundle:AdminShop:shopAdd }
+admin_shop_ajax_edit:
+  pattern: /admin/shop/ajax/edit
+  defaults: { _controller: MaximAdminBundle:AdminShop:shopEdit }
+admin_shop_ajax_delete:
+  pattern: /admin/shop/delete/{id}/ajax
+  defaults: { _controller: MaximAdminBundle:AdminShop:shopDelete }
+admin_shop_ajax:
+  pattern: /admin/shop/ajax
+  defaults: { _controller: MaximAdminBundle:AdminShop:shopList }
+
+# shop sections
+admin_shop_section:
+  pattern: /admin/shop/section
+admin_shop_section_add:
+  pattern: /admin/shop/section/add
+  defaults: { _controller: MaximAdminBundle:AdminShop:shopSectionAddView }
+admin_shop_section_edit:
+  pattern: /admin/shop/section/edit/{id}
+  defaults: { _controller: MaximAdminBundle:AdminShop:shopSectionEditView }
+admin_shop_section_add_ajax:
+  pattern: /admin/shop/section/ajax/add
+  defaults: { _controller: MaximAdminBundle:AdminShop:shopSectionAdd }
+admin_shop_section_edit_ajax:
+  pattern: /admin/shop/section/ajax/edit
+  defaults: { _controller: MaximAdminBundle:AdminShop:shopSectionEdit }
+admin_shop_section_delete_ajax:
+  pattern: /admin/shop/section/delete/{id}/ajax
+  defaults: { _controller: MaximAdminBundle:AdminShop:shopSectionDelete }
+admin_shop_section_ajax:
+  pattern: /admin/shop/section/ajax
+  defaults: { _controller: MaximAdminBundle:AdminShop:shopSectionList }
+
+#server
+admin_server:
+  pattern: /admin/server
+  defaults: { _controller: MaximAdminBundle:AdminServer:serverListView }
+admin_server_add:
+  pattern: /admin/server/add
+  defaults: { _controller: MaximAdminBundle:AdminServer:serverAddView }
+admin_server_add_ajax:
+  pattern: /admin/server/add/ajax
+  defaults: { _controller: MaximAdminBundle:AdminServer:serverAdd }
+admin_sever_view_pattern:
+  pattern: /admin/server/view
+admin_server_delete:
+  pattern: /admin/server/delete/ajax
+  defaults: { _controller: MaximAdminBundle:AdminServer:serverDelete }
+admin_server_ajax:
+  pattern: /admin/server/ajax
+  defaults: { _controller: MaximAdminBundle:AdminServer:serverList }
+admin_get_servers_pattern:
+  pattern: /admin/servers/get/
+admin_get_servers:
+  pattern: /admin/servers/get/{websiteid}
+  defaults: { _controller: MaximAdminBundle:AdminServer:getServersJson }
+
+
+###############
+# ANNOUNCEMENT
+###############
+admin_announcements:
+  pattern: /admin/announcements
+  defaults: { _controller: MaximAdminBundle:AdminAnnouncement:announcements }
+admin_announcement_add_view:
+  pattern: /admin/announcement/add/view
+  defaults: { _controller: MaximAdminBundle:AdminAnnouncement:announcementAddView }
+admin_announcement_add:
+  pattern: /admin/announcement/add/ajax
+  defaults: { _controller: MaximAdminBundle:AdminAnnouncement:announcementAdd }
+admin_announcement_list:
+  pattern: /admin/announcements/ajax
+  defaults: { _controller: MaximAdminBundle:AdminAnnouncement:announcementList }
+admin_announcement_delete_ajax:
+  pattern: /admin/announcements/delete/ajax/{id}
+  defaults: { _controller: MaximAdminBundle:AdminAnnouncement:announcementDelete }
+admin_announcement_edit_view:
+  pattern: /admin/announcement/view/{id}
+  defaults: { _controller: MaximAdminBundle:AdminAnnouncement:announcementView }
+
+

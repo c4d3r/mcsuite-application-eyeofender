@@ -1,0 +1,31 @@
+<!-- MEMBER PANEL -->
+<div class="panel">
+    <div id="profile">
+        <img src="https://minotar.net/helm/{{ app.user.username }}/100.png"/>
+
+        <div class="profile-info">
+            <h1>{{ app.user.username }}</h1>
+            <p>Last login: <br/><span class="label label-info">{{ app.user.lastLogin|date("D M j G:i:s") }}</span></p>
+        </div>
+    </div>
+    <div style="clear:both;"></div>
+</div>
+
+<!-- PURCHASES -->
+<div class="panel">
+    <h4>Last purchase</h4>
+    {% if purchase is defined %}
+        <table>
+            <tr>
+                <th>Date</th>
+                <td>{{ purchase.date|date("D M j G:i:s") }}</td>
+            </tr>
+            <tr>
+                <th>Item</th>
+                <td>{{ purchase.shop.name }}</td>
+            </tr>
+        </table>
+    {% else %}
+        <p>You have not purchased anything so far</p>
+    {% endif %}
+</div>

@@ -1,0 +1,30 @@
+{% extends 'MaximCMSBundle:Default:index.html.twig' %}
+
+{% block body %}
+<div class="page">
+	<div class="page-header">
+		<h1>Minecraft accounts</h1>
+	</div>
+	<div class="page-content">
+		{% for account in accounts %}
+		<img src="https://minotar.net/avatar/{{ account.accountname }}/50.png" alt="{{ account.accountname }}" />
+		{% else %}
+		<p>
+			No accounts found, add an account.
+		</p>
+		{% endfor %}
+		<hr/>
+		<h1>Add an account</h1>
+		<br/>
+		<div id="minecraftstatus" class="status-message"></div>
+		<form id="frmMinecraftAdd" action="{{ path('account_minecraft_add')}}" method="post">
+			<label for="minecraft_name" class="inlined">Username:</label>
+			<input type="text" name="minecraft_name" class="inputbox input-text" id="minecraft_name" />
+			<label for="minecraft_code" class="inlined">Ingame username code:</label>
+			<input type="text" name="minecraft_code" class="inputbox input-text" id="minecraft_code" />
+			<button type="submit" id="btnAddAccount" class="btnGreen">Add</button>
+		</form>
+		
+	</div>
+</div>
+{% endblock %}

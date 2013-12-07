@@ -1,0 +1,19 @@
+{% extends 'MaximCMSBundle:Default:index.html.twig' %}
+
+{% block body %}
+<div class="page">
+    <h3 class="page-header">Forgot password</h3>
+	<div class="page-content">
+		<div id="msgbox_forgotpass" class="alert" style="display:none"></div>
+        <form action="{{ path('account_forgot_password_send') }}" id="frmForgotPassword" class="form-horizontal" method="post">
+            <fieldset>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" class="form-control" name="_email" placeholder="Enter your email here" id="email"/>
+                </div>
+                <button type="submit" class="btn btn-default btn-primary" id="btnForgotPass">Request new password</button>
+            </fieldset>
+        </form>
+	</div>
+</div>
+{% endblock %}

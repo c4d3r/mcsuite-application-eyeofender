@@ -1,0 +1,94 @@
+{% extends 'MaximModuleForumBundle:Default:index.html.twig' %}
+
+{% block title %}Forum - {{ forum.title }}{% endblock title %}
+
+{% block body %}
+
+    <div class="page clearfix">
+        <h3 class="page-header">{{ forum.title }}</h3>
+        <div class="page-content">
+            {# BREADCRUMB BAR #}
+            <ul class="breadcrumbs">
+                <li><a href="{{ path('forum_main') }}">Back to forum list</a></li>
+                <li><a href="#">Forum - {{ forum.title }}</a></li>
+            </ul>
+
+            {# ACTION BAR #}
+            {% if not forum.getShowOnHome() %}
+            <div class="mcsf_actionbar">
+                <ul>
+                    <li>
+                        <a href="{{ path('forum_thread_create', {'id' : forum.id }) }}" class="button [small radfius round]">Create Thread</a>
+                    </li>
+                </ul>
+            </div>
+            {% endif %}
+
+            {# THREADS #}
+            <div class="mcsf_threads_list">
+                {# PINNED THREADS #}
+                {% if (threads_pinned is defined) and (threads_pinned|length > 0) %}
+                    <h3 class="mcsf_section_title">Sticky threads</h3>
+                    {% for thread in threads_pinned %}
+                        <div class="mcsf_thread_item">
+                            <div class="mcsf_thread_head">
+                                <img src="{{ asset('/bundles/maximcms/images/blank.gif') }}" data-src="http://minotar.net/avatar/{{ thread.createdBy.username }}/45.png" alt="mc the mass logo" class="preload"/>
+                                <noscript>
+                                    <img src="http://minotar.net/avatar/{{ thread.createdBy.username }}/45.png" rel="tooltip" data-original-title="{{ thread.createdBy.username }}" alt="{{ thread.createdBy.username }}">
+                                </noscript>
+                            </div>
+                            <div class="mcsf_thread_general">
+                                <h3>
+                                    <a href="{{ path('forum_thread_view', {'id' : forum.id, 'threadid' : thread.id}) }}" class="tooltip-init" title="{{ thread.title|purify }}">{{ thread.title|cutlength(33) }}</a>
+                                </h3>
+                                <p>{{ thread.createdBy.username }}, {{ thread.createdOn|date('M j \, Y') }}</p>
+                            </div>
+                            <div class="mcsf_thread_update">
+                                {% if thread.lastPost is not null %}
+                                    <h4>last post by {{ thread.lastPost.createdBy.username }}</h4>
+                                    <p>on {{ thread.lastPost.createdOn|date('M j \, Y') }}</button></p>
+                                {% endif %}
+                            </div>
+                            <div style="clear:both;"></div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                {# REGULAR THREADS #}
+                {% if (threads is defined) and (threads|length > 0) %}
+                    <h3 class="mcsf_section_title">Forum threads</h3>
+                    {% for thread in threads %}
+                        <div class="mcsf_thread_item">
+                            <div class="mcsf_thread_head">
+                                <img src="{{ asset('/bundles/maximcms/images/blank.gif') }}" data-src="http://minotar.net/avatar/{{ thread.createdBy.username }}/45.png" alt="mc the mass logo" class="preload"/>
+                                <noscript>
+                                    <img src="http://minotar.net/avatar/{{ thread.createdBy.username }}/45.png" rel="tooltip" data-original-title="{{ thread.createdBy.username }}" alt="{{ thread.createdBy.username }}">
+                                </noscript>
+                            </div>
+                            <div class="mcsf_thread_general">
+                                <h3>
+                                    <a href="{{ path('forum_thread_view', {'id' : forum.id, 'threadid' : thread.id}) }}" class="tooltip-init" title="{{ thread.title }}">{{ thread.title|cutlength(33) }}</a>
+                                </h3>
+                                <p>{{ thread.createdBy.username }}, {{ thread.createdOn|date('M j \, Y') }}</p>
+                            </div>
+                            <div class="mcsf_thread_update">
+                                {% if thread.lastPost is not null %}
+                                    <h4>last post by {{ thread.lastPost.createdBy.username }}</h4>
+                                    <p>on {{ thread.lastPost.createdOn|date('M j \, Y') }}</button></p>
+                                {% endif %}
+                            </div>
+                            <div style="clear:both;"></div>
+                        </div>
+                    {% else %}
+                        <p>There were no threads found yet.</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            {# DISPLAY PAGE NAV #}
+            <div class="navigation">
+                {{ knp_pagination_render(threads) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

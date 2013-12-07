@@ -1,0 +1,124 @@
+{% extends 'MaximAdminBundle:Default:index.html.twig' %}
+{% block content %}
+    <div class="container" style="width:100%;">
+        <h1>User statistics</h1>
+        <div class="container-content">
+            <p>Adding later</p>
+        </div>
+    </div>
+    <div class="container" style="width:100%;">
+        <h1>Users</h1>
+        <div class="container-content clearfix">
+            <div id="user-status" class="alert"></div>
+            <!-- VIEW NEWS POSTS -->
+            <table id="table_users">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>USERNAME</th>
+                    <th>EMAIL</th>
+                    <th>LASTIP</th>
+                    <th>LASTLOGIN</th>
+                    <th>DATEOFBIRTH</th>
+                    <th>LOCATION</th>
+                    <th>SKYPE</th>
+                    <th>ACTIONS</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="odd gradeX">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+            <script>
+                var editor; // use a global for the submit and return data rendering in the examples
+                var oTable;
+                var giRedraw = false;
+                $(document).ready(function() {
+                    // Create the form
+
+                    // Edit record
+                    $('#table_users').on('click', 'a.editor_edit', function (e) {
+                        e.preventDefault();
+
+                        //call ajax delete request
+                        var url = '{{ path("admin_user_edit", {'userid': 'region_id'}) }}';
+                        url = url.replace("region_id", this.getAttribute("data-id"));
+
+                        var win=window.open(url, '_blank');
+                        win.focus();
+                    });
+
+                    // Delete a record (without asking a user for confirmation)
+                    $('#table_users').on('click', 'a.editor_remove', function (e) {
+                        e.preventDefault();
+
+                        //call ajax delete request
+                        var url = '{{ path("admin_user_delete_ajax", {'userid': 'region_id'}) }}';
+                        url = url.replace("region_id", this.getAttribute("data-id"));
+
+                        AJAX.post_url_datatable(url, $(this).parents('tr')[0], oTable);
+                    } );
+
+                    oTable = $('#table_users').dataTable( {
+                        "bSort": true,
+                        "bFilter": true,
+                        "bProcessing": true,
+                        "bServerSide": true,
+                        aoColumnDefs: [
+                            {
+                                sDefaultContent: '',
+                                aTargets: [ '_all' ]
+                            }
+                        ],
+                        "sAjaxSource": "{{ path('admin_user_ajax') }}",
+                        "aoColumns": [
+                            { "mData": "id" },
+                            { "mData": "username" },
+                            { "mData": "email" },
+                            { "mData": "lastip" },
+                            { "mData": "lastlogin" },
+                            { "mData": "dateofbirth" },
+                            { "mData": "location" },
+                            { "mData": "skype" },
+                            {
+                                "mData": "id",
+                                "mRender": function( data, type, row) {    // You can use <img> as well if you want
+                                    return '<a href="#" data-id="' + row["id"] + '" class="editor_edit button-small inline">E</a><a href="#" data-id="' + row["id"] + '" class="editor_remove button-small inline">X</a>';
+                                }
+                            }
+                        ]
+                    });
+
+                });
+
+                /* Get the rows which are currently selected */
+                function fnGetSelected( oTableLocal )
+                {
+                    var aReturn = new Array();
+                    var aTrs = oTableLocal.fnGetNodes();
+
+                    for ( var i=0 ; i<aTrs.length ; i++ )
+                    {
+                        if ( $(aTrs[i]).hasClass('row_selected') )
+                        {
+                            return (aTrs[i]);
+                        }
+                    }
+
+                }
+            </script>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'MaximCMSBundle:admin:index.html.twig' %}
+
+{% block middle %}
+    <style>
+        table tr.even.row_selected td {
+            background-color: #B0BED9;
+        }
+
+        table tr.odd.row_selected td {
+            background-color: #9FAFD1;
+        }
+    </style>
+    <div id="middle_menu_top">
+        <div class="vertical">
+            <h1>Add page</h1>
+        </div>
+    </div>
+    <div id="middle_menu_small">
+        <ul>
+            <li><a href="{{ path('admin_server')}}">server</a></li>
+            <li><a href="{{ path('admin_server_add')}}">add</a></li>
+            <!--<li><a href="#">test3</a></li>-->
+        </ul>
+    </div>
+    <div id="middle_content">
+        <div class="window">
+            <div class="window-header">
+                <h6>Add new server</h6>
+            </div>
+            <div class="window-content">
+                <div id="server-status" class="alert"></div>
+                <!-- ADD PAGE -->
+                <form action="{{ path('admin_server_add_ajax') }}" id="frmAddServer" method="post">
+                    <p>
+                        <label for="name">Name:</label><br/>
+                        <input type="text" name="_admin_server_name" class="inputbox" id="name" >
+                    </p>
+                    <p>
+                        <label for="abbreviation">Abbreviation:</label><br/>
+                        <input type="text" name="_admin_server_abbr" class="inputbox" id="abbreviation" >
+                    </p>
+                    <p>
+                        <label for="image">Image: </label><br/>
+                        <input type="text" name="_admin_server_image" class="inputbox" id="image" >
+                    </p>
+                    <p>
+                        <label for="description">Description:</label><br/>
+                        <textarea name="_admin_server_description" cols="20" rows="30" class="inputbox" id="description" ></textarea>
+                    </p>
+                    <button type="submit" id="btnServerAdd" class="darkround">Add page</button>
+                </form>
+                </br/>
+            </div>
+            <script>
+                $(document).ready(function(){
+                    UI.editor('content', "100%", "600px");
+                    $("#frmAddServer").submit(function() {
+                        for ( instance in CKEDITOR.instances )
+                            CKEDITOR.instances[instance].updateElement();
+
+                        AJAX.post($("#frmAddServer").attr("action"),
+                            $('#frmAddServer').serialize()
+                        , $("#server-status"), $('#btnServerAdd'));
+                        return false;
+                    });
+                });
+            </script>
+        </div>
+    </div>
+{% endblock middle %}

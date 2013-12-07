@@ -1,0 +1,63 @@
+{% extends 'MaximCMSBundle:admin:index.html.twig' %}
+
+{% block middle %}
+<div id="middle_menu_top">
+	<div class="vertical">
+		<h1>Add page</h1>
+	</div>
+</div>
+<div id="middle_menu_small">
+	<ul>
+		<li><a href="{{ path('admin_page')}}">page</a></li>
+		<li><a href="{{ path('admin_page_add')}}">add</a></li>
+		<!--<li><a href="#">test3</a></li>-->
+	</ul>
+</div>
+<div id="middle_content">
+	<div class="window">
+		<div class="window-header">
+			<h6>Edit page</h6>
+		</div>
+		<div class="window-content">
+            <div id="page-status" class="alert"></div>
+			<!-- ADD PAGE -->
+			<form action="{{ path('admin_page_edit_ajax') }}" id="frmEditPage" method="post">
+				<p>
+			  		<label for="name">Name</label><br/>
+			       	<input type="text" name="_admin_page_name" class="inputbox" id="name" value="{{ page.name }}">
+			    </p>
+			    <p>
+			    	<label for="url">url</label><br/>
+			       	<input type="text" name="_admin_page_url" class="inputbox" id="url" value="{{ page.url }}">
+			    </p>
+			    <p>
+			        <label for="content">content:</label><br/>
+			       	<textarea name="_admin_page_content" cols="20" rows="30" class="inputbox" id="content" >{{ page.content }}</textarea>
+			    </p>   
+			    <button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" id="btnPageSave">save page</button>
+			    <div id="msgbox"></div>
+			</form>
+			</br/>
+		</div>
+		<script>
+		$(document).ready(function(){
+			UI.editor('content');
+			
+			$("#frmEditPage").submit(function() {
+				
+				for ( instance in CKEDITOR.instances )
+        			CKEDITOR.instances[instance].updateElement();
+        			
+				AJAX.post($("#frmEditPage").attr("action"), {
+					_admin_page_name : $('#name').val(),
+					_admin_page_url : $("#url").val(),
+					_admin_page_content : $("#content").val(),
+					_admin_page_id : {{ page.id }},
+				}, $("#page-status"), $('#btnPageSave'));
+				return false;
+			});
+		});
+		</script>
+	</div>
+</div>
+{% endblock middle %}

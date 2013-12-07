@@ -1,0 +1,115 @@
+{% extends 'MaximAdminBundle:Default:index.html.twig' %}
+{% block content %}
+    <div class="container" style="width:100%;">
+        <h1>Application statistics</h1>
+        <div class="container-content">
+            <p>Adding later</p>
+        </div>
+    </div>
+    <div class="container" style="width:100%;">
+        <h1>Create an application</h1>
+        <div class="container-content">
+            <div id="app-status"></div>
+            <form action="{{ path('admin_application_add_ajax') }}" method="post" id="createApplication" class="form-clean">
+
+                <p>
+                    <label for="name">Name</label><br/>
+                    <input type="text" name="_admin_app_name" class="inputbox" id="name" >
+                </p>
+                <p>
+                    <label for="admin_app_website">Website</label><br/>
+                    <select name="_admin_app_website" id="admin_app_website" class="selectable" value="Website" data-validate-options="selectable">
+                        <option value="">Choose a website</option>
+                        {% for website in websites %}
+                            <option value="{{ website.id }}">{{ website.name }}</option>
+                        {% endfor %}
+                    </select>
+                </p>
+                <p>
+                    <label for="admin_app_rank">Rank</label><br/>
+                    <select name="_admin_app_rank" id="admin_app_rank" class="selectable" value="Website" data-validate-options="selectable">
+                        <option value="">Choose a rank</option>
+                        {% for rank in ranks %}
+                            <option value="{{ rank.id }}">{{ rank.name }}</option>
+                        {% endfor %}
+                    </select>
+                </p>
+
+                <p>
+                    <label for="main-create-holder">Form</label><br/>
+                    <div class="form-create-holder" id="main-create-holder">
+                        <input type="text" class="create-input-field" name="fieldname-0" placeholder="field name" style="width:150px;"/>
+                        <select name="fieldtype-0" class="create-input-type">
+                            <option value="textfield">Textfield</option>
+                            <option value="textarea">Textarea</option>
+                        </select>
+                        <button class="delete-row" style="display:none;">Delete row</button>
+                    </div>
+
+                    <div id="insertrow-placeholder"></div>
+
+                    <div id="btnAddRow-holder">
+                        <button id="addrow">Add new row</button>
+                    </div>
+
+                    <div>
+                        <input type="submit" class="button" id="saveForm" value="Save form"/>
+                    </div>
+                </p>
+            </form>
+        </div>
+    </div>
+    <script>
+
+        var holderCopy = $('#main-create-holder');
+        holderCopy.removeAttr("id");
+
+        //get placeholder
+        var placeholder = $('#insertrow-placeholder');
+
+        var btnAddRow = $('#addrow');
+        btnAddRow.on('click', function(){
+
+            //make a copy of the holder
+            holderCopy = holderCopy.clone();
+
+            //clear all preset values
+            $.each(holderCopy.find("input, textarea, select"), function(index, event){
+                if($(this).is('select')) {
+                    $(this).prop('selectedIndex', 0);
+                } else {
+                    $(this).val("");
+                }
+
+                //set the name +1
+                var attrName = $(this).attr("name");
+                console.log(attrName.charAt(attrName.length - 1));
+                $(this).attr("name", attrName.substr(0, attrName.length - 1) + (parseInt(attrName.charAt(attrName.length - 1)) + 1));
+
+            });
+
+            placeholder.before(holderCopy);
+
+            //delete row button
+            var deleteRowButton = holderCopy.find('.delete-row');
+
+            deleteRowButton.css('display', 'inline-block');
+            deleteRowButton.on('click', function(){
+                $(this).parent().remove();
+            });
+
+            //prevent from submitting the form
+            return false;
+
+        });
+
+        $("#createApplication").submit(function() {
+
+            AJAX.post($("#createApplication").attr("action"), {
+                _applicationform : $('#createApplication').serializeArray()
+            }, $("#app-status"), $('#saveForm'));
+            return false;
+
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'MaximCMSBundle:Default:index.html.twig' %}
+
+{% block body %}
+<div class="page">
+	<div class="page-header">
+		<h1>Account panel</h1>
+	</div>
+	<div class="page-content">
+		<ul class="account-panel">
+			<li>
+				<a href="{{ path('account_change_password') }}"><span>Change Password</span></a>
+			</li>
+			<li>
+				<a href="{{ path('account_default') }}"><span>Account profile</span></a>
+			</li>
+			<li>
+				<a href="{{ path('account_minecraft') }}"><span>Minecraft Accounts</span></a>
+			</li>
+			<li>
+				<a href="{{ path('shop') }}"><span>Shop</span></a>
+			</li>
+			<!--
+			<li>
+			<a href="/account/tickets"><img src="{{ asset('bundles/maximcms/images/account/tickets.png') }}"/><span>Tickets</span></a>
+			</li>
+			-->
+		</ul>
+	</div>
+</div>
+{% endblock %}

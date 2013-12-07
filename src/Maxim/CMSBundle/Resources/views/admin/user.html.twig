@@ -1,0 +1,234 @@
+{% extends 'MaximCMSBundle:admin:index.html.twig' %}
+
+{% block middle %}
+<div id="middle_menu_top">
+	<div class="vertical">
+		<h1>User</h1>
+	</div>
+</div>
+<div id="middle_menu_small">
+	<ul>
+		<li><a href="#">User</a></li>
+		<!--<li><a href="#">test2</a></li>
+		<li><a href="#">test3</a></li>-->
+	</ul>
+</div>
+<div id="middle_content">
+	<div class="window">
+		<div class="window-header">
+			<h6>User list</h6>
+		</div>
+		<div class="window-content">
+            <div id="user-status" class="alert"></div>
+			<button id="viewSelectedMember" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">View selected member</button>
+			<!-- VIEW NEWS POSTS -->
+			<table id="table_id">
+			    <thead>
+			        <tr>
+			            <th>ID</th>
+			            <th>USERNAME</th>
+			            <th>EMAIL</th>
+			            <th>LASTIP</th>
+			            <th>LASTLOGIN</th>
+			            <th>DATEOFBIRTH</th>
+			            <th>LOCATION</th>
+			            <th>SKYPE</th>
+			        </tr>
+			    </thead>
+			    <tbody>
+				    <tr class="odd gradeX">
+			            <td></td>
+			            <td></td>
+			            <td></td>
+			            <td></td>
+			            <td></td>
+			            <td></td>
+			            <td></td>
+			            <td></td>
+			        </tr>
+		        </tbody>
+			</table>	
+			<script>
+			var oTable;
+			var giRedraw = false;
+			
+			$(document).ready(function() {
+   				$("#table_id tbody").click(function(event) {
+					$(oTable.fnSettings().aoData).each(function (){
+						$(this.nTr).removeClass('row_selected');
+					});
+					$(event.target.parentNode).addClass('row_selected');
+				});
+				
+				/* Add a click handler for the delete row */
+				$('#delete-user').click( function() {
+					
+					
+					var anSelected = fnGetSelected( oTable );
+					var aData = oTable.fnGetData(anSelected);
+					/* GET ID FOR AJAX */
+					var id = aData["id"];
+					AJAX.post_noButton(
+						"{{ path('admin_user_delete_ajax') }}", 
+						{
+							_admin_user_id : id
+						}, 
+						$("#user-status")
+					);
+					/* Delete row */
+					oTable.fnDeleteRow( anSelected[0] );
+				} );
+				
+				/* Add a click handler for the edit row */
+				$('#viewSelectedMember').click( function() {
+					var anSelected = fnGetSelected( oTable );
+					var aData = oTable.fnGetData(anSelected);
+					//Redirect to user profile 
+					var url = "{{ path('admin_user') }}/view/" + aData['username'];
+					window.location.href = url;
+				} );
+				
+				oTable = $('#table_id').dataTable( {
+					"bSort": true,
+                    "bFilter": true,
+					"bProcessing": true,
+					"bServerSide": true,
+					"sAjaxSource": "{{ path('admin_user_ajax') }}",
+					"aoColumns": [
+						{ "mData": "id" },
+				        { "mData": "username" },
+				        { "mData": "email" },
+				        { "mData": "lastip" },
+				        { "mData": "lastlogin" },
+				        { "mData": "dateofbirth" },
+				        { "mData": "location" },
+				        { "mData": "skype" }
+				    ],
+				    
+				});
+			});
+			
+			/* Get the rows which are currently selected */
+			function fnGetSelected( oTableLocal )
+			{
+				var aReturn = new Array();
+				var aTrs = oTableLocal.fnGetNodes();
+				
+				for ( var i=0 ; i<aTrs.length ; i++ )
+				{
+					if ( $(aTrs[i]).hasClass('row_selected') )
+					{
+						return (aTrs[i]);
+					}
+				}
+				
+			}
+			</script>
+			<!-- ADD USER -->
+			<div id="dialog-form" title="Create new user">
+			    <form action="{{ path('admin_user_add') }}" id="frmAddUser" method="post">
+			       <p>
+			       		<label for="name">Username</label><br/>
+			       		<input type="text" name="_admin_user_username" class="inputbox" id="username" >
+			       </p>
+			       <p>
+			       		<label for="name">Email</label><br/>
+			       		<input type="text" name="_admin_user_email" class="inputbox" id="email" >
+			       </p>
+			       <p>
+			       		<label for="name">LastIp</label><br/>
+			       		<input type="text" name="_admin_user_lastIp" class="inputbox" id="lastIp" >
+			       </p>
+			       <p>
+			       		<label for="name">LastLogin</label><br/>
+			       		<input type="text" name="_admin_user_lastLogin" class="inputbox" id="lastLogin" >
+			       </p>
+			       <p>
+			       		<label for="name">dateOfBirth</label><br/>
+			       		<input type="text" name="_admin_user_dateOfBirth" class="inputbox" id="dateOfBirth" >
+			       </p>
+			       <p>
+			       		<label for="name">Location</label><br/>
+			       		<input type="text" name="_admin_user_location" class="inputbox" id="location" >
+			       </p>
+			       <p>
+			       		<label for="name">Skype</label><br/>
+			       		<input type="text" name="_admin_user_skype" class="inputbox" id="skype" >
+			       </p>
+			    </form>
+			</div>	
+
+			<script>
+			 	$(function(id) {
+			 		$( "#dialog-form" ).dialog({
+			         	height: 400,
+			         	width: 500,
+			          	modal: true,
+			           	autoOpen: false,
+			           	buttons: {
+			           		"Create User": function(){
+								//get the url for the form
+								AJAX.post_noButton(
+									$("#frmAddUser").attr("action"), 
+									{
+										_admin_user_username : $("#username").val(),
+										_admin_user_email : $("#email").val(),
+										_admin_user_lastIp : $("#lastIp").val(),
+										_admin_user_lastLogin : $("#lastLogin").val(),
+										_admin_user_dateOfBirth : $("#dateOfBirth").val(),
+										_admin_user_location : $("#location").val(),
+										_admin_user_skype : $("#skype").val(),
+									}, 
+									$("#user-status")
+								);
+									
+			           		},
+			           		Cancel: function(){
+			           			$(this).dialog("close");
+			           		},
+			           		close: function(){
+			           			$(this).dialog("close");
+			           		}
+			           	}
+			        });
+			 		$('#create-user').button().click(function(){
+			 			$('#dialog-form').dialog("open");
+			 		});
+			       
+			    });
+			    
+			    $(function(id) {
+			 		$( "#dialog-form-update").dialog({
+			         	height: 400,
+			         	width: 500,
+			          	modal: true,
+			           	autoOpen: false,
+			           	buttons: {
+			           		"Edit user": function(){
+								//get the url for the form
+								
+									
+			           		},
+			           		Cancel: function(){
+			           			$(this).dialog("close");
+			           		},
+			           		close: function(){
+			           			$(this).dialog("close");
+			           		}
+			           	}
+			        });
+			 		$('#edit-user').button().click(function(){
+			 			$('#dialog-form-update').dialog("open");
+			 		});
+			       
+			    });
+			</script>	
+			</br/>
+			{% if error %}
+			    <div>{{ error.message }}</div>
+			{% endif %}
+			<br/><br/><br/>
+		</div>
+	</div>
+</div>
+{% endblock middle %}

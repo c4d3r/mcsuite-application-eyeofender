@@ -1,0 +1,38 @@
+.ticket-admin-warning {
+    background: #cc0000; /* Old browsers */
+    background: -moz-linear-gradient(top, #cc0000 0%, #cc0000 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cc0000), color-stop(100%,#cc0000)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #cc0000 0%,#cc0000 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #cc0000 0%,#cc0000 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #cc0000 0%,#cc0000 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #cc0000 0%,#cc0000 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cc0000', endColorstr='#cc0000',GradientType=0 ); /* IE6-9 */
+
+    color:#fff;
+}
+.center {
+    text-align:center;
+}
+.action-buttons {
+    width:10%;
+}
+.ticket-profile {
+    width:20%;
+    float:left;
+    padding:0px 5px 0px 5px;
+    border-right: 1px dotted rgb(216, 216, 216);
+    text-align:center;
+}
+.ticket-content {
+    float:left;
+    padding-left:10px;
+    width:75%;
+}
+.ticket-reply {
+    border:1px solid rgb(204, 204, 204);
+    padding:5px;
+    border-radius:5px;
+}
+.ticket-reply + .ticket-reply {
+    margin-top:10px;
+}

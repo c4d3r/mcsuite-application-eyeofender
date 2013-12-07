@@ -1,0 +1,25 @@
+{% extends 'MaximCMSBundle:Default:index.html.twig' %}
+
+{% block body %}
+<div class="page">
+	<div class="page-header">
+		<h1>Purchase history</h1>
+	</div>
+	<div class="page-content">
+		<table>
+			{% for purchase in purchases %}
+				<tr>
+					<td>{{ purchase.accountName }}</td>
+					<td>{{ purchase.amount }}</td>
+					<td>{{ purchase.name }}</td>
+					<td>{{ purchase.date|date }}</td>
+				</tr>
+			{% else %}
+			<tr>
+				<td>You have not purchased anything yet.</td>
+			</tr>
+			{% endfor %}
+		</table>
+	</div>
+</div>
+{% endblock %}

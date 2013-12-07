@@ -1,0 +1,39 @@
+<div id="membership">
+	<div class="membership-portret">
+		<div id="imagePortret">
+			<img src="{{ asset('images/preloader.gif') }}" id="test" alt="preloader" />
+		</div>
+		<script>
+		$(window).load(function () {
+			AJAX.loadImage("https://minotar.net/avatar/{{ app.user.username }}/50.png", $('#imagePortret'));
+		});
+		</script>
+	</div>
+	<div class="membership-profile">
+		<div class="membership-buttons">
+			<ul class="membership-links">
+				<li><a href="{{ path('logout') }}"><img src="/bundles/maximcms/themes/default/images/profile/logout.png" alt="logout" title="logout"/></a></li>
+				<li><a href="{{ path('account') }}"><img src="/bundles/maximcms/themes/default/images/profile/account.png" alt="account" title="account panel"/></a></li>
+				{% if is_granted('ROLE_ADMIN') %}
+					<li><a href="{{ path('admin') }}"><img src="/bundles/maximcms/themes/default/images/profile/admin.png" alt="admin" title="admin panel"/></a></li>
+				{% endif %}
+			</ul>
+		</div>
+		<div class="membership-info">
+			<p>Welcome <span id="username">{{ app.user.username }}</span></p>
+			<p>Rank: {% for role in app.user.roles %}{{ role.name }}{% if not loop.last %},{% endif %}{% endfor %}</p>
+		</div>
+	</div>
+</div>
+<script>
+	 $(function() {
+	    $( ".membership-links" ).tooltip({
+	      show: null,
+	      track: true,
+	      open: function( event, ui ) {
+	        ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+	      }
+	    });
+	  });
+</script>
+

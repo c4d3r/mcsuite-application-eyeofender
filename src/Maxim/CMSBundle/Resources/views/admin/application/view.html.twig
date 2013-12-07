@@ -1,0 +1,197 @@
+{% extends 'MaximCMSBundle:admin:index.html.twig' %}
+
+{% block middle %}
+    <div id="middle_menu_top">
+        <div class="vertical">
+            <h1>Applications</h1>
+        </div>
+    </div>
+    <div id="middle_menu_small">
+        <ul>
+            <li>
+                <a href="{{ path('admin_application') }}">Application</a>
+            </li>
+            {% if application is defined %}
+                <li>
+                    <a href="#">{{ application.id }}</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+    <div id="middle_content">
+        <script>
+            $(function() {
+                $("#tabs").tabs();
+            });
+        </script>
+        </head>
+
+        <div class="window">
+            <div class="window-header">
+                <h6>Application: {{ application.id }}</h6>
+            </div>
+            <div class="window-content">
+                <div id="msgbox" class="alert"></div>
+
+                <div id="tabs">
+                    <ul>
+                        <li>
+                            <a href="#tabs-1">Application</a>
+                        </li>
+                        <li>
+                            <a href="#tabs-2">Person details</a>
+                        </li>
+                        <li>
+                            <a href="#tabs-3">User accounts</a>
+                        </li>
+                    </ul>
+                    <div id="tabs-1">
+                        <form action="{{ path('admin_user_update_ajax') }}" id="frmEditUser" method="post">
+                            <table id="tblAdminApplication">
+                                <tr>
+                                    <td>ID</td>
+                                    <td>{{ application.id}}</td>
+                                </tr>
+                                <tr>
+                                    <td>DESCRIPTION</td>
+                                    <td>{{ application.description|raw }}</td>
+                                </tr>
+                                <tr>
+                                    <td>USERNAME</td>
+                                    <td>{{ application.user.username }}</td>
+                                </tr>
+                                <tr>
+                                    <td>DATE</td>
+                                    <td>{{ application.date|date('Y-m-d h:i:s') }}</td>
+                                </tr>
+                                <tr>
+                                    <td>AGE</td>
+                                    <td>{{ age }}</td>
+                                </tr>
+                                <tr>
+                                    <td>RANK</td>
+                                    <td>{{ application.rank.name }}</td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                    <div id="tabs-2">
+                        <table id="tblAdminApplication2">
+                            <tr>
+                                <td>ID</td>
+                                <td>{{ application.user.id}}</td>
+                            </tr>
+                            <tr>
+                                <td>USERNAME</td>
+                                <td>{{ application.user.username }}</td>
+                            </tr>
+                            <tr>
+                                <td>SKYPE</td>
+                                <td><a href="skype:{{ application.user.skype }}?add">{{ application.user.skype }}</a></td>
+                            </tr>
+                            <tr>
+                                <td>EMAIL</td>
+                                <td><a href="{{ path('admin_mail') }}?to={{ application.user.email }}">{{ application.user.email }}</a></td>
+                            </tr>
+                            <tr>
+                                <td>REGISTERED ON</td>
+                                <td>{{ application.user.registeredOn|date('Y-m-d h:i:s') }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="tabs-3">
+                        {% for account in accounts %}
+                            <img src="https://minotar.net/avatar/{{ account.accountname }}/50.png" alt="{{ account.accountname }}" />
+                            {{ account.accountname }}
+                        {% else %}
+                            <p>
+                                No accounts have been found.
+                            </p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="window">
+            <div class="window-header">
+                <h6>Replies</h6>
+            </div>
+            <div class="window-content">
+                <div class="application-replies">
+                    {% for key, reply in replies %}
+                        <div class="application-reply">
+                            {% if key is even %}
+                                <div class="application-reply-even">
+                                    <img src="https://minotar.net/avatar/{{ reply.user.username }}/40.png" alt="{{ reply.user.username }}" rel="tooltip" data-original-title="{{ reply.user.username }}"/>
+                                    <p>{{ reply.text|raw }}</p>
+                                    <p class="application-postedon">{{ reply.date|date('Y-m-d h:i:s') }}</p>
+                                    <div style="clear:both"></div>
+                                </div>
+                            {% else %}
+                                <div class="application-reply-odd">
+                                    <img src="https://minotar.net/avatar/{{ reply.user.username }}/40.png" alt="{{ reply.user.username }}" rel="tooltip" data-original-title="{{ reply.user.username }}"/>
+                                    <p>{{ reply.text|raw }}</p>
+                                    <p class="application-postedon">{{ reply.date|date('Y-m-d h:i:s') }}</p>
+                                    <div style="clear:both"></div>
+                                </div>
+                            {% endif %}
+
+                        </div>
+                    {% else %}
+                        <tr>
+                            <td colspan="2">No replies found</td>
+                        </tr>
+                    {% endfor %}
+                </div>
+
+                <hr/>
+                <form action="{{ path('admin_application_reply') }}" method="post" id="frmReplyApplication" style="float:left;">
+                    <p>
+                        <textarea id="reply" name="_reply" cols="100" rows="10" style="width:100%;" placeholder="Enter your reply here"></textarea>
+                    </p>
+                    <p>
+                        <input type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" id="btnReply" name="_btnReply" value="Reply to application"/>
+
+                    </p>
+                    <input type="hidden" name="_hdnApplication" id="hdnApplication" value="{{ application.id }}"/>
+                </form>
+
+                <div style="position:relative;top:15px;left:10px;">
+                    <button id="btnDeny" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="{{ path('admin_application_deny') }}" value="{{ application.id }}">Deny</button>
+                </div>
+                <div class="clear-both"></div>
+                <style>
+                    #tblApplicationSingle th{
+                        width:50px;
+                    }
+                </style>
+                <script>
+                    $("#frmReplyApplication").submit(function() {
+                        //get the url for the form
+                        AJAX.post(
+                                $("#frmReplyApplication").attr("action"),
+                                {
+                                    _reply : $('#reply').val(),
+                                    _application : $('#hdnApplication').val()
+                                },
+                                $("#msgbox"),
+                                $("#btnReply")
+                        );
+                        //we dont what the browser to submit the form
+                        return false;
+                    });
+                </script>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function(){
+                $("#btnDeny").click(function() {
+                    AJAX.post($("#btnDeny").attr("action"), {
+                        _admin_app_id : $('#btnDeny').val()
+                    }, $("#msgbox"), $('#btnDeny'));
+                    return false;
+                });
+            });
+        </script>
+    </div>
+{% endblock middle %}

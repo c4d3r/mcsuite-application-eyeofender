@@ -2,7 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
 parameters:
-   website: 3
+    website: 3
 services:
     twig.extension.text:
          class: Twig_Extensions_Extension_Text
@@ -71,8 +71,8 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
-    write_to: "%kernel.root_dir%/../web/EOE"
-    bundles:        [ 'MaximCMSBundle' ]
+    write_to: "%kernel.root_dir%/../web/"
+    bundles:        [ 'MaximCMSBundle', 'MaximAdminBundle']
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
@@ -112,12 +112,13 @@ doctrine:
                     MaximCMSBundle: ~
                     MaximModuleTicketBundle: ~
                     MaximModuleForumBundle: ~
+                    MaximModuleApplicationBundle: ~
                     payum:
                         is_bundle: false
                         type: xml
-                        dir: %kernel.root_dir%/../vendor/payum/payum/src/Payum/Bridge/Doctrine/Resources/mapping
-                        prefix: Payum\Model
-
+                        dir: %kernel.root_dir%/../vendor/payum/payum/src/Payum/Core/Bridge/Doctrine/Resources/mapping
+                        prefix: Payum\Core\Model
+                        
 # Swiftmailer Configuration
 swiftmailer:
     transport: %mailer_transport%
@@ -190,3 +191,15 @@ exercise_html_purifier:
         Filter.YouTube: true
         HTML.SafeIframe: true
         URI.SafeIframeRegexp: "#^(https?:)?//(www\.youtube(?:-nocookie)?\.com/embed/|player\.vimeo\.com/video/)#"
+
+# MAXIM CMS
+maxim_cms:
+   shop:
+      email: purchases@eyeofender.com
+      paypal: https://www.paypal.com/cgi-bin/webscr
+      #paypal: https://sandbox.paypal.com/cgi-bin/webscr
+      currency: GBP
+      currency_symbol: £
+      return: http://themassmc.com/shop
+      cancel: http://themassmc.com/shop/sorry.html
+      ipn: http://themassmc.com/shop/ipn/paypal

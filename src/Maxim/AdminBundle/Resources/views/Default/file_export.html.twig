@@ -1,0 +1,4 @@
+amount, date, name, transaction, itemname
+{% for row in data %}
+    {{ row.amount|raw }},{{ row.date }},{{ row.name|raw }}, {{ row.transaction|raw }}, {{ row.itemname|raw }}
+{% endfor %}

@@ -1,0 +1,9 @@
+{% extends 'MaximCMSBundle:Default:index.html.twig' %}
+{% block body %}
+<div class="page">
+	<h3 class="page-header">{{ page.name }}</h3>
+	<div class="page-content">
+		{{ page.content | raw }}
+	</div>
+</div>
+{% endblock %}

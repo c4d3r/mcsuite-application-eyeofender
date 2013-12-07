@@ -1,0 +1,50 @@
+{% extends 'MaximModuleForumBundle:Default:index.html.twig' %}
+
+{% block body %}
+    <div class="page">
+        <h3 class="page-header">Edit thread</h3>
+        <div class="page-content">
+            {# BREADCRUMB BAR #}
+            <ul class="breadcrumbs">
+                <li><a href="{{ path('forum_view', {'id' : thread.forum.id}) }}">{{ thread.forum.title }}</a></li>
+                <li><a href="{{ path('forum_thread_view', {'id' : thread.forum.id, 'threadid' : thread.id}) }}" >{{ thread.title }}</a></li>
+                <li><a href="{{ path('forum_thread_edit', {'id' : thread.forum.id, 'threadid' : thread.id}) }}" class="active" style="color:gray">Editing thread</a></li>
+            </ul>
+
+            <form action="{{ path('forum_thread_edit_ajax', {'id' : thread.forum.id, 'threadid' : thread.id }) }}" method="post" id="form_edit_thread" class="form-horizontal" role="form">
+                <fieldset>
+                    <div class="form-group">
+                        <label for="thread_title">Thread title</label>
+                        <input type="text" class="form-control" id="thread_title" value="{{ thread.title }}" disabled="disabled">
+                    </div>
+                    <div class="form-group">
+                        <label for="thread_description">Thread Description</label>
+                        <textarea id="thread_description" class="redactor-init">{{ thread.text }}</textarea>
+                        <br/>
+                        <label for="thread_description">Update reason</label>
+                        <textarea id="thread_reason" class="redactor-init"></textarea>
+                    </div>
+                    <div id="status-thread" class="alert"></div>
+                    <button type="submit" class="btn btn-default" style="margin-top:5px;" id="btnEditThread">Edit thread</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block scripttags %}
+    <script>
+        $('#form_edit_thread').submit(function(e) {
+            e.preventDefault();
+
+            AJAX.post(
+                $("#form_edit_thread").attr("action"),
+                {
+                    _thread_text : $("#thread_description").val(),
+                    _reason: $('#thread_reason').val()
+                },
+                $("#status-thread"),
+                $('#btnEditThread')
+            );
+        });
+    </script>
+{% endblock scripttags%}

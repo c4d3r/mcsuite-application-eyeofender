@@ -1,0 +1,58 @@
+# -----------
+#    ADMIN
+# -----------
+ticket_admin:
+  pattern: /admin/module/Ticket
+  defaults: { _controller: MaximModuleTicketBundle:Admin:view }
+admin_module_ticket_ajax:
+  pattern: /admin/module/tickets/ajax
+  defaults: { _controller: MaximModuleTicketBundle:Admin:ajax }
+admin_module_ticket_close:
+  pattern: /admin/module/tickets/close/{id}/ajax
+  defaults: { _controller: MaximModuleTicketBundle:Admin:close }
+admin_module_ticket_view:
+  pattern: /admin/module/ticket/view/{id}
+  defaults: { _controller: MaximModuleTicketBundle:Admin:viewTicket }
+admin_module_ticket_view_pattern:
+  pattern: /admin/module/ticket/view
+
+# SECTIONS
+admin_module_ticket_changesection:
+  pattern: /admin/module/ticket/changesection
+  defaults: { _controller: MaximModuleTicketBundle:Admin:changeSection }
+  requirements:
+    _method: POST
+admin_module_ticket_section_ajax:
+  pattern: /admin/module/tickets/section/ajax
+  defaults: { _controller: MaximModuleTicketBundle:Admin:sectionAjax }
+  requirements:
+    _method: GET
+admin_module_ticket_section_add:
+  pattern: /admin/module/tickets/section/add/ajax
+  defaults: { _controller: MaximModuleTicketBundle:Admin:sectionAdd }
+admin_module_ticket_section_edit:
+  pattern: /admin/module/tickets/section/edit/ajax
+  defaults: { _controller: MaximModuleTicketBundle:Admin:sectionEdit }
+
+admin_module_ticket_section_addView:
+  pattern: /admin/module/tickets/section/add
+  defaults: { _controller: MaximModuleTicketBundle:Admin:addView }
+admin_module_ticket_section_editView:
+  pattern: /admin/module/tickets/section/edit/{id}
+  defaults: { _controller: MaximModuleTicketBundle:Admin:editView }
+admin_module_ticket_section_editView_pattern:
+  pattern: /admin/module/tickets/section/edit
+admin_module_ticket_section_delete:
+  pattern: /admin/module/tickets/section/{id}/delete
+  defaults: { _controller: MaximModuleTicketBundle:Admin:sectionDelete }
+
+admin_reply_edit:
+  pattern: /admin/module/tickets/{ticketid}/reply/{id}/edit
+  defaults: { _controller: MaximModuleTicketBundle:Admin:replyEditView }
+admin_reply_edit_ajax:
+  pattern: /admin/module/tickets/reply/{id}/edit/ajax
+  defaults: { _controller: MaximModuleTicketBundle:Admin:replyEdit }
+
+admin_reply_delete_ajax:
+  pattern: /admin/module/tickets/reply/{id}/delete/ajax
+  defaults: { _controller: MaximModuleTicketBundle:Admin:replyDelete }

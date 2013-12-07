@@ -1,0 +1,126 @@
+{% include 'MaximCMSBundle:Default:head.html.twig' %}
+<body>
+	<div id="wrapper">
+		<div id="navigation">
+			<ul>
+				{% include 'MaximCMSBundle:Default:navigation.html.twig' %}
+			</ul>
+			{% block module_login %}
+				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    {{ render(controller('MaximCMSBundle:Security:members')) }}
+				{% else %}
+					<div id="login">
+						<div id="login-dropdown">
+							<div id="login-dropdown-button">
+								<span>Login</span>
+							</div>
+							<!-- LOGIN FORM -->
+                            {{ render(controller('MaximCMSBundle:Security:login')) }}
+						</div>
+					</div>
+				{% endif %}
+			{% endblock module_login %}
+			<!-- END LOGIN FORM -->
+		</div>
+		<div id="slider">
+			{{ module('Slider')}}
+		</div>
+		<img src="/bundles/maximcms/themes/default/images/slider-surface.png" alt="Slider surface" />
+		<div id="content">
+            {% if app.session.started %}
+                {% for flashMessage in app.session.flashbag.get('notice') %}
+                    <div class="status-message status-color-yellow">
+                        {{ app.session.flash('notice')|raw }}
+                    </div>
+                {% endfor %}
+                {% for flashMessage in app.session.flashbag.get('error') %}
+                    <div class="status-message status-color-red">
+                        {{ app.session.flash('error')|raw }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+			{% if maintenance == false %}
+			<div id="left">
+				<!-- TOPVOTERS MODULE -->
+				{{ module('TopVote') }}
+
+				<!-- VOTE MODULE -->
+				{{ module('Vote') }}
+				
+				<!--
+				 SHOUT MODULE -->
+				{{ module('Shout') }}
+
+			</div>
+			<div id="middle">
+				{% block body %}
+
+				{% endblock %}
+			</div>
+			<div id="right">
+				<div class="module">
+					<div id="dvServerStatus">
+						<div id="delayServer"></div>
+						<script>
+							$(document).ready(function() {
+								AJAX.load("{{ path('server_view') }}", $('#delayServer'));
+							});
+						</script>
+					</div>
+				</div>
+				
+				<div class="module">
+					{{ module('Poll', 1) }}
+				</div>
+				<div class="buttons">
+                	<a href="{{ path('page_custom', {page : 'connect' })}}"><img src="/bundles/maximcms/themes/default/images/button/connection.png" alt="connect" /></a>
+                    <a href="{{ path('shop') }}"><img src="/bundles/maximcms/themes/default/images/button/download.png" alt="connect" /></a>
+                    <a href="{{ path('register') }}"><img src="/bundles/maximcms/themes/default/images/button/register.png" alt="connect" /></a>
+                </div>
+			</div>
+			{% else %}
+			{% include 'MaximCMSBundle:Default:maintenance.html.twig' %}
+			{% endif %}
+		</div>
+	</div>
+	<div id="footer">
+		{% include 'MaximCMSBundle:Default:footer.html.twig' %}
+	</div>
+	<!-- POPUP -->
+	<div id="votePopup" class="reveal-modal">
+		<h1>Vote and EARN REWARDS</h1>
+		<p>
+			Please vote using the vote panel on the left side, you can earn 3 diamonds on completion!!
+		</p>
+		<a class="close-reveal-modal">&#215;</a>
+	</div>
+	<script type="text/javascript" charset="utf-8">
+	$(function(){
+		if(!flux.browser.supportsTransitions)
+			alert("Flux Slider requires a browser that supports CSS3 transitions");
+		window.f = new flux.slider('#slider', {
+		    autoplay: true,
+	        pagination: false
+		});
+	});
+	</script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$('#login-dropdown-button').click(function(){
+			$(this).next('#frmLogin').slideToggle();
+		});
+        $('.status-message').click(function(){
+            $(this).slideUp(300);
+        });
+	});
+    </script>
+	<script type="text/javascript">
+	$(function() {
+		UI.slider();
+		UI.msDropdown([$('#ign'), $('#ign_shop'), $("#countries")]);
+		UI.placeholder();
+		UI.popup($('#votePopup'), 2000, "_popup_vote", 1);
+	});
+	</script>
+</body>
+</html> 

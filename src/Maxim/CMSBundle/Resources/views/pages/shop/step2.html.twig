@@ -1,0 +1,188 @@
+{% extends 'MaximCMSBundle:Default:index.html.twig' %}
+
+{% block body %}
+<div class="page">
+	<div class="page-header">
+		<h1>Shop - step 2</h1>
+	</div>
+	<div class="page-content">
+		<form action="{{ path('shop_confirm') }}" method="post">
+			<div class="ShopConfirmBox">
+				<select id="ign_shop" name="_ign" style="width:176px !important; margin-top:12px;margin-left:10px;">
+					{% for account in accounts %}
+					<option value="{{ account.accountname }}" data-image="https://minotar.net/avatar/{{ account.accountname }}/10.png">{{ account.accountname }}</option>
+					{% else %}
+					<option>No accounts found...</option>
+					{% endfor %}
+				</select>
+			</div>
+			<div class="shopTerms">
+				<div class="box-scroll-content">
+					<h1> Terms of use </h1>
+					<p>
+							<div>
+							1. Terms&nbsp;
+						</div>
+						<div>
+							&nbsp;
+						</div>
+						<div>
+							&nbsp;By accessing this web site, you are agreeing to be bound by these web site Terms and Conditions of Use, all relevant laws and regulations, and agree that you are responsible for compliance with any applicable rules. If you do not agree with any of these terms, you are prohibited from using or accessing this site. The materials contained in this web site are protected by applicable copyright and trade mark law.
+						</div>
+						<div>
+							<hr/>
+						</div>
+						<div>
+							&nbsp;
+						</div>
+						<div>
+							2. Privacy Policy&nbsp;
+						</div>
+						<div>
+							&nbsp;
+						</div>
+						<div>
+							&nbsp;Your privacy is very important to us. Accordingly, we have developed this Policy in order for you to understand how we collect, use, communicate and disclose and make use of personal information. The following outlines our privacy policy.&nbsp;
+						</div>
+						<div>
+							&nbsp;Before or at the time of collecting personal information, we will identify the purposes for which information is being collected.&nbsp;
+						</div>
+						<div>
+							&nbsp;We will collect and use of personal information solely with the objective of fulfilling those purposes specified by us and for other compatible purposes, unless we obtain the consent of the individual concerned or as required by law.&nbsp;
+						</div>
+						<div>
+							&nbsp;We will only retain personal information as long as necessary for the fulfillment of those purposes.&nbsp;
+						</div>
+						<div>
+							&nbsp;We will collect personal information by lawful and fair means and, where appropriate, with the knowledge or consent of the individual concerned.&nbsp;
+						</div>
+						<div>
+							&nbsp;Personal data should be relevant to the purposes for which it is to be used, and, to the extent necessary for those purposes, should be accurate, complete, and up-to-date.&nbsp;
+						</div>
+						<div>
+							&nbsp;We will protect personal information by reasonable security safeguards against loss or theft, as well as unauthorized access, disclosure, copying, use or modification.&nbsp;
+						</div>
+						<div>
+							&nbsp;We will make readily available to customers information about our policies and practices relating to the management of personal information.
+						</div>
+						<div>
+							&nbsp;
+						</div>
+						<div>
+							We are committed to conducting our business in accordance with these principles in order to ensure that the confidentiality of personal information is protected and maintained.
+						</div>
+						<div>
+							&nbsp;
+						</div>
+						<div>
+							<hr/>
+						</div>
+						<div>
+							&nbsp;
+						</div>
+						<div>
+							3. Disclaimer&nbsp;
+						</div>
+						<div>
+							&nbsp;The materials on PvpCubes&#39;s web site are provided &quot;as is&quot;. PvpCubes makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties, including without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights. Further, PvpCubes does not warrant or make any representations concerning the accuracy, likely results, or reliability of the use of the materials on its Internet web site or otherwise relating to such materials or on any sites linked to this site.
+						</div>
+						<div>
+							<hr/>
+						</div>
+						<div>
+							&nbsp;
+						</div>
+						<div>
+							4. Site Terms of Use Modifications&nbsp;
+						</div>
+						<div>
+							&nbsp;
+						</div>
+						<div>
+							&nbsp;PvpCubes may revise these terms of use for its web site at any time without notice. By using this web site you are agreeing to be bound by the then current version of these Terms and Conditions of Use.
+						</div>
+						<div>
+							<hr/>
+						</div>
+						<div>
+							&nbsp;
+						</div>
+						<div>
+							5. Revisions and Errata&nbsp;
+						</div>
+						<div>
+							&nbsp;
+						</div>
+						<div>
+							&nbsp;The materials appearing on PvpCubes&#39;s web site could include technical, typographical, or photographic errors. PvpCubes does not warrant that any of the materials on its web site are accurate, complete, or current. PvpCubes may make changes to the materials contained on its web site at any time without notice. PvpCubes does not, however, make any commitment to update the materials.
+						</div>
+						<div>
+							<hr/>
+						</div>
+						<div>
+							&nbsp;
+						</div>
+						<div>
+							6. Limitations&nbsp;
+						</div>
+						<div>
+							&nbsp;
+						</div>
+						<div>
+							&nbsp;In no event shall PvpCubes be liable for any damages (including, without limitation, damages for loss of profit, due to business interruption,) arising out of the use or inability to use the materials on PvpCubes&#39;s Internet site, even if PvpCubes or a PvpCubes authorized staff has been notified orally or in writing of the possibility of such damage. Because some jurisdictions do not allow limitations on implied warranties, or limitations of liability for consequential or incidental damages, these limitations may not apply to you.
+						</div>
+						<div>
+							<hr/>
+						</div>
+						<div>
+							&nbsp;
+						</div>
+						<div>
+							7. Links&nbsp;
+						</div>
+						<div>
+							&nbsp;
+						</div>
+						<div>
+							&nbsp;PvpCubes has not reviewed all of the sites linked to its Internet web site and is not responsible for the contents of any such linked site. The inclusion of any link does not imply endorsement by PvpCubes of the site. Use of any such linked web site is at the user&#39;s own risk.
+						</div>
+						<div>
+							<hr/>
+						</div>
+						<div>
+							&nbsp;
+						</div>
+						<div>
+							8. Governing Law&nbsp;
+						</div>
+						<div>
+							&nbsp;
+						</div>
+						<div>
+							&nbsp;Any claim relating to PvpCubes&#39;s web site shall be governed by the laws of the State of Usa without regard to its conflict of law provisions.&nbsp;
+						</div>
+						<div>
+							&nbsp;
+						</div>
+						<div>
+							&nbsp;General Terms and Conditions applicable to Use of a Web Site.
+						</div>
+						<div>
+							<hr/>
+						</div>
+					</p>
+				</div>
+			</div>
+			<div class="ShopConfirmBox">
+				<div class="ShopTermsAccept">
+					<input type="checkbox" name="donation_terms" style="display:block;float:left;"/>
+					<span>I have read the terms and accept them</span>
+				</div>
+				<input type="hidden" name="_previousChoice" value="{{ item.id }}" />
+				<input type="submit" value="Continue" class="btnGreen ShopTermsAcceptContinue" name="confirm_donation_submit"/>
+			</div>
+		
+		</form>
+	</div>
+</div>
+{% endblock %}

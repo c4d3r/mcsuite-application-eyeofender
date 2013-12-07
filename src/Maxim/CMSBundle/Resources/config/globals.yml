@@ -1,0 +1,7 @@
+twig:
+  globals:
+    maintenance: false
+    social_facebook: http://www.google.com
+    # enables the top bar
+    # networks: <false|true>
+    networks: true

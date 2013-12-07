@@ -1,0 +1,13 @@
+{% extends 'MaximCMSBundle:Default:index.html.twig' %}
+
+{% block content %}
+    test2
+    {% for category in categories %}
+        <h1>{{ category.title }}</h1>
+        {% for forum in forums %}
+            <h2>{{ forum.title }}</h2>
+        {% endfor %}
+    {% else %}
+        <p>No categories have been found.</p>
+    {% endfor %}
+{% endblock %}

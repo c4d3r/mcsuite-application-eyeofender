@@ -1,0 +1,127 @@
+{% extends 'MaximAdminBundle:Default:index.html.twig' %}
+{% block content %}
+    <div class="container" style="width:100%;">
+        <h1>Add page</h1>
+        <div class="container-content clearfix">
+            <div id="shop-status" class="alert"></div>
+            <form action="{{ path('admin_shop_ajax_add') }}" class="form-clean" id="frmAddShop" method="post">
+                <p>
+                    <label for="name">Name</label><br/>
+                    <input type="text" name="_admin_shop_name" class="inputbox" data-validate-options="required" id="name" placeholder="Item name:">
+                </p>
+                <p>
+                    <label for="amount">Amount</label><br/>
+                    <input type="text" name="_admin_shop_amount" class="inputbox" data-validate-options="required|number" id="amount" placeholder="Amount:">
+                </p>
+                <p>
+                    <label for="command">Command</label><br/>
+                    <input type="text" name="_admin_shop_command" class="inputbox" data-validate-options="required" id="command" placeholder="Command:"">
+                </p>
+                <p>
+                    <label for="reduction">Reduction</label><br/>
+                    <input type="text" name="_admin_shop_reduction" class="inputbox" data-validate-options="required|number" id="reduction" placeholder="Reduction? (in procent, ex. 50)">
+                </p>
+                <p>
+                    <label for="image">Image</label><br/>
+                    <input type="text" name="_admin_shop_image" class="inputbox" data-validate-options="required" id="image" placeholder="image path:">
+                </p>
+                <p>
+                    <label for="priority">Priority</label><br/>
+                    <input type="text" name="_admin_shop_priority" class="inputbox" id="priority" placeholder="Priority:">
+                </p>
+                <p>
+                    <select name="_admin_shop_website" id="admin_shop_website" class="selectable" value="Website" data-validate-options="selectable">
+                        <option value="">Choose a website</option>
+                        {% for website in websites %}
+                            <option value="{{ website.id }}">{{ website.name }}</option>
+                        {% endfor %}
+                    </select>
+                </p>
+
+                <div id="shop_add_servers_panel" style="display:none;">
+                    <p>
+                        <select id="shop_servers"></select>
+                    </p>
+                    <p>
+                        <select name="_admin_shop_section" id="section" class="selectable" value="Section" data-validate-options="selectable">
+                            <option value="">choose a section</option>
+                            {% for section in sections %}
+                                <option value="{{ section.id }}">{{ section.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </p>
+                </div>
+
+                <p>
+                    <span class="checkbox-custom-1-span">Visibility:</span>
+                <div class="checkbox-custom-1">
+                    <input type="checkbox" value="None" id="visible" name="check" />
+                    <label for="visible"></label>
+                </div>
+                </p>
+
+                <p>
+                    <label for="description">Description:</label><br/>
+                    <textarea name="_admin_shop_description" cols="20" rows="30" class="inputbox" id="description" placeholder="Description:" ></textarea>
+                </p>
+                <button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" id="btnshopSave">save item</button>
+            </form>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <script>
+        $(document).ready(function(){
+
+            //For choosing website and corresponding servers
+            $('#admin_shop_website').change(function(){
+
+                $('#shop_servers').html('');
+
+                $.getJSON("{{ path('admin_get_servers_pattern') }}" + $('#admin_shop_website').val(), function(result) {
+                    for (var i = 0; i < result.length; i++) {
+                        $('#shop_servers').append(new Option(result[i].name, result[i].id));
+                    }
+                });
+
+                $('#shop_add_servers_panel').slideDown();
+            });
+
+            UI.editor('description');
+
+            var form = $("#frmAddShop")
+            $(form).submit(function() {
+
+                //VALIDATE FIRST
+                var validate = UI.validate($(form));
+
+                if(validate == true)
+                {
+                    for ( instance in CKEDITOR.instances )
+                        CKEDITOR.instances[instance].updateElement();
+
+                    AJAX.post($(form).attr("action"), {
+                        _admin_shop_name : $('#name').val(),
+                        _admin_shop_description : $('#description').val(),
+                        _admin_shop_amount : $('#amount').val(),
+                        _admin_shop_visible : $('#visible').is(':checked'),
+                        _admin_shop_command : $('#command').val(),
+                        _admin_shop_image : $('#image').val(),
+                        _admin_shop_reduction : $('#reduction').val(),
+                        _admin_shop_section : $('#section').val(),
+                        _admin_shop_server : $("#shop_servers").val(),
+                        _admin_shop_priority : $("#priority").val(),
+                        _admin_shop_website : $('#admin_shop_website').val()
+
+                    }, $("#shop-status"), $('#btnshopSave'));
+                    return false;
+                }
+                else
+                {
+                    var parse = UI.parseErrorArray(validate);
+                    $("#shop-status").html(parse).css('display', 'block');
+                    return false;
+                }
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% for page in pages %}
+<li>
+    <a href="{{ path('page_custom', {'page' : page.url }) }}">{{ page.name }}</a>
+</li>
+{% endfor %}
+{% if showapplications is defined and showapplications == true %}
+    <li>
+        <a href="{{ path('applications_list') }}">Applications</a>
+    </li>
+{% endif %}

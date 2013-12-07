@@ -1,0 +1,13 @@
+{% for announcement in announcements %}
+    {% if announcement.type|upper == "SUCCESS" %}
+        <div class="alert alert-success">
+    {% elseif announcement.type|upper == "WARNING" %}
+         <div class="alert alert-block">
+    {% elseif announcement.type|upper == "DANGER" %}
+         <div class="alert alert-danger">
+    {% else %}
+         <div class="alert alert-info">
+    {% endif %}
+    {{ announcement.text|raw }}
+</div>
+{% endfor %}

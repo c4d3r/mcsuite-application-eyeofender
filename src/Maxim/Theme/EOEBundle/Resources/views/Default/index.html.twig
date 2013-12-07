@@ -1,0 +1,307 @@
+{% spaceless %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Eye of Ender - Minecraft{% endblock title %}</title>
+    <meta itemprop="image" content="{{ asset('/bundles/maximthemeeoe/theme/images/web/apple-touch-icon.png') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+
+    {% javascripts
+    '@MaximThemeEOEBundle/Resources/public/theme/plugins/pace/pace.js'
+    output='themes/eyeofender/js/main-head.js'
+    package='jsApp'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <link rel="shortcut icon" href="{{ asset('/bundles/maximthemeeoe/theme/images/web/favicon.ico') }}">
+    <link rel="apple-touch-icon image_src" href="{{ asset('/bundles/maximthemeeoe/theme/images/web/apple-touch-icon.png') }}">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:domain" content="eyeofender.com"/>
+    <meta name="og:type" content="website" />
+    <meta name="og:image" content="{{ asset('/bundles/maxim/maximthemeeoe/theme/images/web/apple-touch-icon.png') }}"/>
+    <meta name="og:title" content="Eye of ender minecraft, A free-to-play minecraft server" />
+    <meta name="og:description" content="Eye of ender is a high quality free to play minecraft server" />
+    <meta name="og:url" content="http://eyeofender.com"/>
+
+    <meta name="description" content="Eye of ender is a minecraft server that provides the user with a unique minigames and a good list of minigames to choose from, this network is supported by the famous youtuber gizzy14gazza">
+
+    {#<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet" type="text/css">#}
+    <link href='http://fonts.googleapis.com/css?family=Fauna+One' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Kameron' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Maven+Pro' rel='stylesheet' type='text/css'>
+
+
+
+    {% stylesheets
+        output='css'
+        output='themes/eyeofender/css/main.css'
+        package='css'
+        '@MaximThemeEOEBundle/Resources/public/theme/framework/zurb/css/*'
+        '@MaximThemeEOEBundle/Resources/public/theme/css/*'
+        '@MaximCMSBundle/Resources/public/plugins/tooltipster/css/tooltipster.css'
+        '@MaximCMSBundle/Resources/public/plugins/tooltipster/css/themes/tooltipster-shadow.css'
+        '@MaximCMSBundle/Resources/public/plugins/tooltip-toolbar/css/jquery.toolbars.css'
+        '@MaximCMSBundle/Resources/public/plugins/tooltip-toolbar/css/toolbars-custom.css'
+        '@MaximCMSBundle/Resources/public/plugins/redactor/redactor.css'
+    %}
+        <link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+
+    {% block head %}
+    {% endblock %}
+</head>
+<body>
+<header>
+    <nav class="top-bar" data-topbar>
+        {# TOP BAR #}
+        {% if networks %}
+        <section class="top-bar-section auto" id="networks">
+            <ul class="left">
+                <li class="has-dropdown">
+                    <a href="#">Eye of Ender</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Eye of Ender</a></li>
+                        <li><a href="#">TheMass</a></li>
+                    </ul>
+                </li>
+            </ul>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <ul class="right">
+                    <li class="has-dropdown">
+                        <a href="#">Notifications<span class="badge">{{ app.user.unreadNotifications|length }}</span></a>
+                        <ul class="dropdown">
+                            {% for notification in app.user.unreadNotifications %}
+                                <li><a href="#">{{ notification.text }}</a></li>
+                            {% else %}
+                                <li><span>No unread notifications left.</span></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+            {% endif %}
+        </section>
+        {% endif %}
+    </nav>
+    <nav id="navigation" class="row">
+        <ul class="medium-9 large-9 columns">
+            <li><a href="{{ path('home') }}">Home</a></li>
+            <li>
+                <a href="#" data-dropdown="drop-servers">Servers &raquo;</a>
+
+                <ul id="drop-servers" class="f-dropdown" data-dropdown-content>
+                    <li><a href="#">Archergames</a></li>
+                </ul>
+            </li>
+            <li><a href="{{ path('shop') }}" title="Eye of Ender Shop">Shop</a></li>
+            <li><a href="{{ path('forum_main') }}" title="Eye of Ender forums">Forum</a></li>
+            <li><a href="#" title="About Us">About Us</a></li>
+            <li><a href="{{ path('tickets_index') }}" title="Eye of Ender Contact">Contact</a></li>
+            <li>
+                <a href="#" data-dropdown="drop-pages">Other &raquo;</a>
+
+                <ul id="drop-pages" class="f-dropdown" data-dropdown-content>
+                    {{ render(controller('MaximCMSBundle:Default:custom_pages')) }}
+                </ul>
+            </li>
+
+            {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+                <li class="right" style="border-left: 1px solid rgb(85, 84, 84);"><a href="{{ path('login') }}">Login</a></li>
+            {% else %}
+                <li class="right" style="border-left: 1px solid rgb(85, 84, 84);"><a href="{{ path('logout') }}">Logout</a></li>
+            {% endif %}
+        </ul>
+        <div id="account" class="medium-2 medium-offset-1 large-2 large-offset-1 columns hide-for-small-only">
+            {# PROFILE OR REGISTER BUTTON #}
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
+                <div class="profile-container">
+                    <a href="{{ path('profile', { 'name' : app.user.username }) }}" class="left">
+                        <img data-src="http://minotar.net/avatar/{{ app.user.username }}/75.png" src="{{ asset('/bundles/maximcms/images/blank.gif') }}" alt="avatar from {{ app.user.username }}" class="preload"/>
+                        <noscript>
+                            <img src="http://minotar.net/avatar/{{ app.user.username }}/75.png" rel="tooltip" data-original-title="martim128" alt="player martim128">
+                        </noscript>
+                    </a>
+
+                    <div class="sidebar-profile-content">
+                        <div>
+                            <span class="radius secondary label bg-purple">{{ app.user.rank.name }}</span>
+                        </div>
+                        <div>
+                            <span class="radius secondary label">{{ app.user.username }}</span>
+                        </div>
+                        <div>
+                            <span class="radius secondary label">{{ app.user.lastLogin|date("M j, Y, g:i a") }}</span>
+                        </div>
+                    </div>
+                </div>
+
+            {% else %}
+                <ul class="menu" style="padding:5px;">
+                    <li><a href="{{ path('register') }}" style="display:table-cell;vertical-align: middle; height:65px;" class="button-register">Register</a></li>
+                </ul>
+            {% endif %}
+        </div>
+    </nav>
+</header>
+
+<div id="wrapper" class="row">
+
+    {# ANNOUNCEMENTS #}
+    {{ render(controller('MaximCMSBundle:Default:announcementsLoad')) }}
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="alert alert-success">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="alert alert-error">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
+    <!-- for statuses etc... -->
+    <div id="global_messagebox"></div>
+    {# END ANNOUNCEMENTS#}
+
+    <section id="mid" class="medium-7 large-7 columns">
+
+        <div class="ip">Server address: <span class="color-purple">hub.eyeofender.com</span></div>
+        {% block body %}
+        {% endblock body %}
+
+    </section>
+
+    <aside class="medium-4 medium-offset-1 large-4 large-offset-1 columns">
+        {# MODULE: Account Panel #}
+        <div class="module">
+            <h3 class="module-header">Account Panel</h3>
+            <div class="module-content">
+                <ul class="menu menu-stacked">
+                    {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <li><a href="{{ path('login') }}" class="color-purple">Login</a></li>
+                    {% else %}
+                        <li><a href="{{ path('account') }}" class="button [radius round]">Account panel</a></li>
+                        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_STAFF') %}
+                            <li><a href="{{ path('admin') }}" class="button [radius round]">Admin panel</a></li>
+                        {% endif %}
+                        <li><a href="{{ path('logout') }}" class="button [radius round]">Logout</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+
+        {# MODULE: Voting #}
+        <div class="module">
+            <h3 class="module-header">Voting</h3>
+            <div class="module-content">
+                {{ render(controller('MaximCMSBundle:Vote:render')) }}
+            </div>
+        </div>
+
+        {# MODULE: Latest Threads #}
+        <div class="module">
+            <h3 class="module-header">Latest Threads</h3>
+            <div class="module-content">
+                {{ render(controller('MaximModuleForumBundle:Widget:latestThreads')) }}
+            </div>
+        </div>
+
+        {# Twitter timeline #}
+        <div style="margin-top:10px;">
+            <a class="twitter-timeline" href="https://twitter.com/EyeOfEnderLtd" data-widget-id="401824404578910208">Tweets by @EyeOfEnderLtd</a>
+        </div>
+    </aside>
+
+    <div style="clear:both;"></div>
+
+</div>
+
+{# FOOTER #}
+<footer class="row">
+    <div class="medium-2 columns hide-for-small-only">
+        <img src="{{ asset('/bundles/maximthemeeoe/theme/images/logo.png') }}" class="logo left" />
+    </div>
+    <div class="medium-9 medium-centered columns">
+        <p>All Rights Reserved 2013 © Eye of Ender, Created by <a href="mailto:c4d3r@hotmail.com">C4D3R</a></p>
+        <p>Visit our other websites: <a href="http://eyeofender.com">EyeOfEnder.com</a></p>
+        <nav>
+            <ul class="menu menu-simple">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Forum</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Shop</a></li>
+            </ul>
+        </nav>
+    </div>
+</footer>
+
+</body>
+
+<!-- SCRIPTS -->
+<script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+{% javascripts
+    '@MaximThemeEOEBundle/Resources/public/theme/framework/zurb/js/modernizr.js'
+    '@MaximThemeEOEBundle/Resources/public/theme/framework/zurb/js/foundation.min.js'
+    '@MaximCMSBundle/Resources/public/js/AJAX.js'
+    '@MaximCMSBundle/Resources/public/js/UI.js'
+    '@MaximCMSBundle/Resources/public/plugins/redactor/plugins/fontcolor.js'
+    '@MaximCMSBundle/Resources/public/plugins/redactor/plugins/fontfamily.js'
+    '@MaximCMSBundle/Resources/public/plugins/redactor/plugins/emoticons.js'
+    '@MaximCMSBundle/Resources/public/plugins/redactor/redactor.min.js'
+    '@MaximCMSBundle/Resources/public/theme/plugins/cookie/jquery.cookie.js'
+    '@MaximCMSBundle/Resources/public/plugins/parsley/parsley.js'
+    '@MaximCMSBundle/Resources/public/js/redactor_init.js'
+    '@MaximCMSBundle/Resources/public/plugins/JAIL/jail.js'
+    '@MaximCMSBundle/Resources/public/theme/js/*'
+    '@MaximCMSBundle/Resources/public/plugins/tooltipster/js/jquery.tooltipster.min.js'
+    '@MaximCMSBundle/Resources/public/plugins/tooltip-toolbar/js/jquery.toolbar.min.js'
+    '@MaximThemeEOEBundle/Resources/public/theme/js/*'
+    output='themes/eyeofender/js/main.js'
+    package='jsApp'
+%}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+{% block javascript_files %}
+{% endblock %}
+<script>
+    {% block scripts %}
+    {% endblock scripts %}
+    // foundation init
+    $(document).foundation();
+
+    // twitter
+    !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+
+    $(".preload").jail({
+        placeholder : "{{ asset('/bundles/maximcms/images/preloader.gif') }}",
+        offset : 300,
+        event: "load",
+        loadHiddenImages : true
+    });
+
+    //Google analytics
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-37685775-2', 'eyeofender.com');
+    ga('send', 'pageview');
+
+    //Activate tooltips
+    $('.tooltip-init').tooltipster({
+        theme: '.tooltipster-shadow'
+    });
+</script>
+{% block scripttags %}
+{% endblock %}
+
+
+</body>
+</html>
+{% endspaceless %}

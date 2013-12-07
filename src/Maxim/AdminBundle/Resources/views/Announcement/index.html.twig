@@ -1,0 +1,127 @@
+{% extends 'MaximAdminBundle:Default:index.html.twig' %}
+{% block content %}
+    <div class="container" style="width:100%;">
+        <h1>Announcement statistics</h1>
+        <div class="container-content">
+            <p>Adding later</p>
+        </div>
+    </div>
+    <div class="container" style="width:100%;">
+        <h1>Announcement Actions</h1>
+        <div class="container-content">
+            <a href="{{ path('admin_announcement_add_view') }}" class="button" style="display:inline-block;">Add an announcement</a>
+        </div>
+    </div>
+    <div class="container" style="width:100%;">
+        <h1>Announcements</h1>
+        <div class="container-content clearfix">
+            <!-- VIEW NEWS POSTS -->
+            <table id="table_announcement">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>TYPE</th>
+                    <th>TEXT</th>
+                    <th>START DATE</th>
+                    <th>END DATE</th>
+                    <th>ACTION</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="odd gradeX">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+            <script>
+                var editor; // use a global for the submit and return data rendering in the examples
+                var oTable;
+                var giRedraw = false;
+                var tblAnnouncement = $('#table_announcement');
+
+                $(document).ready(function() {
+                    // Create the form
+
+                    // Edit record
+                    tblAnnouncement.on('click', 'a.editor_edit', function (e) {
+                        e.preventDefault();
+
+                        //call ajax delete request
+                        var url = '{{ path("admin_announcement_edit_view", {'id': 'region_id'}) }}';
+                        url = url.replace("region_id", this.getAttribute("data-id"));
+
+                        var win=window.open(url, '_blank');
+                        win.focus();
+                    });
+
+                    // Delete a record (without asking a user for confirmation)
+                    tblAnnouncement.on('click', 'a.editor_remove', function (e) {
+                        e.preventDefault();
+
+                        //call ajax delete request
+                        var url = '{{ path("admin_announcement_delete_ajax", {'id': 'region_id'}) }}';
+                        url = url.replace("region_id", this.getAttribute("data-id"));
+
+                        AJAX.post_url_datatable(url, $(this).parents('tr')[0], oTable);
+                    } );
+
+                    oTable = tblAnnouncement.dataTable( {
+                        "bSort": true,
+                        "bFilter": true,
+                        "bProcessing": true,
+                        "bServerSide": true,
+                        aoColumnDefs: [
+                            {
+                                sDefaultContent: '',
+                                aTargets: [ '_all' ]
+                            }
+                        ],
+                        "sAjaxSource": "{{ path('admin_announcement_list') }}",
+                        "aoColumns": [
+                            { "mData": "id" },
+                            { "mData": "type" },
+                            {
+                                "mData": "text",
+                                "sClass": "dataTable_custom_text_left",
+                                "mRender": function( data, type, row) {    // You can use <img> as well if you want
+                                    return data.substring(0, 100) + "...";
+                                }
+                            },
+                            { "mData": "startdate" },
+                            { "mData": "enddate" },
+                            {
+                                "mData": "id",
+                                "mRender": function( data, type, row) {    // You can use <img> as well if you want
+                                    return '<a href="" data-id="' + row["id"] + '" class="editor_edit button-small inline">E</a><a href="" data-id="' + row["id"] + '" class="editor_remove button-small inline">X</a>';
+                                }
+                            }
+                        ]
+                    });
+
+                });
+
+                /* Get the rows which are currently selected */
+                function fnGetSelected( oTableLocal )
+                {
+                    var aReturn = new Array();
+                    var aTrs = oTableLocal.fnGetNodes();
+
+                    for ( var i=0 ; i<aTrs.length ; i++ )
+                    {
+                        if ( $(aTrs[i]).hasClass('row_selected') )
+                        {
+                            return (aTrs[i]);
+                        }
+                    }
+
+                }
+            </script>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+{% endblock %}

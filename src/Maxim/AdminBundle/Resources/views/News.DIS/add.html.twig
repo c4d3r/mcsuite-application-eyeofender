@@ -1,0 +1,73 @@
+{% extends 'MaximAdminBundle:Default:index.html.twig' %}
+{% block content %}
+    <div class="container clearfix" style="width:100%;">
+        <h1>Add a news article</h1>
+        <div class="container-content clearfix">
+            <div id="news-status"></div>
+            <form action="{{ path('admin_news_add') }}" class="form-clean" id="frmAddNews" method="post">
+                <p>
+                    <label for="news-title">Title</label><br/>
+                    <input type="text" name="_admin_news_title" class="inputbox" placeholder="Enter a news title here" id="news-title" >
+                </p>
+
+                <!-- WEBSITE -->
+                <p>
+                    <select name="_admin_news_website" id="admin_news_website" class="selectable" value="Website" data-validate-options="selectable">
+                        <option value="">Choose a website</option>
+                        {% for website in websites %}
+                            <option value="{{ website.id }}">{{ website.name }}</option>
+                        {% endfor %}
+                    </select>
+                </p>
+
+                <div id="news_add_sections_panel" style="display:none;">
+                    <p>
+                        <select id="news_sections"></select>
+                    </p>
+                </div>
+
+                <p>
+                    <label for="content" >Content</label>
+
+                    <textarea cols="80" rows="20" name="_admin_news_content" id="news-content" style="width:670px;"></textarea>
+                </p>
+                <input type="submit" value="Save" class="button" id="btnSave"/>
+            </form>
+        </div>
+    </div>
+    <script>
+        //onclick
+        UI.editor('news-content');
+
+        $('#admin_news_website').change(function(){
+
+            $('#shop_sections').html('');
+
+            $.getJSON("{{ path('admin_get_news_sections_pattern') }}" + $('#admin_news_website').val(), function(result) {
+                for (var i = 0; i < result.length; i++) {
+                    $('#shop_sections').append(new Option(result[i].name, result[i].id));
+                }
+            });
+
+            $('#news_add_sections_panel').slideDown();
+        });
+
+        $('#frmAddNews').submit(function(e) {
+            e.preventDefault();
+
+            for ( instance in CKEDITOR.instances )
+                CKEDITOR.instances[instance].updateElement();
+
+            AJAX.post_noButton(
+                $("#frmAddNews").attr("action"),
+                {
+                    _admin_news_title : $("#news-title").val(),
+                    _admin_news_content : $("#news-content").val(),
+                    _admin_news_section : $("#news_sections").val(),
+                    _admin_news_website : $('#admin_news_website').val()
+                },
+                $("#news-status")
+            );
+        });
+    </script>
+{% endblock %}

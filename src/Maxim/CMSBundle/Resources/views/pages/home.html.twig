@@ -1,0 +1,60 @@
+{% extends 'MaximCMSBundle:Default:index.html.twig' %}
+
+{% block body %}
+	<div id="news">
+		{% for newspost in articles %}
+		<div class="news-article">
+			<img src="/bundles/maximcms/themes/default/images/article/article1.jpg" alt="article image" class="news-image" />
+			<div class="news-content">
+				<h1>{{ newspost.title }}</h1>
+				<p>
+					{{ newspost.content | raw}}
+				</p>
+				<p>
+					Posted by {{ newspost.username }} on {{ newspost.date|date }}
+ 				</p>
+			</div>
+			<div class="news-ribbon">
+				<a href="javascript:void(0);" onclick="showComments({{ newspost.id }})" class="news-ribbon-comments" id="comments_link_{{ newspost.id }}">({{ newspost.comments }} Comments)</a>
+				<a href="{{ social_facebook }}" class="news-ribbon-share">Share</a>
+			</div>
+		</div>
+		<div class="comment_{{ newspost.id }}" id="comment_{{ newspost.id }}"></div>
+		{% else %}
+		<div class="news-article">
+			<div class="news-content">
+				<h1>No news articles have been found</h1>
+				<p>
+					We were unable to find any news posts.
+				</p>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	<script>
+		function showComments(id) {
+			var element = $("#comment_" + id);
+
+			if (element.html().length > 0) {
+				UI.show(element);
+			} else {
+				var url = "{{ path('home')}}/" + id;
+				$(element).html('<img src="/bundles/maximcms/images/preloader.gif" alt="preloader" />');
+				$.post(url, {
+					_news_id : id
+				}, function(data) {
+					data = jQuery.parseJSON(data);
+					if (data.success == true) {
+						//add message and change the class of the box and start fading
+						$(element).html(data.message);
+						$(element).opentip();
+					} else {
+						$(element).html(data.message);
+					}
+
+				});
+			}
+		}
+	</script>
+
+{% endblock %}

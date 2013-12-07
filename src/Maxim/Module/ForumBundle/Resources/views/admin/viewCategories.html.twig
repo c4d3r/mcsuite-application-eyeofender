@@ -1,0 +1,154 @@
+{% extends 'MaximAdminBundle:Default:index.html.twig' %}
+{% block content %}
+    <div class="container" style="width:100%;">
+        <h1>Category statistics</h1>
+        <div class="container-content">
+            <p>Adding later</p>
+        </div>
+    </div>
+    <div class="container" style="width:100%;">
+        <h1>Actions</h1>
+        <div class="container-content">
+            <a href="{{ path('forum_admin_category_add_view') }}" class="button" style="display:inline-block;">Add a category</a>
+            <a href="{{ path('forum_admin_forum_add_view') }}" class="button" style="display:inline-block;">Add a forum</a>
+        </div>
+    </div>
+    <div class="container" style="width:100%;">
+        <h1>Categories</h1>
+        <div class="container-content clearfix">
+            <!-- VIEW NEWS POSTS -->
+            <table id="table_category">
+                <thead>
+                    <tr>
+                        <th style="width:40px;">ID</th>
+                        <th>WEBSITE</th>
+                        <th>TITLE</th>
+                        <th>DESCRIPTION</th>
+                        <th style="width:156px;">CREATED ON</th>
+                        <th style="width:40px;">SORT</th>
+                        <th>ACTIONS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="odd gradeX">
+                        <td style="text-align:center;"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align:center;"></td>
+                        <td style="text-align:center;"></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <script>
+                var editor; // use a global for the submit and return data rendering in the examples
+                var oTable;
+                var giRedraw = false;
+
+                $(document).ready(function() {
+                    // Create the form
+
+                    // Edit record
+                    $('#table_category').on('click', 'a.editor_edit', function (e) {
+                        e.preventDefault();
+
+                        //call ajax delete request
+                        var url = '{{ path("forum_admin_category_edit_view", {'id': 'region_id'}) }}';
+                        url = url.replace("region_id", this.getAttribute("data-id"));
+
+                        var win=window.open(url, '_blank');
+                        win.focus();
+                    });
+
+                    // Delete a record (without asking a user for confirmation)
+                    $('#table_category').on('click', 'a.editor_remove', function (e) {
+                        e.preventDefault();
+
+                        //call ajax delete request
+                        var url = '{{ path("forum_admin_category_delete_ajax", {'id': 'region_id'}) }}';
+                        url = url.replace("region_id", this.getAttribute("data-id"));
+
+                        AJAX.post_url_datatable(url, $(this).parents('tr')[0], oTable);
+                    } );
+
+                    $("#table_category tbody").click(function(event) {
+                        $(oTable.fnSettings().aoData).each(function (){
+                            $(this.nTr).removeClass('row_selected');
+                        });
+                        $(event.target.parentNode).addClass('row_selected');
+                    });
+
+                    /* Add a click handler for the edit row */
+                    $('#edit-category').click( function() {
+                        var anSelected = fnGetSelected( oTable );
+                        var aData = oTable.fnGetData(anSelected);
+                        $('#admin_categoryId').val(aData["id"]);
+                        $('#dialog-form-update #title').val(aData["title"]);
+
+                        $('#description').val(aData["description"]);
+                    } );
+
+                    oTable = $('#table_category').dataTable( {
+                        "bSort": true,
+                        "bFilter": true,
+                        "bProcessing": true,
+                        "bServerSide": true,
+                        aoColumnDefs: [
+                            {
+                                sDefaultContent: '',
+                                aTargets: [ '_all' ]
+                            }
+                        ],
+                        "sAjaxSource": "{{ path('forum_admin_category_list_ajax') }}",
+                        "aoColumns": [
+                            { "mData": "id" },
+                            { "mData": "website.name" },
+                            {
+                                "mData": "title",
+                                "sClass": "dataTable_custom_text_left",
+                                "mRender": function( data, type, row) {    // You can use <img> as well if you want
+                                    return data.substring(0, 100) + "...";
+                                }
+                            },
+                            {
+                                "mData": "description",
+                                "sClass": "dataTable_custom_text_left",
+                                "mRender": function( data, type, row) {    // You can use <img> as well if you want
+                                    return data.substring(0, 100) + "...";
+                                }
+                            },
+                            { "mData": "createdOn" },
+                            { "mData": "sort" },
+                            {
+                                "mData": "id",
+                                "mRender": function( data, type, row) {    // You can use <img> as well if you want
+                                    return '<a href="{{ path('forum_admin_forums_view_pattern') }}' + row["id"] + '/view" class="editor_viewforums button-small inline">View forums</a><a href="" data-id="' + row["id"] + '" class="editor_edit button-small inline">E</a><a href="" data-id="' + row["id"] + '" class="editor_remove button-small inline">X</a>';
+                                }
+                            }
+                        ]
+                    });
+
+                });
+
+                /* Get the rows which are currently selected */
+                function fnGetSelected( oTableLocal )
+                {
+                    var aReturn = new Array();
+                    var aTrs = oTableLocal.fnGetNodes();
+
+                    for ( var i=0 ; i<aTrs.length ; i++ )
+                    {
+                        if ( $(aTrs[i]).hasClass('row_selected') )
+                        {
+                            return (aTrs[i]);
+                        }
+                    }
+
+                }
+            </script>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+{% endblock %}

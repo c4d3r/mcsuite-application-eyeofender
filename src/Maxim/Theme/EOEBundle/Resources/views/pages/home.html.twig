@@ -1,0 +1,24 @@
+{% extends 'MaximCMSBundle:Default:index.html.twig' %}
+
+{% block body %}
+    {% for article in articles %}
+        <article>
+            <h3>
+                <span class="article-header">{{ article.title }}</span>
+                <span class="article-date">
+                    {{ article.createdOn|date('j M, Y') }}<br/>
+                    {{ article.createdOn|date('H:i') }}
+                </span>
+            </h3>
+            <p>{{ article.text|purify}}</p>
+            <p><a href="{{ path('forum_thread_view', {'id' : article.forum.id, 'threadid' : article.id}) }}">Comments ({{ article.posts|length }})</a></p>
+        </article>
+    {% else %}
+        <article>
+            <h3>
+                <span class="article-header">News posts</span>
+            </h3>
+            <p>No news posts found in this section</p>
+        </article>
+    {% endfor %}
+{% endblock body %}

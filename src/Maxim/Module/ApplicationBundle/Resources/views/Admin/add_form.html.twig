@@ -1,0 +1,118 @@
+{% extends 'MaximAdminBundle:Default:index.html.twig' %}
+{% block content %}
+    <div class="container" style="width:100%;">
+        <h1>Add an application form</h1>
+        <div class="container-content clearfix">
+            <div id="app-status" class="alert"></div>
+            <!-- ADD PAGE -->
+            <form action="{{ path('admin_application_add_ajax') }}" class="form-clean" id="frmAddApp" method="post">
+                <p>
+                    <label for="name">Name</label><br/>
+                    <input type="text" name="_admin_app_name" class="inputbox" id="name" >
+                </p>
+                <p>
+                    <label for="admin_app_website">Website</label><br/>
+                    <select name="_admin_app_website" id="admin_app_website" class="selectable" value="Website" data-validate-options="selectable">
+                        <option value="">Choose a website</option>
+                        {% for website in websites %}
+                            <option value="{{ website.id }}">{{ website.name }}</option>
+                        {% endfor %}
+                    </select>
+                </p>
+                <p>
+                    <label for="admin_app_rank">Rank</label><br/>
+                    <select name="_admin_app_rank" id="admin_app_rank" class="selectable" value="Website" data-validate-options="selectable">
+                        <option value="">Choose a website</option>
+                        {% for rank in ranks %}
+                            <option value="{{ rank.id }}">{{ rank.name }}</option>
+                        {% endfor %}
+                    </select>
+                </p>
+                <p>
+                    <label for="app_content">content:</label><br/>
+                    <textarea name="_admin_app_content" cols="20" rows="30" class="inputbox" id="app_content" >
+                        <h1>Application - Moderator</h1>
+                        <div class="well">
+                            <div id="application-status"></div>
+                            <form class="form-horizontal" id="frmApplication" action="{{ path('application_action') }}">
+                                <div class="control-group">
+                                    <label class="control-label" for="inputEmail">Email</label>
+                                    <div class="controls">
+                                        <input type="text" name="_app[]" data-validate-required="Email is a required field" data-validate-options="required|email|whitespace|length=5" id="inputEmail" placeholder="Email">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="inputPassword">Name</label>
+                                    <div class="controls">
+                                        <input type="text" name="_app[]" data-validate-required="Name is a required field" data-validate-options="required|length=5" id="inputPassword" placeholder="Name">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <div class="controls">
+                                        <button type="submit" id="btnAppSubmit" class="btn">Submit application</button>
+                                    </div>
+                                </div>
+                                {$applicationid}
+                            </form>
+                        </div>
+                    </textarea>
+                </p>
+                <button type="submit" id="btnAppAdd" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">Add application</button>
+                <div>
+                    <h2>Validation tags</h2>
+                    <table>
+                        <tr>
+                            <td>required</td>
+                            <td>Will tell the field is required</td>
+                        </tr>
+                        <tr>
+                            <td>email</td>
+                            <td>Special regex check for email fields</td>
+                        </tr>
+                        <tr>
+                            <td>whitespace</td>
+                            <td>Tell the system that whitespaces are not allowed</td>
+                        </tr>
+                        <tr>
+                            <td>length=X</td>
+                            <td>Minimum length of an input field, X stands for a number</td>
+                        </tr>
+                    </table>
+                    <h2>Required input attributes</h2>
+                    <table>
+                        <tr>
+                            <td style="width:50px;">name</td>
+                            <td>_app[]</td>
+                        </tr>
+                    </table>
+                    <p>
+                        Every validation option is seperated by a | , to have custom validation error messages you can use the attribute data-validate-VALIDATIONRULE="Yourmessage"
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <script>
+        $(document).ready(function(){
+            var editor = UI.editor('app_content', "100%", "600px", null, true);
+            editor.editorConfig = function( config ) {
+
+                config.toolbar = 'Basic';
+                config.uiColor = '#9AB8F3';
+            };
+
+            $("#frmAddApp").submit(function() {
+                for ( instance in CKEDITOR.instances )
+                    CKEDITOR.instances[instance].updateElement();
+                AJAX.post($("#frmAddApp").attr("action"), {
+                    _admin_app_name : $('#name').val(),
+                    _admin_app_content : $("#app_content").val(),
+                    _admin_app_website : $('#admin_app_website').val(),
+                    _admin_app_rank    : $('#admin_app_rank').val()
+                }, $("#app-status"), $('#btnAppAdd'));
+                return false;
+            });
+        });
+    </script>
+{% endblock %}

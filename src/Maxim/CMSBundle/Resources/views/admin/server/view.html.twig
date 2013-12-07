@@ -1,0 +1,206 @@
+{% extends 'MaximCMSBundle:admin:index.html.twig' %}
+
+{% block middle %}
+    <div id="middle_menu_top">
+        <div class="vertical">
+            <h1>Tickets</h1>
+        </div>
+    </div>
+    <div id="middle_menu_small">
+        <ul>
+            <li><a href="{{ path('ticket_server')}}">servers</a></li>
+        </ul>
+    </div>
+    <script>
+        $(function() {
+            $( "#tabs" ).tabs();
+        });
+    </script>
+    <div id="middle_content">
+        <div class="window">
+            <div class="window-header">
+                <h6>Tickets</h6>
+            </div>
+            <div class="window-content">
+                <div id="ticket-status" class="alert"></div>
+                <div id="tabs">
+                    <ul>
+                        <li><a href="#tabs-1">SERVERS</a></li>
+                        <li><a href="#tabs-2">SERVER IPS</a></li>
+                    </ul>
+                    <div id="tabs-1">
+
+                        <!-- buttons -->
+                        <button type="button" name="" id="view-server" value="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">View Server</button>
+                        <button type="button" name="" id="delete-server" value="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">Delete Ticket</button>
+
+                        <!-- VIEW NEWS POSTS -->
+                        <table id="table_id">
+                            <thead>
+                            <tr>
+                                <th style="width:20px;">ID:</th>
+                                <th>NAME:</th>
+                                <th>DESCRIPTION</th>
+                                <th>IMAGE</th>
+                                <th style="width:20px;">ABBREVIATION</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="odd gradeX">
+                                <td></td>
+                                <td></td>
+                                <td style="overflow:hidden;"></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <script>
+                            var oTable;
+                            var giRedraw = false;
+
+                            $(document).ready(function() {
+                                $("#table_id tbody").click(function(event) {
+                                    $(oTable.fnSettings().aoData).each(function (){
+                                        $(this.nTr).removeClass('row_selected');
+                                    });
+                                    $(event.target.parentNode).addClass('row_selected');
+                                });
+
+                                /* Add a click handler for the edit row */
+                                $('#view-server').click( function() {
+                                    var anSelected = fnGetSelected( oTable );
+                                    var aData = oTable.fnGetData(anSelected);
+
+                                    window.location.href = "{{ path('admin_sever_view_pattern') }}" + "/" + aData["id"];
+                                } );
+
+                                $('#delete-server').click(function(){
+                                    var anSelected = fnGetSelected( oTable );
+                                    var aData = oTable.fnGetData(anSelected);
+                                    //AJAX REQUEST TO CLOSE TICKET
+                                    AJAX.post_noButton(
+                                            "{{ path('admin_server_delete')}}",
+                                            {
+                                                _ticket : aData["id"]
+                                            },
+                                            $('#server-status')
+                                    );
+                                });
+
+                                oTable = $('#table_id').dataTable( {
+                                    "bSort": true,
+                                    "bFilter": true,
+                                    "bProcessing": true,
+                                    "bServerSide": true,
+                                    "sAjaxSource": "{{ path('admin_server_ajax') }}",
+                                    "aoColumns": [
+                                        { "mData": "id" },
+                                        { "mData": "name" },
+                                        {   "mData": "description",
+                                            "mRender": function(data, type, full){
+                                                return data.substring(0, 150);
+                                            }
+                                        },
+                                        { "mData": "image" },
+                                        { "mData": "abbr" },
+                                    ]
+                                });
+                            });
+
+
+                        </script>
+                    </div>
+                    <div id="tabs-2">
+                        <!-- buttons -->
+                        <a href="{{ path('admin_module_ticket_section_addView') }}" id="add-section" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">Add Section</a>
+                        <button type="button" name="" id="edit-section" value="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">Edit Section</button>
+                        <button type="button" name="" id="delete-section" value="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">Remove Section</button>
+                        <!-- VIEW NEWS POSTS -->
+                        <table id="table_section">
+                            <thead>
+                            <tr>
+                                <th style="width:20px;">ID</th>
+                                <th style="width:60px;">NAME</th>
+                                <th style="width:170px;">CREATED ON</th>
+                                <th style="width:200px;">CREATED BY</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="odd gradeX">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <script>
+                            var oTable2;
+                            var giRedraw2 = false;
+
+                            $(document).ready(function() {
+                                $("#table_section tbody").click(function(event) {
+                                    $(oTable2.fnSettings().aoData).each(function (){
+                                        $(this.nTr).removeClass('row_selected');
+                                    });
+                                    $(event.target.parentNode).addClass('row_selected');
+                                });
+
+                                /* Add a click handler for the edit row */
+                                $('#edit-section').click( function() {
+                                    var anSelected = fnGetSelected( oTable2 );
+                                    var aData = oTable2.fnGetData(anSelected);
+
+                                    window.location.href = "{{ path('admin_module_ticket_section_editView_pattern') }}" + "/" + aData["id"];
+                                } );
+
+                                $('#delete-section').click(function(){
+                                    var anSelected = fnGetSelected( oTable2 );
+                                    var aData = oTable2.fnGetData(anSelected);
+                                    //AJAX REQUEST TO CLOSE TICKET
+                                    AJAX.post_noButton(
+                                            "{{ path('admin_module_ticket_section_delete')}}",
+                                            {
+                                                _section : aData["id"]
+                                            },
+                                            $('#ticket-status')
+                                    );
+                                });
+
+                                oTable2 = $('#table_section').dataTable( {
+                                    "bSort": true,
+                                    "bFilter": true,
+                                    "bProcessing": true,
+                                    "bServerSide": true,
+                                    "sAjaxSource": "{{ path('admin_module_ticket_section_ajax') }}",
+                                    "aoColumns": [
+                                        { "mData": "id" },
+                                        { "mData": "name" },
+                                        { "mData": "createdon" },
+                                        { "mData": "createdby.username" }
+                                    ]
+                                });
+
+                            });
+                            /* Get the rows which are currently selected */
+                            function fnGetSelected( oTableLocal )
+                            {
+                                var aReturn = new Array();
+                                var aTrs = oTableLocal.fnGetNodes();
+
+                                for ( var i=0 ; i<aTrs.length ; i++ )
+                                {
+                                    if ( $(aTrs[i]).hasClass('row_selected') )
+                                    {
+                                        return (aTrs[i]);
+                                    }
+                                }
+                            }
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock middle %}

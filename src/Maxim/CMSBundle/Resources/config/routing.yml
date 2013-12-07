@@ -1,0 +1,230 @@
+#-------
+# PAGES
+#-------
+#normal
+home:
+  pattern: /home
+  defaults: { _controller: MaximCMSBundle:Default:index }
+news_comments:
+  pattern: /news/{newsId}
+  defaults: { _controller: MaximCMSBundle:Default:post }
+news:
+  pattern: /news
+  defaults: { _controller: MaximCMSBundle:Default:news }
+commentAction:
+  pattern: /news/add
+  defaults: { _controller: MaximCMSBundle:Default:add }
+  requirements:
+     key: ".+"
+news_comments:
+  pattern: /news/{newsId}
+  defaults: { _controller: MaximCMSBundle:Default:post }
+
+register:
+  pattern: /register
+  defaults: { _controller: MaximCMSBundle:Security:registerView }
+register_validation:
+  pattern: /validate/{key}
+  defaults: { _controller: MaximCMSBundle:Security:validate }
+  requirements:
+     key: ".+"
+
+#vote
+topvoters:
+  pattern: /module/topvoters
+  defaults: { _controller: MaximCMSBundle:Module/Vote/Vote:topVoters }
+#-------
+# SHOP
+#-------
+shop:
+  pattern: /shop
+  defaults: { _controller: MaximCMSBundle:Shop:index }
+shop_step2:
+  pattern: /shop/step/2
+  defaults: { _controller: MaximCMSBundle:Shop:step2 }
+shop_confirm:
+  pattern: /shop/confirm
+  defaults: { _controller: MaximCMSBundle:Shop:confirm }
+shop_finish:
+  pattern: /shop/finish
+  defaults: { _controller: MaximCMSBundle:Shop:finish }
+shop_purchase_history:
+  pattern: /account/purchase/history
+  defaults: { _controller: MaximCMSBundle:Shop:purchaseHistory }
+#Ipn's
+ipn_paypal:
+  pattern: /shop/ipn/paypal
+  defaults: { _controller: MaximCMSBundle:Ipn/IpnPaypal:paypal }
+paypal_done:
+  pattern: /shop/complete
+  defaults: { _controller: MaximCMSBundle:Shop:complete }
+
+#---------
+# MEMBERS
+#---------
+profile:
+  pattern: /profile/{name}
+  defaults: { _controller: MaximCMSBundle:Profile:view }
+profile_friend_request_ajax:
+  pattern: /friend/add/ajax
+  defaults: { _controller: MaximCMSBundle:Profile:sendFriendRequest }
+profile_friend_delete_ajax:
+  pattern: /friend/delete/ajax
+  defaults: { _controller: MaximCMSBundle:Profile:deleteFriend }
+profile_friend_requests:
+  pattern: /account/friends/requests
+  defaults: { _controller: MaximCMSBundle:Profile:viewFriendrequests }
+profile_friendrequest_approve_ajax:
+  pattern: /account/friend/request/approve
+  defaults: { _controller: MaximCMSBundle:Profile:friendRequest, type: approve }
+  methods: [POST]
+profile_friendrequest_ignore_ajax:
+  pattern: /account/friend/request/ignore
+  defaults: { _controller: MaximCMSBundle:Profile:friendRequest, type: ignore }
+  methods: [POST]
+account:
+  pattern: /account
+  defaults: { _controller: MaximCMSBundle:Account:index }
+account_default:
+  pattern: /account/profile
+  defaults: { _controller: MaximCMSBundle:Account:accountView }
+account_profile_save:
+  pattern: /account/profile/save
+  defaults: { _controller: MaximCMSBundle:Account:accountSave }
+  requirements:
+    _method: POST
+login:
+    pattern:   /login
+    defaults:  { _controller: MaximCMSBundle:Security:loginForm } # Where ViewSubDir is a folder in the views directory of your bundle. And, where login is your controller action.
+loginForm:
+    pattern:   /login
+    defaults:  { _controller: MaximCMSBundle:Security:loginForm } # Where ViewSubDir is a folder in the views directory of your bundle. And, where login is your controller action.
+login_check:
+    pattern:   /login_check
+    requirements:
+        _method:  POST
+logout:
+  pattern: /logout
+reset:
+  pattern: /reset
+  defaults: { _controller: MaximCMSBundle:Security:reset }
+members:
+    pattern:   /members
+    defaults:  { _controller: MaximCMSBundle:Security:members }  #where members is your controller action. (This is the place you defined in the security.yml file)
+account_change_password:
+  pattern: /account/password/change
+  defaults: { _controller: MaximCMSBundle:Security:changePassView }
+
+#Forgot password
+account_forgot_password_send:
+  pattern: /forgot/send
+  defaults: { _controller: MaximCMSBundle:Security:forgotPassSend }
+account_forgot_password_reset:
+  pattern: /forgot/{key}
+  defaults: { _controller: MaximCMSBundle:Security:forgotPass }
+  requirements:
+     key: ".+"
+account_forgot_password:
+  pattern: /forgot
+  defaults: { _controller: MaximCMSBundle:Security:forgotPassView }
+
+#mincraft accounts
+#account_minecraft:
+#  pattern: /account/minecraft
+#  defaults: { _controller: MaximCMSBundle:Account:minecraftView }
+account_minecraft_add:
+  pattern: /account/minecraft/add
+  defaults: { _controller: MaximCMSBundle:Account:Add }
+portret:
+  pattern: /portret/{char}
+  defaults: { _controller: MaximCMSBundle:Minecraft:renderChar }
+
+#--------
+# SERVER
+#--------
+
+server_view:
+  pattern: /server
+  defaults: { _controller: MaximCMSBundle:Module/Server/Server:index }
+  requirements:
+    _method: _POST
+server_online_players:
+  pattern: /server/online
+  defaults: { _controller: MaximCMSBundle:Server:online }
+
+#profile
+profile_friend_add:
+  pattern: /profile/{username}/add
+  defaults: { _controller: MaximCMSBundle:Account:friendAdd }
+profile_friend_delete:
+  pattern: /profile/{username}/delete/{friend}
+  defaults: { _controller: MaximCMSBundle:Account:friendDelete }
+profile_load_content:
+  pattern: /profile/{username}/ajax
+  defaults: { _controller: MaximCMSBundle:Account:profileAjax }
+  requirements:
+     username: ".+"
+
+
+#------
+# AJAX
+#------
+ajax_register_action:
+  pattern: /register_action
+  defaults: { _controller: MaximCMSBundle:Security:register }
+ajax_login:
+    pattern:   /ajax_login
+    defaults:  { _controller: MaximCMSBundle:Security:ajaxLogin } # Where ViewSubDir is a folder in the views directory of your bundle. And, where login is your controller action.
+ajax_shoutbox:
+  pattern: /module/shoutbox/add
+  defaults: { _controller: MaximCMSBundle:Module/Shout/Shout:shout }
+ajax_shoutbox_load:
+  pattern: /module/shoutbox/load
+  defaults: { _controller: MaximCMSBundle:Module/Shout/Shout:shoutLoad }
+ajax_poll_load:
+  pattern: /module/poll/load
+  defaults: { _controller: MaximCMSBundle:Module/Poll/Poll:pollLoad }
+ajax_poll:
+  pattern: /module/poll/vote
+  defaults: { _controller: MaximCMSBundle:Module/Poll/Poll:pollVote }
+ajax_poll_results:
+  pattern: /module/poll/results
+  defaults: { _controller: MaximCMSBundle:Module/Poll/Poll:pollResult }
+ajax_password_change:
+  pattern: /account/password/change/action
+  defaults: { _controller: MaximCMSBundle:Security:changePass }
+  requirements:
+     _method: POST
+ajax_visitor:
+  pattern: /statistic/visitor
+  defaults: { _controller: MaximCMSBundle:Statistic:visitor }
+  requirements:
+    _method: POST
+#staff
+staff:
+  pattern: /staff
+  defaults: { _controller: MaximCMSBundle:Module/Staff/Staff:view }
+#-------
+# PAGES
+#-------
+#page_forum:
+#  pattern: /forum
+#  defaults: { _controller: MaximCMSBundle:Page:forum }
+#custom page
+page_custom:
+  pattern: /page/{page}
+  defaults: { _controller: MaximCMSBundle:Page:renderPage }
+  requirements:
+     page: ".+"
+page_staff:
+  pattern: /module/staff/load
+  defaults: { _controller: MaximCMSBundle:Module/Staff/Staff:view }
+
+page_clan:
+  pattern: /page/clan/{clan}
+  defaults: {_controller: MaximCMSBundle:Module/Clan/Clan:view }
+CMS_DEFAULT_HOME:
+  pattern: /
+  defaults: { _controller: MaximCMSBundle:Default:index }
+# note routes to create new users are not here but you'll need to create them just like you would any other route.
+# I left them out here because this is just meant to get you up and running as simply as possible (That at it will take me longer to type all this up... LOL)

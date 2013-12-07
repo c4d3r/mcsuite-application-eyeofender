@@ -1,0 +1,114 @@
+{% extends 'MaximCMSBundle:Default:index.html.twig' %}
+{% block head %}
+    <link href="{{ asset('/bundles/maximmoduleticket/css/style.css') }}" rel="stylesheet" type="text/css" >
+{% endblock %}
+{% block body %}
+    <div class="page">
+    <h3 class="page-header">Tickets</h3>
+        <div class="page-content">
+            {% if ticket is defined %}
+                <div class="alert" id="status-ticket-reply" style="display:none"></div>
+                <table class="table" id="tblTicketSingle">
+                    <tr>
+                        <th>ID:</th>
+                        <td><span class="ticket-id-{{ ticket.closed }}">#{{ ticket.id }}</span></td>
+                    </tr>
+                    <tr>
+                        <th>Status:</th>
+                        <td>{{ ticket.status }}</td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td>{{ ticket.description|raw }}</td>
+                    </tr>
+                </table>
+                <hr/>
+                <h3>Replies</h3>
+                <div class="ticket-replies">
+                    {% for key, reply in replies %}
+                        <div class="ticket-reply">
+                            <div class="ticket-reply-{% if key is even %}even{% else %}odd{% endif %}">
+                                <div class="ticket-reply-profile">
+                                    <img src="https://minotar.net/avatar/{{ reply.user.username }}/40.png" alt="{{ reply.user.username }}" rel="tooltip" data-original-title="{{ reply.user.username }}"/>
+                                    <h3>{{ reply.user.username }}</h3>
+                                    <p class="ticket-postedon">{{ reply.date|date('Y-m-d h:i:s') }}</p>
+                                </div>
+                                <div class="ticket-reply-content">
+                                    <p>{{ reply.text|raw }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <tr>
+                            <td colspan="2">No replies found</td>
+                        </tr>
+                    {% endfor %}
+                </div>
+                <hr/>
+                <form action="{{ path('ticket_reply') }}" method="post" class="form-horizontal" id="frmReplyTicket">
+                    <fieldset>
+                        <p>
+                            <label for="reply">Text: </label>
+                            <textarea id="reply" name="_reply" cols="30" rows="10" placeholder="Enter your reply here" style="width:90%;"></textarea>
+                        </p>
+                        <p>
+                            <input type="submit" class="btn btn-info" id="btnReply" name="_btnReply" value="Reply to ticket"/>
+
+                        </p>
+                        <input type="hidden" name="_hdnTicket" id="hdnTicket" value="{{ ticket.id }}"/>
+                    </fieldset>
+                </form>
+                {% if ticket.closed == 0 %}
+                    <button id="btnClose" name="_btnClose" class="btn" value="{{ ticket.id }}" >Close ticket</button>
+                {% else %}
+                    <button id="btnOpen" name="_btnOpen" class="btn" value="{{ ticket.id }}" >Reopen ticket</button>
+                {% endif %}
+                <style>
+                    #tblTicketSingle th{
+                        width:50px;
+                    }
+                </style>
+
+            {% else %}
+                <p>Could not find ticket</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    $('#btnClose').click(function(){
+        AJAX.post(
+            "{{ path('ticket_close') }}",
+            {
+            _ticket : $('#hdnTicket').val()
+            },
+            $("#status-ticket-reply"),
+            $("#btnClose")
+        );
+    });
+    $('#btnOpen').click(function(){
+        AJAX.post(
+            "{{ path('ticket_open') }}",
+            {
+            _ticket : $('#hdnTicket').val()
+            },
+            $("#status-ticket-reply"),
+            $("#btnOpen")
+        );
+    });
+    $("#frmReplyTicket").submit(function(e) {
+        e.preventDefault();
+        //get the url for the form
+        AJAX.post(
+            $("#frmReplyTicket").attr("action"),
+            {
+                _reply : $('#reply').val(),
+                _ticket : $('#hdnTicket').val()
+            },
+            $("#status-ticket-reply"),
+            $("#btnReply")
+        );
+        //we dont what the browser to submit the form
+        return false;
+    });
+{% endblock %}

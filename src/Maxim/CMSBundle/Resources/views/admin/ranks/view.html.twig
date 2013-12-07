@@ -1,0 +1,198 @@
+{% extends 'MaximCMSBundle:admin:index.html.twig' %}
+
+{% block middle %}
+    <div id="middle_menu_top">
+        <div class="vertical">
+            <h1>Ranks</h1>
+        </div>
+    </div>
+    <div id="middle_menu_small">
+        <ul>
+            <li><a href="{{ path('admin_ranks')}}">ranks</a></li>
+        </ul>
+    </div>
+    <script>
+        $(function() {
+            $( "#tabs" ).tabs();
+        });
+    </script>
+    <div id="middle_content">
+        <div class="window">
+            <div class="window-header">
+                <h6>Tickets</h6>
+            </div>
+            <div class="window-content">
+                <div id="ranks-status" class="alert"></div>
+                <div id="tabs">
+                    <ul>
+                        <li><a href="#tabs-1">RANKS</a></li>
+                        <li><a href="#tabs-2">GROUP PERMISSIONS</a></li>
+                        <li><a href="#tabs-3">USER PERMISSIONS</a></li>
+                    </ul>
+                    <div id="tabs-1">
+
+                        <!-- buttons -->
+                        <a href="{{ path('admin_ranks_add') }}" id="add-rank" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">Add Rank</a>
+                        <button type="button" name="" id="view-rank" value="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">View Rank</button>
+                        <button type="button" name="" id="delete-rank" value="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">Delete Rank</button>
+
+                        <!-- VIEW NEWS POSTS -->
+                        <table id="table_id">
+                            <thead>
+                            <tr>
+                                <th style="width:20px;">ID:</th>
+                                <th>NAME:</th>
+                                <th>ROLE:</th>
+                                <th>DESCRIPTION</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="odd gradeX">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="overflow:hidden;"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <script>
+                            var oTable;
+                            var giRedraw = false;
+
+                            $(document).ready(function() {
+                                $("#table_id tbody").click(function(event) {
+                                    $(oTable.fnSettings().aoData).each(function (){
+                                        $(this.nTr).removeClass('row_selected');
+                                    });
+                                    $(event.target.parentNode).addClass('row_selected');
+                                });
+
+                                /* Add a click handler for the edit row */
+                                $('#view-rank').click( function() {
+                                    var anSelected = fnGetSelected( oTable );
+                                    var aData = oTable.fnGetData(anSelected);
+
+                                    window.location.href = "{{ path('admin_ranks_view_pattern') }}" + "/" + aData["id"];
+                                } );
+
+                                $('#delete-rank').click(function(){
+                                    var anSelected = fnGetSelected( oTable );
+                                    var aData = oTable.fnGetData(anSelected);
+                                    //AJAX REQUEST TO CLOSE TICKET
+                                    AJAX.post_noButton(
+                                            "{{ path('admin_rank_delete_ajax')}}",
+                                            {
+                                                _rank : aData["id"]
+                                            },
+                                            $('#ranks-status')
+                                    );
+                                });
+
+                                oTable = $('#table_id').dataTable( {
+                                    "bSort": true,
+                                    "bFilter": true,
+                                    "bProcessing": true,
+                                    "bServerSide": true,
+                                    "sAjaxSource": "{{ path('admin_ranks_list') }}",
+                                    "aoColumns": [
+                                        { "mData": "id" },
+                                        { "mData": "name" },
+                                        { "mData": "roleName" },
+                                        {   "mData": "description",
+                                            "mRender": function(data, type, full){
+                                                return data.substring(0, 150);
+                                            }
+                                        },
+
+                                    ]
+                                });
+                            });
+
+
+                        </script>
+                    </div>
+                    <div id="tabs-2">
+                        <!-- buttons -->
+                        <button type="button" name="" id="edit-permgroup" value="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">Edit Permission</button>
+                        <!-- VIEW NEWS POSTS -->
+                        <table id="table_section">
+                            <thead>
+                            <tr>
+                                <th style="width:20px;">ID:</th>
+                                <th>NAME:</th>
+                                <th>ROLE:</th>
+                                <th>DESCRIPTION</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="odd gradeX">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="overflow:hidden;"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <script>
+                            var oTable2;
+                            var giRedraw2 = false;
+
+                            $(document).ready(function() {
+                                $("#table_section tbody").click(function(event) {
+                                    $(oTable2.fnSettings().aoData).each(function (){
+                                        $(this.nTr).removeClass('row_selected');
+                                    });
+                                    $(event.target.parentNode).addClass('row_selected');
+                                });
+
+                                /* Add a click handler for the edit row */
+                                $('#edit-permgroup').click( function() {
+                                    var anSelected = fnGetSelected( oTable2 );
+                                    var aData = oTable2.fnGetData(anSelected);
+
+                                    window.location.href = "{{ path('admin_permgroup_edit_pattern') }}" + "/" + aData["id"];
+                                } );
+
+                                oTable2 = $('#table_section').dataTable( {
+                                    "bSort": true,
+                                    "bFilter": true,
+                                    "bProcessing": true,
+                                    "bServerSide": true,
+                                    "sAjaxSource": "{{ path('admin_permgroup_list') }}",
+                                    "aoColumns": [
+                                        { "mData": "id" },
+                                        { "mData": "name" },
+                                        { "mData": "roleName" },
+                                        {   "mData": "description",
+                                            "mRender": function(data, type, full){
+                                                return data.substring(0, 150);
+                                            }
+                                        },
+                                    ]
+                                });
+
+                            });
+                            /* Get the rows which are currently selected */
+                            function fnGetSelected( oTableLocal )
+                            {
+                                var aReturn = new Array();
+                                var aTrs = oTableLocal.fnGetNodes();
+
+                                for ( var i=0 ; i<aTrs.length ; i++ )
+                                {
+                                    if ( $(aTrs[i]).hasClass('row_selected') )
+                                    {
+                                        return (aTrs[i]);
+                                    }
+                                }
+                            }
+                        </script>
+                    </div>
+                    <div id="tabs-3">
+                        <p>Comming soon</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock middle %}

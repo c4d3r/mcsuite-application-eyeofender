@@ -1,0 +1,56 @@
+{% extends 'MaximCMSBundle:admin:index.html.twig' %}
+
+{% block middle %}
+    <div id="middle_menu_top">
+        <div class="vertical">
+            <h1>Add section</h1>
+        </div>
+    </div>
+    <div id="middle_menu_small">
+        <ul>
+            <li><a href="{{ path('admin_shop')}}">Section</a></li>
+            <li><a href="{{ path('admin_shop_section_add') }}">Add</a></li>
+            <!--<li><a href="#">test3</a></li>-->
+        </ul>
+    </div>
+    <div id="middle_content">
+        <div class="window">
+            <div class="window-header">
+                <h6>Add Item</h6>
+            </div>
+            <div class="window-content">
+                <!-- ADD shop -->
+                <form action="{{ path('admin_shop_section_add_ajax') }}" Onsubmit="" id="frmAddSection" method="post">
+                    <p>
+                        <label for="name">Name</label><br/>
+                        <input type="text" name="_admin_section_name" class="inputbox" id="name" placeholder="Item name:">
+                    </p>
+                    <p>
+                        <label for="description">Description:</label><br/>
+                        <textarea name="_admin_section_description" cols="20" rows="30" class="inputbox" id="description" placeholder="Description:" ></textarea>
+                    </p>
+                    <button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" id="btnSave">save section</button>
+                    <div id="msgbox"></div>
+                </form>
+                </br/>
+            </div>
+            <script>
+                $(document).ready(function(){
+                    UI.editor('description');
+
+                    $("#frmAddSection").submit(function() {
+
+                        for ( instance in CKEDITOR.instances )
+                            CKEDITOR.instances[instance].updateElement();
+
+                        AJAX.post($("#frmAddSection").attr("action"), {
+                            _admin_section_name : $('#name').val(),
+                            _admin_section_description : $('#description').val()
+                        }, $("#msgbox"), $('#btnSave'));
+                        return false;
+                    });
+                });
+            </script>
+        </div>
+    </div>
+{% endblock middle %}

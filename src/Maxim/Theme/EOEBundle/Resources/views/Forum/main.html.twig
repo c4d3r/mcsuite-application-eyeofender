@@ -1,0 +1,43 @@
+{% extends 'MaximModuleForumBundle:Default:index.html.twig' %}
+
+{% block title %}Eye of ender - Forum{% endblock title %}
+
+{% block body %}
+    <div class="page">
+    {% for category in categories %}
+        <div class="mcsf_category">
+            <div class="mcsf_category_header">
+                <h1>{{ category.title }}</h1>
+            </div>
+            <div class="mcsf_category_content">
+                {% for forum in forums if forum.category == category%}
+                    <div class="mcsf_forum clearfix clearfix-left">
+                        {% if forum.threads|length > config.forum.popularPERC %}
+                            <span class="mcsf_forum_icon mcsf_icon-topic mcsf_icon-topic-popular"></span>
+                        {% else%}
+                            <span class="mcsf_forum_icon mcsf_icon-topic mcsf_icon-topic-regular"></span>
+                        {% endif %}
+                        <div class="mcsf_forum_text">
+                            <h3>
+                                <a href="{{ path('forum_view', {'id' : forum.id}) }}">{{ forum.title }}</a>
+                            </h3>
+                        </div>
+                        <div class="mcsf_forum_latest">
+                            {% if forum.getLatestThread() != null %}
+                                Latest: {{ forum.getLatestThread().createdOn|date('Y.m.d') }}<br/>
+                                {{ forum.getLatestThread().createdBy.username }}, {{ forum.getLatestThread().createdOn|date('M j \\a\\t g:i a') }}
+                            {% else %}
+                                This thread has no posts.
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <div class="page-content">
+            <p>No categories have been found.</p>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'MaximCMSBundle:Default:index.html.twig' %}
+
+{% block body %}
+<div class="page">
+	<div class="page-header">
+		<h1>Change password</h1>
+	</div>
+	<div class="page-content">
+		<div id="msgbox_changepass" class="status-message" style="display:none"></div>
+		<form action="{{ path('ajax_password_change') }}" id="frmChangePass" class="pageform" method="post">
+			<label for="currentPass" class="inlined">Current password:</label>
+			<input type="password" class="inputbox input-text" id="currentPass"/>
+			
+			<label for="newPass" class="inlined">New password:</label>
+			<input type="password" class="inputbox input-text" id="newPass"/>
+			
+			<label for="newPass2" class="inlined">Confirm new password:</label>
+			<input type="password" class="inputbox input-text" id="newPass2"/>
+			
+			<input type="submit" class="btnGreen" id="btnChangepass" value="Change"/>
+		</form>
+		
+	</div>
+</div>
+{% endblock %}
+

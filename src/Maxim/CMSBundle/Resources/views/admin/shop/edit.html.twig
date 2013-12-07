@@ -1,0 +1,109 @@
+{% extends 'MaximCMSBundle:admin:index.html.twig' %}
+
+{% block middle %}
+<div id="middle_menu_top">
+	<div class="vertical">
+		<h1>Edit item</h1>
+	</div>
+</div>
+<div id="middle_menu_small">
+	<ul>
+		<li><a href="{{ path('admin_shop')}}">items</a></li>
+		<li><a href="{{ path('admin_shop_edit', {'id' : shop.id }) }}">edit</a></li>
+		<!--<li><a href="#">test3</a></li>-->
+	</ul>
+</div>
+<div id="middle_content">
+	<div class="window">
+		<div class="window-header">
+			<h6>Edit Item</h6>
+		</div>
+		<div class="window-content">
+            <div id="shop-status" class="alert"></div>
+			<!-- ADD shop -->
+			<form action="{{ path('admin_shop_ajax_edit') }}" Onsubmit="" id="frmEditshop" method="post">
+				<p>
+			  		<label for="name">Name</label><br/>
+			       	<input type="text" name="_admin_shop_name" class="inputbox" id="name" value="{{ shop.name|raw }}">
+			    </p>
+			    <p>
+			    	<label for="amount">Amount</label><br/>
+			       	<input type="text" name="_admin_shop_amount" class="inputbox" id="amount" value="{{ shop.amount }}">
+			    </p>
+			    <p>
+			    	<label for="command">Command</label><br/>
+			       	<input type="text" name="_admin_shop_command" class="inputbox" id="command" value="{{ shop.command|raw }}">
+			    </p>
+			    <p>
+			    	<label for="reduction">Reduction</label><br/>
+			       	<input type="text" name="_admin_shop_reduction" class="inputbox" id="reduction" value="{{ shop.reduction|raw }}">
+			    </p>
+			    <p>
+			    	<label for="image">Image</label><br/>
+			       	<input type="text" name="_admin_shop_image" class="inputbox" id="image" value="{{ shop.image|raw }}">
+			    </p>
+                <p>
+                    <label for="priority">Priority</label><br/>
+                    <input type="text" name="_admin_shop_priority" class="inputbox" id="priority" value="{{ shop.priority }}">
+                </p>
+                <p>
+                    <label for="server"></label>
+                    {{ render(controller('MaximAdminBundle:Admin:widget', {'widget' : 'server', 'value' : shop.server.id})) }}
+                </p>
+                <p>
+                    <select name="_admin_shop_section" id="section" class="selectable" value="Section">
+                        <option>choose a section</option>
+                        {% for section in sections %}
+                            {% if section.id == shop.section.id %}
+                                <option selected="selected" value="{{ section.id }}">{{ section.name }}</option>
+                            {% else %}
+                                <option value="{{ section.id }}">{{ section.name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </p>
+                <p>
+                    <span class="checkbox-custom-1-span">Visibility:</span>
+                    <div class="checkbox-custom-1">
+                        <input type="checkbox" id="visible" name="check" checked="{{ shop.visible == 1 }}"/>
+                        <label for="visible"></label>
+                    </div>
+                </p>
+			    <p>
+			        <label for="description">Description:</label><br/>
+			       	<textarea name="_admin_shop_description" cols="20" rows="30" class="inputbox" id="description" >{{ shop.description }}</textarea>
+			    </p>
+			    <button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" id="btnshopSave">save item</button>
+
+			</form>
+			</br/>
+		</div>
+		<script>
+		$(document).ready(function(){
+			UI.editor('description');
+
+			$("#frmEditshop").submit(function() {
+
+				 for ( instance in CKEDITOR.instances )
+        			CKEDITOR.instances[instance].updateElement();
+
+				AJAX.post($("#frmEditshop").attr("action"), {
+					_admin_shop_id : {{ shop.id }},
+					_admin_shop_name : $('#name').val(),
+					_admin_shop_description : $('#description').val(),
+					_admin_shop_amount : $('#amount').val(),
+					_admin_shop_visible : $('#visible').is(':checked'),
+					_admin_shop_command : $('#command').val(),
+					_admin_shop_image : $('#image').val(),
+					_admin_shop_reduction : $('#reduction').val(),
+                    _admin_shop_section : $('#section').val(),
+                    _admin_shop_server : $("#widget_server").val(),
+                    _admin_shop_priority : $("#priority").val()
+				}, $("#shop-status"), $('#btnshopSave'));
+				return false;
+			});
+		});
+		</script>
+	</div>
+</div>
+{% endblock middle %}
