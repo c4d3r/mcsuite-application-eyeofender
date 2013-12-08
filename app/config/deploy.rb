@@ -81,15 +81,15 @@ end
 
 
 # Custom(ised) tasks
-#namespace :deploy do
+namespace :deploy do
 # Apache needs to be restarted to make sure that the APC cache is cleared.
 # This overwrites the :restart task in the parent config which is empty.
-#  desc "Restart Httpd"
-#  task :restart, :except => { :no_release => true }, :roles => :app do
-#    run "service httpd restart"
-#    puts "--> Httpd successfully restarted".green
-#  end
-#end
+  desc "Restart Httpd"
+  task :restart, :except => { :no_release => true }, :roles => :app do
+    run "service httpd restart"
+    puts "--> Httpd successfully restarted".green
+  end
+end
 
 # MULTISTAGE EXTENSION
 #set :stages,        %w(production testing mcspvp)
