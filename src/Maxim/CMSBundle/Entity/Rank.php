@@ -215,4 +215,10 @@ class Rank implements RoleInterface
     {
         return $this->roleName;
     }
+
+    function __toString()
+    {
+        return $this->name;
+    }
+
 }

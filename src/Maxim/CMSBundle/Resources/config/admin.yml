@@ -105,3 +105,39 @@ services:
             - ~
             - Maxim\Module\ForumBundle\Entity\Post
             - ~
+    sonata.admin.module.applicationForms:
+         class: Maxim\Module\ApplicationBundle\Admin\ApplicationFormAdmin
+         tags:
+            - { name: sonata.admin, manager_type: orm, group: "Application", label: "Application forms" }
+         arguments:
+            - ~
+            - Maxim\Module\ApplicationBundle\Entity\Application
+            - "MaximModuleApplicationBundle:Admin"
+         calls:
+            - [ setSecurityContext, [@security.context]]
+            - [ setTemplate, [edit, MaximModuleApplicationBundle:Admin:createApplication.html.twig]]
+    sonata.admin.module.applicationUser:
+         class: Maxim\Module\ApplicationBundle\Admin\ApplicationUserAdmin
+         tags:
+            - { name: sonata.admin, manager_type: orm, group: "Application", label: "Applications" }
+         arguments:
+            - ~
+            - Maxim\Module\ApplicationBundle\Entity\UserApplication
+            - "MaximModuleApplicationBundle:Admin"
+         calls:
+            - [ setSecurityContext, [@security.context]]
+            - [ setTemplate, [edit, MaximModuleApplicationBundle:Admin:viewApplication.html.twig]]
+            - [ addChild, [ @sonata.admin.module.application.replies ] ]
+    sonata.admin.module.application.replies:
+         class: Maxim\Module\ApplicationBundle\Admin\ApplicationReplyAdmin
+         tags:
+            - { name: sonata.admin, manager_type: orm, group: "Application", label: "Application replies" }
+         arguments:
+            - ~
+            - Maxim\Module\ApplicationBundle\Entity\ApplicationReply
+            - "MaximModuleApplicationBundle:Admin"
+         calls:
+            - [ setSecurityContext, [@security.context]]
+            - [ setEntityManager, [@doctrine.orm.entity_manager]]
+            - [ setTemplate, [inner_list_row, MaximModuleApplicationBundle:Admin:inner_row_application.html.twig]]
+            - [ setTemplate, [base_list_field, SonataAdminBundle:CRUD:base_list_flat_field.html.twig]]

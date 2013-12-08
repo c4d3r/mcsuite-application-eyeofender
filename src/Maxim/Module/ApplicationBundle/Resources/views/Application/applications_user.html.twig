@@ -1,14 +1,18 @@
 {% extends 'MaximCMSBundle:Default:index.html.twig' %}
 
 {% block body %}
-    <h1>Applications</h1>
-    {% for application in applications %}
-        <ul class="nav nav-pills nav-stacked">
-            <li>
-                <a href="{{ path('application_view', {'id' : application.id, 'name' : application.application.name}) }}"><span>{{ application.application.name }}</span></a>
-            </li>
-        </ul>
-    {% else %}
-        <p>There are no open applications at the moment</p>
-    {% endfor %}
+    <div class="page">
+        <h3 class="page-header">Applications</h3>
+        <div class="page-content">
+            <ul class="menu menu-clean">
+                {% for application in applications %}
+                    <li>
+                        <a href="{{ path('application_view', {'id' : application.id, 'name' : application.application.name}) }}"><span>{{ application.application.name }}</span></a>
+                    </li>
+                {% else %}
+                    <p>There are no open applications at the moment</p>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 {% endblock %}

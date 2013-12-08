@@ -3,11 +3,10 @@
 #    resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
 #    prefix:   /_internal
 
-# SOME BUNDLES
+# ADMIN BUNDLES
 admin2:
     resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
     prefix: /admin2
-
 _sonata_admin:
     resource: .
     type: sonata_admin
@@ -15,6 +14,7 @@ _sonata_admin:
 maxim_admin:
     resource: "@MaximAdminBundle/Resources/config/routing.yml"
     prefix:   /
+
 # PAYUM
 payum_capture:
     resource: "@PayumBundle/Resources/config/routing/capture.xml"
@@ -55,13 +55,6 @@ fos_js_routing:
 #maxim_install:
 #    resource: "@MaximInstallBundle/Resources/config/routing.yml"
 #    prefix:   /
-#---------------
-# DEFAULT ROUTE
-#---------------
-DEFAULT_MCSUITE_HOMEPAGE:
-  pattern: /{match}
-  defaults: { _controller: MaximCMSBundle:Exception:index }
-  requirements:
-    match: ".+"
+
 
 

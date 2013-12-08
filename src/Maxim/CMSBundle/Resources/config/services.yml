@@ -54,13 +54,6 @@ services:
      arguments: [@logger, @templating, @security.context]
      tags:
        - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
-   page_load_listener:
-     class: Maxim\CMSBundle\Listeners\PageLoadListener
-     arguments:
-       security: "@security.context"
-       container: "@service_container"
-     tags:
-       - { name: kernel.event_listener, event: kernel.controller, method: onKernelController, priority: 64 }
    maxim_cms.configure_menu_listener:
      class: Maxim\CMSBundle\Listeners\MenuListener
      arguments: [@logger, @service_container]

@@ -151,4 +151,15 @@ class UserApplication {
     {
         return $this->details;
     }
+
+    public function getApplicationEntityName()
+    {
+        return "MaximModuleApplicationBundle:Application";
+    }
+
+    function __toString()
+    {
+        return "";
+    }
+
 }

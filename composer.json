@@ -8,7 +8,7 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "symfony/symfony": "2.3.*",
+        "symfony/symfony": "2.4.*",
         "doctrine/doctrine-bundle": "*",
         "doctrine/doctrine-fixtures-bundle": "dev-master",
         "twig/extensions": "1.0.*",
@@ -25,18 +25,17 @@
         "jms/di-extra-bundle": "dev-master",
         "friendsofsymfony/jsrouting-bundle": "~1.1",
         "knplabs/knp-menu-bundle" : "1.1.*",
-        "sonata-project/doctrine-orm-admin-bundle" : "@stable",
-        "sonata-project/block-bundle" : "dev-master",
-        "sonata-project/exporter" : "@stable",
-        "sonata-project/jquery-bundle" : "@stable",
-        "sonata-project/admin-bundle" : "@stable",
         "payum/payum": "0.7.*@dev",
         "payum/payum-bundle": "dev-master",
         "payum/paypal-express-checkout-nvp":"dev-master",
         "payum/core": "0.7.*@dev",
-        "knplabs/knp-paginator-bundle": "dev-master",
+        "knplabs/knp-paginator-bundle": "~2.3@dev",
+        "knplabs/knp-components": "~1.2@dev",
         "exercise/htmlpurifier-bundle": "1.0.*@dev",
-        "issei/multiple-apps-support": "dev-master"
+        "issei/multiple-apps-support": "dev-master",
+        "sonata-project/core-bundle": "dev-master",
+        "sonata-project/admin-bundle": "dev-master",
+        "sonata-project/doctrine-orm-admin-bundle": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
 class ExceptionListener {
 
     protected $logger;
@@ -32,45 +34,37 @@ class ExceptionListener {
         $exception = $event->getException();
 
         $message = sprintf(
-            '[ERROR]: %s with code: %s',
+            '[ERROR]: %s with code: %s (file: %s, line: %s)',
             $exception->getMessage(),
-            $exception->getCode()
+            $exception->getCode(),
+            $exception->getFile(),
+            $exception->getLine()
         );
 
         $this->logger->err($message);
         // Customize your response object to display the exception details
         $response = new Response();
 
-        if($exception instanceof AccessDeniedHttpException)
-        {
-            $request = $event->getRequest();
-            $_route  = $request->getPathInfo();
-            $path = explode('/', substr($_route, 1));
-
-            if(strtolower(trim($path[0])) == "admin" && ($this->security->isGranted("ROLE_ADMIN") || $this->security->isGranted("ROLE_STAFF")))
-            {
-                $response->setContent($this->templating->render('MaximAdminBundle:Exception:forbidden.html.twig'));
-            }
-            else
-            {
-                $response->setContent($this->templating->render('MaximCMSBundle:Exception:404.html.twig'));
-            }
+        if ($exception instanceof NotFoundHttpException) {
+            return $this->templating->render('MaximCMSBundle:Exception:404.html.twig');
         }
-        else
+        if($exception instanceof AuthenticationCredentialsNotFoundException)
         {
-            $response->setContent($this->templating->render('MaximCMSBundle:Exception:404.html.twig'));
+            return $this->templating->render('MaximCMSBundle:Exception:404.html.twig');
         }
 
 
         // HttpExceptionInterface is a special type of exception that
         // holds status code and header details
-        if ($exception instanceof HttpExceptionInterface) {
+        if ($exception instanceof HttpExceptionInterface)
+        {
             $response->setStatusCode($exception->getStatusCode());
             $response->headers->replace($exception->getHeaders());
-        } else {
+        }
+        else
+        {
             $response->setStatusCode(500);
         }
-
         // Send the modified response object to the event
         $event->setResponse($response);
     }

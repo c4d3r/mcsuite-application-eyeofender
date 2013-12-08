@@ -24,7 +24,7 @@ set   :domain,        "198.27.75.59"
 # SCM
 # =============================================================================
 set   :scm,           :git
-set   :repository,    "git@bitbucket.org:c4d3r/MCSuite.git"
+set   :repository,    "git@bitbucket.org:c4d3r/mcsuite-application-eyeofender.git"
 
 # =============================================================================
 # PATHS

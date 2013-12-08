@@ -46,8 +46,9 @@ class EoEKernel extends Kernel
             new Payum\Bundle\PayumBundle\PayumBundle(),
 
             # Sonata
-            new Sonata\jQueryBundle\SonatajQueryBundle(),
+            new Sonata\CoreBundle\SonataCoreBundle(),
             new Sonata\BlockBundle\SonataBlockBundle(),
+            new Sonata\jQueryBundle\SonatajQueryBundle(),
             new Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
             new Sonata\AdminBundle\SonataAdminBundle(),
         );

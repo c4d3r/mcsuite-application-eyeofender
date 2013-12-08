@@ -33,8 +33,6 @@
     <link href='http://fonts.googleapis.com/css?family=Kameron' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Maven+Pro' rel='stylesheet' type='text/css'>
 
-
-
     {% stylesheets
         output='css'
         output='themes/eyeofender/css/main.css'
@@ -63,12 +61,11 @@
                 <li class="has-dropdown">
                     <a href="#">Eye of Ender</a>
                     <ul class="dropdown">
-                        <li><a href="#">Eye of Ender</a></li>
-                        <li><a href="#">TheMass</a></li>
+                        <li><a href="#" title="Eye of Ender">Eye of Ender</a></li>
                     </ul>
                 </li>
             </ul>
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 <ul class="right">
                     <li class="has-dropdown">
                         <a href="#">Notifications<span class="badge">{{ app.user.unreadNotifications|length }}</span></a>
@@ -95,10 +92,10 @@
                     <li><a href="#">Archergames</a></li>
                 </ul>
             </li>
-            <li><a href="{{ path('shop') }}" title="Eye of Ender Shop">Shop</a></li>
-            <li><a href="{{ path('forum_main') }}" title="Eye of Ender forums">Forum</a></li>
+            <li><a href="{{ path('shop') }}" title="Shop">Shop</a></li>
+            <li><a href="{{ path('forum_main') }}" title="Forums">Forum</a></li>
             <li><a href="#" title="About Us">About Us</a></li>
-            <li><a href="{{ path('tickets_index') }}" title="Eye of Ender Contact">Contact</a></li>
+            <li><a href="{{ path('tickets_index') }}" title="Contact">Contact</a></li>
             <li>
                 <a href="#" data-dropdown="drop-pages">Other &raquo;</a>
 
@@ -107,7 +104,7 @@
                 </ul>
             </li>
 
-            {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 <li class="right" style="border-left: 1px solid rgb(85, 84, 84);"><a href="{{ path('login') }}">Login</a></li>
             {% else %}
                 <li class="right" style="border-left: 1px solid rgb(85, 84, 84);"><a href="{{ path('logout') }}">Logout</a></li>
@@ -115,7 +112,7 @@
         </ul>
         <div id="account" class="medium-2 medium-offset-1 large-2 large-offset-1 columns hide-for-small-only">
             {# PROFILE OR REGISTER BUTTON #}
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 
                 <div class="profile-container">
                     <a href="{{ path('profile', { 'name' : app.user.username }) }}" class="left">
@@ -180,7 +177,7 @@
             <h3 class="module-header">Account Panel</h3>
             <div class="module-content">
                 <ul class="menu menu-stacked">
-                    {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+                    {% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                         <li><a href="{{ path('login') }}" class="color-purple">Login</a></li>
                     {% else %}
                         <li><a href="{{ path('account') }}" class="button [radius round]">Account panel</a></li>

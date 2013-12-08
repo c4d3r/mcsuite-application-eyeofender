@@ -16,7 +16,15 @@ parameters:
     mailer_host: 127.0.0.1
     mailer_user: '~'
     mailer_password: null
-    mysql: { host: 198.245.49.34, username: root, password: T1h823S3368c30D, database: mc1360 }
+    mysql:
+        host: 198.245.49.34
+        username: root
+        password: T1h823S3368c30D
+        database: mc1360
     locale: en
     secret: RJGL0VX857tr7wWps8V69reU
-    pdo.db_options: { db_table: session, db_id_col: session_id, db_data_col: session_value, db_time_col: session_time }
+    pdo.db_options:
+        db_table: session
+        db_id_col: session_id
+        db_data_col: session_value
+        db_time_col: session_time

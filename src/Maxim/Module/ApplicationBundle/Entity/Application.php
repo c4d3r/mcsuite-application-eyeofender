@@ -177,4 +177,10 @@ class Application
         return $this->fields;
     }
 
+    function __toString()
+    {
+        return $this->name;
+    }
+
+
 }

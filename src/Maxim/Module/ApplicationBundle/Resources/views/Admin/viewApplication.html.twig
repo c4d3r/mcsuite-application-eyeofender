@@ -58,28 +58,6 @@
 
             {{ form_rest(form) }}
 
-            {# CUSTOM #}
-            <div class="control-group" id="sonata-ba-field-container-s52a46b9f0442e_name">
-                <label class="control-label required" for="s52a46b9f0442e_name">
-                    Application fields
-                    *
-                </label>
-
-                <div class="controls sonata-ba-field sonata-ba-field-standard-natural  ">
-
-                    <div class="form-create-holder" id="main-create-holder">
-                        <input type="text" class="create-input-field" name="_fields[0][name]" id="0_name" placeholder="field name" style="width:150px;"/>
-
-                        <button class="delete-row" style="display:none;">Delete row</button>
-                    </div>
-
-                    <div id="btnAddRow-holder">
-                        <a href="#" id="addrow">Add new row</a>
-                    </div>
-
-                </div>
-            </div>
-
             {% block formactions %}
                 <div class="well well-small form-actions">
                     {% if app.request.isxmlhttprequest %}
@@ -125,64 +103,4 @@
         </form>
     {% endif%}
 
-    <script>
-        var index,
-            number = 0,
-            holderCopy,
-            holder = $('#main-create-holder').clone(),
-            btnAddRow = $('#addrow'),
-            selectBox = $('<select name="_fields[0][type]" class="create-input-type" id="0_type"><option value="textfield">Textfield</option><option value="textarea">Textarea</option></select>'),
-            selectBoxClone;
-
-        // add a selectbox dynamically to first row
-        $('#main-create-holder').append(selectBox.select2());
-
-        btnAddRow.on('click', function(){
-
-            //make a copy of the holder
-            holderCopy = holder.clone();
-            holderCopy.removeAttr("id");
-
-            //clear all preset values
-            $.each(holderCopy.find("input"), function(index, event){
-
-                var attr = $(this).attr('name');
-
-                if (typeof attr !== 'undefined' && attr !== false && attr.indexOf("field") >= 0) {
-
-                    //set the name +1
-                    index = 8;
-                    number = number + 1;
-
-                    selectBoxClone = selectBox.clone();
-
-                    selectBoxClone.attr("name", selectBox.attr("name").replaceIndex(index, number));
-                    selectBoxClone.attr("id", selectBox.attr("id").replaceIndex(1, number));
-
-                    $(this).after(selectBoxClone);
-
-                    $(this).attr("name",  $(this).attr("name").replaceIndex(index, number));
-                    $(this).attr("id",  $(this).attr("id").replaceIndex(1, number));
-                }
-            });
-            selectBoxClone.select2();
-            $('#btnAddRow-holder').before(holderCopy);
-
-            //delete row button
-            var deleteRowButton = holderCopy.find('.delete-row');
-
-            deleteRowButton.css('display', 'inline-block');
-            deleteRowButton.on('click', function(){
-                $(this).parent().remove();
-            });
-
-            //prevent from submitting the form
-            return false;
-
-        });
-
-        String.prototype.replaceIndex = function(index, value) {
-            return this.substr(0, index) + value + this.substr(index + 1);
-        }
-    </script>
 {% endblock %}

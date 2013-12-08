@@ -1,6 +1,7 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
+    - { resource: @MaximCMSBundle/Resources/config/admin.yml }
 parameters:
     website: 3
 services:
@@ -22,6 +23,7 @@ services:
 framework:
     #esi:             ~
     #translator:      { fallback: %locale% }
+    translator: ~
     secret:          %secret%
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -174,8 +176,6 @@ knp_paginator:
         sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template
 
 # SONATA
-sonata_admin:
-    title:      MCSuite Admin panel
 sonata_block:
     default_contexts: [cms]
     blocks:
@@ -183,6 +183,9 @@ sonata_block:
         sonata.admin.block.admin_list:
             contexts:   [admin]
         # Your other blocks
+sonata_admin:
+    title:      MCSuite Admin Panel
+    #title_logo: bundles/acmedemo/img/fancy_acme_logo.png
 
 # HTML PURIFIER
 exercise_html_purifier:
