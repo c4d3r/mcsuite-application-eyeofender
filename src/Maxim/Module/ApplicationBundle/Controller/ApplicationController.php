@@ -180,7 +180,7 @@ class ApplicationController extends Controller{
             $app   = $em->getRepository('MaximModuleApplicationBundle:Application')->findOneBy(array("id" => $app_id));
 
             $query = $em->createQuery(
-                'SELECT a FROM MaximCMSBundle:UserApplication a WHERE a.date > :time AND a.user = :user ORDER BY a.date DESC'
+                'SELECT a FROM MaximModuleApplicationBundle:UserApplication a WHERE a.date > :time AND a.user = :user ORDER BY a.date DESC'
             )
                 ->setParameter('time', date("Y-m-d H:i:s", (time() - 2592000)))
                 ->setParameter('user', $this->getUser());

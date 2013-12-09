@@ -24,7 +24,6 @@ security:
             form_login:
                 login_path:  /login
                 check_path:  /login_check
-                default_target_path: /home # When someone logs in pop them into your members area.
                 success_handler: authentication_handler
                 failure_handler: authentication_handler
                 use_referer: true

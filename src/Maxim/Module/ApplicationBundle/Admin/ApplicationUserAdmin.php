@@ -40,7 +40,7 @@ class ApplicationUserAdmin extends Admin
                 'read_only' => true,
                 'disabled'  => true,
             ))*/
-            ->add('application', 'entity', array('class' => 'Maxim\Module\ApplicationBundle\Entity\Application'))
+            ->add('application', 'entity', array('class' => 'MaximModuleApplicationBundle:Application'))
             ->add('denied', 'entity', array(
                 'class' => 'Maxim\CMSBundle\Entity\Rank',
                 'read_only' => true,

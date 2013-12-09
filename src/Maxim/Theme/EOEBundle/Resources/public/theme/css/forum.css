@@ -185,7 +185,7 @@
     background: #2f2f2f;
     border-radius: 5px;
     padding: 10px;
-    margin-left: 10px;
+    margin-left: 20px;
 }
 .mcsf_post_author_image {
     text-align:center;
@@ -212,7 +212,7 @@
     position: relative;
     width: 116px;
     color: #fff;
-    left: -16px;
+    left: -22px;
     border-radius: 3px;
     border: 1px solid rgb(49, 25, 71);
     word-break: break-all;
@@ -406,6 +406,7 @@
 }
 .pagination .page-indication {
     font-size: 8pt;
+    margin: 0 5px;
 }
 .pagination span{
     display:inline-block;
@@ -414,18 +415,19 @@
     color: rgb(148, 148, 148)!important;
 }
 .pagination .page, .pagination .first, .pagination .last, .pagination .next, .pagination .current, .pagination .previous {
-    border: 1px solid #CECECE;
+    border: 1px solid #696969;
     border-radius: 3px;
-    padding: 0 5px 0 5px;
+    padding: 5px 8px;
     font-size: 8pt;
-    background: #F1F1F1;
-    box-shadow: inset 0 0 1px 0 white;
+    background: #3C3C3C;
+    box-shadow: inset 0 0 1px 0 rgb(73, 73, 73);
+    margin: 0 1px;
 }
 .pagination .current {
-    background:#F3F3F3;
+    background: #4E4E4E;
 }
 .pagination .page:hover, .pagination .first:hover, .pagination .last:hover, .pagination .next:hover, .pagination .previous:hover {
-    background:#F3F3F3;
+    background: #4E4E4E;
     cursor:pointer;
 }
 .cke_chrome {

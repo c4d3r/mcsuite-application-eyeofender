@@ -34,7 +34,7 @@ class ApplicationReply
     private $date;
 
     /**
-     * @var \UserApplication
+     * @var UserApplication
      *
      * @ORM\ManyToOne(targetEntity="UserApplication")
      * @ORM\JoinColumns({

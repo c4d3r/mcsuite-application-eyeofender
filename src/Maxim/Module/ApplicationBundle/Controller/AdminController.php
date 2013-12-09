@@ -99,7 +99,7 @@ class AdminController extends Controller
     }
     public function applicationListAction()
     {
-        $datatable = $this->get('lankit_datatables')->getDatatable('MaximCMSBundle:UserApplication');
+        $datatable = $this->get('lankit_datatables')->getDatatable('MaximModuleApplicationBundle:UserApplication');
 
         // Add the $datatable variable, or other needed variables, to the callback scope
         $datatable->addWhereBuilderCallback(function($qb) use ($datatable) {

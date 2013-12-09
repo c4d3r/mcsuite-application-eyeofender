@@ -23,7 +23,7 @@ class UserApplication {
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="\Maxim\CMSBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="Maxim\CMSBundle\Entity\User")
      */
     private $user;
 
