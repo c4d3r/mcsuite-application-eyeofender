@@ -56,7 +56,7 @@ set   :copy_vendors,      true
 set :dump_assetic_assets, true
 
 # Controllers to clear
-set :controllers_to_clear, ['app_dev.php']
+#set :controllers_to_clear, ['app_dev.php']
 # =============================================================================
 # CAPISTRANO OPTIONS
 # =============================================================================
