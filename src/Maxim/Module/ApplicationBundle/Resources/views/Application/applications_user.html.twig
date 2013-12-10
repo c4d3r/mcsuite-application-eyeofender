@@ -7,7 +7,7 @@
             <ul class="menu menu-clean">
                 {% for a in userApplications if a.application is defined %}
                     <li>
-                        <a href="{{ path('application_view', {'id' : a.id, 'name' : a.application.name|replace(" ": "-")}) }}"><span>{{ a.application.name }}</span></a>
+                        <a href="{{ path('application_view', {'id' : a.id, 'name' : a.application.name|replace({" ": "-"})}) }}"><span>{{ a.application.name }}</span></a>
                     </li>
                 {% else %}
                     <p>There are no open applications at the moment</p>
