@@ -61,6 +61,7 @@ class ApplicationController extends Controller{
             $ua->setApplication($application);
             $ua->setUser($this->getUser());
             $ua->setDetails($details);
+            $ua->setDate(new DateTime("now"));
 
             $em->persist($ua);
             $em->flush();
