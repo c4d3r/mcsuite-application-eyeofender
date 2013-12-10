@@ -18,43 +18,42 @@ class UserApplication {
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="Maxim\CMSBundle\Entity\User")
      */
-    private $user;
+    protected $user;
 
     /**
      * @var json_array $details
      *
      * @ORM\Column(name="details", type="json_array", nullable=false)
      */
-    private $details;
+    protected $details;
 
     /**
      * @var \DateTime $date
      *
      * @ORM\Column(name="date", type="datetime", nullable=true)
      */
-    private $date;
+    protected $date;
 
     /**
      * @var integer $denied
      *
      * @ORM\Column(name="denied", type="integer", nullable=false)
      */
-    private $denied = 0;
+    protected $denied = 0;
 
     /**
      * @var Application
      *
-     * @ORM\ManyToOne(targetEntity="Application")
-     * @ORM\JoinColumn(name="application_id", referencedColumnName="id", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Application", inversedBy="userApplications")
      */
-    private $application;
+    protected $application;
 
     /**
      * @param Application $application
@@ -157,7 +156,7 @@ class UserApplication {
         return "MaximModuleApplicationBundle:Application";
     }
 
-    function __toString()
+    public function __toString()
     {
         return "";
     }

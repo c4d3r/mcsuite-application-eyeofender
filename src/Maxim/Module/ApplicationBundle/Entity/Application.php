@@ -2,6 +2,7 @@
 
 namespace Maxim\Module\ApplicationBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 /**
  * Maxim\Module\ApplicationBundle\Entity\Application
@@ -21,7 +22,7 @@ class Application
      *
      * @var integer $id
      */
-    private $id;
+    protected $id;
 
     /**
      * @var Rank
@@ -29,7 +30,7 @@ class Application
      * @ORM\ManyToOne(targetEntity="\Maxim\CMSBundle\Entity\Rank")
      * @ORM\JoinColumn(name="rank_id", referencedColumnName="id", nullable=false)
      */
-    private $rank;
+    protected $rank;
 
     /**
      * @var Website
@@ -37,32 +38,38 @@ class Application
      * @ORM\ManyToOne(targetEntity="\Maxim\CMSBundle\Entity\Website")
      * @ORM\JoinColumn(name="website_id", referencedColumnName="id", nullable=false)
      */
-    private $website;
+    protected $website;
 
     /**
      * @var string $name
      *
      * @ORM\Column(name="application_name", type="string", nullable=false)
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string $enabled
      *
      * @ORM\Column(name="application_enabled", type="integer", nullable=false)
      */
-    private $enabled = 0;
+    protected $enabled = 0;
 
     /**
      * @var array $fields
      *
      * @ORM\Column(name="application_fields", type="json_array", nullable=true)
      */
-    private $fields;
+    protected $fields;
+
+    /**
+     * @ORM\OneToMany(targetEntity="UserApplication", mappedBy="application")
+     */
+    protected $userApplications;
 
     public function __construct()
     {
         $this->date = new \DateTime("now");
+        $this->userApplications = new ArrayCollection();
     }
 
     /**
@@ -180,6 +187,22 @@ class Application
     function __toString()
     {
         return $this->name;
+    }
+
+    /**
+     * @param mixed $userApplications
+     */
+    public function setUserApplications($userApplications)
+    {
+        $this->userApplications = $userApplications;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUserApplications()
+    {
+        return $this->userApplications;
     }
 
 
