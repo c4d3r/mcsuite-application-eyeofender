@@ -89,7 +89,7 @@ class ApplicationController extends Controller{
     public function accountAction()
     {
         # init data
-        $data['applications'] = $this->getDoctrine()->getRepository('MaximModuleApplicationBundle:UserApplication')->findBy(array("user" => $this->getUser()));
+        $data['userApplications'] = $this->getDoctrine()->getRepository('MaximModuleApplicationBundle:UserApplication')->findBy(array("user" => $this->getUser()));
 
         # return view
         return $this->render("MaximModuleApplicationBundle:Application:applications_user.html.twig", $data);
