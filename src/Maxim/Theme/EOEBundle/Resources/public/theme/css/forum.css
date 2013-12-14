@@ -193,8 +193,8 @@
 .mcsf_post_author_image img{
     height: 85px;
     width: 85px;
-    box-shadow: 0 0 0 1px #dadada;
-    border: 2px solid rgb(36, 36, 36);
+    box-shadow: 0 0 1px 1px rgb(53, 53, 53);
+    border: 1px solid #000000;
     border-radius: 5px;
 }
 
@@ -208,15 +208,17 @@
     line-height: 10px;
     padding: 8px;
     text-align: center;
-    background: #7F4396;
+    background: #7f4396;
     position: relative;
     width: 116px;
     color: #fff;
     left: -22px;
     border-radius: 3px;
-    border: 1px solid rgb(49, 25, 71);
+    border: 1px solid #311947;
     word-break: break-all;
     word-wrap: break-word;
+    box-shadow: inset 0 0 1px 1px rgba(236, 137, 255, 0.31);
+    text-shadow: 1px 1px black;
 }
 .mcsf_post_author_title {
     margin: 0;
