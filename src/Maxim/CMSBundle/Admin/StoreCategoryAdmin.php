@@ -13,7 +13,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 
-class ShopSectionAdmin extends Admin
+class StoreCategoryAdmin extends Admin
 {
     protected $datagridValues = array(
         '_page' => 1,            // display the first page (default = 1)

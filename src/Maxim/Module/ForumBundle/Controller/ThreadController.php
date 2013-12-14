@@ -100,7 +100,23 @@ class ThreadController extends Controller{
 
         # exploit prevention
         if($forum->getShowOnHome() == true && !$this->get('security.context')->isGranted('ROLE_STAFF')) {
-            throw new AccessDeniedException("Only staff members can create news threads!");
+            throw new AccessDeniedException("Only staff members can create news threads in this category!");
+        }
+
+        # prevent spam, check if a thread was made in the past XX minutes
+        $lastThread = $em->getRepository("MaximModuleForumBundle:Thread")->findLatestThread($this->getUser());
+        if(isset($lastThread[0]))
+        {
+            // check time difference
+            $diff = $lastThread[0]->getCreatedOn()->diff(new \DateTime("now"));
+            if(!($diff->days > 0 || $diff->i > 3))
+            {
+                $threshold = $this->container->getParameter("maxim_module_forum.threads.threshold");
+                return new Response(json_encode(array("success" => false, "message" => sprintf("please wait %d %s before posting a new thread",
+                    $threshold,
+                    $threshold > 1 ? "minutes" : "minute"
+                ))));
+            }
         }
 
         # GET USER

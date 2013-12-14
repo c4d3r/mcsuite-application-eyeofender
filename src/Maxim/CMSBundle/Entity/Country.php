@@ -204,4 +204,9 @@ class Country {
     {
        return (strtoupper($this->unMember)  == "YES");
     }
+
+    public function __toString()
+    {
+        return $this->getShortName();
+    }
 }

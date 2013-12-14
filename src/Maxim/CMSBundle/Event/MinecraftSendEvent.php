@@ -9,7 +9,7 @@
 
 namespace Maxim\CMSBundle\Event;
 
-use Maxim\CMSBundle\Entity\Shop;
+use Maxim\CMSBundle\Entity\StoreItem;
 use Symfony\Component\EventDispatcher\Event;
 
 class MinecraftSendEvent extends Event{

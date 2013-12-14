@@ -27,4 +27,17 @@ class ThreadRepository extends EntityRepository
             ->setMaxResults($amount)
             ->getResult();
     }
+    public function findLatestThread($user)
+    {
+        $query = $this->getEntityManager()->createQuery(
+            "SELECT t
+            FROM MaximModuleForumBundle:Thread t
+            JOIN t.createdBy u
+            WHERE u.id = :user
+            ORDER BY t.createdOn DESC"
+        );
+        $query->setParameter("user", $user->getId());
+        $query->setMaxResults(1);
+        return $query->getResult();
+    }
 }

@@ -10,6 +10,16 @@ namespace Maxim\CMSBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 
-class UserRepository extends EntityRepository{
-
+class UserRepository extends EntityRepository
+{
+    public function findLatestUsers($amount)
+    {
+        $query = $this->getEntityManager()->createQuery(
+            "SELECT u
+            FROM MaximCMSBundle:User u
+            ORDER BY u.registeredOn DESC"
+        );
+        $query->setMaxResults($amount);
+        return $query->getResult();
+    }
 }

@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Yaml\Yaml;
 use Maxim\CMSBundle\Entity\Purchase;
-use Maxim\CMSBundle\Entity\Shop;
+use Maxim\CMSBundle\Entity\StoreItem;
 use Maxim\CMSBundle\Entity\PaypalExpressPaymentDetails;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\Range;
@@ -25,37 +25,20 @@ use Payum\Registry\RegistryInterface;
 use Payum\Paypal\ExpressCheckout\Nvp\Api;
 use Payum\Paypal\ExpressCheckout\Nvp\Model\PaymentDetails;
 use Payum\Bundle\PayumBundle\Service\TokenManager;
-class ShopController extends ModuleController
+
+class StoreController extends ModuleController
 {
 	public function indexAction()
 	{
-		//Load News
-        $donate_config  = $this->container->getParameter('maxim_cms.shop');
-    	$em      = $this->getDoctrine()->getManager();
+		# basic settings
+        $donate_config  = $this->container->getParameter('maxim_cms.store');
+    	$em = $this->getDoctrine()->getManager();
+        $websiteid = $this->container->getParameter('website');
 
-        $query = $em->createQuery(
-            "SELECT s, s1, w
-            FROM MaximCMSBundle:Shop s
-            INNER JOIN s.server s1
-            INNER JOIN s.website w
-            WHERE w.id = :websiteid
-            AND s.visible = true
-            ORDER BY s.name DESC"
-        )->setParameter("websiteid", $this->container->getParameter('website'));
-        $query->useResultCache(true, 3600, __METHOD__ . serialize($query->getParameters()));
-        $shop = $query->getResult();
+        $storeItems = $em->getRepository("MaximCMSBundle:StoreItem")->findAllVisibleOrderedByName($websiteid);
+        $storeCategories = $em->getRepository("MaximCMSBundle:StoreCategory")->findAllVisibleOrderedByName($websiteid);
 
-        $query = $em->createQuery(
-            "SELECT s
-            FROM MaximCMSBundle:Server s
-            JOIN s.website w
-            WHERE w.id = :websiteid
-            ORDER BY s.name ASC"
-        )->setParameter("websiteid", $this->container->getParameter('website'));
-        $query->useResultCache(true, 3600, __METHOD__ . serialize($query->getParameters()));
-        $sections = $query->getResult();
-
-        foreach($shop as $item)
+        foreach($storeItems as $item)
         {
             if($item)
             {
@@ -65,16 +48,16 @@ class ShopController extends ModuleController
                     "description"   => $item->getDescription(),
                     "amount"        => number_format(round($item->getAmount() * (1 -($item->getReduction() / 100)), 2), 2),
                     "image"         => $item->getImage(),
-                    "section"       => $item->getSection(),
-                    "server"        => $item->getServer()
+                    "category"       => $item->getStoreCategory(),
                 );
             }
         }
 
         $data['topitems'] = $em->getRepository('MaximCMSBundle:Purchase')->findAllTopPurchases(5);
 		$data['config'] = array("currency" => $donate_config['currency_symbol']);
-        $data['servers'] = $sections;
-        return $this->render('MaximCMSBundle:pages:shop.html.twig', $data);
+        $data['categories'] = $storeCategories;
+
+        return $this->render('MaximCMSBundle:pages:store/view.html.twig', $data);
 	}
 	
 	public function step2Action(Request $request)
@@ -85,7 +68,7 @@ class ShopController extends ModuleController
 
         $username 	= $request->request->get('_ign');
 
-        return $this->render('MaximCMSBundle:pages:shop/step2.html.twig', array(
+        return $this->render('MaximCMSBundle:pages:store/step2.html.twig', array(
             'item'      =>   $id,
             'ign'       =>   $username
         ));
@@ -94,11 +77,11 @@ class ShopController extends ModuleController
     public function confirmAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $donate_config  = $this->container->getParameter('maxim_cms.shop');
+        $donate_config  = $this->container->getParameter('maxim_cms.store');
         $id 		= $request->request->get('_previousChoice');
         $username 	= $request->request->get('_ign');
         //$terms      = $request->request->get('donation_terms');
-        $item       = $em->getRepository("MaximCMSBundle:Shop")->findOneBy(array("id" => $id));
+        $item       = $em->getRepository("MaximCMSBundle:StoreItem")->findOneBy(array("id" => $id));
 
         if(!$item)
         {
@@ -126,8 +109,7 @@ class ShopController extends ModuleController
             "description"   => $item->getDescription(),
             "amount"        => number_format(round(($item->getAmount() * (1 -($item->getReduction() / 100))), 2), 2),
             "image"         => $item->getImage(),
-            "section"       => $item->getSection(),
-            "server"        => $item->getServer(),
+            "category"      => $item->getStoreCategory(),
             "tax"           => $item->getTax()
         );
 
@@ -138,14 +120,14 @@ class ShopController extends ModuleController
         );
         $data['config'] = $donate_config;
 
-        return $this->render('MaximCMSBundle:pages:shop/confirm.html.twig', $data);
+        return $this->render('MaximCMSBundle:pages:store/confirm.html.twig', $data);
     }
 
     public function prepareAction($purchase)
     {
         $paymentName = 'paypal_express_checkout_plus_doctrine';
 
-        $item = $purchase->getShop();
+        $item = $purchase->getStoreItem();
 
 
         $data = array(
@@ -216,7 +198,7 @@ class ShopController extends ModuleController
         $custom       = explode('|', $request->request->get('custom'));
 
         # get item
-        $item = $em->getRepository('MaximCMSBundle:Shop')->findOneBy(array("id" => $custom[2]));
+        $item = $em->getRepository('MaximCMSBundle:StoreItem')->findOneBy(array("id" => $custom[2]));
 
         # create a purchase
         $purchase = $this->get('purchase.helper')->createPurchase($this->getUser(), $item, $_SERVER["REMOTE_ADDR"], Purchase::PURCHASE_PENDING, $forUsername);
@@ -314,7 +296,7 @@ class ShopController extends ModuleController
             $purchases = $qb->select('p')
                 ->from('MaximCMSBundle:Purchase', 'p')
                 ->innerJoin("MaximCMSBundle:User", "u", "WITH", "u.id = p.user")
-                ->innerJoin("MaximCMSBundle:Shop", "s", "WITH", "p.shop = s.id")
+                ->innerJoin("MaximCMSBundle:StoreItem", "s", "WITH", "p.storeItem = s.id")
                 ->innerJoin('MaximCMSBundle:Website', 'w', 'WITH', 's.website = w.id')
                 ->where($qb->expr()->notIn('p.status', array(Purchase::PURCHASE_FAILED, Purchase::PURCHASE_PENDING)))
                 ->andWhere('w.id = :website')

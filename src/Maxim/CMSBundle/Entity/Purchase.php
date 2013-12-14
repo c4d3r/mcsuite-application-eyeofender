@@ -43,23 +43,21 @@ class Purchase
     private $date;
 
     /**
-     * @var Shop
+     * @var StoreItem
      *
      * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\ManyToOne(targetEntity="Shop")
+     * @ORM\ManyToOne(targetEntity="StoreItem")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="shop_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="store_item_id", referencedColumnName="id")
      * })
      */
-    private $shop;
+    private $storeItem;
 
     /**
-     * @var \User
+     * @var User
      *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     * })
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="purchases", cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
 	
@@ -259,22 +257,6 @@ class Purchase
     }
 
     /**
-     * @param \Maxim\CMSBundle\Entity\Shop $shop
-     */
-    public function setShop($shop)
-    {
-        $this->shop = $shop;
-    }
-
-    /**
-     * @return \Maxim\CMSBundle\Entity\Shop
-     */
-    public function getShop()
-    {
-        return $this->shop;
-    }
-
-    /**
      * @param \User $user
      */
     public function setUser($user)
@@ -322,5 +304,20 @@ class Purchase
         return $this->method;
     }
 
+    /**
+     * @param \Maxim\CMSBundle\Entity\Shop $storeItem
+     */
+    public function setStoreItem($storeItem)
+    {
+        $this->storeItem = $storeItem;
+    }
+
+    /**
+     * @return \Maxim\CMSBundle\Entity\Shop
+     */
+    public function getStoreItem()
+    {
+        return $this->storeItem;
+    }
 
 }

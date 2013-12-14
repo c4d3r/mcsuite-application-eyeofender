@@ -44,9 +44,9 @@ class UserApplication {
     /**
      * @var integer $denied
      *
-     * @ORM\Column(name="denied", type="integer", nullable=false)
+     * @ORM\Column(name="denied", type="boolean", nullable=false)
      */
-    protected $denied = 0;
+    protected $denied = false;
 
     /**
      * @var Application
@@ -54,6 +54,14 @@ class UserApplication {
      * @ORM\ManyToOne(targetEntity="Application", inversedBy="userApplications")
      */
     protected $application;
+
+    /**
+     * @var ApplicationReply
+     *
+     * @ORM\OneToMany(targetEntity="ApplicationReply", mappedBy="application")
+     */
+    protected $replies;
+
 
     /**
      * @param Application $application
@@ -159,6 +167,22 @@ class UserApplication {
     public function __toString()
     {
         return "";
+    }
+
+    /**
+     * @param \Maxim\Module\ApplicationBundle\Entity\ApplicationReply $replies
+     */
+    public function setReplies($replies)
+    {
+        $this->replies = $replies;
+    }
+
+    /**
+     * @return \Maxim\Module\ApplicationBundle\Entity\ApplicationReply
+     */
+    public function getReplies()
+    {
+        return $this->replies;
     }
 
 }

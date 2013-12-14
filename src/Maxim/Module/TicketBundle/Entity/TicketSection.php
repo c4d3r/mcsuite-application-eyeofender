@@ -170,4 +170,9 @@ class TicketSection
     {
         return $this->createdby;
     }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
 }

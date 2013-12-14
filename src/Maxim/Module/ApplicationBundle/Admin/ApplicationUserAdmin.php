@@ -8,6 +8,7 @@
 
 namespace Maxim\Module\ApplicationBundle\Admin;
 
+use Maxim\Module\ApplicationBundle\Form\DataTransformer\JsonArrayToTableTransformer;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -16,6 +17,7 @@ use Symfony\Component\Security\Core\SecurityContext;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Knp\Menu\ItemInterface as MenuItemInterface;
 use Sonata\AdminBundle\Admin\AdminInterface;
+use Sonata\AdminBundle\Show\ShowMapper;
 
 class ApplicationUserAdmin extends Admin
 {
@@ -30,23 +32,44 @@ class ApplicationUserAdmin extends Admin
     }
 
     // Fields to be shown on create/edit forms
-    protected function configureFormFields(FormMapper $formMapper)
+    /*protected function configureFormFields(FormMapper $formMapper)
     {
 
+        $transformer = new JsonArrayToTableTransformer();
+
         $formMapper
-            /*->add('user', 'entity', array(
-                'class' => 'Maxim\CMSBundle\Entity\User',
-                'label' => 'User',
-                'read_only' => true,
-                'disabled'  => true,
-            ))*/
             ->add('application', 'entity', array('class' => 'MaximModuleApplicationBundle:Application'))
-            ->add('denied', 'entity', array(
-                'class' => 'Maxim\CMSBundle\Entity\Rank',
-                'read_only' => true,
-                'disabled'  => true,
+            ->add('denied', 'checkbox', array('label' => 'Denied', 'required' => false))
+        ;
+    }   */
+
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $collection
+            ->remove('create')
+            ->remove('delete')
+            ->remove('edit')
+        ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function configureShowFields(ShowMapper $showMapper)
+    {
+        $showMapper
+            ->add('user', 'sonata_type_model_list', array(
+                    'btn_add'       => 'Add user',      //Specify a custom label
+                    'btn_list'      => 'button.list',     //which will be translated
+                    'btn_delete'    => false,             //or hide the button.
+                ),array(
+                    'placeholder' => 'No user selected'
+                )
             )
-        )
+            ->add('application')
+            ->add('denied')
+            ->add('details', 'string', array('template' => 'MaximCMSBundle:Admin:jsonToTable.html.twig'))
+            ->add('replies', 'string', array('template' => 'MaximModuleApplicationBundle:Admin:showUserApplicationReplies.html.twig'))
         ;
     }
 
@@ -63,7 +86,7 @@ class ApplicationUserAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('id')
+            ->addIdentifier('id', null, array('route' => array('name' => 'show')))
             ->add('user')
             ->add('application')
             ->add('date')
@@ -73,7 +96,7 @@ class ApplicationUserAdmin extends Admin
 
     protected function configureSideMenu(MenuItemInterface $menu, $action, AdminInterface $childAdmin = null)
     {
-        if (!$childAdmin && !in_array($action, array('edit'))) {
+        if (!$childAdmin && !in_array($action, array('edit', 'show'))) {
             return;
         }
 
@@ -82,7 +105,7 @@ class ApplicationUserAdmin extends Admin
 
         $menu->addChild(
             'view',
-            array('uri' => $admin->generateUrl('edit', array('id' => $id)))
+            array('uri' => $admin->generateUrl('show', array('id' => $id)))
         );
 
         $menu->addChild(

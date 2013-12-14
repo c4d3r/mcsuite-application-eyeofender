@@ -19,18 +19,14 @@ class EoEKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
 
             # MY BUNDLES
-            new LanKit\DatatablesBundle\LanKitDatatablesBundle(),
-            new Exercise\HTMLPurifierBundle\ExerciseHTMLPurifierBundle(),
+            new Exercise\HTMLPurifierBundle\ExerciseHTMLPurifierBundle(), //purify html to prevent xss
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
-            new Knp\Bundle\MenuBundle\KnpMenuBundle(),
-            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+            new Knp\Bundle\MenuBundle\KnpMenuBundle(), // generate menus
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(), //paginator bundle
             new JMS\SerializerBundle\JMSSerializerBundle($this),
-            new JMS\AopBundle\JMSAopBundle(),
-            new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
-            new JMS\DiExtraBundle\JMSDiExtraBundle($this),
 
             # Maxim Bundles
-            new Maxim\AdminBundle\MaximAdminBundle(),
+            //new Maxim\AdminBundle\MaximAdminBundle(),
             new Maxim\CMSBundle\MaximCMSBundle(),
             //new Maxim\InstallBundle\MaximInstallBundle(),
             new Maxim\Module\ForumBundle\MaximModuleForumBundle(),
@@ -43,14 +39,14 @@ class EoEKernel extends Kernel
             new Maxim\Module\TicketBundle\MaximModuleTicketBundle(),
 
             # payment methods
-            new Payum\Bundle\PayumBundle\PayumBundle(),
+            new Payum\Bundle\PayumBundle\PayumBundle(), // payum
 
             # Sonata
-            new Sonata\CoreBundle\SonataCoreBundle(),
-            new Sonata\BlockBundle\SonataBlockBundle(),
-            new Sonata\jQueryBundle\SonatajQueryBundle(),
-            new Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
-            new Sonata\AdminBundle\SonataAdminBundle(),
+            new Sonata\CoreBundle\SonataCoreBundle(), // a dependency on sonataadminbundle
+            new Sonata\jQueryBundle\SonatajQueryBundle(),// a dependency on sonataadminbundle
+            new Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(), // a dependency on sonataadminbundle
+            new Sonata\AdminBundle\SonataAdminBundle(),   // the sonata admin bundle
+            new Sonata\BlockBundle\SonataBlockBundle(),   //used for blocks on the acp
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

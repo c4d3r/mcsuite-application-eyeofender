@@ -63,13 +63,6 @@ class Server {
     private $website;
 
     /**
-     * @var Shop
-     *
-     * @ORM\OneToMany(targetEntity="Shop", mappedBy="server")
-     */
-    protected $items;
-
-    /**
      * @param string $description
      */
     public function setDescription($description)

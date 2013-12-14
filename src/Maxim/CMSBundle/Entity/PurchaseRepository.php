@@ -23,8 +23,39 @@ class PurchaseRepository extends EntityRepository
     public function findAllTopPurchases($amount)
     {
         return $this->getEntityManager()
-            ->createQuery("SELECT COUNT(p) as total_purchases, s.name as name, s.image as image, s.amount as amount, s.id as id, s.description as description FROM MaximCMSBundle:Purchase p INNER JOIN MaximCMSBundle:Shop s WITH p.shop = s.id WHERE s.website = '" . $this->websiteid . "' GROUP BY s ORDER BY amount DESC")
+            ->createQuery("SELECT COUNT(p) as total_purchases, s.name as name, s.image as image, s.amount as amount, s.id as id, s.description as description FROM MaximCMSBundle:Purchase p INNER JOIN MaximCMSBundle:StoreItem s WITH p.storeItem = s.id WHERE s.website = '" . $this->websiteid . "' GROUP BY s ORDER BY amount DESC")
             ->setMaxResults($amount)
             ->getResult();
+    }
+
+    public function findLatestPurchases($amount)
+    {
+        $query = $this->getEntityManager()->createQuery(
+            "SELECT p, u, i
+            FROM MaximCMSBundle:Purchase p
+            JOIN p.user u
+            JOIN p.storeItem i
+            ORDER BY p.date DESC"
+        );
+        $query->setMaxResults($amount);
+        return $query->getResult();
+    }
+    public function findTotalAmountEarnedThisMonth()
+    {
+        $query = $this->getEntityManager()->createQuery(
+            "SELECT SUM(p.amount) as amount
+            FROM MaximCMSBundle:Purchase p
+            JOIN p.user u
+            JOIN p.storeItem i
+            WHERE MONTH(p.date) = :month
+            AND YEAR(p.date) = :year
+            ORDER BY p.date DESC"
+        );
+        $t = date('d-m-Y');
+        $query->setParameters(array(
+            "month" => date("m",strtotime($t)),
+            "year"  => date("Y",strtotime($t))
+        ));
+        return $query->getSingleResult();
     }
 }

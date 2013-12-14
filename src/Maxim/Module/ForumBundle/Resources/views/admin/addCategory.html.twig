@@ -41,11 +41,11 @@
 
         $('#admin_news_website').change(function(){
 
-            $('#shop_sections').html('');
+            $('#store_categories').html('');
 
             $.getJSON("{{ path('admin_get_news_sections_pattern') }}" + $('#admin_news_website').val(), function(result) {
                 for (var i = 0; i < result.length; i++) {
-                    $('#shop_sections').append(new Option(result[i].name, result[i].id));
+                    $('#store_categories').append(new Option(result[i].name, result[i].id));
                 }
             });
 

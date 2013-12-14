@@ -53,6 +53,8 @@ class ThreadAdmin extends Admin{
             ->add('forum')
             ->add('title')
             ->add('text')
+            ->add('locked')
+            ->add('pinned')
         ;
     }
 
@@ -61,10 +63,10 @@ class ThreadAdmin extends Admin{
     {
         $listMapper
             ->addIdentifier('forum')
-            ->add('locked', 'boolean', array('editable' => true))
-            ->add('pinned', 'boolean', array('editable' => true))
             ->add('title')
             ->add('createdBy')
+            ->add('locked', 'boolean', array('editable' => true))
+            ->add('pinned', 'boolean', array('editable' => true))
         ;
     }
 

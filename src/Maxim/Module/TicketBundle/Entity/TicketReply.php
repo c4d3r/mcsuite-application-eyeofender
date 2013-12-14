@@ -34,7 +34,7 @@ class TicketReply
     private $date;
 
     /**
-     * @var \Ticket
+     * @var Ticket
      *
      * @ORM\ManyToOne(targetEntity="Ticket", inversedBy="replies")
      * @ORM\JoinColumn(name="ticket_id", referencedColumnName="id", unique=false)
@@ -42,7 +42,7 @@ class TicketReply
     private $ticket;
 
     /**
-     * @var \User
+     * @var \Maxim\CMSBundle\Entity\User
      * @ORM\ManyToOne(targetEntity="Maxim\CMSBundle\Entity\User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
@@ -122,10 +122,10 @@ class TicketReply
     /**
      * Set ticket
      *
-     * @param \Maxim\CMSBundle\Entity\Ticket $ticket
+     * @param Ticket $ticket
      * @return TicketReply
      */
-    public function setTicket(\Maxim\Module\TicketBundle\Entity\Ticket $ticket)
+    public function setTicket(Ticket $ticket)
     {
         $this->ticket = $ticket;
 
@@ -148,7 +148,7 @@ class TicketReply
      * @param \Maxim\CMSBundle\Entity\User $user
      * @return TicketReply
      */
-    public function setUser(\Maxim\CMSBundle\Entity\User $user = null)
+    public function setUser($user = null)
     {
         $this->user = $user;
 
@@ -163,5 +163,10 @@ class TicketReply
     public function getUser()
     {
         return $this->user;
+    }
+
+    function __toString()
+    {
+        return "";
     }
 }

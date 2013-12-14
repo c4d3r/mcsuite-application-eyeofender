@@ -14,7 +14,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 
-class ShopAdmin extends Admin{
+class StoreItemAdmin extends Admin{
 
     protected $datagridValues = array(
         '_page' => 1,            // display the first page (default = 1)
@@ -46,8 +46,7 @@ class ShopAdmin extends Admin{
             ->add('image', 'text', array('label' => 'Item image'))
             ->add('reduction', 'text', array('label' => 'Item reduction'))
             ->add('priority', 'text', array('label' => 'Item priority'))
-            ->add('section', 'entity', array('class' => 'Maxim\CMSBundle\Entity\Section'))
-            ->add('server', 'entity', array('class' => 'Maxim\CMSBundle\Entity\Server'))
+            ->add('storeCategory', 'entity', array('class' => 'Maxim\CMSBundle\Entity\StoreCategory'))
             ->add('website', 'entity', array('class' => 'Maxim\CMSBundle\Entity\Website'))
         ;
     }
@@ -59,8 +58,7 @@ class ShopAdmin extends Admin{
             ->add('name')
             ->add('visible')
             ->add('tax')
-            ->add('section')
-            //->add('server')
+            ->add('storeCategory')
             ->add('website')
         ;
     }
@@ -71,10 +69,9 @@ class ShopAdmin extends Admin{
         $listMapper
             ->addIdentifier('name')
             ->add('visible', 'boolean', array('editable' => true))
-            ->add('price')
+            ->add('amount')
             ->add('tax')
-            ->add('section')
-            //->add('server')
+            ->add('storeCategory')
             ->add('website')
         ;
     }

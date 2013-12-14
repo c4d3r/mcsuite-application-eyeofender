@@ -1,0 +1,11 @@
+{% extends 'SonataAdminBundle:CRUD:base_show_field.html.twig' %}
+
+
+{% block field %}
+    {% for key, v in value %}
+        <div>
+            <h5>{{ key }}</h5>
+            <p>{{ v|purify }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}

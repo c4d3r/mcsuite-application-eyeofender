@@ -38,26 +38,26 @@ topvoters:
 #-------
 shop:
   pattern: /shop
-  defaults: { _controller: MaximCMSBundle:Shop:index }
+  defaults: { _controller: MaximCMSBundle:Store:index }
 shop_step2:
   pattern: /shop/step/2
-  defaults: { _controller: MaximCMSBundle:Shop:step2 }
+  defaults: { _controller: MaximCMSBundle:Store:step2 }
 shop_confirm:
   pattern: /shop/confirm
-  defaults: { _controller: MaximCMSBundle:Shop:confirm }
+  defaults: { _controller: MaximCMSBundle:Store:confirm }
 shop_finish:
   pattern: /shop/finish
-  defaults: { _controller: MaximCMSBundle:Shop:finish }
+  defaults: { _controller: MaximCMSBundle:Store:finish }
 shop_purchase_history:
   pattern: /account/purchase/history
-  defaults: { _controller: MaximCMSBundle:Shop:purchaseHistory }
+  defaults: { _controller: MaximCMSBundle:Store:purchaseHistory }
 #Ipn's
 ipn_paypal:
   pattern: /shop/ipn/paypal
   defaults: { _controller: MaximCMSBundle:Ipn/IpnPaypal:paypal }
 paypal_done:
   pattern: /shop/complete
-  defaults: { _controller: MaximCMSBundle:Shop:complete }
+  defaults: { _controller: MaximCMSBundle:Store:complete }
 
 #---------
 # MEMBERS

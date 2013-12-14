@@ -198,6 +198,11 @@ class User implements AdvancedUserInterface
     protected $postedits;
 
     /**
+     * @ORM\OneToMany(targetEntity="User", mappedBy="user")
+     */
+    protected $purchases;
+
+    /**
      * Constructor
      */
     public function __construct()

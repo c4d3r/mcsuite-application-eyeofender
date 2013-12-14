@@ -32,6 +32,21 @@ class PostController extends Controller{
         $reply_text = $request->request->get('_post_reply_text');
         $user = $this->getuser();
 
+        $lastPost = $em->getRepository("MaximModuleForumBundle:Post")->findLatestPost($this->getUser());
+        if(isset($lastPost[0]))
+        {
+            // check time difference
+            $diff = $lastPost[0]->getCreatedOn()->diff(new \DateTime("now"));
+            $threshold = $this->container->getParameter("maxim_module_forum.posts.threshold");
+            if(!($diff->days > 0 || $diff->i > $threshold))
+            {
+                return new Response(json_encode(array("success" => false, "message" => sprintf("please wait %d %s before posting a new post",
+                    $threshold,
+                    $threshold > 1 ? "minutes" : "minute"
+                ))));
+            }
+        }
+
         # CREATE POST
         try {
             $post = new Post();

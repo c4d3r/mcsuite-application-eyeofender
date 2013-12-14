@@ -1,0 +1,33 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{% extends 'SonataAdminBundle:CRUD:base_list_flat_inner_row.html.twig' %}
+
+{% block row %}
+    <style>
+        .sonata-ba-list-field > a{
+            color:#fff !important;
+        }
+    </style>
+    <div>
+        {% if object|render_list_element(admin.list['closed']) == true %}
+            <span class="label label-important">Closed</span>
+        {% else %}
+            <span class="label label-success">Open</span>
+        {% endif %}
+
+        <span class="label label-info identifier">{{ object|render_list_element(admin.list['id']) }}</span>
+        <span style="font-style:italic;margin-left:5px;">{{ object|render_list_element(admin.list['status']) }}</span>
+        <p>{{ object|render_list_element(admin.list['description']) }}</p>
+    </div>
+
+
+{% endblock %}

@@ -41,20 +41,20 @@
 
                 <div class="tabbable"> <!-- Only required for left/right tabs -->
                     <ul class="menu menu-pills clearfix clearfix-left" id="shop-tabs">
-                        {% for key, server in servers %}
+                        {% for key, category in categories %}
                             {% if key == 0 %}
-                                <li class="active"><a href="#tab{{ server.id }}" data-toggle="tab">{{ server.name }}</a></li>
+                                <li class="active"><a href="#tab{{ category.id }}" data-toggle="tab">{{ category.name }}</a></li>
                             {% else %}
-                                <li><a href="#tab{{ server.id }}" data-toggle="tab">{{ server.name }}</a></li>
+                                <li><a href="#tab{{ category.id }}" data-toggle="tab">{{ category.name }}</a></li>
                             {% endif %}
                         {% endfor %}
                     </ul>
 
                     <div class="tab-content">
-                        {% for key, server in servers if server.items|length > 0 %}
-                            <div class="tab-pane slide-left{% if key == 0 %} in active{% endif %}" id="tab{{ server.id }}">
+                        {% for key, category in categories if category.items|length > 0 %}
+                            <div class="tab-pane slide-left{% if key == 0 %} in active{% endif %}" id="tab{{ category.id }}">
                                 <div class="items">
-                                {% for item in server.items if item.visible %}
+                                {% for item in category.items if item.visible %}
 
                                     <div class="item left">
 

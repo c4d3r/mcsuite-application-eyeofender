@@ -88,7 +88,7 @@ class StoreListener {
         ###############################
         $paymentName = 'paypal_express_checkout_plus_doctrine';
 
-        $item = $event->getPurchase()->getShop();
+        $item = $event->getPurchase()->getStoreItem();
 
         $data = array(
             "currency"  =>  "GBP",

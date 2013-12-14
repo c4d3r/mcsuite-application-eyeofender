@@ -321,7 +321,7 @@ class SecurityController extends Controller
         $user = $this->get('security.context')->getToken()->getUser();
         if($user)
         {
-            $query   = $em->createQuery("SELECT p FROM MaximCMSBundle:Purchase p INNER JOIN MaximCMSBundle:Shop s WITH p.shop = s.id INNER JOIN MaximCMSBundle:User u WITH u.id = p.user WHERE u.id = :userid ORDER BY p.date DESC");
+            $query   = $em->createQuery("SELECT p FROM MaximCMSBundle:Purchase p INNER JOIN MaximCMSBundle:StoreItem s WITH p.storeItem = s.id INNER JOIN MaximCMSBundle:User u WITH u.id = p.user WHERE u.id = :userid ORDER BY p.date DESC");
             $query->setParameters(array("userid" => $user->getId()));
 
             $purchases = $query->getResult();

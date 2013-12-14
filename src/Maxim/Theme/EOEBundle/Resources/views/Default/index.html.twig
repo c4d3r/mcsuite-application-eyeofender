@@ -182,7 +182,7 @@
                     {% else %}
                         <li><a href="{{ path('account') }}" class="button [radius round]">Account panel</a></li>
                         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_STAFF') %}
-                            <li><a href="{{ path('admin') }}" class="button [radius round]">Admin panel</a></li>
+                            <li><a href="{{ path('sonata_admin_dashboard') }}" class="button [radius round]">Admin panel</a></li>
                         {% endif %}
                         <li><a href="{{ path('logout') }}" class="button [radius round]">Logout</a></li>
                     {% endif %}

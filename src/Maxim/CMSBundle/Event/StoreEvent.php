@@ -10,7 +10,7 @@
 namespace Maxim\CMSBundle\Event;
 
 use Maxim\CMSBundle\Entity\Purchase;
-use Maxim\CMSBundle\Entity\Shop;
+use Maxim\CMSBundle\Entity\StoreItem;
 use Symfony\Component\EventDispatcher\Event;
 
 class StoreEvent extends Event

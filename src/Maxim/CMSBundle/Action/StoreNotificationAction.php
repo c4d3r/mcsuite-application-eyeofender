@@ -41,9 +41,7 @@ class StoreNotificationAction implements ActionInterface
         $this->purchaseHelper = $purchaseHelper;
         $this->eventDispatcher = $eventDispatcher;
         $this->minecraft = $minecraft;
-
         $this->config = $config;
-
     }
 
     /**
@@ -65,7 +63,7 @@ class StoreNotificationAction implements ActionInterface
         {
             $purchaseId = $details['custom'];
             $purchase = $this->doctrine->getRepository('MaximCMSBundle:Purchase')->findOneBy(array("id" => $purchaseId));
-            $item = $purchase->getShop();
+            $item = $purchase->getStoreItem();
 
             # set transaction id
             $purchase->setTransaction($details['txn_id']);

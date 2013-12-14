@@ -20,12 +20,18 @@ class ApplicationReplyAdmin extends Admin
     public $supportsPreviewMode = false;
     protected $parentAssociationMapping = 'application';
     protected $security;
+    protected $em;
 
     public function getNewInstance()
     {
+        $admin = $this->isChild() ? $this->getParent() : $this;
+        $id = $admin->getRequest()->get('id');
         $instance = parent::getNewInstance();
+        $application = $this->em->getRepository("MaximModuleApplicationBundle:UserApplication")->findOneBy(array("id" => $id));
+        /*if(!$application)
+            throw new NotFoundException("Could not find application"); */
         $instance->setApplication($application);
-        $instance->setUser($this->securityContext->getToken()->getUser());
+        $instance->setUser($this->security->getToken()->getUser());
         $instance->setDate(new \DateTime("now"));
         return $instance;
     }
@@ -33,14 +39,14 @@ class ApplicationReplyAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
-        if (!$this->isChild()) {
-            $formMapper->add('application', 'sonata_type_model_list');
-//            $formMapper->add('post', 'sonata_type_admin', array(), array('edit' => 'inline'));
-        }
-
         $formMapper
-            ->add('user', 'entity', array('class' => 'Maxim\CMSBundle\Entity\User'))
-            ->add('text', 'text')
+            ->add('text', 'textarea', array(
+                'label' => 'Text',
+                'attr'  => array(
+                    'class' => 'redactor-init',
+                    'style' => 'width: 683px;'
+                )
+            ))
         ;
     }
 
@@ -58,7 +64,7 @@ class ApplicationReplyAdmin extends Admin
         $listMapper
             ->addIdentifier('date')
             ->add('user')
-            ->add('text')
+            ->add('text', null, array('safe' => true))
         ;
     }
 
@@ -73,5 +79,4 @@ class ApplicationReplyAdmin extends Admin
     {
         $this->security = $security;
     }
-
 } 

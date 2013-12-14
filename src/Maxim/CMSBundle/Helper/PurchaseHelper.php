@@ -4,7 +4,7 @@ namespace Maxim\CMSBundle\Helper;
 
 use Doctrine\ORM\EntityManager;
 use Maxim\CMSBundle\Entity\Purchase;
-use Maxim\CMSBundle\Entity\Shop;
+use Maxim\CMSBundle\Entity\StoreItem;
 use Monolog\Logger;
 
 class PurchaseHelper {
@@ -18,7 +18,7 @@ class PurchaseHelper {
         $this->logger = $logger;
     }
 
-    public function createPurchase($initiator, Shop $item, $ipaddress, $status, $forusername) {
+    public function createPurchase($initiator, StoreItem $item, $ipaddress, $status, $forusername) {
 
         $em = $this->doctrine;
         try
@@ -28,7 +28,7 @@ class PurchaseHelper {
             $purchase->setStatus($status);
             $purchase->setIp($ipaddress);
             $purchase->setUser($initiator);
-            $purchase->setShop($item);
+            $purchase->setStoreItem($item);
             $purchase->setName($forusername);
             $em->persist($purchase);
             $em->flush();
@@ -39,7 +39,7 @@ class PurchaseHelper {
         catch(\Exception $ex)
         {
             $logger = $this->logger;
-            $logger->err('SHOP: '.$ex->getMessage());
+            $logger->err('STORE: '.$ex->getMessage());
         }
     }
 

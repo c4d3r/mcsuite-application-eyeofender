@@ -4,16 +4,13 @@
 #    prefix:   /_internal
 
 # ADMIN BUNDLES
-admin2:
+admin:
     resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
-    prefix: /admin2
+    prefix: /admin
 _sonata_admin:
     resource: .
     type: sonata_admin
-    prefix: /admin2
-maxim_admin:
-    resource: "@MaximAdminBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix: /admin
 
 # PAYUM
 payum_capture:

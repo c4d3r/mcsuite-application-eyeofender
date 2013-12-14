@@ -1,0 +1,23 @@
+{% extends 'SonataAdminBundle:CRUD:base_show_field.html.twig' %}
+
+
+{% block field %}
+    {% for key, t in value %}
+        <div>
+            <div>
+                {% if t.user.granted(['ROLE_STAFF', 'ROLE_ADMIN'])%}
+                    <span class="label label-info">Staff</span>
+                {% endif %}
+
+                {{ t.user.username }} -
+                {{ t.date|date('Y-m-d H:i:s') }}
+            </div>
+            <small>
+                {{ t.text|purify }}
+            </small>
+            <p></p>
+        </div>
+    {% else %}
+        <p>No replies have been added so far</p>
+    {% endfor %}
+{% endblock %}

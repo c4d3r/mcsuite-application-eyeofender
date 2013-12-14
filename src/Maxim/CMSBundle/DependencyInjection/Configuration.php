@@ -99,7 +99,7 @@ class Configuration implements ConfigurationInterface
                 ->end()
             ->end()
             // SHOP
-            ->arrayNode('shop')
+            ->arrayNode('store')
                 ->children()
                     ->scalarNode('email')->end()
                     ->scalarNode('paypal')->end()

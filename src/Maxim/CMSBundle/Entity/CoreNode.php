@@ -10,13 +10,14 @@ namespace Maxim\CMSBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Acl\Model\DomainObjectInterface;
 /**
  * Maxim\CMSBundle\Entity\CoreNodes
  *
  * @ORM\Table(name="core_node")
  * @ORM\Entity
  */
-class CoreNode
+class CoreNode implements DomainObjectInterface
 {
     /**
      * @var string $description
@@ -114,6 +115,11 @@ class CoreNode
     public function getUpdatedOn()
     {
         return $this->updatedOn;
+    }
+
+    public function getObjectIdentifier()
+    {
+        return $this->node;
     }
 
 

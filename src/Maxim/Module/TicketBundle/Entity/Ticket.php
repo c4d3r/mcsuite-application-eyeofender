@@ -4,7 +4,6 @@ namespace Maxim\Module\TicketBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use \Maxim\CMSBundle\Entity\User;
 /**
  * Ticket
  *
@@ -19,79 +18,76 @@ class Ticket
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="description", type="text", nullable=false)
      */
-    private $description;
+    protected $description;
 
     /**
      * @var \DateTime
      * @ORM\Column(name="date", type="datetime", nullable=true)
      */
-    private $date;
+    protected $date;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="closed", type="integer", nullable=false)
      */
-    private $closed = 0;
+    protected $closed = 0;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="statusChangedOn", type="datetime", nullable=true)
      */
-    private $statuschangedon;
+    protected $statuschangedon;
 
     /**
      * @var String
      *
      * @ORM\Column(name="status", type="text", nullable=true)
      */
-    private $status;
+    protected $status;
 
     /**
-     * @var \User
+     * @var \Maxim\CMSBundle\Entity\User
      *
      * @ORM\ManyToOne(targetEntity="Maxim\CMSBundle\Entity\User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="sectionChangedBy", referencedColumnName="id")
      * })
      */
-    private $sectionchangedby;
+    protected $sectionchangedby;
 
     /**
-     * @var \TicketSection
+     * @var TicketSection
      *
      * @ORM\ManyToOne(targetEntity="TicketSection")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="section_id", referencedColumnName="id")
      * })
      */
-    private $section = 1;
+    protected $section;
 
     /**
-     * @var \User
+     * @var User
      *
      * @ORM\ManyToOne(targetEntity="Maxim\CMSBundle\Entity\User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     * })
      */
-    private $user;
+    protected $user;
 
     /**
-     * @var Website
+     * @var \Maxim\CMSBundle\Entity\Website
      *
      * @ORM\ManyToOne(targetEntity="\Maxim\CMSBundle\Entity\Website")
      * @ORM\JoinColumn(name="website_id", referencedColumnName="id", nullable=true)
      */
-    private $website;
+    protected $website;
 
     /**
      * @var TicketReply
@@ -270,10 +266,10 @@ class Ticket
     /**
      * Set section
      *
-     * @param \Maxim\CMSBundle\Entity\TicketSection $section
+     * @param TicketSection $section
      * @return Ticket
      */
-    public function setSection(\Maxim\Module\TicketBundle\Entity\TicketSection $section = null)
+    public function setSection(TicketSection $section = null)
     {
         $this->section = $section;
     
@@ -288,29 +284,6 @@ class Ticket
     public function getSection()
     {
         return $this->section;
-    }
-
-    /**
-     * Set user
-     *
-     * @param \Maxim\CMSBundle\Entity\User $user
-     * @return Ticket
-     */
-    public function setUser(\Maxim\CMSBundle\Entity\User $user = null)
-    {
-        $this->user = $user;
-    
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \Maxim\CMSBundle\Entity\User 
-     */
-    public function getUser()
-    {
-        return $this->user;
     }
 
     /**
@@ -329,6 +302,40 @@ class Ticket
         return $this->website;
     }
 
+    function __toString()
+    {
+        return $this->id;
+    }
 
+    /**
+     * @param \Maxim\Module\TicketBundle\Entity\TicketReply $replies
+     */
+    public function setReplies($replies)
+    {
+        $this->replies = $replies;
+    }
 
+    /**
+     * @return \Maxim\Module\TicketBundle\Entity\TicketReply
+     */
+    public function getReplies()
+    {
+        return $this->replies;
+    }
+
+    /**
+     * @param \Maxim\CMSBundle\Entity\User $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @return \Maxim\CMSBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
 }

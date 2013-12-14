@@ -6,15 +6,15 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Type;
 
 /**
- * Maxim\CMSBundle\Entity\Shop
+ * Maxim\CMSBundle\Entity\StoreItem
  *
- * @ORM\Table(name="shop")
- * @ORM\Entity
+ * @ORM\Table(name="store_item")
+ * @ORM\Entity(repositoryClass="Maxim\CMSBundle\Entity\StoreItemRepository")
  */
-class Shop
+class StoreItem
 {
-    const SHOP_SQL = 'SQL';
-    const SHOP_COMMAND = 'COMMAND';
+    const STORE_SQL = 'SQL';
+    const STORE_COMMAND = 'COMMAND';
 
     /**
      * @var integer $id
@@ -84,17 +84,10 @@ class Shop
     /**
      * @var Section
      *
-     * @ORM\ManyToOne(targetEntity="Section")
+     * @ORM\ManyToOne(targetEntity="StoreCategory")
+     * @ORM\JoinColumn(name="store_category_id", referencedColumnName="id", nullable=false)
      */
-    private $section;
-
-    /**
-     * @var Server
-     *
-     * @ORM\ManyToOne(targetEntity="Server", inversedBy="items")
-     * @ORM\JoinColumn(name="server_id", referencedColumnName="id", nullable=false)
-     */
-    protected $server;
+    private $storeCategory;
 
     /**
      * @var Website
@@ -119,22 +112,6 @@ class Shop
     protected $tax = 0;
 
     /**
-     * @param \Maxim\CMSBundle\Entity\Section $section
-     */
-    public function setSection($section)
-    {
-        $this->section = $section;
-    }
-
-    /**
-     * @return \Maxim\CMSBundle\Entity\Section
-     */
-    public function getSection()
-    {
-        return $this->section;
-    }
-
-    /**
      * Get id
      *
      * @return integer 
@@ -148,7 +125,7 @@ class Shop
      * Set name
      *
      * @param string $name
-     * @return Shop
+     * @return StoreItem
      */
     public function setName($name)
     {
@@ -171,7 +148,7 @@ class Shop
      * Set description
      *
      * @param string $description
-     * @return Shop
+     * @return StoreItem
      */
     public function setDescription($description)
     {
@@ -194,7 +171,7 @@ class Shop
      * Set amount
      *
      * @param string $amount
-     * @return Shop
+     * @return StoreItem
      */
     public function setAmount($amount)
     {
@@ -217,7 +194,7 @@ class Shop
      * Set reduction
      *
      * @param string $reduction
-     * @return Shop
+     * @return StoreItem
      */
     public function setReduction($reduction)
     {
@@ -240,7 +217,7 @@ class Shop
      * Set visible
      *
      * @param boolean $visible
-     * @return Shop
+     * @return StoreItem
      */
     public function setVisible($visible)
     {
@@ -263,7 +240,7 @@ class Shop
      * Set command
      *
      * @param string $command
-     * @return Shop
+     * @return StoreItem
      */
     public function setCommand($command)
     {
@@ -286,7 +263,7 @@ class Shop
      * Set image
      *
      * @param string $image
-     * @return Shop
+     * @return StoreItem
      */
     public function setImage($image)
     {
@@ -303,22 +280,6 @@ class Shop
     public function getImage()
     {
         return $this->image;
-    }
-
-    /**
-     * @param \Maxim\CMSBundle\Entity\Server $server
-     */
-    public function setServer($server)
-    {
-        $this->server = $server;
-    }
-
-    /**
-     * @return \Maxim\CMSBundle\Entity\Server
-     */
-    public function getServer()
-    {
-        return $this->server;
     }
 
     /**
@@ -358,8 +319,8 @@ class Shop
      */
     public function setType($type)
     {
-        if(!in_array($type, array(self::SHOP_COMMAND, self::SHOP_SQL))){
-            throw new \InvalidArgumentException("Invalid type specified for entity Shop");
+        if(!in_array($type, array(self::STORE_COMMAND, self::STORE_SQL))){
+            throw new \InvalidArgumentException("Invalid type specified for entity StoreItem");
         }
         $this->type = $type;
     }
@@ -386,5 +347,26 @@ class Shop
     public function getTax()
     {
         return $this->tax;
+    }
+
+    /**
+     * @param \Maxim\CMSBundle\Entity\Section $storeCategory
+     */
+    public function setStoreCategory($storeCategory)
+    {
+        $this->storeCategory = $storeCategory;
+    }
+
+    /**
+     * @return \Maxim\CMSBundle\Entity\Section
+     */
+    public function getStoreCategory()
+    {
+        return $this->storeCategory;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

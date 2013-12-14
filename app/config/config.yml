@@ -2,6 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: @MaximCMSBundle/Resources/config/admin.yml }
+    - { resource: @MaximCMSBundle/Resources/config/role_hierarchies.yml }
 parameters:
     website: 3
 services:
@@ -74,7 +75,7 @@ assetic:
     debug:          %kernel.debug%
     use_controller: false
     write_to: "%kernel.root_dir%/../web/"
-    bundles:        [ 'MaximCMSBundle', 'MaximAdminBundle']
+    bundles:        [ 'MaximCMSBundle' ]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
@@ -110,6 +111,10 @@ doctrine:
                 metadata_cache_driver: apc
                 query_cache_driver: apc
                 result_cache_driver: apc
+                dql:
+                    datetime_functions:
+                        MONTH: DoctrineExtensions\Query\Mysql\Month
+                        YEAR: DoctrineExtensions\Query\Mysql\Year
                 mappings:
                     MaximCMSBundle: ~
                     MaximModuleTicketBundle: ~
@@ -182,10 +187,27 @@ sonata_block:
         # Enable the SonataAdminBundle block
         sonata.admin.block.admin_list:
             contexts:   [admin]
+        maxim_cms.block.latest_users: ~
+        maxim_cms.block.latest_purchases: ~
+        maxim_cms.block.purchases_info: ~
         # Your other blocks
 sonata_admin:
     title:      MCSuite Admin Panel
     #title_logo: bundles/acmedemo/img/fancy_acme_logo.png
+    security:
+        handler: sonata.admin.security.handler.role
+        information:
+            GUEST:    [VIEW, LIST]
+            STAFF:    [EDIT, LIST, CREATE]
+            EDITOR:   [OPERATOR, EXPORT]
+            ADMIN:    [MASTER]
+    dashboard:
+        blocks:
+            - { position: left, type: sonata.admin.block.admin_list}
+             #- { position: center, type: sonata.block.service.text, settings: { content: "<h2>Welcome!</h2> You can customize this dashboard by editing the sonata_admin.yml file. The current dashboard presents the recent items from the NewsBundle and a timeline with the latest action"} }
+            - { position: center, type: maxim_cms.block.latest_users }
+            - { position: center, type: maxim_cms.block.latest_purchases }
+            - { position: center, type: maxim_cms.block.purchases_info }
 
 # HTML PURIFIER
 exercise_html_purifier:
@@ -197,12 +219,17 @@ exercise_html_purifier:
 
 # MAXIM CMS
 maxim_cms:
-   shop:
-      email: purchases@eyeofender.com
-      paypal: https://www.paypal.com/cgi-bin/webscr
-      #paypal: https://sandbox.paypal.com/cgi-bin/webscr
-      currency: GBP
-      currency_symbol: £
-      return: http://themassmc.com/shop
-      cancel: http://themassmc.com/shop/sorry.html
-      ipn: http://themassmc.com/shop/ipn/paypal
+   store:
+       email: purchases@eyeofender.com
+       paypal: https://www.paypal.com/cgi-bin/webscr
+       #paypal: https://sandbox.paypal.com/cgi-bin/webscr
+       currency: GBP
+       currency_symbol: £
+       return: http://themassmc.com/shop
+       cancel: http://themassmc.com/shop/sorry.html
+       ipn: http://themassmc.com/shop/ipn/paypal
+maxim_module_forum:
+   threads:
+       threshold: 3 # in minutes
+   posts:
+       threshold: 1 # in minutes

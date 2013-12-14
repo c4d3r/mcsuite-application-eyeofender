@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Maxim\CMSBundle\Controller\ModuleController;
 use Maxim\CMSBundle\Controller\ShopController;
-use Maxim\CMSBundle\Entity\Shop;
+use Maxim\CMSBundle\Entity\StoreItem;
 use Maxim\CMSBundle\Entity\Purchase;
 use Maxim\CMSBundle\Entity\User;
 
@@ -27,7 +27,7 @@ class IpnController extends Controller
             $purchase->setStatus($status);
             $purchase->setIp($ip);
             $purchase->setUser($user);
-            $purchase->setShop($item);
+            $purchase->setStoreItem($item);
             $purchase->setName($user->getUsername());
             $em->persist($purchase);
             $em->flush();
@@ -40,23 +40,23 @@ class IpnController extends Controller
         }
     }
 
-    public function processItem($payment_amount, $shop, $name) {
+    public function processItem($payment_amount, $storeItem, $name) {
 
         $em = $this->getDoctrine()->getManager();
 
         # get the amount from the item minus reduction
-        $amount = $shop->getAmount() * (1 - ($shop->getReduction() / 100));
+        $amount = $storeItem->getAmount() * (1 - ($storeItem->getReduction() / 100));
 
         $errors = array();
         $logger = $this->get('logger');
 
         if($amount == $payment_amount) {
             # send the item ingame
-            $query = ModuleController::parseCommand(array("USER" => $name, "TIME" => time()), $shop->getCommand());
+            $query = ModuleController::parseCommand(array("USER" => $name, "TIME" => time()), $storeItem->getCommand());
 
             $result = ModuleController::executeQuery($query);
             if(!$result['success']) {
-                $errors[] = "[ITEM=" . $shop->getId() . "] Failed to execute: " . $result['message'];
+                $errors[] = "[ITEM=" . $storeItem->getId() . "] Failed to execute: " . $result['message'];
             }
 
         } else {
@@ -75,7 +75,7 @@ class IpnController extends Controller
         $logger = $this->get('logger');
         if($status['success'] == false) {
             $body = "We were unable to complete your payment, we have informed our staff team.<br/>Feel free to make a ticket on our website.";
-            $logger->err("[SHOP]" . print_r($status['message'], true));
+            $logger->err("[STORE]" . print_r($status['message'], true));
         } else {
             $body = "Thank you for your purchase at mcthefridge.com";
         }
@@ -95,7 +95,7 @@ class IpnController extends Controller
             $this->get('mailer')->send($message);
 
         }catch(\Exception $ex) {
-            $logger->err("[SHOP] Could not send mail: " . $ex->getMessage());
+            $logger->err("[STORE] Could not send mail: " . $ex->getMessage());
         }
 
     }

@@ -9,23 +9,23 @@ services:
             - ~
         calls:
             - [ setTemplate, [edit, MaximCMSBundle:AdminSonata:edit.html.twig]]
-    sonata.admin.shop:
-        class: Maxim\CMSBundle\Admin\ShopAdmin
+    sonata.admin.store.items:
+        class: Maxim\CMSBundle\Admin\StoreItemAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Shop items" }
+            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Store items" }
         arguments:
             - ~
-            - Maxim\CMSBundle\Entity\Shop
+            - Maxim\CMSBundle\Entity\StoreItem
             - ~
         calls:
             - [ setTemplate, [edit, MaximCMSBundle:AdminSonata:edit.html.twig]]
-    sonata.admin.shop_section:
-        class: Maxim\CMSBundle\Admin\ShopSectionAdmin
+    sonata.admin.store.categories:
+        class: Maxim\CMSBundle\Admin\StoreCategoryAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Shop sections" }
+            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Store categories" }
         arguments:
             - ~
-            - Maxim\CMSBundle\Entity\Section
+            - Maxim\CMSBundle\Entity\StoreCategory
             - ~
         calls:
             - [ setTemplate, [edit, MaximCMSBundle:AdminSonata:edit.html.twig]]
@@ -60,6 +60,26 @@ services:
         arguments:
             - ~
             - Maxim\CMSBundle\Entity\CoreNode
+            - ~
+        calls:
+            - [ setTemplate, [edit, MaximCMSBundle:AdminSonata:edit.html.twig]]
+    sonata.admin.user:
+        class: Maxim\CMSBundle\Admin\UserAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Users" }
+        arguments:
+            - ~
+            - Maxim\CMSBundle\Entity\User
+            - ~
+        calls:
+            - [ setTemplate, [edit, MaximCMSBundle:AdminSonata:edit.html.twig]]
+    sonata.admin.purchase:
+        class: Maxim\CMSBundle\Admin\PurchaseAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Purchases" }
+        arguments:
+            - ~
+            - Maxim\CMSBundle\Entity\Purchase
             - ~
         calls:
             - [ setTemplate, [edit, MaximCMSBundle:AdminSonata:edit.html.twig]]
@@ -128,6 +148,7 @@ services:
             - [ setSecurityContext, [@security.context]]
             - [ setTemplate, [edit, MaximModuleApplicationBundle:Admin:viewApplication.html.twig]]
             - [ addChild, [ @sonata.admin.module.application.replies ] ]
+            - [ setTemplate, [edit, MaximCMSBundle:AdminSonata:edit.html.twig]]
     sonata.admin.module.application.replies:
          class: Maxim\Module\ApplicationBundle\Admin\ApplicationReplyAdmin
          tags:
@@ -135,9 +156,42 @@ services:
          arguments:
             - ~
             - Maxim\Module\ApplicationBundle\Entity\ApplicationReply
-            - "MaximModuleApplicationBundle:Admin"
+            - ~
          calls:
             - [ setSecurityContext, [@security.context]]
             - [ setEntityManager, [@doctrine.orm.entity_manager]]
             - [ setTemplate, [inner_list_row, MaximModuleApplicationBundle:Admin:inner_row_application.html.twig]]
             - [ setTemplate, [base_list_field, SonataAdminBundle:CRUD:base_list_flat_field.html.twig]]
+            - [ setTemplate, [edit, MaximCMSBundle:AdminSonata:edit.html.twig]]
+
+    # ---------
+    #  TICKETS
+    # ---------
+    sonata.admin.module.ticket:
+         class: Maxim\Module\TicketBundle\Admin\TicketAdmin
+         tags:
+            - { name: sonata.admin, manager_type: orm, group: "Ticket", label: "Tickets" }
+         arguments:
+            - ~
+            - Maxim\Module\TicketBundle\Entity\Ticket
+            - ~
+         calls:
+            - [ setSecurityContext, [@security.context]]
+            - [ setTemplate, [inner_list_row, MaximModuleTicketBundle:Admin:inner_row_ticket.html.twig]]
+            - [ setTemplate, [base_list_field, SonataAdminBundle:CRUD:base_list_flat_field.html.twig]]
+            - [ setTemplate, [edit, MaximModuleTicketBundle:Admin:viewTicket.html.twig]]
+            - [ addChild, [ @sonata.admin.module.ticket.replies ] ]
+    sonata.admin.module.ticket.replies:
+         class: Maxim\Module\TicketBundle\Admin\TicketReplyAdmin
+         tags:
+            - { name: sonata.admin, manager_type: orm, group: "Ticket", label: "Ticket replies" }
+         arguments:
+            - ~
+            - Maxim\Module\TicketBundle\Entity\TicketReply
+            - ~
+         calls:
+            - [ setSecurityContext, [@security.context]]
+            - [ setEntityManager, [@doctrine.orm.entity_manager]]
+            - [ setTemplate, [inner_list_row, MaximModuleTicketBundle:Admin:inner_row_ticketreply.html.twig]]
+            - [ setTemplate, [base_list_field, SonataAdminBundle:CRUD:base_list_flat_field.html.twig]]
+            - [ setTemplate, [edit, MaximCMSBundle:AdminSonata:edit.html.twig]]

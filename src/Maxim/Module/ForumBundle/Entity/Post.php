@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Maxim\CMSBundle\Entity\Post
  *
  * @ORM\Table(name="mcsf_post")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Maxim\Module\ForumBundle\Entity\PostRepository")
  */
 class Post {
 

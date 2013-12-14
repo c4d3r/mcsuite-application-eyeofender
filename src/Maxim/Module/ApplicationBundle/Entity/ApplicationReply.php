@@ -36,7 +36,7 @@ class ApplicationReply
     /**
      * @var UserApplication
      *
-     * @ORM\ManyToOne(targetEntity="UserApplication")
+     * @ORM\ManyToOne(targetEntity="UserApplication", inversedBy="replies")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="application_user_id", referencedColumnName="id")
      * })

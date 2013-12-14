@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Maxim\CMSBundle\Entity\News;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Maxim\CMSBundle\Entity\Useraccounts;
-use Maxim\CMSBundle\Entity\Shop;
+use Maxim\CMSBundle\Entity\StoreItem;
 use Maxim\CMSBundle\Entity\Purchase;
 use Maxim\CMSBundle\Controller\IpnController;
 use Symfony\Component\Yaml\Yaml;
