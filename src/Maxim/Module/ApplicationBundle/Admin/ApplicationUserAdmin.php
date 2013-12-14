@@ -90,7 +90,7 @@ class ApplicationUserAdmin extends Admin
             ->add('user')
             ->add('application')
             ->add('date')
-            ->add('denied')
+            ->add('denied', 'boolean', array('editable' => true))
         ;
     }
 
