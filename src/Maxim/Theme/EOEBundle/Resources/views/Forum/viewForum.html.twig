@@ -41,12 +41,12 @@
                                 <h3>
                                     <a href="{{ path('forum_thread_view', {'id' : forum.id, 'threadid' : thread.id}) }}" class="tooltip-init" title="{{ thread.title|purify }}">{{ thread.title|cutlength(33) }}</a>
                                 </h3>
-                                <p>{{ thread.createdBy.username }}, {{ thread.createdOn|date('M j \, Y') }}</p>
+                                <p>{{ thread.createdBy.username }}, {{ thread.createdOn|prettydate }}</p>
                             </div>
                             <div class="mcsf_thread_update">
                                 {% if thread.lastPost is not null %}
                                     <h4>last post by {{ thread.lastPost.createdBy.username }}</h4>
-                                    <p>on {{ thread.lastPost.createdOn|date('M j \, Y') }}</button></p>
+                                    <p>{{ thread.lastPost.createdOn|prettydate }}</button></p>
                                 {% endif %}
                             </div>
                             <div style="clear:both;"></div>
@@ -69,12 +69,12 @@
                                 <h3>
                                     <a href="{{ path('forum_thread_view', {'id' : forum.id, 'threadid' : thread.id}) }}" class="tooltip-init" title="{{ thread.title }}">{{ thread.title|cutlength(33) }}</a>
                                 </h3>
-                                <p>{{ thread.createdBy.username }}, {{ thread.createdOn|date('M j \, Y') }}</p>
+                                <p>{{ thread.createdBy.username }}, {{ thread.createdOn|prettydate }}</p>
                             </div>
                             <div class="mcsf_thread_update">
                                 {% if thread.lastPost is not null %}
                                     <h4>last post by {{ thread.lastPost.createdBy.username }}</h4>
-                                    <p>on {{ thread.lastPost.createdOn|date('M j \, Y') }}</button></p>
+                                    <p>{{ thread.lastPost.createdOn|prettydate }}</button></p>
                                 {% endif %}
                             </div>
                             <div style="clear:both;"></div>

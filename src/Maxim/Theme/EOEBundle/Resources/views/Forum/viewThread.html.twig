@@ -50,7 +50,7 @@
                                     <span class="mcsf_admin_userip">{{ thread.createdBy.lastIp }}</span>
                                 {% endif %}
                                 <p class="mcsf_post_author_name">{{ thread.createdBy.username }}</p>
-                                <p class="mcsf_post_author_title">{{ thread.createdBy.rank.name }}</p>
+                                <p class="mcsf_post_author_title {{ thread.createdBy.rank.cssClass }}">{{ thread.createdBy.rank.name }}</p>
                             </div>
                         </div>
                         <div class="mcsf_post_content">
@@ -59,16 +59,16 @@
 
                                 {% for update in thread.updates %}
                                     <div class="mcsf_post_update">
-                                        <h6>Updated on {{ update.updatedOn|date('F j, Y') }}</h6>
+                                        <h6>Updated on {{ update.updatedOn|prettydate }}</h6>
                                         <p>{{ update.reason|purify }}</p>
                                     </div>
                                 {% endfor %}
                             </div>
                             <div class="mcsf_post_content_lowerbar">
                                 {% if thread.createdBy.id == app.user.id %}
-                                    <a class="mcsf_post_option_button" href="{{ path('forum_thread_edit', {'id' : thread.forum.id, 'threadid' : thread.id}) }}">Edit</a>
+                                    <a class="button mcsf_post_option_button" href="{{ path('forum_thread_edit', {'id' : thread.forum.id, 'threadid' : thread.id}) }}">Edit</a>
                                 {% endif %}
-                                <span class="mcsf_post_createdOn">{{ thread.createdOn|date('M j \, Y H:i:s') }}</span>
+                                <span class="mcsf_post_createdOn">{{ thread.createdOn|prettydate }}</span>
                             </div>
                             <div style="clear:right;"></div>
                         </div>
@@ -91,7 +91,7 @@
                                     <span class="mcsf_admin_userip">{{ post.createdBy.lastIp }}</span>
                                 {% endif %}
                                 <p class="mcsf_post_author_name">{{ post.createdBy.username }}</p>
-                                <p class="mcsf_post_author_title">{{ post.createdBy.rank.name }}</p>
+                                <p class="mcsf_post_author_title {{ thread.createdBy.rank.cssClass }}">{{ post.createdBy.rank.name }}</p>
                             </div>
                         </div>
                         <div class="mcsf_post_content">
@@ -101,7 +101,7 @@
                             <div class="mcsf_post_content_lowerbar">
                                 {# OPTIONS #}
                                 {% if post.createdBy.id == app.user.id %}
-                                    <a class="mcsf_post_option_button" href="{{ path('forum_post_edit', {'id' : thread.forum.id, 'threadid' : thread.id, 'postid': post.id}) }}">Edit</a>
+                                    <a class="button mcsf_post_option_button" href="{{ path('forum_post_edit', {'id' : thread.forum.id, 'threadid' : thread.id, 'postid': post.id}) }}">Edit</a>
                                 {% endif %}
                                 {% if post.likesHasUser(app.user) %}
                                     <span class="mcsf_post_like_text">You liked this!</span>
@@ -112,7 +112,7 @@
                                 {% if post.likes|length > 0 %}
                                     <span class="mcsf_post_amountLikes{% if post.likes|length > 5 %} mcsf_post_amountLikes-extra{% endif %}">{{ post.likes|length }}</span>
                                 {% endif %}
-                                <span class="mcsf_post_createdOn">{{ post.createdOn|date('M j \, Y H:i:s') }}</span>
+                                <span class="mcsf_post_createdOn">{{ post.createdOn|prettydate }}</span>
                             </div>
                             <div style="clear:right;"></div>
                         </div>

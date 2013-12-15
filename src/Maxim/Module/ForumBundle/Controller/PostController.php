@@ -9,7 +9,6 @@
 
 namespace Maxim\Module\ForumBundle\Controller;
 
-
 use Maxim\Module\ForumBundle\Entity\Post;
 use Maxim\Module\ForumBundle\Entity\PostEdit;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -32,8 +31,25 @@ class PostController extends Controller{
         $reply_text = $request->request->get('_post_reply_text');
         $user = $this->getuser();
 
+        # create the object
+        $post = new Post();
+        $post->setText(strip_tags($reply_text));
+        $post->setCreatedBy($user);
+        $post->setThread($thread);
+
+        # validate thread object
+        $validator = $this->get('validator');
+        $result = $validator->validate($post);
+        $data['array'] = $result;
+
+        if ((count($result) > 0)){
+            return new Response(json_encode(array('success' => false, 'message' => $this->renderView('MaximCMSBundle:Exception:arrayToList.html.twig', $data))));
+        }
+
+        $post->setText($reply_text);
+
         $lastPost = $em->getRepository("MaximModuleForumBundle:Post")->findLatestPost($this->getUser());
-        if(isset($lastPost[0]))
+        if(isset($lastPost[0]) && (false === $this->get('security.context')->isGranted('ROLE_STAFF')))
         {
             // check time difference
             $diff = $lastPost[0]->getCreatedOn()->diff(new \DateTime("now"));
@@ -49,10 +65,7 @@ class PostController extends Controller{
 
         # CREATE POST
         try {
-            $post = new Post();
-            $post->setText($reply_text);
-            $post->setCreatedBy($user);
-            $post->setThread($thread);
+
             $em->persist($post);
             $em->flush();
 
@@ -124,14 +137,33 @@ class PostController extends Controller{
         $request = $this->getRequest();
         $text = $request->request->get('_post_text');
 
-        $post->setText($text);
+        $post->setText(strip_tags($text));
 
         $pu = new PostEdit();
-        $pu->setReason($request->request->get('_reason'));
+        $reason = $request->request->get('_reason');
+        $pu->setReason(strip_tags($reason));
         $pu->setUpdatedBy($this->getUser());
         $pu->setPost($post);
-        $em->persist($pu);
 
+        # validate thread object and edit object
+        $validator = $this->get('validator');
+        $result = $validator->validate($post);
+        $result2 = $validator->validate($pu);
+
+        $data['array'] = $result;
+        if ((count($result) > 0)){
+            return new Response(json_encode(array('success' => false, 'message' => $this->renderView('MaximCMSBundle:Exception:arrayToList.html.twig', $data))));
+        }
+
+        $data['array'] = $result2;
+        if ((count($result2) > 0)){
+            return new Response(json_encode(array('success' => false, 'message' => $this->renderView('MaximCMSBundle:Exception:arrayToList.html.twig', $data))));
+        }
+
+        $pu->setReason($reason);
+        $post->setText($text);
+
+        $em->persist($pu);
         $em->flush();
 
         return new Response(json_encode(array("success" => true, "message" => "Your post has been updated", "redirect" => $this->generateUrl(

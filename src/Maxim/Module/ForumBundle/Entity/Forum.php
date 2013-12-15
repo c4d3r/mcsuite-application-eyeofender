@@ -281,6 +281,16 @@ class Forum {
         return $latest;
     }
 
+    public function findAmountPosts()
+    {
+        $amount = 0;
+        foreach($this->threads as $thread)
+        {
+            $amount += count($thread->getPosts());
+        }
+        return $amount;
+    }
+
     /**
      * @param boolean $showOnHome
      */

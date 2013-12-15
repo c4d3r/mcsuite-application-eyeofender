@@ -1,0 +1,40 @@
+Maxim\Module\ForumBundle\Entity\Thread:
+    properties:
+        text:
+            - NotBlank:
+                message: "Field text is required"
+            - Length:
+                min: 10
+                minMessage: "Your text must contain at least 10 characters"
+        title:
+            - NotBlank:
+                message: "Field title is required"
+            - Length:
+                min: 5
+                minMessage: "The title must contain at least 5 characters"
+Maxim\Module\ForumBundle\Entity\Post:
+    properties:
+        text:
+            - NotBlank:
+                message: "Field text is required"
+            - Length:
+                min: 10
+                minMessage: "Your text must contain at least 10 characters"
+Maxim\Module\ForumBundle\Entity\PostEdit:
+    properties:
+        reason:
+            - NotBlank:
+                message: "Field reason is required"
+            - Length:
+                min: 5
+                minMessage: "Your reason must contain at least 5 characters"
+Maxim\Module\ForumBundle\Entity\ThreadEdit:
+    properties:
+        reason:
+            - NotBlank:
+                message: "Field reason is required"
+            - Length:
+                min: 5
+                minMessage: "Your reason must contain at least 5 characters"
+
+

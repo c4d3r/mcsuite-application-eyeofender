@@ -68,14 +68,33 @@ class ThreadController extends Controller{
         $request = $this->getRequest();
         $text = $request->request->get('_thread_text');
 
-        $thread->setText($text);
+        $thread->setText(strip_tags($text));
+
+        $reason = $request->request->get('_reason');
 
         $tu = new ThreadEdit();
-        $tu->setReason($request->request->get('_reason'));
+        $tu->setReason(strip_tags($reason));
         $tu->setUpdatedBy($this->getUser());
         $tu->setThread($thread);
-        $em->persist($tu);
 
+        # validate thread object and edit object
+        $validator = $this->get('validator');
+        $result = $validator->validate($thread);
+        $result2 = $validator->validate($tu);
+
+        $data['array'] = $result;
+        if ((count($result) > 0)){
+            return new Response(json_encode(array('success' => false, 'message' => $this->renderView('MaximCMSBundle:Exception:arrayToList.html.twig', $data))));
+        }
+
+        $data['array'] = $result2;
+        if ((count($result2) > 0)){
+            return new Response(json_encode(array('success' => false, 'message' => $this->renderView('MaximCMSBundle:Exception:arrayToList.html.twig', $data))));
+        }
+
+        $thread->setText($text);
+        $tu->setReason($reason);
+        $em->persist($tu);
         $em->flush();
 
         return new Response(json_encode(array("success" => true, "message" => "Your thread has been updated", "redirect" => $this->generateUrl(
@@ -93,6 +112,8 @@ class ThreadController extends Controller{
         $forumid    = $request->request->get('_forumid');
         $threadText  = $request->request->get('_thread_text');
         $threadTitle = $request->request->get('_thread_title');
+        # GET USER
+        $user = $this->getUser();
 
         # SEARCH FORUM
         $forum = $em->getRepository('MaximModuleForumBundle:Forum')->findOneBy(array("id" => $forumid));
@@ -103,9 +124,28 @@ class ThreadController extends Controller{
             throw new AccessDeniedException("Only staff members can create news threads in this category!");
         }
 
-        # prevent spam, check if a thread was made in the past XX minutes
+        # create Thread object
+        $thread = new Thread();
+        $thread->setText(strip_tags($threadText));
+        $thread->setTitle(strip_tags($threadTitle));
+        $thread->setCreatedBy($user);
+        $thread->setForum($forum);
+
+        # validate thread object
+        $validator = $this->get('validator');
+        $result = $validator->validate($thread);
+        $data['array'] = $result;
+
+        if ((count($result) > 0)){
+            return new Response(json_encode(array('success' => false, 'message' => $this->renderView('MaximCMSBundle:Exception:arrayToList.html.twig', $data))));
+        }
+
+        $thread->setTitle($threadTitle);
+        $thread->setText($threadText);
+
+        # spam protection, max every xx min
         $lastThread = $em->getRepository("MaximModuleForumBundle:Thread")->findLatestThread($this->getUser());
-        if(isset($lastThread[0]))
+        if(isset($lastThread[0]) && (false === $this->get('security.context')->isGranted('ROLE_STAFF')))
         {
             // check time difference
             $diff = $lastThread[0]->getCreatedOn()->diff(new \DateTime("now"));
@@ -119,16 +159,8 @@ class ThreadController extends Controller{
             }
         }
 
-        # GET USER
-        $user = $this->getUser();
-
         # CREATE THREAD
         try {
-            $thread = new Thread();
-            $thread->setText($threadText);
-            $thread->setTitle($threadTitle);
-            $thread->setCreatedBy($user);
-            $thread->setForum($forum);
             $em->persist($thread);
             $em->flush();
         }catch(\Exception $ex) {

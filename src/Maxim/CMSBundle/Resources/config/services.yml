@@ -8,6 +8,10 @@ services:
         calls:
             - [ setContainer, [ @service_container ] ]
 
+    maxim_cms.validator:
+        class: Maxim\CMSBundle\Component\Validator\Validator
+        arguments:
+            em: @doctrine.orm.entity_manager
    # HELPERS
     maxim_cms.rest.helper:
         class: Maxim\CMSBundle\Helper\RESTHelper

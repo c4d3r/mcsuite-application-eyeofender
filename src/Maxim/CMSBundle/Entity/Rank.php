@@ -48,6 +48,11 @@ class Rank implements RoleInterface
     protected $default;
 
     /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    protected $cssClass;
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="CoreApplication", inversedBy="ranks", cascade={"persist"})
@@ -199,6 +204,22 @@ class Rank implements RoleInterface
     public function getSections()
     {
         return $this->sections;
+    }
+
+    /**
+     * @param string $cssClass
+     */
+    public function setCssClass($cssClass)
+    {
+        $this->cssClass = $cssClass;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCssClass()
+    {
+        return $this->cssClass;
     }
 
     /**

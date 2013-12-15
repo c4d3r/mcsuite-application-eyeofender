@@ -29,6 +29,7 @@ class TextExtension extends \Twig_Extension
         return array(
             new \Twig_SimpleFilter('cutlength', array($this, 'cutlength')),
             new \Twig_SimpleFilter('timeago', array($this, 'timeago')),
+            new \Twig_SimpleFilter('prettydate', array($this, 'prettydate'))
         );
     }
 
@@ -60,6 +61,28 @@ class TextExtension extends \Twig_Extension
             $numberOfUnits = floor($time / $unit);
             return $numberOfUnits.' '.$text.(($numberOfUnits>1)?'s':'');
         }
+    }
+
+    public function prettyDate($date)
+    {
+        $now = new \DateTime("now");
+        $day = $date->format('j');
+        $dayNow = $now->format('j');
+        $diff = ($dayNow - $day);
+
+        if($diff <= 1)
+        {
+            $dayWord = (($diff == 1) ? "Yesterday" : "Today");
+        }
+        elseif($diff >= 2 && $diff <= 6)
+        {
+            $dayWord = $date->format('l');
+        }
+        else
+        {
+            $dayWord = $date->format('M j');
+        }
+        return sprintf("%s at %s", $dayWord, $date->format('g:i a'));
     }
 
     public function getNode($node)

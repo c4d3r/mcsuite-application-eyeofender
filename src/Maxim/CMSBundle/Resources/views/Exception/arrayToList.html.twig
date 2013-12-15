@@ -1,0 +1,7 @@
+{% if array is defined %}
+    <ul>
+        {% for key, value in array %}
+            <li>{{ value.message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
