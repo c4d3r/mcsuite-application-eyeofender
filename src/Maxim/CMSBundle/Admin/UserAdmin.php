@@ -13,6 +13,8 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Maxim\CMSBundle\Entity\User;
+use Maxim\CMSBundle\Twig\Extension\FriendExtension;
 class UserAdmin extends Admin{
 
     protected function configureRoutes(RouteCollection $collection)
@@ -24,16 +26,16 @@ class UserAdmin extends Admin{
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('country', 'sonata_type_model_list', array(
+            /*->add('country', 'sonata_type_model_list', array(
                     'btn_add'       => false,      //Specify a custom label
                     'btn_list'      => 'List countries',     //which will be translated
                     'btn_delete'    => false,             //or hide the button.
                 ),array(
                     'placeholder' => 'No country selected'
                 )
-            )
+            )*/
             ->add('username', 'text', array('label' => 'Username'))
-            ->add('email', 'text', array('label' => 'E-mail'))
+            ->add('email', 'email', array('label' => 'E-mail'))
             ->add('lastIp', 'text', array('label' => 'last Ip-address'))
             ->add('skype', 'text', array('label' => 'Skype'))
             ->add('dateOfBirth', 'date', array('label' => 'Date of birth'))

@@ -1,11 +1,4 @@
-parameters:
-    # ... other parameters
-    security.acl.permission.map.class: Sonata\AdminBundle\Security\Acl\Permission\AdminPermissionMap
-    # optionally use a custom MaskBuilder
-    #sonata.admin.security.mask.builder.class: Sonata\AdminBundle\Security\Acl\Permission\MaskBuilder
 security:
-    acl:
-        connection: default
     access_decision_manager:
         # strategy can be: affirmative, unanimous or consensus
         strategy: unanimous
@@ -16,10 +9,17 @@ security:
         default:
             entity: { class: Maxim\CMSBundle\Entity\User, property: username } # This is an ORM entity and username is just the username property of the entity.
     firewalls:
+        secured_area:
+            pattern:    ^/*
+            anonymous: ~
+            form_login:
+                login_path:  login
+                check_path:  login_check
+    firewalls:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
+        secured_area:
             switch_user: { role: ROLE_ADMIN }
             pattern: ^/
             form_login:
@@ -29,9 +29,9 @@ security:
                 failure_handler: authentication_handler
                 use_referer: true
                 default_target_path: /
-            anonymous:    true
+            anonymous: ~
             remember-me:
-                key: "%secret%"
+                key: %secret%
                 lifetime: 3156000
                 path: /
                 domain: ~
@@ -47,6 +47,6 @@ security:
         - { path: ^/application, role: IS_AUTHENTICATED_REMEMBERED }
         - { path: ^/account, role: IS_AUTHENTICATED_REMEMBERED }
         - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/home, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        #- { path: ^/forum, allow_if: "!has_role('ROLE_BANNED')" }
+        - { path: ^/login_check, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/forum, access: "isAnonymous() || !hasRole('ROLE_BANNED')" }
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }

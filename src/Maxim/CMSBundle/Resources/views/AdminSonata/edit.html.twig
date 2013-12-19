@@ -9,6 +9,7 @@
     %}
         <link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>
     {% endstylesheets %}
+
 {% endblock stylesheets %}
 {% block javascripts %}
     {{ parent() }}
@@ -22,9 +23,44 @@
     '@MaximCMSBundle/Resources/public/js/UI.js'
     '@MaximCMSBundle/Resources/public/js/redactor_init.js'
     '@MaximCMSBundle/Resources/public/plugins/JAIL/jail.js'
+    '@MaximCMSBundle/Resources/public/plugins/ace/ace.js'
+    '@MaximCMSBundle/Resources/public/plugins/ace/mode-sql.js'
+    '@MaximCMSBundle/Resources/public/plugins/ace/theme-twilight.js'
     output='themes/themass/js/sonata_admin.js'
     package='jsApp'
     %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
+    <script>
+       $(function () {
+           $.each($('.ace-init'), function(){
+               var textarea = $(this);
+
+               var mode = textarea.data('editor');
+
+               var editDiv = $('<div>', {
+                   position: 'absolute',
+                   width: textarea.width(),
+                   height: textarea.height(),
+                   'class': textarea.attr('class')
+               }).insertBefore(textarea);
+
+               textarea.css('visibility', 'hidden');
+               textarea.css('display', 'none');
+
+               var editor = ace.edit(editDiv[0]);
+               editor.renderer.setShowGutter(true);
+               editor.getSession().setValue(textarea.val());
+               editor.getSession().setMode("ace/mode/" + $(this).attr("data-editor"));
+               editor.setHighlightActiveLine(true);
+               //editor.setTheme("ace/theme/twilight");
+
+               // copy back to textarea on form submit...
+               textarea.closest('form').submit(function () {
+                   textarea.val(editor.getSession().getValue());
+               })
+
+           });
+       });
+    </script>
 {% endblock %}

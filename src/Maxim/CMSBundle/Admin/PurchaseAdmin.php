@@ -45,7 +45,7 @@ class PurchaseAdmin extends Admin
             )
             ->add('status', 'text', array('label' => 'Purchase status'))
             ->add('transaction', 'text', array('label' => 'transaction id'))
-            ->add('amount', 'integer', array('label' => 'amount paid'))
+            ->add('amount', 'decimal', array('label' => 'amount paid'))
             ->add('ip', 'text', array('label' => 'IP-Address'))
             ->add('date')
         ;

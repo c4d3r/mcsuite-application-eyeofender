@@ -53,6 +53,9 @@ class ExceptionListener {
             return $this->templating->render('MaximCMSBundle:Exception:404.html.twig');
         }
 
+        if($exception instanceof AccessDeniedException)
+            return $this->render("MaximCMSBundle:Exception:AccessDenied.html.twig");
+
 
         // HttpExceptionInterface is a special type of exception that
         // holds status code and header details

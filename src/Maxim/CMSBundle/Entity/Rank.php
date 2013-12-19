@@ -10,6 +10,12 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Rank implements RoleInterface
 {
+    const ROLE_ADMIN = "ROLE_ADMIN";
+    const ROLE_STAFF = "ROLE_STAFF";
+    const ROLE_MEMBER = "ROLE_MEMBER";
+    const ROLE_GUEST = "ROLE_GUEST";
+    const ROLE_BANNED = "ROLE_BANNED";
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -90,6 +96,17 @@ class Rank implements RoleInterface
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getRoleList()
+    {
+        return array(
+            self::ROLE_ADMIN => self::ROLE_ADMIN,
+            self::ROLE_STAFF => self::ROLE_STAFF,
+            self::ROLE_MEMBER => self::ROLE_MEMBER,
+            self::ROLE_GUEST => self::ROLE_GUEST,
+            self::ROLE_BANNED => self::ROLE_BANNED,
+        );
     }
 	public function getApplication()
 	{

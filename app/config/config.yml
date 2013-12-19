@@ -223,7 +223,7 @@ maxim_cms:
        email: purchases@eyeofender.com
        paypal: https://www.paypal.com/cgi-bin/webscr
        #paypal: https://sandbox.paypal.com/cgi-bin/webscr
-       currency: GBP
+       currency: GBP #his can be any 3 letter ISO 4217 code
        currency_symbol: £
        return: http://themassmc.com/shop
        cancel: http://themassmc.com/shop/sorry.html
@@ -233,3 +233,8 @@ maxim_module_forum:
        threshold: 3 # in minutes
    posts:
        threshold: 1 # in minutes
+
+# app/config/config.yml
+jms_security_extra:
+    # Enables expression language
+    expressions: true

@@ -53,5 +53,11 @@ fos_js_routing:
 #    resource: "@MaximInstallBundle/Resources/config/routing.yml"
 #    prefix:   /
 
+# no other matches found
+CMS_DEFAULT:
+  pattern: /{match}
+  defaults: { _controller: MaximCMSBundle:Exception:index }
+
+
 
 

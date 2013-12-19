@@ -71,7 +71,11 @@
                         <a href="#">Notifications<span class="badge">{{ app.user.unreadNotifications|length }}</span></a>
                         <ul class="dropdown">
                             {% for notification in app.user.unreadNotifications %}
-                                <li><a href="#">{{ notification.text }}</a></li>
+                                <li>
+                                    <a href="#">
+                                        {{ notification.text }}
+                                    </a>
+                                </li>
                             {% else %}
                                 <li><span>No unread notifications left.</span></li>
                             {% endfor %}

@@ -13,8 +13,11 @@ use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Maxim\CMSBundle\Entity\StoreItem;
 
 class StoreItemAdmin extends Admin{
+
+    protected $configs;
 
     protected $datagridValues = array(
         '_page' => 1,            // display the first page (default = 1)
@@ -38,14 +41,30 @@ class StoreItemAdmin extends Admin{
                     'style' => 'width: 683px;'
                 )
             ))
-            ->add('amount', 'text', array('label' => 'Item price'))
-            ->add('amount', 'text', array('label' => 'Item tax in %'))
+            ->add('amount', 'money', array(
+                'label' => 'Item price',
+                'currency' => $this->configs['currency']
+            ))
+            ->add('tax', 'percent', array('label' => 'Item tax'))
             ->add('visible', 'checkbox', array('label' => 'Item visibility'))
-            ->add('command', 'text', array('label' => 'Item command'))
-            ->add('type', 'text', array('label' => 'Item type (SQL or COMMAND)'))
+            ->add('type', 'choice', array(
+                'multiple' => false,
+                'choices' => StoreItem::getTypeList()
+            ))
+            ->add('command', 'textarea', array(
+                'label' => 'Item Command',
+                'attr'  => array(
+                    'class' => 'ace-init',
+                    'style' => 'width: 683px;height: 250px;',
+                    'data-editor' => "sql"
+                )
+            ))
             ->add('image', 'text', array('label' => 'Item image'))
-            ->add('reduction', 'text', array('label' => 'Item reduction'))
-            ->add('priority', 'text', array('label' => 'Item priority'))
+            ->add('reduction', 'money', array(
+                'label' => 'Item reduction',
+                'currency' => $this->configs['currency']
+            ))
+            ->add('priority', 'integer', array('label' => 'Item priority'))
             ->add('storeCategory', 'entity', array('class' => 'Maxim\CMSBundle\Entity\StoreCategory'))
             ->add('website', 'entity', array('class' => 'Maxim\CMSBundle\Entity\Website'))
         ;
@@ -74,6 +93,11 @@ class StoreItemAdmin extends Admin{
             ->add('storeCategory')
             ->add('website')
         ;
+    }
+
+    public function setConfigs($configs)
+    {
+        $this->configs = $configs;
     }
 
 }

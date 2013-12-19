@@ -47,6 +47,7 @@
     font-size: 12pt;
     font-weight: bold;
     margin:0;
+    text-shadow: 1px 1px black;
 }
 .mcsf_forum_text p {
     color: #B9B9B9;

@@ -76,7 +76,7 @@ class User implements AdvancedUserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity="Country")
-     * @ORM\JoinColumn(name="country_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="country_id", referencedColumnName="id", nullable=true)
      */
     private $country;
 

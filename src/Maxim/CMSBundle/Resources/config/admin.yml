@@ -19,6 +19,7 @@ services:
             - ~
         calls:
             - [ setTemplate, [edit, MaximCMSBundle:AdminSonata:edit.html.twig]]
+            - [ setConfigs, [%maxim_cms.store%]]
     sonata.admin.store.categories:
         class: Maxim\CMSBundle\Admin\StoreCategoryAdmin
         tags:

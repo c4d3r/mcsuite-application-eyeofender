@@ -42,9 +42,9 @@ class StoreItem
     /**
      * @var string $amount
      *
-     * @ORM\Column(name="amount", type="float", precision=2)
+     * @ORM\Column(name="amount", type="decimal", precision=2)
      */
-    private $amount;
+    private $amount = 0.00;
 
     /**
      * @var boolean $visible
@@ -70,9 +70,9 @@ class StoreItem
 	 /**
      * @var string $image
      *
-     * @ORM\Column(name="reduction", type="integer", nullable=false)
+     * @ORM\Column(name="reduction", type="integer", type="decimal", precision=2, nullable=false)
      */
-     private $reduction = 0;
+     private $reduction = 0.00;
 
     /**
      * @var string $priority
@@ -107,7 +107,7 @@ class StoreItem
     /**
      * @var string $tax
      *
-     * @ORM\Column(name="tax", type="integer", nullable=false)
+     * @ORM\Column(name="tax", type="decimal", precision=2, nullable=false)
      */
     protected $tax = 0;
 
@@ -120,6 +120,15 @@ class StoreItem
     {
         return $this->id;
     }
+
+    public static function getTypeList()
+    {
+        return array(
+            self::STORE_COMMAND => "COMMAND",
+            self::STORE_SQL => "SQL"
+        );
+    }
+
 
     /**
      * Set name

@@ -14,7 +14,13 @@ class ServerAdmin extends Admin{
     {
         $formMapper
             ->add('name', 'text', array('label' => 'Server name'))
-            ->add('description', 'text', array('label' => 'Server description'))
+            ->add('description', 'textarea', array(
+                'label' => 'Server description',
+                'attr'  => array(
+                    'class' => 'redactor-init',
+                    'style' => 'width: 683px;'
+                )
+            ))
             ->add('image', 'text', array('label' => 'Server image'))
             ->add('abbr', 'text', array('label' => 'Server abbreviation'))
             ->add('website', 'entity', array('class' => 'Maxim\CMSBundle\Entity\Website'))

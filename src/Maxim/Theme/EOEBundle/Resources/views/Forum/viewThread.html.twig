@@ -65,7 +65,7 @@
                                 {% endfor %}
                             </div>
                             <div class="mcsf_post_content_lowerbar">
-                                {% if thread.createdBy.id == app.user.id %}
+                                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and thread.createdBy.id == app.user.id %}
                                     <a class="button mcsf_post_option_button" href="{{ path('forum_thread_edit', {'id' : thread.forum.id, 'threadid' : thread.id}) }}">Edit</a>
                                 {% endif %}
                                 <span class="mcsf_post_createdOn">{{ thread.createdOn|prettydate }}</span>
@@ -100,7 +100,7 @@
                             </div>
                             <div class="mcsf_post_content_lowerbar">
                                 {# OPTIONS #}
-                                {% if post.createdBy.id == app.user.id %}
+                                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and post.createdBy.id == app.user.id %}
                                     <a class="button mcsf_post_option_button" href="{{ path('forum_post_edit', {'id' : thread.forum.id, 'threadid' : thread.id, 'postid': post.id}) }}">Edit</a>
                                 {% endif %}
                                 {% if post.likesHasUser(app.user) %}

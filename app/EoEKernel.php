@@ -25,6 +25,10 @@ class EoEKernel extends Kernel
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(), //paginator bundle
             new JMS\SerializerBundle\JMSSerializerBundle($this),
 
+            new JMS\AopBundle\JMSAopBundle(),
+            new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
+            new JMS\DiExtraBundle\JMSDiExtraBundle($this),
+
             # Maxim Bundles
             //new Maxim\AdminBundle\MaximAdminBundle(),
             new Maxim\CMSBundle\MaximCMSBundle(),
