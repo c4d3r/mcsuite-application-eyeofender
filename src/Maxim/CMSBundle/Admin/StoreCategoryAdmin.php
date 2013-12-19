@@ -34,6 +34,7 @@ class StoreCategoryAdmin extends Admin
                     'style' => 'width: 683px;'
                 )
             ))
+            ->add('website', 'entity', array('class' => 'Maxim\CMSBundle\Entity\Website'))
         ;
     }
 
@@ -42,6 +43,7 @@ class StoreCategoryAdmin extends Admin
     {
         $datagridMapper
             ->add('name')
+            ->add('website')
         ;
     }
 
@@ -52,6 +54,7 @@ class StoreCategoryAdmin extends Admin
             ->addIdentifier('id')
             ->add('name')
             ->add('description')
+            ->add('website')
         ;
     }
 }

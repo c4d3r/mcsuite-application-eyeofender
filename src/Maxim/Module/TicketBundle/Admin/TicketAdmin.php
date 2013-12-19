@@ -35,6 +35,8 @@ class TicketAdmin extends Admin
 
         $formMapper
             ->add('description')
+            ->add('closed', 'boolean')
+            ->add('status', 'text')
             /*->add('user', 'sonata_type_model_list', array(
                     'btn_add'       => 'Add user',      //Specify a custom label
                     'btn_list'      => 'button.list',     //which will be translated
