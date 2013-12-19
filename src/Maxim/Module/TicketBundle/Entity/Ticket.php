@@ -36,7 +36,7 @@ class Ticket
     /**
      * @var boolean
      *
-     * @ORM\Column(name="closed", type="integer", nullable=false)
+     * @ORM\Column(name="closed", type="boolean", nullable=false)
      */
     protected $closed = 0;
 

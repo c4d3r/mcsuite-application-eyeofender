@@ -33,10 +33,16 @@ class TicketAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('description')
+            ->add('description', 'textarea', array(
+                'label' => 'Description',
+                'attr'  => array(
+                    'class' => 'redactor-init',
+                    'style' => 'width: 683px;'
+                )
+            ))
             ->add('closed', 'checkbox', array('label' => 'Ticket closed'))
             ->add('status', 'text')
-            /*->add('user', 'sonata_type_model_list', array(
+            ->add('user', 'sonata_type_model_list', array(
                     'btn_add'       => 'Add user',      //Specify a custom label
                     'btn_list'      => 'button.list',     //which will be translated
                     'btn_delete'    => false,             //or hide the button.
@@ -52,24 +58,25 @@ class TicketAdmin extends Admin
                 )
             ))
             ->add('date', 'datetime')
-            ->add('closed', 'boolean')
+            ->add('closed', 'checkbox')
             ->add('status', 'text')
-            ->add('section', 'sonata_type_model_list', array(
-                    'btn_add'       => 'Add section',      //Specify a custom label
-                    'btn_list'      => 'button.list',     //which will be translated
-                    'btn_delete'    => false,             //or hide the button.
-                ),array(
-                    'placeholder' => 'No section selected'
-                )
-            )
-            ->add('website', 'sonata_type_model_list', array(
-                    'btn_add'       => 'Add section',      //Specify a custom label
-                    'btn_list'      => 'button.list',     //which will be translated
-                    'btn_delete'    => false,             //or hide the button.
-                ),array(
-                    'placeholder' => 'No website selected'
-                )
-            )*/
+            /* ->add('section', 'sonata_type_model_list', array(
+                     'btn_add'       => 'Add section',      //Specify a custom label
+                     'btn_list'      => 'button.list',     //which will be translated
+                     'btn_delete'    => false,             //or hide the button.
+                 ),array(
+                     'placeholder' => 'No section selected'
+                 )
+             )
+       /*
+             ->add('website', 'sonata_type_model_list', array(
+                     'btn_add'       => 'Add section',      //Specify a custom label
+                     'btn_list'      => 'button.list',     //which will be translated
+                     'btn_delete'    => false,             //or hide the button.
+                 ),array(
+                     'placeholder' => 'No website selected'
+                 )
+             )     */
         ;
     }
 
