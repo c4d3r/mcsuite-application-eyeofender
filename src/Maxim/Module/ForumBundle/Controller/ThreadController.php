@@ -239,7 +239,7 @@ class ThreadController extends Controller{
         $data['thread'] = $thread;
 
         // ADMIN TOOLS
-        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+        if ($this->get('security.context')->isGranted('ROLE_STAFF')) {
 
             $query = $em->createQuery(
                 "SELECT f, c, u

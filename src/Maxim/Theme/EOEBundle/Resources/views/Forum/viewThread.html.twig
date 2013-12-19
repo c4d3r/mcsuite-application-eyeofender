@@ -40,7 +40,7 @@
                 <div class="mcsf_post_main">
                     <div class="mcsf_post row">
                         <div class="mcsf_post_author large-3">
-                            <div class="mcsf_post_author_image{% if thread.createdBy.granted(['ROLE_STAFF', 'ROLE_ADMIN']) %} mcsf_author_staff{% endif %}">
+                            <div class="mcsf_post_author_image{% if thread.createdBy.granted(['ROLE_STAFF']) %} mcsf_author_staff{% endif %}">
                                 <img src="{{ asset('/bundles/maximcms/images/blank.gif') }}" data-src="http://minotar.net/avatar/{{ thread.createdBy.username }}/85.png" alt="mc the mass logo" class="preload"/>
                             </div>
                             <div class="mcsf_post_author_info large-8 small-offset-1">
@@ -82,7 +82,7 @@
                     {% for post in posts %}
                     <div class="mcsf_post row">
                         <div class="mcsf_post_author large-3">
-                            <div class="mcsf_post_author_image{% if post.createdBy.granted(['ROLE_STAFF', 'ROLE_ADMIN']) %} mcsf_author_staff{% endif %}">
+                            <div class="mcsf_post_author_image{% if post.createdBy.granted(['ROLE_STAFF']) %} mcsf_author_staff{% endif %}">
                                 <img src="{{ asset('/bundles/maximcms/images/blank.gif') }}" data-src="http://minotar.net/avatar/{{ post.createdBy.username }}/85.png" alt="mc the mass logo" class="preload"/>
                             </div>
                             <div class="mcsf_post_author_info large-8 small-offset-1">
@@ -91,7 +91,7 @@
                                     <span class="mcsf_admin_userip">{{ post.createdBy.lastIp }}</span>
                                 {% endif %}
                                 <p class="mcsf_post_author_name">{{ post.createdBy.username }}</p>
-                                <p class="mcsf_post_author_title {{ thread.createdBy.rank.cssClass }}">{{ post.createdBy.rank.name }}</p>
+                                <p class="mcsf_post_author_title {{ post.createdBy.rank.cssClass }}">{{ post.createdBy.rank.name }}</p>
                             </div>
                         </div>
                         <div class="mcsf_post_content">

@@ -480,6 +480,11 @@
     border: 1px solid #184F8B;
     box-shadow: 0 0 1px 1px #2e2e2e,inset 0 0 1px 0 #508EFC;
 }
+.rank-dev {
+    background: #8BB336;
+    border: 1px solid #5FA529;
+    box-shadow: 0 0 1px 1px #2e2e2e,inset 0 0 1px 0 #C3FF76;
+}
 
 .rank-member {
     background: #4B4B4B;

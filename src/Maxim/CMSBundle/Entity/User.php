@@ -552,7 +552,10 @@ class User implements AdvancedUserInterface
 
 
         if($primaryRank == null) {
-            return new Rank("Member", "ROLE_MEMBER");
+
+            $tmpRank = new Rank("Member", "ROLE_MEMBER");
+            $tmpRank->setCssClass("rank-member");
+            return $tmpRank;
         }
         return $primaryRank;
     }
