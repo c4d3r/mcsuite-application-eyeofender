@@ -32,10 +32,9 @@ class TicketAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
-
         $formMapper
             ->add('description')
-            ->add('closed', 'boolean')
+            ->add('closed', 'checkbox', array('label' => 'Ticket closed'))
             ->add('status', 'text')
             /*->add('user', 'sonata_type_model_list', array(
                     'btn_add'       => 'Add user',      //Specify a custom label
