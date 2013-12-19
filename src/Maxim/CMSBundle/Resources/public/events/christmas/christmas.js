@@ -145,7 +145,7 @@
             canvasStyle.top = 0;
             canvasStyle.left = 0;
             canvasStyle.bottom = 0;
-            canvasStyle.zIndex = 1;
+            canvasStyle.zIndex = -1;
             canvasStyle['pointerEvents'] = 'none';
 
             settleCanvasStyle.cssText = canvasStyle.cssText;
