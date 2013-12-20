@@ -3,7 +3,6 @@
 namespace Maxim\CMSBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Doctrine\Common\Cache\ApcCache;
 class PageController extends Controller
 {
     public function internalAction($page)

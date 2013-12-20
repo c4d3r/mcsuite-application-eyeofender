@@ -10,7 +10,6 @@
 namespace Maxim\CMSBundle\Helper;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Doctrine\Common\Cache\ApcCache;
 
 class PermissionHelper{
 

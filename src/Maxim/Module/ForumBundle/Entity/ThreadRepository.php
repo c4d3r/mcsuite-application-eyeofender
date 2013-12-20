@@ -45,11 +45,12 @@ class ThreadRepository extends EntityRepository
     public function findNewsPosts($websiteid)
     {
         return $this->getEntityManager()->createQuery(
-            "SELECT t, f, c, w
+            "SELECT t, f, c, w, p
             FROM MaximModuleForumBundle:Thread t
             INNER JOIN t.forum f
             INNER JOIN f.category c
             INNER JOIN c.website w
+            LEFT JOIN t.posts p
             WHERE w.id = :websiteid
             AND f.showOnHome = true
             ORDER BY t.createdOn DESC

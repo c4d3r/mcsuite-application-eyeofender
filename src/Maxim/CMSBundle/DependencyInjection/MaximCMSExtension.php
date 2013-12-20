@@ -8,7 +8,6 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\Finder\Finder;
-use Doctrine\Common\Cache\ApcCache;
 
 /**
  * This is the class that loads and manages your bundle configuration
@@ -51,10 +50,10 @@ class MaximCMSExtension extends Extension
         $this->loadParameters($container, $config, 'maxim_cms');
 
         // LOAD services.xml
-        $cacheDriver = new ApcCache();
+       // $cacheDriver = new ApcCache();
 
-        if(!$cacheDriver->contains("_core_services"))
-        {
+        /*if(!$cacheDriver->contains("_core_services"))
+        { */
             $exclude = array("AdminBundle");
             $names   = array("services.yml");
             $paths   = array();
@@ -73,12 +72,12 @@ class MaximCMSExtension extends Extension
                 }
             }
 
-            $cacheDriver->save("_core_services", $paths, 3600);
-        }
+            //$cacheDriver->save("_core_services", $paths, 3600);
+       /* }
         else
         {
             $paths = $cacheDriver->fetch("_core_services");
-        }
+        }   */
 
         for($i = 0; $i < count($paths); $i++)
         {

@@ -106,27 +106,27 @@
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 
                 <div class="profile-container">
-                    <a href="{{ path('profile', { 'name' : app.user.username }) }}" class="left">
-                        <img data-src="http://minotar.net/avatar/{{ app.user.username }}/75.png" src="{{ asset('/bundles/maximcms/images/blank.gif') }}" alt="avatar from {{ app.user.username }}" class="preload"/>
-                        <noscript>
-                            <img src="http://minotar.net/avatar/{{ app.user.username }}/75.png" rel="tooltip" data-original-title="martim128" alt="player martim128">
-                        </noscript>
-                    </a>
+                <a href="{{ path('profile', { 'name' : app.user.username }) }}" class="left">
+                    <img data-src="http://minotar.net/avatar/{{ app.user.username }}/75.png" src="{{ asset('/bundles/maximcms/images/blank.gif') }}" alt="avatar from {{ app.user.username }}" class="preload"/>
+                    <noscript>
+                        <img src="http://minotar.net/avatar/{{ app.user.username }}/75.png" rel="tooltip" data-original-title="martim128" alt="player martim128">
+                    </noscript>
+                </a>
 
-                    <div class="sidebar-profile-content">
-                        <div class="sidebar-profile-holder">
-                            <div>
-                                <span class="radius secondary label bg-purple">{{ app.user.rank.name }}</span>
-                            </div>
-                            <div>
-                                <span class="radius secondary label">{{ app.user.username }}</span>
-                            </div>
-                            <div>
-                                <span class="radius secondary label">{{ app.user.lastLogin|date("M j, Y, g:i a") }}</span>
-                            </div>
+                <div class="sidebar-profile-content">
+                    <div class="sidebar-profile-holder">
+                        <div>
+                            <span class="radius secondary label bg-purple">{{ app.user.rank.name }}</span>
+                        </div>
+                        <div>
+                            <span class="radius secondary label">{{ app.user.username }}</span>
+                        </div>
+                        <div>
+                            <span class="radius secondary label">{{ app.user.lastLogin|date("M j, Y, g:i a") }}</span>
                         </div>
                     </div>
                 </div>
+            </div>
 
             {% else %}
                 <ul class="menu" style="padding:5px;">

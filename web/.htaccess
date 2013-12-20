@@ -50,3 +50,10 @@ DirectoryIndex app.php
         # RedirectTemp cannot be used instead
     </IfModule>
 </IfModule>
+
+# caching
+SetOutputFilter DEFLATE
+AddOutputFilterByType DEFLATE text/html
+BrowserMatch ^Mozilla/4         gzip-only-text/html
+BrowserMatch ^Mozilla/4\.0[678] no-gzip
+BrowserMatch \bMSIE             !no-gzip !gzip-only-text/html

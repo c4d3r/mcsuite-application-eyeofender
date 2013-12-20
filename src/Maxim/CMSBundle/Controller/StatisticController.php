@@ -12,7 +12,6 @@ namespace Maxim\CMSBundle\Controller;
 use Maxim\CMSBundle\Entity\Visitor;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\Common\Cache\ApcCache;
 class StatisticController extends Controller{
 
     public function indexAction()
