@@ -21,4 +21,9 @@
             <p>No news posts found in this section</p>
         </article>
     {% endfor %}
+
+    {# DISPLAY PAGE NAV #}
+    <div class="navigation">
+        {{ knp_pagination_render(articles) }}
+    </div>
 {% endblock body %}

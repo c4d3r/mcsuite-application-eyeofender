@@ -7,14 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="utf-8" />
 
-    {% javascripts
-    '@MaximThemeEOEBundle/Resources/public/theme/plugins/pace/pace.js'
-    output='themes/eyeofender/js/main-head.js'
-    package='jsApp'
-    %}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-
     <link rel="shortcut icon" href="{{ asset('/bundles/maximthemeeoe/theme/images/favicon.ico') }}">
     <link rel="apple-touch-icon image_src" href="{{ asset('/bundles/maximthemeeoe/theme/images/apple-touch-icon.png') }}">
 
@@ -27,11 +19,6 @@
     <meta name="og:url" content="http://eyeofender.com"/>
 
     <meta name="description" content="Eye of ender is a minecraft server that provides the user with a unique minigames and a good list of minigames to choose from, this network is supported by the famous youtuber gizzy14gazza">
-
-    {#<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet" type="text/css">#}
-    <link href='http://fonts.googleapis.com/css?family=Fauna+One' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Kameron' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Maven+Pro' rel='stylesheet' type='text/css'>
 
     {% stylesheets
         output='css'
@@ -101,7 +88,7 @@
             <li><a href="#" title="About Us">About Us</a></li>
             <li><a href="{{ path('tickets_index') }}" title="Contact">Contact</a></li>
             <li>
-                <a href="#" data-dropdown="drop-pages">Other &raquo;</a>
+                <a href="#" data-dropdown="drop-pages" style="border-top-right-radius: 3px;border-bottom-right-radius: 3px;">Other &raquo;</a>
 
                 <ul id="drop-pages" class="f-dropdown" data-dropdown-content>
                     {{ render(controller('MaximCMSBundle:Default:custom_pages')) }}
@@ -247,6 +234,7 @@
 <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
 {% javascripts
+    '@MaximThemeEOEBundle/Resources/public/theme/plugins/pace/pace.js'
     '@MaximThemeEOEBundle/Resources/public/theme/framework/zurb/js/modernizr.js'
     '@MaximThemeEOEBundle/Resources/public/theme/framework/zurb/js/foundation.min.js'
     '@MaximCMSBundle/Resources/public/js/AJAX.js'

@@ -2,6 +2,7 @@
 
 namespace Maxim\CMSBundle\Controller;
 
+use Doctrine\ORM\Query;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -19,32 +20,27 @@ class DefaultController extends Controller
     public function newsAction()
     {
         $em = $this->getDoctrine()->getManager();
-        //Get news posts from the forum
-        $forums = $em->getRepository("MaximModuleForumBundle:Forum")->findNewsPosts($this->container->getParameter('website'));
+        $request = $this->get('request');
 
-        $articles = array();
-        if($forums)
-        {
-            foreach($forums as $forum)
-            {
-                foreach($forum->getThreads() as $thread)
-                {
-                    $articles[] = $thread;
-                }
+        $threads = $em->getRepository("MaximModuleForumBundle:Thread")->findNewsPosts($this->container->getParameter('website'));
+
+        $paginator  = $this->get('knp_paginator');
+        $threads = $paginator->paginate(
+            $threads,
+            $this->get('request')->query->get('page', 1)/*page number*/,
+            5/*limit per page*/
+        );
+
+        $page = $request->query->get('page');
+
+        if(!($page == null))  {
+            if(!($page == 1)) {
+                $data['page'] = true;
             }
-            usort($articles, array("Maxim\\CMSBundle\\Controller\\DefaultController", "sortNews"));
         }
 
-        $data['articles'] = $articles;
+        $data['articles']  = $threads;
         return $this->render('MaximCMSBundle:pages:home.html.twig', $data);
-    }
-
-    public static function sortNews($t1, $t2)
-    {
-        if ($t1->getCreatedOn() == $t2->getCreatedOn()) {
-            return 0;
-        }
-        return ($t1->getCreatedOn() > $t2->getCreatedOn()) ? -1 : 1;
     }
 
     public function announcementsLoadAction()

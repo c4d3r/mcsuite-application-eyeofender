@@ -8,6 +8,7 @@
 
 namespace Maxim\Module\ForumBundle\Entity;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 
 class ThreadRepository extends EntityRepository
 {
@@ -39,5 +40,24 @@ class ThreadRepository extends EntityRepository
         $query->setParameter("user", $user->getId());
         $query->setMaxResults(1);
         return $query->getResult();
+    }
+
+    public function findNewsPosts($websiteid)
+    {
+        return $this->getEntityManager()->createQuery(
+            "SELECT t, f, c, w
+            FROM MaximModuleForumBundle:Thread t
+            INNER JOIN t.forum f
+            INNER JOIN f.category c
+            INNER JOIN c.website w
+            WHERE w.id = :websiteid
+            AND f.showOnHome = true
+            ORDER BY t.createdOn DESC
+            "
+        )
+            ->setParameters(array("websiteid" => $websiteid))
+            ->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true)
+            ->useResultCache(true, 3600, __METHOD__ . serialize("website_newsposts"));
+        ;
     }
 }
