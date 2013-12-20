@@ -23,7 +23,7 @@
 
         this.size = 2 + Math.random() * 5;
         this.vel = 1 + Math.random() * 3;
-        this.alpha = 0.5 + Math.random() * 0.8;
+        this.alpha = 0.1 + Math.random() * 0.8;
 
         // random x position
         this.x = Math.random() * maxX;
@@ -31,7 +31,6 @@
 
         // side-to-side movement
         this.sideVel = (0.5 - Math.random()) * this.vel;
-
 
         return this;
     };

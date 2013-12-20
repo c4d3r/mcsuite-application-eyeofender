@@ -109,9 +109,9 @@
             </li>
 
             {% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                <li class="right" style="border-left: 1px solid rgb(85, 84, 84);"><a href="{{ path('login') }}">Login</a></li>
+                <li class="right"><a href="{{ path('login') }}">Login</a></li>
             {% else %}
-                <li class="right" style="border-left: 1px solid rgb(85, 84, 84);"><a href="{{ path('logout') }}">Logout</a></li>
+                <li class="right"><a href="{{ path('logout') }}">Logout</a></li>
             {% endif %}
         </ul>
         <div id="account" class="medium-2 medium-offset-1 large-2 large-offset-1 columns hide-for-small-only">
@@ -127,14 +127,16 @@
                     </a>
 
                     <div class="sidebar-profile-content">
-                        <div>
-                            <span class="radius secondary label bg-purple">{{ app.user.rank.name }}</span>
-                        </div>
-                        <div>
-                            <span class="radius secondary label">{{ app.user.username }}</span>
-                        </div>
-                        <div>
-                            <span class="radius secondary label">{{ app.user.lastLogin|date("M j, Y, g:i a") }}</span>
+                        <div class="sidebar-profile-holder">
+                            <div>
+                                <span class="radius secondary label bg-purple">{{ app.user.rank.name }}</span>
+                            </div>
+                            <div>
+                                <span class="radius secondary label">{{ app.user.username }}</span>
+                            </div>
+                            <div>
+                                <span class="radius secondary label">{{ app.user.lastLogin|date("M j, Y, g:i a") }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>

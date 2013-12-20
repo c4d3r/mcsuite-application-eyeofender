@@ -1,13 +1,13 @@
 /*Simple reset*/
 * {margin: 0; padding: 0;}
 html {
-    background: url('/bundles/maximthemeeoe/theme/images/bg_original.jpg') no-repeat center center fixed;
+    background: url('/bundles/maximthemeeoe/theme/images/bg.jpg') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/bundles/maximthemeeoe/theme/images/bg_original.jpg', sizingMethod='scale');
-    -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/bundles/maximthemeeoe/theme/images/bg_original.jpg', sizingMethod='scale')";
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/bundles/maximthemeeoe/theme/images/bg.jpg', sizingMethod='scale');
+    -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/bundles/maximthemeeoe/theme/images/bg.jpg', sizingMethod='scale')";
 }
 
 body {
@@ -57,7 +57,7 @@ h1, h2, h3, h4, h5, h6 {
 	margin:70px auto 0 auto;
 }
 #navigation > ul {
-	padding:0 0 0 10px;
+	padding:6px;
 	margin:0;
 	/*width:770px;*/
 	/*float:left;*/
@@ -67,15 +67,25 @@ h1, h2, h3, h4, h5, h6 {
 }
 #navigation > ul > li {
 	display:inline-block;
-	height:75px;
 }
 #navigation > ul > li > a {
-	height:75px;
+	height:63px;
 	display:table-cell;
 	padding:0 15px;
 	vertical-align: middle;
 	font-family: 'Fauna One',serif;
 	color: #FFF;
+    background:#4d4d4d;
+}
+#navigation > ul > li:first-child > a
+{
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+#navigation > ul > li:last-child > a
+{
+    border-radius:3px;
 }
 #navigation > ul > li > a:hover {
 	/*background: #88882e;*/
@@ -85,10 +95,6 @@ h1, h2, h3, h4, h5, h6 {
 	-o-transition: all 0.5s ease;
 	-ms-transition: all 0.5s ease;
 	transition: all 0.5s ease;
-}
-#navigation > ul > li:last-child > a:last-child:hover {
-	border-top-right-radius: 5px;
-	border-bottom-right-radius: 5px;
 }
 
 /* NETWORKS */
@@ -277,6 +283,11 @@ article .comments {
 .sidebar-profile-content {
     margin-left:75px;
     padding:5px;
+}
+.sidebar-profile-holder {
+    background:#4d4d4d;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius:3px;
 }
 /* MENU */
 .menu {
@@ -510,7 +521,8 @@ textarea, input {
     position: fixed;
     top: 0;
     width: 100%;
-    z-index:9999;
+    z-index:999;
+    background: #2f2f2f;
 }
 .row {
     max-width: 63.5rem !important;
