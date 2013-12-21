@@ -53,6 +53,7 @@ class ThreadRepository extends EntityRepository
                 INNER JOIN f.category c
                 INNER JOIN c.website w
                 WHERE f.showOnHome = true AND w.id = :website
+                ORDER BY t.createdOn DESC
                 '
             )
             ->setParameter("website", $websiteid)
