@@ -13,11 +13,12 @@ class DefaultController extends Controller{
 
         # LOAD FORUMS
         $query = $em->createQuery(
-            "SELECT f, c, u, t
+            "SELECT f, c, u, t, p
             FROM MaximModuleForumBundle:Forum f
             LEFT JOIN f.createdBy u
             LEFT JOIN f.category c
             LEFT JOIN f.threads t
+            LEFT JOIN t.posts p
             ORDER BY c.sort DESC"
         );
         $query->useResultCache(true, 3600, __METHOD__ . serialize($query->getParameters()));

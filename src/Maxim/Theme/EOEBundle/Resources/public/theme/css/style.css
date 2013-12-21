@@ -42,6 +42,39 @@ h1, h2, h3, h4, h5, h6 {
 	color: #FFF;
 }
 
+.logo-eoe {
+    background-color: transparent !important;
+    border:none !important;
+    background: url('/bundles/maximthemeeoe/theme/images/logo-eoe.png') no-repeat !important;
+    width:258px;
+    height:97px;
+    position: relative;
+    top: -14px;
+    left: -16px;
+    z-index: 800;
+    transition:         background-position 0.3s ease-in-out;
+    -moz-transition:    background-position 0.3s ease-in-out;
+    -webkit-transition: background-position 0.3s ease-in-out;
+    -o-transition:      background-position 0.3s ease-in-out;
+}
+.logo-eoe a {
+    position: absolute;
+    top:0;
+    left:0;
+    width:258px;
+    height:97px;
+    background:url('/bundles/maximthemeeoe/theme/images/logo-eoe.png') 0 -97px !important;
+    opacity: 0;
+    z-index: 999;
+    display:block;
+    -webkit-transition: opacity 2s;
+    -moz-transition:    opacity 2s;
+    -o-transition:      opacity 2s;
+    border:none !important;
+}
+.logo-eoe a:hover {
+    opacity: 1;
+}
 /* COLORS */
 .color-purple {
     color: rgb(150, 124, 189);
@@ -139,7 +172,7 @@ h1, h2, h3, h4, h5, h6 {
 	background:#2f2f2f;
 	min-height:100px;
 	/*float:left;*/
-	padding:10px;
+	padding:.500rem;
 }
 
 aside {
@@ -549,7 +582,7 @@ textarea, input {
 @media only screen and (min-width: 90.063em) {
     .column, .columns {
         position: relative;
-        padding: .9375rem;
+        padding: .500rem;
         float: left;
     }
 }
