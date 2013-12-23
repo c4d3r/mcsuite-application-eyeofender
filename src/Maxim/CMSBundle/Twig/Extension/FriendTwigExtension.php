@@ -8,6 +8,7 @@
 
 namespace Maxim\CMSBundle\Twig\Extension;
 
+use Maxim\CMSBundle\Entity\User;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Security\Core\SecurityContext;
 
@@ -27,13 +28,20 @@ class FriendTwigExtension extends \Twig_Extension
         //Check if the player has a friendrequest on the current user
         $user = $this->context->getToken()->getUser();
 
+        if(!$user) {
+            return false;
+        }
+
         // Get both friendrequests
         foreach($player->getFriendRequests() as $request)
         {
-            if($request->getRecipient()->getId() == $user->getId() || $request->getUser()->getId() == $user->getId()) {
+            if(($request->getRecipient() instanceof User) && ($request->getRecipient()->getId() == $user->getId() || $request->getUser()->getId() == $user->getId()))
+            {
                 return true;
             }
         }
+
+        return false;
     }
 
     public function isFriend($user, $friend)
