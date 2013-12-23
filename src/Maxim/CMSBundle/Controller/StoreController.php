@@ -8,6 +8,7 @@ use Maxim\CMSBundle\Listeners\StoreListener;
 use Maxim\CMSBundle\Listeners\UserListener;
 use Maxim\CMSBundle\StoreEvents;
 use Maxim\CMSBundle\UserEvents;
+use Payum\Core\Request\BinaryMaskStatusRequest;
 use Payum\Paypal\ExpressCheckout\Nvp\Bridge\Buzz\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -19,12 +20,7 @@ use Maxim\CMSBundle\Entity\StoreItem;
 use Maxim\CMSBundle\Entity\PaypalExpressPaymentDetails;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\Range;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration as Extra;
-use Payum\Request\BinaryMaskStatusRequest;
-use Payum\Registry\RegistryInterface;
 use Payum\Paypal\ExpressCheckout\Nvp\Api;
-use Payum\Paypal\ExpressCheckout\Nvp\Model\PaymentDetails;
-use Payum\Bundle\PayumBundle\Service\TokenManager;
 
 class StoreController extends ModuleController
 {
@@ -259,27 +255,28 @@ class StoreController extends ModuleController
         $logger = $this->get('logger');
         $token = $this->get('payum.security.http_request_verifier')->verify($request);
         $payment = $this->get('payum')->getPayment($token->getPaymentName());
+        $request = Request::createFromGlobals();
 
         $status = new BinaryMaskStatusRequest($token);
         $payment->execute($status);
 
         if ($status->isSuccess())
         {
-            $this->getRequest()->getSession()->getFlashBag()->set(
+            $request->getSession()->getFlashBag()->set(
                 'notice',
                 'Payment success.'
             );
         }
         else if ($status->isPending())
         {
-            $this->getRequest()->getSession()->getFlashBag()->set(
+            $request->getSession()->getFlashBag()->set(
                 'notice',
                 'Payment is still pending. Credits were not added'
             );
         }
         else
         {
-            $this->getRequest()->getSession()->getFlashBag()->set('error', 'Payment failed');
+            $request->getSession()->getFlashBag()->set('error', 'Payment failed');
         }
 
         return $this->redirect($this->generateUrl("home"));
@@ -333,7 +330,7 @@ class StoreController extends ModuleController
 
             if($stmt->rowCount() > 0)
             {
-                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                $result = $stmt->fetch(\PDO::FETCH_ASSOC);
                 return (strtoupper($result['Perm']) == "TRUE" ? true : false);
             }
             else

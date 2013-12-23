@@ -1,5 +1,7 @@
 AJAX = {
     post : function(url, parameters, divStatus, button) {
+
+        button.prop('disabled', true);
         $(divStatus).removeClass().addClass('alert alert-block').html('Validating....').fadeIn(1000);
         $.ajax({
             type: "POST",
@@ -55,6 +57,7 @@ AJAX = {
             console.log("error");
             console.log(data.responseText);
         });
+        button.removeAttr('disabled');
         return false;
     },
     post_text : function(url, element, text, parameters) {

@@ -31,18 +31,6 @@ class ApplicationUserAdmin extends Admin
         return $instance;
     }
 
-    // Fields to be shown on create/edit forms
-    /*protected function configureFormFields(FormMapper $formMapper)
-    {
-
-        $transformer = new JsonArrayToTableTransformer();
-
-        $formMapper
-            ->add('application', 'entity', array('class' => 'MaximModuleApplicationBundle:Application'))
-            ->add('denied', 'checkbox', array('label' => 'Denied', 'required' => false))
-        ;
-    }   */
-
     protected function configureRoutes(RouteCollection $collection)
     {
         $collection

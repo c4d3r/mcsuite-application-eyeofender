@@ -5,6 +5,7 @@
 namespace Maxim\CMSBundle\Controller;
 
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -24,7 +25,7 @@ class SecurityController extends Controller
     /* LOGIN */
     public function loginAction()
     {
-        $request = $this->getRequest();
+        $request = Request::createFromGlobals();
         $session = $request->getSession();
 
         // get the login error if there is one
@@ -41,7 +42,7 @@ class SecurityController extends Controller
     }
     public function loginFormAction()
     {
-        $request = $this->getRequest();
+        $request = Request::createFromGlobals();
         $session = $request->getSession();
 
         // get the login error if there is one
@@ -83,7 +84,7 @@ class SecurityController extends Controller
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository('MaximCMSBundle:User')->findOneBy(array("id" => $userid));
 
-            if($user)
+            if(!$user)
             {
                 if($user->getVerified() == 0)
                 {
@@ -124,26 +125,16 @@ class SecurityController extends Controller
 
     }
 
-    /**
-     * Register Action
-     */
-    public function registerAction()
+
+    public function fetchRegisterVariables()
     {
-
-        $request = $this->getRequest();
-
-        if (!$request->isXmlHttpRequest()) {
-            throw new AccessDeniedException("Unknown request");
-        }
-
-        $logger = $this->container->get('logger');
+        $request = Request::createFromGlobals();
 
         $this->details['email']            = $request->request->get('_register_email');
         $this->details['username']         = $request->request->get('_register_username');
         $this->details['password']         = $request->request->get('_register_password');
         $this->details['password_confirm'] = $request->request->get('_register_password_confirm');
         $this->details['location']         = $request->request->get('_register_location');
-        //$this->details['dateOfBirth']      = $request->request->get('_register_dateOfBirth');
         $this->details['dob']['day']       = $request->request->get('_register_dob_day');
         $this->details['dob']['month']     = $request->request->get('_register_dob_month');
         $this->details['dob']['year']      = $request->request->get('_register_dob_year');
@@ -155,31 +146,38 @@ class SecurityController extends Controller
         $this->details['mcuser']           = $request->request->get('_mcuser');
         $this->details['verified']         = false;
         $this->details['verification_mc']  = "We were unable to verify your username with the minecraft servers";
+    }
+    /**
+     * Register Action
+     */
+    public function registerAction()
+    {
+        $request = Request::createFromGlobals();
 
+        if (!$request->isXmlHttpRequest()) {
+            throw new AccessDeniedException("Unknown request");
+        }
+
+        $this->fetchRegisterVariables();
+
+        # minecraft user credentials validation
         $minecraft = $this->get('minecraft.helper');
 
         $this->details['verified'] = $minecraft->signin($this->details['mcuser'], $this->details['mcpass']);
 
-        if(!$this->details['verified']["success"]) {
+        if(!$this->details['verified']["success"])
+        {
             $this->details['verified']['message'] = "Minecraft.net - " . $this->details['verified']['message'];
             return new Response(json_encode($this->details['verified']));
         }
-        else if(strtoupper($this->details['verified']['account']["name"]) != strtoupper($this->details['username'])) {
+        else if(strtoupper($this->details['verified']['account']["name"]) != strtoupper($this->details['username']))
+        {
             return new Response(json_encode(array("success" => false, "message" => "Please use your minecraft username as the website username")));
         }
 
+        # actual registration
         $register = $this->register();
 
-        if($register === true) {
-            return new Response(json_encode(array('success' => true, 'message' => 'Registrated successfully', "redirect" => $this->generateUrl("home"))));
-        }
-
-        return new Response(json_encode($register));
-    }
-
-    public function register()
-    {
-        //Register action
         $config = $this->container->getParameter('maxim_cms');
         $logger = $this->container->get('logger');
 
@@ -200,7 +198,7 @@ class SecurityController extends Controller
         catch(\Exception $ex)
         {
             $logger->err("REGISTER: " . $ex->getMessage());
-            return array("success" => false, "message" => "Please enter a correct date");
+            return new Response(json_encode(array("success" => false, "message" => "Please enter a correct date")));
         }
 
         $user->setRegisteredOn(new \DateTime("now"));
@@ -221,16 +219,16 @@ class SecurityController extends Controller
 
         //If errors, display them
         if ((count($result) > 0)){
-            return array('success' => false, 'message' => $result[0]->getMessage());
+            return new Response(json_encode(array('success' => false, 'message' => $result[0]->getMessage())));
         }
 
-        # NO validation errors
+        # no validation errors
         $factory  = $this->get('security.encoder_factory');
         $encoder  = $factory->getEncoder($user);
         $encodedPassword = $encoder->encodePassword($user->getPassword(), $user->getSalt());
         $user->setPassword($encodedPassword);
 
-        # INSERT USER
+        # insert user
         $em = $this->getDoctrine()->getManager();
         $em->persist($user);
         $em->flush();
@@ -243,12 +241,9 @@ class SecurityController extends Controller
         {
             $this->registerValidation($user->getId());
         }
-        else
+        else if($config['register']['mail']['enabled'] == true)
         {
-            if($config['register']['mail']['enabled'] == true)
-            {
-                $this->registerMail();
-            }
+            $this->registerMail();
         }
 
         #Create a login token
@@ -256,8 +251,9 @@ class SecurityController extends Controller
         $this->get('security.context')->setToken($token);
 
         #return all this
-        return array("success" => true, "message" => "Registered successfully");
+        return new Response(json_encode(array('success' => true, 'message' => 'Registrated successfully', "redirect" => $this->generateUrl("home"))));
     }
+
     public function registerValidation($userid)
     {
         $logger   = $this->get('logger');
@@ -468,7 +464,6 @@ class SecurityController extends Controller
         $encodedPassword = $encoder->encodePassword($user->getPassword(), $user->getSalt());
         $user->setPassword($encodedPassword);
 
-        $em->persist($user);
         $em->flush();
 
         $this->get('session')->setFlash('notice', 'Your password has been changed');

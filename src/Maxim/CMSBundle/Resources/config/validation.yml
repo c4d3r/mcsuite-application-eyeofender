@@ -1,72 +1,57 @@
 Maxim\CMSBundle\Entity\User:
-  properties:
-    username:
-      - NotBlank:
-           message: "Field Username is required"
-      - Length:
-          min: 3
-          minMessage: "Your username must consist out of {{ limit }} characters."
-      - Regex: { pattern: "/(^[^@]+$)/" , message: "Username not valid" }
-    password:
-      - NotBlank: { message: "Field Password is required" }
-      - Length:
-          min: 5
-          minMessage: "Your password must consist out of {{ limit }} characters."
-    email:
-      - NotBlank: { message: "Field email is required" }
-      - Email: { message: "Please provide a valid e-mail" }
-    dateofbirth:
-      - NotBlank: { message: "Field date of birth is required" }
-      - Date: ~
-  constraints:
-    - \Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: { fields: "username", message: "The username specified is already in use." }
-    - \Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: { fields: "email", message: "The email specified is already in use." }
-  getters:
-    passwordMatch:
-      - "True": { message: "Both passwords should match" }
-    emailMatchUsername:
-      - "False": { message: "Your username can not be the same as the e-mail"}
+    properties:
+        username:
+            - NotBlank:
+                message: "Field Username is required"
+            - Length:
+                min: 3
+                minMessage: "Your username must consist out of {{ limit }} characters."
+            - Regex: { pattern: "/(^[^@]+$)/" , message: "Username not valid" }
+        password:
+            - NotBlank: { message: "Field Password is required" }
+            - Length:
+                min: 5
+                minMessage: "Your password must consist out of {{ limit }} characters."
+        email:
+            - NotBlank: { message: "Field email is required" }
+            - Email: { message: "Please provide a valid e-mail" }
+        dateofbirth:
+            - NotBlank: { message: "Field date of birth is required" }
+            - Date: ~
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: username
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: email
+    getters:
+        passwordMatch:
+            - "True": { message: "Both passwords should match" }
+        emailMatchUsername:
+            - "False": { message: "Your username can not be the same as the e-mail"}
 Maxim\CMSBundle\Entity\Comment:
-  properties:
-   message:
-     - NotBlank:
-         message: "Field message is required"
-     - Length:
-         min: 4
-         minMessage: "Your message must consist out of {{ limit }} characters."
-Maxim\CMSBundle\Entity\Useraccounts:
-  properties:
-    accountname:
-      - NotBlank:
-          message: "Field Account name is required"
-  constraints:
-    - \Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: { fields: "accountname", message: "The Account specified is already in use." }
-Maxim\CMSBundle\Entity\Shout:
-  properties:
-    text:
-      - NotBlank:
-           message: "Text is a required field"
-      - Length:
-          min: 3
-          minMessage: "Your text must consist out of {{ limit }} characters."
+    properties:
+        message:
+            - NotBlank:
+                message: "Field message is required"
+            - Length:
+                min: 4
+                minMessage: "Your message must consist out of {{ limit }} characters."
 Maxim\CMSBundle\Entity\Userfriend:
-  constraints:
-    - \Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: { fields: "friend", message: "You have already added this friend." }
+    constraints:
+        - \Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: { fields: "friend", message: "You have already added this friend." }
 
 #APPLICATIONS
 Maxim\Module\ApplicationBundle\Entity\Application:
-   description:
-     - NotBlank:
-          message: "Field description is required"
-     - Length:
-         min: 3
-         minMessage: "Your description must consist out of {{ limit }} characters."
-   location:
-     - NotBlank:
-          message: "Field location is required"
-   timePlayed:
-     - NotBlank:
-          message: "Field time Played is required"
-     - Length:
-         min: 3
-         minMessage: "Your playtime must consist out of {{ limit }} characters."
+    description:
+        - NotBlank:
+            message: "Field description is required"
+        - Length:
+            min: 3
+            minMessage: "Your description must consist out of {{ limit }} characters."
+    location:
+        - NotBlank:
+            message: "Field location is required"
+    timePlayed:
+        - NotBlank:
+            message: "Field time Played is required"
+        - Length:
+            min: 3
+            minMessage: "Your playtime must consist out of {{ limit }} characters."

@@ -228,6 +228,9 @@ maxim_cms:
        return: http://themassmc.com/shop
        cancel: http://themassmc.com/shop/sorry.html
        ipn: http://themassmc.com/shop/ipn/paypal
+   register:
+       validation:
+           enabled: true
 maxim_module_forum:
    threads:
        threshold: 3 # in minutes

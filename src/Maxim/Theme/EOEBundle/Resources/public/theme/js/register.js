@@ -3,7 +3,15 @@ $(document).ready(function() {
     var form = $( '#frmRegister' );
     form.parsley({ successClass: 'validation-form-valid', errorClass: 'validation-form-invalid' });
     form.parsley('validate');
-    form.submit(function() {
+
+    var registerSubmitting = false;
+
+    form.submit(function(registerSubmitting) {
+        if(registerSubmitting) {
+            console.log("Already registering, please wait until the action is completed");
+            return false;
+        }
+        registerSubmitting = true;
         var form = $( '#frmRegister' );
 
         //Validations
@@ -43,6 +51,7 @@ $(document).ready(function() {
                 $("#btnRegister"));
             //we dont what the browser to submit the form
         }
+        registerSubmitting = false;
 		return false;
 	});
 });
