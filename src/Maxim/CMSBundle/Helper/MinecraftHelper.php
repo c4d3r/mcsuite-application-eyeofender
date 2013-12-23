@@ -23,7 +23,7 @@ class MinecraftHelper
     }
 
 
-    public function signIn($username, $password)
+   /* public function signIn($username, $password)
     {
         //first check old system
         $oldsignin = $this->Oldsignin($username, $password);
@@ -84,8 +84,39 @@ class MinecraftHelper
         }
 
         return array("success" => false, "message" => "An unknown error occured");
-    }
+    }    */
 
+
+    /**
+     * @description Signs a user in to their Minecraft account and returns their account details.
+     * @param $username
+     * @param $password
+     * @param int $version
+     * @return array|bool
+     */
+    public function signIn($username, $password, $version = 17)
+    {
+        $parameters = array('user' => $username, 'password' => $password, 'version' => $version);
+        $request = $this->request('https://login.minecraft.net/', $parameters);
+        $response = explode(':', $request);
+        if (count($response) >= 0) {
+            return array(
+                "success" => true,
+                "account" => array(
+                    "name" => $response[2]
+                ),
+            );
+           /* $this->account = array(
+                'current_version' => $response[0],
+                'correct_username' => $response[2],
+                'session_token' => $response[3],
+                'premium_account' => $this->isPremium($response[2]),
+                'player_skin' => $this->getSkin($response[2]),
+                'request_timestamp' => date("dmYhms", mktime(date('h'), date('m'), date('s'), date('m'), date('d'), date('y')))
+            );*/
+        }
+        return array("success" => false, "message" => "Incorrect username or password");
+    }
 
     public function get_skin($username)
     {
@@ -211,14 +242,6 @@ class MinecraftHelper
         curl_close($request);
         return ($details['http_code'] == 200) ? $response : null;
     }
-
-    public function  signing($username, $password)
-    {
-        $server = "https://authserver.mojang.com";
-
-
-    }
-
     public function Oldsignin($username, $password, $version = 99999)
     {
         $sites = array(

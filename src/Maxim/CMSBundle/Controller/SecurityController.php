@@ -175,9 +175,6 @@ class SecurityController extends Controller
             return new Response(json_encode(array("success" => false, "message" => "Please use your minecraft username as the website username")));
         }
 
-        # actual registration
-        $register = $this->register();
-
         $config = $this->container->getParameter('maxim_cms');
         $logger = $this->container->get('logger');
 
