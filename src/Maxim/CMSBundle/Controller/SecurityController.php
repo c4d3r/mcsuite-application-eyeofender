@@ -153,6 +153,8 @@ class SecurityController extends Controller
     public function registerAction()
     {
         $request = Request::createFromGlobals();
+        $config = $this->container->getParameter('maxim_cms');
+        $logger = $this->container->get('logger');
 
         if (!$request->isXmlHttpRequest()) {
             throw new AccessDeniedException("Unknown request");
@@ -163,20 +165,23 @@ class SecurityController extends Controller
         # minecraft user credentials validation
         $minecraft = $this->get('minecraft.helper');
 
-        $this->details['verified'] = $minecraft->signin($this->details['mcuser'], $this->details['mcpass']);
+        $this->details['verified'] = $minecraft->signIn($this->details['mcuser'], $this->details['mcpass']);
 
         if(!$this->details['verified']["success"])
         {
             $this->details['verified']['message'] = "Minecraft.net - " . $this->details['verified']['message'];
             return new Response(json_encode($this->details['verified']));
         }
-        else if(strtoupper($this->details['verified']['account']["name"]) != strtoupper($this->details['username']))
+        else if(strtoupper(trim($this->details['verified']['account']["name"])) != strtoupper(trim($this->details['username'])))
         {
+
+            $logger->err("USERNAME:" . $this->details['mcuser']);
+            $logger->err(print_r($this->details['verified'], true));
+            $logger->err(print_r($this->details['username'], true));
+            $logger->err($this->details['verified']['account']["name"]);
+            $logger->err($this->details['username']);
             return new Response(json_encode(array("success" => false, "message" => "Please use your minecraft username as the website username")));
         }
-
-        $config = $this->container->getParameter('maxim_cms');
-        $logger = $this->container->get('logger');
 
         $user = new User();
         $user->setEmail($this->details['email']);
