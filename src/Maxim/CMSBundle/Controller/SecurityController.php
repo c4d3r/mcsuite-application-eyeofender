@@ -7,6 +7,7 @@ namespace Maxim\CMSBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -26,7 +27,7 @@ class SecurityController extends Controller
     public function loginAction()
     {
         $request = Request::createFromGlobals();
-        $session = $request->getSession();
+        $session = new Session();
 
         // get the login error if there is one
         if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
@@ -43,7 +44,7 @@ class SecurityController extends Controller
     public function loginFormAction()
     {
         $request = Request::createFromGlobals();
-        $session = $request->getSession();
+        $session = new Session();
 
         // get the login error if there is one
         if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {

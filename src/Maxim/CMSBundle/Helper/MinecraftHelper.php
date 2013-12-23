@@ -23,7 +23,7 @@ class MinecraftHelper
     }
 
 
-    /* public function signIn($username, $password)
+     public function signIn($username, $password)
      {
          //first check old system
          $oldsignin = $this->Oldsignin($username, $password);
@@ -84,7 +84,7 @@ class MinecraftHelper
          }
 
          return array("success" => false, "message" => "An unknown error occured");
-     }    */
+     }
 
 
     /**
@@ -94,7 +94,7 @@ class MinecraftHelper
      * @param int $version
      * @return array|bool
      */
-    public function signIn($username, $password, $version = 17)
+    /*public function signIn($username, $password, $version = 17)
     {
         $parameters = array('user' => $username, 'password' => $password, 'version' => $version);
         $request = $this->request('http://login.minecraft.net/', $parameters);
@@ -115,10 +115,10 @@ class MinecraftHelper
                  'premium_account' => $this->isPremium($response[2]),
                  'player_skin' => $this->getSkin($response[2]),
                  'request_timestamp' => date("dmYhms", mktime(date('h'), date('m'), date('s'), date('m'), date('d'), date('y')))
-             );*/
+             );
         }
         return array("success" => false, "message" => "Incorrect username or password");
-    }
+    }*/
 
     public function get_skin($username)
     {

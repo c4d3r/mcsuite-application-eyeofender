@@ -256,27 +256,28 @@ class StoreController extends ModuleController
         $token = $this->get('payum.security.http_request_verifier')->verify($request);
         $payment = $this->get('payum')->getPayment($token->getPaymentName());
         $request = Request::createFromGlobals();
+        $session = new Session();
 
         $status = new BinaryMaskStatusRequest($token);
         $payment->execute($status);
 
         if ($status->isSuccess())
         {
-            $request->getSession()->getFlashBag()->set(
+            $session->getFlashBag()->set(
                 'notice',
                 'Payment success.'
             );
         }
         else if ($status->isPending())
         {
-            $request->getSession()->getFlashBag()->set(
+            $session->getFlashBag()->set(
                 'notice',
                 'Payment is still pending. Credits were not added'
             );
         }
         else
         {
-            $request->getSession()->getFlashBag()->set('error', 'Payment failed');
+            $session->getFlashBag()->set('error', 'Payment failed');
         }
 
         return $this->redirect($this->generateUrl("home"));
