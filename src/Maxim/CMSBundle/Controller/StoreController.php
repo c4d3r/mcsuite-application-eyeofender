@@ -256,7 +256,7 @@ class StoreController extends ModuleController
         $token = $this->get('payum.security.http_request_verifier')->verify($request);
         $payment = $this->get('payum')->getPayment($token->getPaymentName());
         $request = Request::createFromGlobals();
-        $session = new Session();
+        $session = $this->get('session');
 
         $status = new BinaryMaskStatusRequest($token);
         $payment->execute($status);
