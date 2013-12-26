@@ -112,7 +112,7 @@ class Purchase
     /**
      * @ORM\Column(name="store_item_delivery", type="text", nullable=false)
      */
-    private $itemDelivery = self::ITEM_DELIVERY_WAITING;
+    private $itemDelivery = self::ITEM_DELIVERY_PENDING;
 
     /**
      * @var double $discount

@@ -32,7 +32,7 @@ class StoreNotificationAction implements ActionInterface
 
     protected $config;
 
-    public function __construct(EntityManager $doctrine, Logger $logger, PurchaseHelper $purchaseHelper, EventDispatcher $eventDispatcher, MinecraftHelper $minecraft, $config) {
+    public function __construct(EntityManager $doctrine, Logger $logger, PurchaseHelper $purchaseHelper, $eventDispatcher, MinecraftHelper $minecraft, $config) {
         $this->doctrine = $doctrine;
         $this->logger = $logger;
         $this->purchaseHelper = $purchaseHelper;
