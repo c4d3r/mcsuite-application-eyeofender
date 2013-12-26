@@ -5,6 +5,7 @@ namespace Maxim\CMSBundle\Helper;
 use Doctrine\ORM\EntityManager;
 use Maxim\CMSBundle\Entity\Purchase;
 use Maxim\CMSBundle\Entity\StoreItem;
+use Maxim\CMSBundle\Entity\User;
 use Monolog\Logger;
 
 class PurchaseHelper {
@@ -18,7 +19,19 @@ class PurchaseHelper {
         $this->logger = $logger;
     }
 
-    public function createPurchase($initiator, StoreItem $item, $ipaddress, $status, $forusername) {
+    /**
+     * @param $item
+     * @param User $user
+     * @param $amount
+     * @param $discount
+     * @param $status
+     * @param $name
+     * @param $ip
+     * @param $transaction
+     * @param $delivery
+     * @return Purchase
+     */
+    public function createPurchase($item, User $user, $amount, $discount, $status, $name, $ip, $transaction, $delivery) {
 
         $em = $this->doctrine;
         try
@@ -26,14 +39,18 @@ class PurchaseHelper {
             $purchase = new Purchase();
             $purchase->setDate(new \DateTime("now"));
             $purchase->setStatus($status);
-            $purchase->setIp($ipaddress);
-            $purchase->setUser($initiator);
+            $purchase->setIp($ip);
+            $purchase->setUser($user);
+            $purchase->setAmount($amount);
+            $purchase->setName($name);
             $purchase->setStoreItem($item);
-            $purchase->setName($forusername);
+            $purchase->setTransaction($transaction);
+            $purchase->setItemDelivery($delivery);
+            $purchase->setDiscount($discount);
             $em->persist($purchase);
             $em->flush();
 
-            $this->logger->info("[IPN]Purchase made for user: " . $initiator->getUsername());
+            $this->logger->info("[IPN]Purchase made for user: " . $name);
             return $purchase;
         }
         catch(\Exception $ex)

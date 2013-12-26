@@ -1,6 +1,7 @@
 <?php
 namespace Maxim\CMSBundle\Controller;
 
+use Maxim\CMSBundle\Entity\User;
 use Maxim\CMSBundle\Event\StoreEvent;
 use Maxim\CMSBundle\Event\UserEvent;
 use Maxim\CMSBundle\Helper\RESTHelper;
@@ -119,12 +120,9 @@ class StoreController extends ModuleController
         return $this->render('MaximCMSBundle:pages:store/confirm.html.twig', $data);
     }
 
-    public function prepareAction($purchase)
+    public function prepareAction(User $user, $mcuser, StoreItem $item)
     {
         $paymentName = 'paypal_express_checkout_plus_doctrine';
-
-        $item = $purchase->getStoreItem();
-
 
         $data = array(
             "currency"  =>  "GBP",
@@ -141,7 +139,6 @@ class StoreController extends ModuleController
             $tax = ($total * ($item->getTax() / 100));
         }
 
-
         /** @var $paymentDetails PaymentDetails */
         $paymentDetails = $storage->createModel();
         $paymentDetails['PAYMENTREQUEST_0_CURRENCYCODE'] = $data['currency'];
@@ -152,7 +149,16 @@ class StoreController extends ModuleController
         //$paymentDetails['PAYMENTREQUEST_0_QTY']          = 1;
         //$paymentDetails['PAYMENTREQUEST_0_NAME']         = $item->getName();
         $paymentDetails['PAYMENTREQUEST_0_DESC']         = substr(strip_tags($item->getDescription()), 0, 126);
-        $paymentDetails['PAYMENTREQUEST_0_CUSTOM']       = $purchase->getId();
+
+        $custom = array(
+            "user_id" => $user->getId(),
+            "amount"  => $total,
+            "name"    => $mcuser,
+            "ip"      => $user->getLastip(),
+            "item_id" => $item->getId(),
+            "discount" => $item->getReduction(),
+        );
+        $paymentDetails['PAYMENTREQUEST_0_CUSTOM'] = json_encode($custom);
 
         // DIGITAL ITEM
         $paymentDetails['L_PAYMENTREQUEST_0_NAME0'] =  strip_tags($item->getName());
@@ -196,20 +202,17 @@ class StoreController extends ModuleController
         # get item
         $item = $em->getRepository('MaximCMSBundle:StoreItem')->findOneBy(array("id" => $custom[2]));
 
-        # create a purchase
-        $purchase = $this->get('purchase.helper')->createPurchase($this->getUser(), $item, $_SERVER["REMOTE_ADDR"], Purchase::PURCHASE_PENDING, $forUsername);
-
         # check payment method
         $paymentmethod = $request->request->get('button_shop_checkout');
 
         switch(strtoupper($paymentmethod))
         {
             case "PAYPAL":
-                return $this->prepareAction($purchase);
-            case "BTC":
-                return $this->paymentCoinbase($purchase);
+                return $this->prepareAction($this->getUser(), $forUsername, $item);
+            //case "BTC":
+                //return $this->paymentCoinbase($purchase);
             default:
-                return $this->prepareAction($purchase);
+                return $this->prepareAction($this->getUser(), $forUsername, $item);
         }
     }
 

@@ -135,7 +135,7 @@ services:
         class: Maxim\CMSBundle\Listeners\MinecraftSendListener
         tags:
             - { name: kernel.event_listener, event: minecraft.send, method: onMinecraftSend }
-        arguments: [ @logger, @minecraft.helper]
+        arguments: [ @logger, @minecraft.helper, @doctrine.orm.entity_manager]
     maxim_cms.listener.announcement:
         class: Maxim\CMSBundle\Listeners\AnnouncementListener
         tags:

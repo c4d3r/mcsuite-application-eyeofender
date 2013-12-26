@@ -9,36 +9,39 @@
 
 namespace Maxim\CMSBundle\Event;
 
-use Maxim\CMSBundle\Entity\StoreItem;
+use Maxim\CMSBundle\Entity\Purchase;
 use Symfony\Component\EventDispatcher\Event;
 
-class MinecraftSendEvent extends Event{
+class MinecraftSendEvent extends Event
+{
+    /**
+     * @var array Purchase
+     */
+    protected $purchases;
 
-    protected $commands;
-
-    public function __construct($commands = array())
+    public function __construct($purchases = array())
     {
-        $this->commands = $commands;
+        $this->$purchases = $purchases;
     }
 
     /**
-     * @param array $commands
+     * @param array $purchases
      */
-    public function setCommands($commands)
+    public function setPurchases($purchases)
     {
-        $this->commands = $commands;
+        $this->purchases = $purchases;
     }
 
     /**
      * @return array
      */
-    public function getCommands()
+    public function getPurchases()
     {
-        return $this->commands;
+        return $this->purchases;
     }
 
-    public function addCommand($command)
+    public function addPurchase(Purchase $purchase)
     {
-        $this->commands[] = $command;
+        return $this->purchases[] = $purchase;
     }
 }

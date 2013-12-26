@@ -15,9 +15,16 @@ class Purchase
     const PURCHASE_COMPLETE  = "COMPLETED";
     const PURCHASE_PENDING   = "PENDING";
     const PURCHASE_FAILED    = "FAILED";
+    const PURCHASE_INVALID   = "INVALID";
+
     const PURCHASE_ERROR_SQL = "ERROR_SQL";
     const PURCHASE_ERROR_COMMAND = "ERROR_COMMAND";
     const PURCHASE_ERROR_UNKNOWN = "ERROR_UNKNOWN";
+    const PURCHASE_INVALID_AMOUNT = "INVALID_AMOUNT";
+
+    const ITEM_DELIVERY_SUCCESS = "DELIVERED";
+    const ITEM_DELIVERY_FAILED = "FAILED";
+    const ITEM_DELIVERY_PENDING= "PENDING";
 
     /**
      * @var integer $id
@@ -101,6 +108,18 @@ class Purchase
      * @ORM\Column(name="payment_method", type="text", nullable=true)
      */
     private $method;
+
+    /**
+     * @ORM\Column(name="store_item_delivery", type="text", nullable=false)
+     */
+    private $itemDelivery = self::ITEM_DELIVERY_WAITING;
+
+    /**
+     * @var double $discount
+     *
+     * @ORM\Column(name="discount", type="decimal", precision=2, nullable=false)
+     */
+    private $discount = 0.00;
 
     /**
      * Get id
@@ -257,7 +276,7 @@ class Purchase
     }
 
     /**
-     * @param \User $user
+     * @param User $user
      */
     public function setUser($user)
     {
@@ -265,7 +284,7 @@ class Purchase
     }
 
     /**
-     * @return \User
+     * @return User
      */
     public function getUser()
     {
@@ -318,6 +337,38 @@ class Purchase
     public function getStoreItem()
     {
         return $this->storeItem;
+    }
+
+    /**
+     * @param mixed $itemDelivery
+     */
+    public function setItemDelivery($itemDelivery)
+    {
+        $this->itemDelivery = $itemDelivery;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getItemDelivery()
+    {
+        return $this->itemDelivery;
+    }
+
+    /**
+     * @param float $discount
+     */
+    public function setDiscount($discount)
+    {
+        $this->discount = $discount;
+    }
+
+    /**
+     * @return float
+     */
+    public function getDiscount()
+    {
+        return $this->discount;
     }
 
 }

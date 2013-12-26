@@ -60,6 +60,15 @@ class TicketAdmin extends Admin
             ->add('date', 'datetime')
             ->add('closed', 'checkbox')
             ->add('status', 'text')
+            ->add('replies', 'sonata_type_collection', array(
+                // Prevents the "Delete" option from being displayed
+                'type_options' => array('delete' => false),
+                'btn_add'       => 'Add reply',      //Specify a custom label
+            ), array(
+                'edit' => 'inline',
+                'inline' => 'table',
+                'sortable' => 'position',
+            ))
             /* ->add('section', 'sonata_type_model_list', array(
                      'btn_add'       => 'Add section',      //Specify a custom label
                      'btn_list'      => 'button.list',     //which will be translated
@@ -141,6 +150,14 @@ class TicketAdmin extends Admin
             ->add('closed')
             ->add('status')
             ->add('description')
+            ->add('_action', 'actions', array(
+                'actions' => array(
+                    'edit' => array(),
+                    'delete' => array(),
+                    'view' => array()
+                ),
+                "label" => 'actions'
+            ))
         ;
     }
 

@@ -25,10 +25,8 @@ file that was distributed with this source code.
             <span class="label label-success">Open</span>
         {% endif %}
 
-        <span class="label label-info identifier">{{ object.id }}</span>
+        <span class="label label-info identifier">{{ object|render_list_element(admin.list['id']) }}</span>
         <span style="font-style:italic;margin-left:5px;">{{ object|render_list_element(admin.list['status']) }}</span>
         <p>{{ object.description|purify }}</p>
     </div>
-
-
 {% endblock %}

@@ -13,19 +13,16 @@ use Maxim\CMSBundle\Entity\Notification;
 use Maxim\CMSBundle\Entity\NotificationDetails;
 use Maxim\CMSBundle\Event\MinecraftSendEvent;
 use Maxim\CMSBundle\Exception\CommandExecutionException;
-use Maxim\CMSBundle\Exception\QueryException;
+use Maxim\CMSBundle\Helper\MinecraftHelper;
 use Maxim\CMSBundle\Helper\PurchaseHelper;
-use Maxim\CMSBundle\Listeners\MinecraftSendListener;
 use Monolog\Logger;
 use Payum\Core\Action\ActionInterface;
 use Payum\Core\Request\CaptureRequest;
-use Payum\Core\Request\NotifyTokenizedDetailsRequest;
 use Payum\Core\Request\SecuredNotifyRequest;
 use Symfony\Bridge\Doctrine\RegistryInterface;
-use Maxim\CMSBundle\Entity\Visitor;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Maxim\CMSBundle\Entity\Purchase;
+
 class StoreNotificationAction implements ActionInterface
 {
     protected $doctrine;
@@ -35,7 +32,7 @@ class StoreNotificationAction implements ActionInterface
 
     protected $config;
 
-    public function __construct(EntityManager $doctrine, Logger $logger, PurchaseHelper $purchaseHelper, $eventDispatcher, $minecraft, $config) {
+    public function __construct(EntityManager $doctrine, Logger $logger, PurchaseHelper $purchaseHelper, EventDispatcher $eventDispatcher, MinecraftHelper $minecraft, $config) {
         $this->doctrine = $doctrine;
         $this->logger = $logger;
         $this->purchaseHelper = $purchaseHelper;
@@ -61,12 +58,20 @@ class StoreNotificationAction implements ActionInterface
 
         if(is_array($details) && count($details) > 0 && isset($details['custom']))
         {
-            $purchaseId = $details['custom'];
-            $purchase = $this->doctrine->getRepository('MaximCMSBundle:Purchase')->findOneBy(array("id" => $purchaseId));
-            $item = $purchase->getStoreItem();
+            $custom = $details['custom'];
 
-            # set transaction id
-            $purchase->setTransaction($details['txn_id']);
+            #set vars
+            $mcUser   = $custom['name'];
+            $userId   = $custom['user_id'];
+            $itemId   = $custom['item_id'];
+            $ip       = $custom['ip'];
+            $discount = $custom['discount'];
+            $transaction = $details['txn_id'];
+            $amountSupposed = $custom['amount'];
+            $amountReceived = $details['mc_gross'];
+
+            $user = $this->doctrine->getRepository('MaximCMSBundle:User')->findOneBy(array("id" => $userId));
+            $item = $this->doctrine->getRepository('MaximCMSBundle:StoreItem')->findOneBy(array("id" => $itemId));
 
             # address
             $address['address_street']       = $details['address_street']; //address + house number
@@ -77,11 +82,13 @@ class StoreNotificationAction implements ActionInterface
             $address['address_state']        = $details['address_state']; //address state
             $address['address_status']       = $details['address_status']; //addres status (confirmed ?)
 
-            # set amount paid
-            $purchase->setAmount($details['mc_gross']);
+            # create purchase
+            //public function createPurchase($item, User $user, $amount, $discount, $status, $name, $ip, $transaction, $delivery) {
+            $purchase = $this->purchaseHelper->createPurchase($item, $user, $amountReceived, $discount, Purchase::PURCHASE_PENDING, $mcUser, $ip, $transaction, Purchase::ITEM_DELIVERY_PENDING);
 
-            # event dispatcher
-            $dispatcher = $this->eventDispatcher;
+            if($amountSupposed != $amountReceived) {
+                $purchase->setStatus(Purchase::PURCHASE_INVALID_AMOUNT);
+            }
 
             $succeeded = false;
 
@@ -89,8 +96,7 @@ class StoreNotificationAction implements ActionInterface
             {
                 switch($item->getType()) {
                     case "COMMAND" :
-                        $dispatcher->dispatch("minecraft.send", new MinecraftSendEvent(array(0 => $this->minecraft->parseCommand($item->getCommand, array("USER" => $purchase->getName())))));
-                        $purchase->setStatus(Purchase::PURCHASE_COMPLETE);
+                        $this->eventDispatcher->dispatch("minecraft.send", new MinecraftSendEvent(array($purchase)));
                         break;
                     default:
                         $options = array(\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION);
@@ -98,20 +104,24 @@ class StoreNotificationAction implements ActionInterface
                         $pdo->query($this->minecraft->parseCommand($item->getCommand(), array("USER" => $purchase->getName())));
                         $pdo  = null;
                         $purchase->setStatus(Purchase::PURCHASE_COMPLETE);
+                        $purchase->setItemDelivery(Purchase::ITEM_DELIVERY_SUCCESS);
                 }
                 $succeeded = true;
             }
-            catch(QueryException $ex)
+            catch(\PDOException $ex)
             {
                 $purchase->setStatus(Purchase::PURCHASE_ERROR_SQL);
+                $purchase->setItemDelivery(Purchase::ITEM_DELIVERY_FAILED);
             }
             catch(CommandExecutionException $ex)
             {
                 $purchase->setStatus(Purchase::PURCHASE_ERROR_COMMAND);
+                $purchase->setItemDelivery(Purchase::ITEM_DELIVERY_FAILED);
             }
             catch(\Exception $ex)
             {
                 $purchase->setStatus(Purchase::PURCHASE_ERROR_UNKNOWN);
+                $purchase->setItemDelivery(Purchase::ITEM_DELIVERY_FAILED);
             }
 
             # Create notification

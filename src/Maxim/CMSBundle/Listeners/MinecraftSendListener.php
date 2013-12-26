@@ -10,6 +10,8 @@
 namespace Maxim\CMSBundle\Listeners;
 
 
+use Doctrine\ORM\EntityManager;
+use Maxim\CMSBundle\Entity\Purchase;
 use Maxim\CMSBundle\Event\MinecraftSendEvent;
 use Maxim\CMSBundle\Exception\CommandExecutionException;
 use Maxim\CMSBundle\Helper\MinecraftHelper;
@@ -19,14 +21,16 @@ class MinecraftSendListener {
 
     private $logger;
     protected $minecraft;
+    private $em;
 
     private $host = "192.99.9.79";
     private $port = 25565;
 
-    public function __construct(Logger $logger, MinecraftHelper $minecraft)
+    public function __construct(Logger $logger, MinecraftHelper $minecraft, EntityManager $em)
     {
         $this->logger = $logger;
         $this->minecraft = $minecraft;
+        $this->em = $em;
     }
 
     public function onMinecraftSend(MinecraftSendEvent $event)
@@ -49,11 +53,24 @@ class MinecraftSendListener {
             # send package
 
             //$msg = "10000d" . $event->getUsername() . ";" . $event->getCommand();
-            foreach($event->getCommands() as $command)
+            foreach($event->getPurchases() as $purchase)
             {
+                //$pdo->query($this->minecraft->parseCommand($item->getCommand(), array("USER" => $purchase->getName())));
+                $command = $this->minecraft->parseCommand($purchase->getStoreItem()->getCommand(), array("USER" => $purchase->getName()));
+
                 $this->logger->info("[SOCKET]command: " . $command);
                 $this->logger->info("[SOCKET]Wrote command: " . $command);
-                socket_write($socket, $command, strlen($command));
+
+                if(socket_write($socket, $command, strlen($command)))
+                {
+                    $purchase->setStatus(Purchase::PURCHASE_COMPLETE);
+                    $purchase->setItemDelivery(Purchase::ITEM_DELIVERY_SUCCESS);
+                }
+                else
+                {
+                    $purchase->setStatus(Purchase::PURCHASE_ERROR_COMMAND);
+                    $purchase->setItemDelivery(Purchase::ITEM_DELIVERY_FAILED);
+                }
             }
 
             //$buffer = socket_read($socket, 256, PHP_NORMAL_READ);
