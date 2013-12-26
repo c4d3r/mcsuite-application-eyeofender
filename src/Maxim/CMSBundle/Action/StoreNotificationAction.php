@@ -59,6 +59,7 @@ class StoreNotificationAction implements ActionInterface
         if(is_array($details) && count($details) > 0 && isset($details['custom']))
         {
             $custom = $details['custom'];
+            $custom = json_decode($custom);
 
             #set vars
             $mcUser   = $custom['name'];
@@ -105,6 +106,7 @@ class StoreNotificationAction implements ActionInterface
                         $pdo  = null;
                         $purchase->setStatus(Purchase::PURCHASE_COMPLETE);
                         $purchase->setItemDelivery(Purchase::ITEM_DELIVERY_SUCCESS);
+                        $this->doctrine->flush();
                 }
                 $succeeded = true;
             }
@@ -112,16 +114,19 @@ class StoreNotificationAction implements ActionInterface
             {
                 $purchase->setStatus(Purchase::PURCHASE_ERROR_SQL);
                 $purchase->setItemDelivery(Purchase::ITEM_DELIVERY_FAILED);
+                $this->doctrine->flush();
             }
             catch(CommandExecutionException $ex)
             {
                 $purchase->setStatus(Purchase::PURCHASE_ERROR_COMMAND);
                 $purchase->setItemDelivery(Purchase::ITEM_DELIVERY_FAILED);
+                $this->doctrine->flush();
             }
             catch(\Exception $ex)
             {
                 $purchase->setStatus(Purchase::PURCHASE_ERROR_UNKNOWN);
                 $purchase->setItemDelivery(Purchase::ITEM_DELIVERY_FAILED);
+                $this->doctrine->flush();
             }
 
             # Create notification
