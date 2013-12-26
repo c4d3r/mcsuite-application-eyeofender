@@ -18,15 +18,16 @@ file that was distributed with this source code.
         }
     </style>
     <div>
-        {% if object|render_list_element(admin.list['closed']) == true %}
+
+        {% if object.closed %}
             <span class="label label-important">Closed</span>
         {% else %}
             <span class="label label-success">Open</span>
         {% endif %}
 
-        <span class="label label-info identifier">{{ object|render_list_element(admin.list['id']) }}</span>
+        <span class="label label-info identifier">{{ object.id }}</span>
         <span style="font-style:italic;margin-left:5px;">{{ object|render_list_element(admin.list['status']) }}</span>
-        <p>{{ object|render_list_element(admin.list['description']) }}</p>
+        <p>{{ object.description|purify }}</p>
     </div>
 
 

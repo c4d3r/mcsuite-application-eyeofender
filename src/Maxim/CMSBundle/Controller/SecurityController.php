@@ -176,11 +176,11 @@ class SecurityController extends Controller
         else if(strtoupper(trim($this->details['verified']['account']["name"])) != strtoupper(trim($this->details['username'])))
         {
 
-            $logger->err("USERNAME:" . $this->details['mcuser']);
+            /*$logger->err("USERNAME:" . $this->details['mcuser']);
             $logger->err(print_r($this->details['verified'], true));
             $logger->err(print_r($this->details['username'], true));
             $logger->err($this->details['verified']['account']["name"]);
-            $logger->err($this->details['username']);
+            $logger->err($this->details['username']);         */
             return new Response(json_encode(array("success" => false, "message" => "Please use your minecraft username as the website username")));
         }
 

@@ -23,7 +23,8 @@ class PurchaseRepository extends EntityRepository
     public function findAllTopPurchases($amount)
     {
         return $this->getEntityManager()
-            ->createQuery("SELECT COUNT(p) as total_purchases, s.name as name, s.image as image, s.amount as amount, s.id as id, s.description as description FROM MaximCMSBundle:Purchase p INNER JOIN MaximCMSBundle:StoreItem s WITH p.storeItem = s.id WHERE s.website = '" . $this->websiteid . "' GROUP BY s ORDER BY amount DESC")
+            ->createQuery("SELECT COUNT(p) as total_purchases, s.name as name, s.image as image, s.amount as amount, s.id as id, s.description as description FROM MaximCMSBundle:Purchase p INNER JOIN MaximCMSBundle:StoreItem s WITH p.storeItem = s.id WHERE s.website = '" . $this->websiteid . "' AND p.status = :status GROUP BY s ORDER BY amount DESC")
+            ->setParameter("status", Purchase::PURCHASE_COMPLETE)
             ->setMaxResults($amount)
             ->getResult();
     }
@@ -35,8 +36,10 @@ class PurchaseRepository extends EntityRepository
             FROM MaximCMSBundle:Purchase p
             JOIN p.user u
             JOIN p.storeItem i
+            WHERE p.status = :status
             ORDER BY p.date DESC"
         );
+        $query->setParameter("status", Purchase::PURCHASE_COMPLETE);
         $query->setMaxResults($amount);
         return $query->getResult();
     }
@@ -47,14 +50,16 @@ class PurchaseRepository extends EntityRepository
             FROM MaximCMSBundle:Purchase p
             JOIN p.user u
             JOIN p.storeItem i
-            WHERE MONTH(p.date) = :month
+            WHERE p.status = :status
+            AND MONTH(p.date) = :month
             AND YEAR(p.date) = :year
             ORDER BY p.date DESC"
         );
         $t = date('d-m-Y');
         $query->setParameters(array(
-            "month" => date("m",strtotime($t)),
-            "year"  => date("Y",strtotime($t))
+            "status" => Purchase::PURCHASE_COMPLETE,
+            "month"  => date("m",strtotime($t)),
+            "year"   => date("Y",strtotime($t))
         ));
         return $query->getSingleResult();
     }

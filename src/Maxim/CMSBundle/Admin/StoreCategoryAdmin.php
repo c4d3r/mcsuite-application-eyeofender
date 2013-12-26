@@ -26,9 +26,10 @@ class StoreCategoryAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('name', 'text', array('label' => 'Section name'))
+            ->add('name', 'text', array('label' => 'Category name'))
+            ->add('sort', 'integer', array('label' => 'Category sort'))
             ->add('description', 'textarea', array(
-                'label' => 'Section description',
+                'label' => 'Category description',
                 'attr'  => array(
                     'class' => 'redactor-init',
                     'style' => 'width: 683px;'

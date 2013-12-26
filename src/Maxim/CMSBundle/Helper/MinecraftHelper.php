@@ -74,7 +74,7 @@ class MinecraftHelper
                      $errorMessage = print_r($response);
              }
 
-             $this->logger->info("[MINECRAFT API]" . $errorMessage);
+             //$this->logger->info("[MINECRAFT API]" . $errorMessage);
              return array("success" => false, "message" => $message);
          }
          elseif(isset($response['selectedProfile']))

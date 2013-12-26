@@ -64,7 +64,7 @@ class StoreItemAdmin extends Admin{
                 'label' => 'Item reduction',
                 'currency' => $this->configs['currency']
             ))
-            ->add('priority', 'integer', array('label' => 'Item priority'))
+            ->add('sort', 'integer', array('label' => 'Item priority'))
             ->add('storeCategory', 'entity', array('class' => 'Maxim\CMSBundle\Entity\StoreCategory'))
             ->add('website', 'entity', array('class' => 'Maxim\CMSBundle\Entity\Website'))
         ;

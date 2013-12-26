@@ -112,6 +112,13 @@ class StoreItem
     protected $tax = 0;
 
     /**
+     * @var string $description
+     *
+     * @ORM\Column(name="sort", type="integer", nullable=false, length=10)
+     */
+    protected $sort = 0;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -378,4 +385,21 @@ class StoreItem
     {
         return $this->name;
     }
+
+    /**
+     * @param string $sort
+     */
+    public function setSort($sort)
+    {
+        $this->sort = $sort;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSort()
+    {
+        return $this->sort;
+    }
+
 }

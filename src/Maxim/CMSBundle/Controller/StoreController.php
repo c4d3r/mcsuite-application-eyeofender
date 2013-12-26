@@ -32,7 +32,7 @@ class StoreController extends ModuleController
         $websiteid = $this->container->getParameter('website');
 
         $storeItems = $em->getRepository("MaximCMSBundle:StoreItem")->findAllVisibleOrderedByName($websiteid);
-        $storeCategories = $em->getRepository("MaximCMSBundle:StoreCategory")->findAllVisibleOrderedByName($websiteid);
+        $storeCategories = $em->getRepository("MaximCMSBundle:StoreCategory")->findAllVisibleOrderedBySort($websiteid);
 
         foreach($storeItems as $item)
         {

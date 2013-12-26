@@ -63,6 +63,14 @@ class StoreCategory {
      */
     protected $items;
 
+    /**
+     * @var string $description
+     *
+     * @ORM\Column(name="sort", type="integer", nullable=false, length=10)
+     */
+    protected $sort = 0;
+
+
     public function setDescription($description)
     {
         $this->description = $description;
@@ -155,5 +163,21 @@ class StoreCategory {
     public function isVisible()
     {
         return $this->visible;
+    }
+
+    /**
+     * @param string $sort
+     */
+    public function setSort($sort)
+    {
+        $this->sort = $sort;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSort()
+    {
+        return $this->sort;
     }
 }

@@ -27,4 +27,18 @@ class StoreCategoryRepository extends EntityRepository
 
         return $query->getResult();
     }
+    public function findAllVisibleOrderedBySort($websiteid)
+    {
+        $query = $this->getEntityManager()->createQuery(
+            "SELECT c, w
+            FROM MaximCMSBundle:StoreCategory c
+            INNER JOIN c.website w
+            WHERE w.id = :websiteid
+            AND c.visible = true
+            ORDER BY c.sort DESC, c.name ASC"
+        )->setParameter("websiteid", $websiteid);
+        $query->useResultCache(true, 3600, __METHOD__ . serialize($query->getParameters()));
+
+        return $query->getResult();
+    }
 } 
