@@ -114,6 +114,9 @@ class ThreadController extends Controller{
         $threadTitle = $request->request->get('_thread_title');
         # GET USER
         $user = $this->getUser();
+        if(!$user){
+            return new Response(json_encode(array("success" => false, "message" => "You must be logged in to use this feature!")));
+        }
 
         # SEARCH FORUM
         $forum = $em->getRepository('MaximModuleForumBundle:Forum')->findOneBy(array("id" => $forumid));
@@ -144,7 +147,7 @@ class ThreadController extends Controller{
         $thread->setText($threadText);
 
         # spam protection, max every xx min
-        $lastThread = $em->getRepository("MaximModuleForumBundle:Thread")->findLatestThread($this->getUser());
+        $lastThread = $em->getRepository("MaximModuleForumBundle:Thread")->findLatestThread($user);
         if(isset($lastThread[0]) && (false === $this->get('security.context')->isGranted('ROLE_STAFF')))
         {
             // check time difference
