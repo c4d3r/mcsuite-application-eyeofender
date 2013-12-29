@@ -2,7 +2,7 @@ services:
     sonata.admin.announcement:
         class: Maxim\CMSBundle\Admin\AnnouncementAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Announcements" }
+            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Announcements", icon: "fa-flask", bg: "bg-warning" }
         arguments:
             - ~
             - Maxim\CMSBundle\Entity\Announcement

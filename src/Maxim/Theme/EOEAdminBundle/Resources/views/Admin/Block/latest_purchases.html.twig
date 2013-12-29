@@ -1,0 +1,19 @@
+{% extends sonata_block.templates.block_base %}
+
+{% block block %}
+    {% if is_granted("ROLE_SUPER_ADMIN") %}
+    <h3 class="sonata-purchases-title">{{ settings.title }}</h3>
+
+    <div class="sonata-purchases-container">
+        <ul>
+           {% for key, purchase in latestPurchases %}
+               <li>
+                   <a href="{{ path('admin_maxim_cms_storeitem_edit', { 'id': purchase.storeItem.id }) }}"><span class="label label-info">{{ purchase.storeItem.name }}</span></a>
+                   bought by <a href="{{ path('admin_maxim_cms_purchase_edit', { 'id': purchase.user.id }) }}">{{ purchase.user.username }}</a>
+                   for {{ purchase.name }} - {{ purchase.date|date('Y-m-d h:i:s') }}
+               </li>
+           {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+{% endblock %}

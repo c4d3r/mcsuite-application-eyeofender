@@ -1,0 +1,98 @@
+{% extends sonata_block.templates.block_base %}
+
+{% block block %}
+    {% if is_granted("ROLE_SUPER_ADMIN") %}
+        <section class="panel panel-default">
+            <header class="panel-heading">{{ settings.title }}</header>
+            <div class="panel-body">
+                <div id="flot-1ine" style="height:210px"></div>
+            </div>
+            <footer class="panel-footer bg-white no-padder">
+                <div class="row text-center no-gutter">
+                    <div class="col-xs-6 b-r b-light">
+                        <span class="h4 font-bold m-t block">{{ orders.total }}</span>
+                        <small class="text-muted m-b block">Orders</small>
+                    </div>
+                    <div class="col-xs-6 b-r b-light">
+                        <span class="h4 font-bold m-t block">{{ orders.total_amount }}</span>
+                        <small class="text-muted m-b block">{{ store.currency }}</small>
+                    </div>
+                </div>
+            </footer>
+        </section>
+    {% endif %}
+    <script>
+
+    $(function(){
+
+        var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        var d1 = [];
+
+        d1 = {{ purchaseData|raw }};
+
+        for(var i = 0; i < d1.length; i++) {
+            d1[i][0] = getTimestamp(d1[i][0]);
+        }
+
+        $("#flot-1ine").length && $.plot($("#flot-1ine"), [{
+            data: d1
+        }],
+            {
+                series: {
+                    lines: {
+                        show: true,
+                        lineWidth: 2,
+                        fill: true,
+                        fillColor: {
+                            colors: [{
+                                opacity: 0.0
+                            }, {
+                                opacity: 0.2
+                            }]
+                        }
+                    },
+                    points: {
+                        radius: 5,
+                        show: true
+                    },
+                    grow: {
+                        active: true,
+                        steps: 10
+                    },
+                    shadowSize: 2
+                },
+                grid: {
+                    hoverable: true,
+                    clickable: true,
+                    tickColor: "#f0f0f0",
+                    borderWidth: 1,
+                    color: '#f0f0f0'
+                },
+                colors: ["#65bd77"],
+                xaxis:{
+                    mode: "time",
+                    timeformat: "%d",
+                    minTickSize: [1, "day"]
+                },
+                yaxis: {
+                    ticks: 5
+                },
+                tooltip: true,
+                tooltipOpts: {
+                    content: '%x.1 {{ currMonth }}: %y.4 {{ store.currency_symbol }}',
+                    defaultTheme: false,
+                    shifts: {
+                        x: 0,
+                        y: 20
+                    }
+                }
+            }
+        );
+    });
+
+    function getTimestamp(dateString) {
+        var myDate = dateString.split("-");
+        return new Date(parseInt(myDate[0], 10), parseInt(myDate[1], 10) - 1 , parseInt(myDate[2]), 10).getTime();
+    }
+    </script>
+{% endblock %}

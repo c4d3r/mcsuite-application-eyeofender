@@ -97,6 +97,17 @@ services:
             - @templating
         calls:
             - [ setPurchaseManager, [@maxim_cms.manager.purchase]]
+    maxim_cms.block.purchases:
+        public: true
+        class: Maxim\CMSBundle\Block\PurchasesBlockService
+        tags:
+            - { name: sonata.block }
+        arguments:
+            - "maxim_cms.block.purchases"
+            - @templating
+        calls:
+            - [ setPurchaseManager, [@maxim_cms.manager.purchase]]
+            - [ setConfigs, [%maxim_cms.store%]]
     maxim_cms.block.purchases_info:
         public: true
         class: Maxim\CMSBundle\Block\PurchasesInfoBlockService

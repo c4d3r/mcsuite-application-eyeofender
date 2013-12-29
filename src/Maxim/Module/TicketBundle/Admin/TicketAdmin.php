@@ -23,6 +23,15 @@ class TicketAdmin extends Admin
     public $supportsPreviewMode = false;
     protected $security;
 
+    protected $datagridValues = array(
+        '_page' => 1,            // display the first page (default = 1)
+        '_sort_order' => 'DESC', // reverse order (default = 'ASC')
+        '_sort_by' => 'date'  // name of the ordered field
+        // (default = the model's id field, if any)
+
+        // the '_sort_by' key can be of the form 'mySubModel.mySubSubModel.myField'.
+    );
+
     public function getNewInstance()
     {
         $instance = parent::getNewInstance();
@@ -135,8 +144,8 @@ class TicketAdmin extends Admin
         $datagridMapper
             ->add('closed')
             ->add('website')
-            /*->add('status')
-            ->add('section')*/
+            ->add('status')
+            ->add('section')
         ;
     }
 
@@ -145,9 +154,9 @@ class TicketAdmin extends Admin
     {
         $listMapper
             ->addIdentifier('id', null, array('route' => array('name' => 'show')))
-            /*->add('user.username')
-             ->add('section')*/
-            ->add('closed')
+            ->add('user')
+            ->add('section')
+            ->add('closed', 'boolean', array('editable' => true))
             ->add('status')
             ->add('description')
             ->add('_action', 'actions', array(

@@ -59,7 +59,7 @@ class StoreNotificationAction implements ActionInterface
         if(is_array($details) && count($details) > 0 && isset($details['custom']))
         {
             $custom = $details['custom'];
-            $custom = json_decode($custom);
+            $custom = json_decode($custom, true);
 
             #set vars
             $mcUser   = $custom['name'];

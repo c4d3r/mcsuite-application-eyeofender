@@ -36,4 +36,8 @@ class PurchaseManager extends DoctrineBaseManager
     {
         return $this->repo->findTotalAmountEarnedThisMonth();
     }
+    public function findPurchasesPerDay()
+    {
+        return $this->repo->findPurchasesPerDay();
+    }
 } 

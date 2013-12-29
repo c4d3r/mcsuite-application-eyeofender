@@ -2,18 +2,29 @@
 
 {% block block %}
     {% if is_granted("ROLE_SUPER_ADMIN") %}
-    <h3 class="sonata-purchases-title">{{ settings.title }}</h3>
+        <section class="panel panel-default">
+            <header class="panel-heading">{{ settings.title }}</header>
 
-    <div class="sonata-purchases-container">
-        <ul>
-           {% for key, purchase in latestPurchases %}
-               <li>
-                   <a href="{{ path('admin_maxim_cms_storeitem_edit', { 'id': purchase.storeItem.id }) }}"><span class="label label-info">{{ purchase.storeItem.name }}</span></a>
-                   bought by <a href="{{ path('admin_maxim_cms_purchase_edit', { 'id': purchase.user.id }) }}">{{ purchase.user.username }}</a>
-                   for {{ purchase.name }} - {{ purchase.date|date('Y-m-d h:i:s') }}
-               </li>
-           {% endfor %}
-        </ul>
-    </div>
+            <div class="sonata-purchases-container">
+                <ul class="list-group alt">
+                   {% for key, purchase in latestPurchases %}
+                       <li class="list-group-item">
+                           <div class="media">
+                               <span class="pull-left thumb-sm">
+                                   <img src="http://minotar.net/avatar/{{ purchase.user.username }}" alt="{{ purchase.user.username }}" class="img-circle">
+                               </span>
+                               <div class="pull-right text-muted m-t-sm"> {{ purchase.amount }}  £</div>
+                               <div class="media-body">
+                                   <div>
+                                       <a href="{{ path('admin_maxim_cms_storeitem_edit', { 'id': purchase.storeItem.id }) }}">{{ purchase.storeItem.name }}</a>
+                                   </div>
+                                   <small class="text-muted">{{ purchase.date|prettydate }}</small>
+                               </div>
+                           </div>
+                       </li>
+                   {% endfor %}
+                </ul>
+            </div>
+        </section>
     {% endif %}
 {% endblock %}

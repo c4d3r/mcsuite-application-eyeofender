@@ -115,6 +115,7 @@ doctrine:
                     datetime_functions:
                         MONTH: DoctrineExtensions\Query\Mysql\Month
                         YEAR: DoctrineExtensions\Query\Mysql\Year
+                        DATE: Maxim\CMSBundle\DQL\DateFunction
                 mappings:
                     MaximCMSBundle: ~
                     MaximModuleTicketBundle: ~
@@ -189,10 +190,10 @@ sonata_block:
             contexts:   [admin]
         maxim_cms.block.latest_users: ~
         maxim_cms.block.latest_purchases: ~
-        maxim_cms.block.purchases_info: ~
+        maxim_cms.block.purchases: ~
         # Your other blocks
 sonata_admin:
-    title:      MCSuite Admin Panel
+    title:      MCSuite
     #title_logo: bundles/acmedemo/img/fancy_acme_logo.png
     security:
         handler: sonata.admin.security.handler.role
@@ -206,8 +207,8 @@ sonata_admin:
             - { position: left, type: sonata.admin.block.admin_list}
              #- { position: center, type: sonata.block.service.text, settings: { content: "<h2>Welcome!</h2> You can customize this dashboard by editing the sonata_admin.yml file. The current dashboard presents the recent items from the NewsBundle and a timeline with the latest action"} }
             - { position: center, type: maxim_cms.block.latest_users }
-            - { position: center, type: maxim_cms.block.latest_purchases }
-            - { position: center, type: maxim_cms.block.purchases_info }
+            - { position: right, type: maxim_cms.block.purchases }
+            - { position: right, type: maxim_cms.block.latest_purchases }
 
 # HTML PURIFIER
 exercise_html_purifier:

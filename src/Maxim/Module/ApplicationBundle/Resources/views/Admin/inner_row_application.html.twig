@@ -21,7 +21,6 @@ file that was distributed with this source code.
     {{ object|render_list_element(admin.list['date']) }} <br />
 
     <small>
-        {% set temp =  object|render_list_element(admin.list['text'])%}
-        {{ temp|raw }}
+        {{ object.text|purify }}
     </small>
 {% endblock %}

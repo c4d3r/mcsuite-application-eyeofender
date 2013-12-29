@@ -46,7 +46,7 @@ class PurchaseRepository extends EntityRepository
     public function findTotalAmountEarnedThisMonth()
     {
         $query = $this->getEntityManager()->createQuery(
-            "SELECT SUM(p.amount) as amount
+            "SELECT COUNT(p) as total, SUM(p.amount) as amount
             FROM MaximCMSBundle:Purchase p
             JOIN p.user u
             JOIN p.storeItem i
@@ -62,5 +62,28 @@ class PurchaseRepository extends EntityRepository
             "year"   => date("Y",strtotime($t))
         ));
         return $query->getSingleResult();
+    }
+
+    public function findPurchasesPerDay()
+    {
+        $query = $this->getEntityManager()->createQuery(
+            "SELECT DATE(p.date) as date, SUM(p.amount) as amount
+            FROM MaximCMSBundle:Purchase p
+            JOIN p.user u
+            JOIN p.storeItem i
+            WHERE p.status = :status
+            AND MONTH(p.date) = :month
+            AND YEAR(p.date) = :year
+            GROUP BY date
+            ORDER BY p.date DESC
+            "
+        );
+        $t = date('d-m-Y');
+        $query->setParameters(array(
+            "status" => Purchase::PURCHASE_COMPLETE,
+            "month"  => date("m",strtotime($t)),
+            "year"   => date("Y",strtotime($t))
+        ));
+        return $query->getArrayResult();
     }
 }

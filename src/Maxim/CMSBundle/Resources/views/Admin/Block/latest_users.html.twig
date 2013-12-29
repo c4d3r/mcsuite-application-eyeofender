@@ -1,13 +1,28 @@
 {% extends sonata_block.templates.block_base %}
 
 {% block block %}
-    <h3 class="sonata-users-title">{{ settings.title }}</h3>
+    <section class="panel panel-default">
+        <header class="panel-heading">{{ settings.title }}</header>
 
-    <div class="sonata-users-container">
-        <ul>
-           {% for key, user in latestUsers %}
-               <li><a href="{{ path('admin_maxim_cms_user_edit', { 'id': user.id }) }}">{{ user.username }}</a></li>
-           {% endfor %}
-        </ul>
-    </div>
+        <div class="sonata-users-container">
+            <ul class="list-group alt">
+                {% for key, user in latestUsers %}
+                    <li class="list-group-item">
+                        <div class="media">
+                               <span class="pull-left thumb-sm">
+                                   <img src="http://minotar.net/avatar/{{ user.username }}" alt="{{ user.username }}" class="img-circle">
+                               </span>
+                            <div class="pull-right text-muted m-t-sm"> <i class="fa fa-circle"></i> </div>
+                            <div class="media-body">
+                                <div>
+                                    <a href="{{ path('admin_maxim_cms_user_edit', { 'id':  user.id  }) }}">{{ user.username }}</a>
+                                </div>
+                                <small class="text-muted">{{ user.registeredOn|prettydate }}</small>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
 {% endblock %}

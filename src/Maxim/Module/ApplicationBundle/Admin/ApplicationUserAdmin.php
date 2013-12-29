@@ -79,6 +79,14 @@ class ApplicationUserAdmin extends Admin
             ->add('application')
             ->add('date')
             ->add('denied', 'boolean', array('editable' => true))
+            ->add('_action', 'actions', array(
+                'actions' => array(
+                    'edit' => array(),
+                    'delete' => array(),
+                    'view' => array()
+                ),
+                "label" => 'actions'
+            ))
         ;
     }
 
