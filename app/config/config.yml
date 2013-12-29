@@ -44,7 +44,7 @@ framework:
     http_method_override: true
     templating:
         engines: 'twig'
-        assets_version: 0.13a
+        assets_version: 0.20a
         assets_version_format: "%%s?v=%%s"
         #assets_base_urls:
         #   - http://cdn.localhost.com
@@ -52,10 +52,10 @@ framework:
         #   - http://cdn2.localhost.com
         packages:
            css:
-               version: 0.13
+               version: 0.20
                version_format: "%%s?v=%%s"
            jsApp:
-               version: 0.13
+               version: 0.20
                version_format: "%%s?v=%%s"
 
 # Twig Configuration
