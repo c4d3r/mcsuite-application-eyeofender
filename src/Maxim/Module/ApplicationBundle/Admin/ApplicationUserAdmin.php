@@ -83,7 +83,7 @@ class ApplicationUserAdmin extends Admin
                 'actions' => array(
                     'edit' => array(),
                     'delete' => array(),
-                    'view' => array()
+                    'show' => array()
                 ),
                 "label" => 'actions'
             ))

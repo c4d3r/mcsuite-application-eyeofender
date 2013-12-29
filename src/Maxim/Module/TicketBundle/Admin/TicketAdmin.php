@@ -25,7 +25,7 @@ class TicketAdmin extends Admin
 
     protected $datagridValues = array(
         '_page' => 1,            // display the first page (default = 1)
-        '_sort_order' => 'DESC', // reverse order (default = 'ASC')
+        '_sort_order' => 'ASC', // reverse order (default = 'ASC')
         '_sort_by' => 'date'  // name of the ordered field
         // (default = the model's id field, if any)
 
@@ -163,7 +163,7 @@ class TicketAdmin extends Admin
                 'actions' => array(
                     'edit' => array(),
                     'delete' => array(),
-                    'view' => array()
+                    'show' => array()
                 ),
                 "label" => 'actions'
             ))
