@@ -40,6 +40,7 @@
 </head>
 <body>
 <header>
+
     <nav class="top-bar" data-topbar>
         {# TOP BAR #}
         {% if networks %}
@@ -73,6 +74,7 @@
         </section>
         {% endif %}
     </nav>
+
     <nav id="navigation" class="row">
         <ul class="medium-9 large-9 columns">
             <li><a href="{{ path('home') }}">Home</a></li>
@@ -141,14 +143,10 @@
 
     {# ANNOUNCEMENTS #}
     {{ render(controller('MaximCMSBundle:Default:announcementsLoad')) }}
-    {% for flashMessage in app.session.flashbag.get('notice') %}
-        <div class="alert alert-success">
-            {{ flashMessage }}
-        </div>
-    {% endfor %}
-    {% for flashMessage in app.session.flashbag.get('error') %}
-        <div class="alert alert-error">
-            {{ flashMessage }}
+
+    {% for key, flash in app.session.flashbag.all %}
+        <div class="alert alert-{{ key }}">
+            {{ flash[0] }}
         </div>
     {% endfor %}
 
@@ -235,7 +233,6 @@
 <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
 {% javascripts
-    '@MaximThemeEOEBundle/Resources/public/theme/plugins/pace/pace.js'
     '@MaximThemeEOEBundle/Resources/public/theme/framework/zurb/js/modernizr.js'
     '@MaximThemeEOEBundle/Resources/public/theme/framework/zurb/js/foundation.min.js'
     '@MaximCMSBundle/Resources/public/js/AJAX.js'
@@ -266,7 +263,6 @@
 
     '@MaximCMSBundle/Resources/public/plugins/tooltipster/js/jquery.tooltipster.min.js'
     '@MaximCMSBundle/Resources/public/plugins/tooltip-toolbar/js/jquery.toolbar.min.js'
-    '@MaximCMSBundle/Resources/public/events/christmas/christmas.js'
     output='themes/eyeofender/js/main.js'
     package='jsApp'
 %}

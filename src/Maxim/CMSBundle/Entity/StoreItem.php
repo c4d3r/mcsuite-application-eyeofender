@@ -119,6 +119,13 @@ class StoreItem
     protected $sort = 0;
 
     /**
+     * @var string $duration
+     *
+     * @ORM\Column(name="duration", type="integer", nullable=false, length=11)
+     */
+    protected $duration = 0;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -400,6 +407,22 @@ class StoreItem
     public function getSort()
     {
         return $this->sort;
+    }
+
+    /**
+     * @param string $duration
+     */
+    public function setDuration($duration)
+    {
+        $this->duration = $duration;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDuration()
+    {
+        return $this->duration;
     }
 
 }

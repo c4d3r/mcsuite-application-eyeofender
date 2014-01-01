@@ -75,6 +75,26 @@ h1, h2, h3, h4, h5, h6 {
 .logo-eoe a:hover {
     opacity: 1;
 }
+/* FLASH MESSAGES */
+#flash-container {
+    height: 35px;
+    margin-top: 45px;
+}
+#flash-container > div{
+    width: 1020px;
+    margin:0 auto;
+}
+.flash-warning {
+    background: rgb(194, 194, 147);
+    border-bottom: 1px solid rgb(88, 85, 0);
+    box-shadow: inset 1px 1px 1px 0px rgba(0, 0, 0, 1);
+}
+.alert {
+    padding: 15px;
+    border-radius: 3px;
+    margin-bottom: 5px;
+    box-shadow: 1px 1px 0px 1px rgba(32, 32, 32, 0.49);
+}
 /* COLORS */
 .color-purple {
     color: rgb(150, 124, 189);

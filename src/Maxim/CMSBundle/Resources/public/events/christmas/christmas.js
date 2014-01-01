@@ -36,6 +36,9 @@
     };
 
     (function() {
+        //chrome fix, put canvas in div
+        var canvasWrapper = document.createElement('div');
+
         var canvas = document.createElement('canvas');
         var context = canvas.getContext('2d');
         var settleCanvas = document.createElement('canvas');
@@ -144,7 +147,7 @@
             canvasStyle.top = 0;
             canvasStyle.left = 0;
             canvasStyle.bottom = 0;
-            canvasStyle.zIndex = -1;
+            canvasStyle.zIndex = 1;
             canvasStyle['pointerEvents'] = 'none';
 
             settleCanvasStyle.cssText = canvasStyle.cssText;
@@ -155,7 +158,8 @@
             }, false);
 
             // add it to the page & start animating
-            document.body.appendChild(canvas);
+            canvasWrapper.appendChild(canvas);
+            document.body.appendChild(canvasWrapper);
             document.body.appendChild(settleCanvas);
             requestAnimationFrame(frame);
         }

@@ -61,7 +61,7 @@ class StoreController extends ModuleController
 	{
 		$em = $this->getDoctrine()->getManager();
 
-		$id = $request->request->get('_btnBuy');
+        $id = $request->request->get('_btnBuy');
 
         $username 	= $request->request->get('_ign');
 
@@ -79,6 +79,7 @@ class StoreController extends ModuleController
         $username 	= $request->request->get('_ign');
         //$terms      = $request->request->get('donation_terms');
         $item       = $em->getRepository("MaximCMSBundle:StoreItem")->findOneBy(array("id" => $id));
+        $user = $this->getUser();
 
         if(!$item)
         {
@@ -88,15 +89,26 @@ class StoreController extends ModuleController
         ###################
         # EVENT DISPATCHED
         ###################
-        $dispatcher = $this->get('event_dispatcher');
+       /* $dispatcher = $this->get('event_dispatcher');
         //add listeners
         $userListener  = new UserListener($em);
 
-        $user = $this->getUser();
         $userEvent = new UserEvent($user);
 
         // dispatch update event
-        $dispatcher->dispatch(UserEvents::USER_UPDATE, $userEvent);
+        $dispatcher->dispatch(UserEvents::USER_UPDATE, $userEvent);*/
+
+        # check if purchase with this item has been made
+        $today = new \DateTime("now");
+        $purchase = $em->getRepository('MaximCMSBundle:Purchase')->findOneBy(array("name" => $username, "storeItem" => $item));
+
+        if($purchase && ($purchase->getDate()->getTimestamp() + $item->getDuration() > $today->getTimestamp())){
+            echo "set flashbag";
+            $this->get('session')->getFlashBag()->add(
+                'warning',
+                sprintf("%s already has the item you are trying to buy.", $username)
+            );
+        }
 
         $custom = $username.'|'.date("Y-m-d H:i:s").'|'.$id.'|'.$_SERVER['REMOTE_ADDR'].'|'.$user->getEmail();
 

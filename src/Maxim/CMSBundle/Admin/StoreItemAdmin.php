@@ -46,6 +46,7 @@ class StoreItemAdmin extends Admin{
                 'currency' => $this->configs['currency']
             ))
             ->add('tax', 'percent', array('label' => 'Item tax'))
+            ->add('duration', 'integer', array('label' => 'Item duration (in seconds)'))
             ->add('visible', 'checkbox', array('label' => 'Item visibility'))
             ->add('type', 'choice', array(
                 'multiple' => false,
@@ -79,6 +80,7 @@ class StoreItemAdmin extends Admin{
             ->add('tax')
             ->add('storeCategory')
             ->add('website')
+            ->add('duration')
         ;
     }
 
@@ -92,6 +94,7 @@ class StoreItemAdmin extends Admin{
             ->add('tax')
             ->add('storeCategory')
             ->add('website')
+            ->add('duration')
         ;
     }
 
