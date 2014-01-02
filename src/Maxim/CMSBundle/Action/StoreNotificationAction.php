@@ -86,6 +86,7 @@ class StoreNotificationAction implements ActionInterface
             # create purchase
             //public function createPurchase($item, User $user, $amount, $discount, $status, $name, $ip, $transaction, $delivery) {
             $purchase = $this->purchaseHelper->createPurchase($item, $user, $amountReceived, $discount, Purchase::PURCHASE_PENDING, $mcUser, $ip, $transaction, Purchase::ITEM_DELIVERY_PENDING);
+            $purchase->setMethod(Purchase::PAYMENT_METHOD_PAYPAL);
 
             if($amountSupposed != $amountReceived) {
                 $purchase->setStatus(Purchase::PURCHASE_INVALID_AMOUNT);

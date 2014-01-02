@@ -39,7 +39,8 @@ class MinecraftHelper
              'Content-Type: application/json',
          );
 
-         $response = $this->rest->execute(RESTHelper::METHOD_POST, $headers, self::SERVER_AUTHENTICATE, json_encode($payload));
+         $this->rest->open(self::SERVER_AUTHENTICATE);
+         $response = $this->rest->execute(RESTHelper::METHOD_POST, $headers, json_encode($payload));
          $response = (array)json_decode($response->getData(), true);
          if(isset($response['error']))
          {

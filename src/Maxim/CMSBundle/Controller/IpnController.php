@@ -70,6 +70,119 @@ class IpnController extends Controller
         }
     } // end function
 
+    public function generateBitpayHash($data, $key)
+    {
+        $hmac = base64_encode(hash_hmac('sha256', $data, $key, TRUE));
+        return strtr($hmac, array('+' => '-', '/' => '_', '=' => ''));
+    }
+    public function bitpayIpnAction()
+    {
+        $details = file_get_contents("php://input");
+        $apiKey = "WV3IhdH0ysNsWSJtieYlLygwblFEJAXMo3tIWvH0I";
+
+        $json = json_decode($details, true);
+
+        if (is_string($json))
+            return new Response($json); // error
+
+        if (!array_key_exists('posData', $json))
+            return new Response('no posData');
+
+        $posData = json_decode($json['posData'], true);
+
+        if($posData['hash'] != $this->generateBitpayHash(serialize($posData['posData']), $apiKey))
+            return new Response('authentication failed (bad hash)');
+
+        if(is_array($details) && count($details) > 0 && isset($json['posData']))
+        {
+            $custom = $json['posData'];
+            $custom = json_decode($custom, true);
+
+            #set vars
+            $mcUser   = $custom['name'];
+            $userId   = $custom['user_id'];
+            $itemId   = $custom['item_id'];
+            $ip       = $custom['ip'];
+            $discount = $custom['discount'];
+            $transaction = $json['id'];
+            $amountSupposed = $custom['price'];
+            //$currency = $json['currency'];
+            //$btcPrice = $json['btcPrice'];
+            $amountReceived = $json['price'];
+
+            $user = $this->doctrine->getRepository('MaximCMSBundle:User')->findOneBy(array("id" => $userId));
+            $item = $this->doctrine->getRepository('MaximCMSBundle:StoreItem')->findOneBy(array("id" => $itemId));
+
+            # address
+            /*$address['address_street']       = $details['address_street']; //address + house number
+            $address['address_country_code'] = $details['address_country_code'];  //country code
+            $address['address_name']         = $details['address_name']; //address name (person)
+            $address['address_country']      = $details['address_country']; //country
+            $address['address_city']         = $details['address_city']; //address city
+            $address['address_state']        = $details['address_state']; //address state
+            $address['address_status']       = $details['address_status']; //addres status (confirmed ?)        */
+
+            # create purchase
+            $purchase = $this->purchaseHelper->createPurchase($item, $user, $amountReceived, $discount, Purchase::PURCHASE_PENDING, $mcUser, $ip, $transaction, Purchase::ITEM_DELIVERY_PENDING);
+            $purchase->setMethod(Purchase::PAYMENT_METHOD_BITPAY);
+
+            if($amountSupposed != $amountReceived) {
+                $purchase->setStatus(Purchase::PURCHASE_INVALID_AMOUNT);
+            }
+
+            $succeeded = false;
+
+            try
+            {
+                switch($item->getType()) {
+                    case "COMMAND" :
+                        $this->eventDispatcher->dispatch("minecraft.send", new MinecraftSendEvent(array($purchase)));
+                        break;
+                    default:
+                        $options = array(\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION);
+                        $pdo = new \PDO('mysql:host='.$this->config["host"].';dbname='.$this->config["database"], $this->config["username"], $this->config["password"], $options);
+                        $pdo->query($this->minecraft->parseCommand($item->getCommand(), array("USER" => $purchase->getName())));
+                        $pdo  = null;
+                        $purchase->setStatus(Purchase::PURCHASE_COMPLETE);
+                        $purchase->setItemDelivery(Purchase::ITEM_DELIVERY_SUCCESS);
+                        $this->doctrine->flush();
+                }
+                $succeeded = true;
+            }
+            catch(\PDOException $ex)
+            {
+                $purchase->setStatus(Purchase::PURCHASE_ERROR_SQL);
+                $purchase->setItemDelivery(Purchase::ITEM_DELIVERY_FAILED);
+                $this->doctrine->flush();
+            }
+            catch(CommandExecutionException $ex)
+            {
+                $purchase->setStatus(Purchase::PURCHASE_ERROR_COMMAND);
+                $purchase->setItemDelivery(Purchase::ITEM_DELIVERY_FAILED);
+                $this->doctrine->flush();
+            }
+            catch(\Exception $ex)
+            {
+                $purchase->setStatus(Purchase::PURCHASE_ERROR_UNKNOWN);
+                $purchase->setItemDelivery(Purchase::ITEM_DELIVERY_FAILED);
+                $this->doctrine->flush();
+            }
+
+            # Create notification
+            $notification = new Notification();
+            $notification->setType(Notification::TYPE_PURCHASE);
+            $notification->setUser($purchase->getUser());
+            $notification->setText(sprintf("Payment for order %s was %s", "#".$purchase->getId(), $succeeded ? "successful" : "unsuccessful"));
+            $this->doctrine->persist($notification);
+            $this->doctrine->flush();
+
+            $this->logger->info("Payment " . $succeeded ? "completed" : "failed" . " for user: " . $purchase->getUser()->getUsername());
+
+        } else {
+            $this->logger->err("PAYUM: custom field not found, " . print_r($details, true));
+        }
+    }
+
     public function complete($payment_method, $status, $email) {
 
         $logger = $this->get('logger');

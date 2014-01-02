@@ -35,18 +35,69 @@
                 </tr>
 			</table>
             <h3>Checkout</h3>
-            <div class="panel">
-                <div class="ShopConfirmBox-payment-method">
-                    <form target="paypal" action="{{ path('shop_finish') }}" method="post" style="margin:0;">
-                        <input type="hidden" name="cmd" value="_xclick" />
-                        <input type="hidden" name="custom" value="{{ user.custom }}" />
-                        <input type="hidden" name="_ign" value="{{ user.ign }}" />
-                        <input type="image" value="PAYPAL" name="button_shop_checkout" alt="Submit" src="{{ asset('/bundles/maximcms/images/paypal/checkout-2.png') }}" />
-                        {#<input type="image" value="BTC" name="button_shop_checkout" alt="Submit" src="{{ asset('/bundles/maximcms/images/paypal/checkout-2.png') }}" />#}
-                    </form>
-                </div>
+            <div class="ShopConfirmBox-payment-method panel">
+                <form action="{{ path('shop_finish') }}" method="post" style="margin:0;" id="frmShop">
+                    <input type="hidden" name="cmd" value="_xclick" />
+                    <input type="hidden" name="custom" value="{{ user.custom }}" />
+                    <input type="hidden" name="_ign" value="{{ user.ign }}" />
+                    <input type="hidden" name="button_shop_checkout" id="frmShopTypeHolder"/>
+                    <img data-value="PAYPAL" data-handler="external" class="shop-buy-button" src="{{ asset('/bundles/maximcms/images/paypal/checkout-2.png') }}" />
+                    <img data-value="BTC" data-handler="iframe" class="shop-buy-button" src="{{ asset('/bundles/maximcms/images/bitcoin/buy-now.png') }}" />
+                    {#<input type="image" value="BTC" name="button_shop_checkout" alt="Submit" src="{{ asset('/bundles/maximcms/images/paypal/checkout-2.png') }}" />#}
+                </form>
             </div>
+            <div id="iframe-loader" class="alert alert-info"></div>
+            <div id="frmIframeHolder" class="panel" style="display:none;"></div>
         </div>
 	</div>
 </div>
+{% endblock %}
+{% block scripttags %}
+    <script>
+        $(function(){
+            var frmShop = $('#frmShop');
+            $('#iframe-loader').hide();
+            $('.shop-buy-button').on('click', function(){
+                var frmHolder = $('#frmShopTypeHolder');
+                var frmShop = $('#frmShop');
+                frmHolder.val($(this).attr('data-value'));
+                frmShop.removeAttr('target');
+
+                if($(this).attr("data-handler") == "external") {
+                    frmShop.attr('target', '#');
+                    frmShop.submit();
+                } else {
+                    $('#iframe-loader').text('Loading, please wait...').slideDown();
+                    //iframe should return url
+                    $.post(frmShop.attr('action'), frmShop.serialize(), function(iframeUrl){
+
+                        // define vars
+                        var holder = $('#frmIframeHolder');
+                        var iElement = $('<iframe id="frmShopIframe"></iframe>');
+
+                        //listen for the bitpay event being send!
+                        window.addEventListener("message", function(event) {
+                            if(event.data.status.toLowerCase() == "paid") {
+
+                                holder.slideUp();
+                                $('#iframe-loader').text("Payment complete! Redirecting you to the homepage in 5 seconds").slideDown();
+
+                                window.setTimeout( function(){
+                                    window.location.href = "{{ path('home') }}";
+                                }, 5000);
+                            }
+                        }, false);
+
+                        iElement.attr('src', iframeUrl);
+                        iElement.css({'width': '100%', 'height': '155px', 'border': 'none'});
+                        iElement.load(function(){
+                            $('#iframe-loader').slideUp();
+                            holder.slideDown();
+                        });
+                        holder.append(iElement);
+                    })
+                }
+            });
+        });
+    </script>
 {% endblock %}

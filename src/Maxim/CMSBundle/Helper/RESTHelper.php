@@ -30,32 +30,39 @@ class RESTHelper {
     protected $headers;
     protected $data;
 
+    protected $curl;
+    protected $url;
+
     public function __construct($logger)
     {
         $this->logger = $logger;
     }
 
-    public function execute($method, $headers, $url, $data)
+    public function open($url)
     {
-        $curl = curl_init($url);
+        $this->url = $url;
+        $this->curl = curl_init($url);
+        curl_setopt($this->curl, CURLOPT_URL, $this->url);
+    }
+    public function execute($method, $headers, $data)
+    {
+        curl_setopt ($this->curl, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt ($this->curl, CURLOPT_SSL_VERIFYPEER, 0);
 
-        curl_setopt ($curl, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt ($curl, CURLOPT_SSL_VERIFYPEER, 0);
-
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_AUTOREFERER, true); // This make sure will follow redirects
-        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, false); // This too
-        curl_setopt($curl, CURLOPT_HEADER, true); // THis verbose option for extracting the headers
+        curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($this->curl, CURLOPT_AUTOREFERER, true); // This make sure will follow redirects
+        curl_setopt($this->curl, CURLOPT_FOLLOWLOCATION, false); // This too
+        curl_setopt($this->curl, CURLOPT_HEADER, true); // THis verbose option for extracting the headers
 
         if($method == self::METHOD_POST)
         {
-            curl_setopt($curl, CURLOPT_POST, true);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($this->curl, CURLOPT_POST, true);
+            curl_setopt($this->curl, CURLOPT_POSTFIELDS, $data);
         }
         else if($method == self::METHOD_GET)
         {
-            curl_setopt($curl, CURLOPT_HTTPGET, true);
-            $url = $url . '?' . http_build_query($data, null, '&');
+            curl_setopt($this->curl, CURLOPT_HTTPGET, true);
+            $url = $this->url . '?' . http_build_query($data, null, '&');
         }
         else if($method == self::METHOD_PUT)
         {
@@ -63,21 +70,23 @@ class RESTHelper {
         }
         else
         {
-            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method);
+            curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, $method);
         }
 
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, self::TIMEOUT);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($this->curl, CURLOPT_CONNECTTIMEOUT, self::TIMEOUT);
+        curl_setopt($this->curl, CURLOPT_HTTPHEADER, $headers);
 
-        if(!($response = curl_exec($curl))) {
-            $this->logger->err('[cURL Failure] ' . curl_error($curl));
+
+        if(!($response = curl_exec($this->curl))) {
+            $this->logger->err('[cURL Failure] ' . curl_error($this->curl));
         }
-        curl_close($curl);
 
-        $this->logger->err(print_r($response, true));
         $this->treatResponse($response);
         return $this;
+    }
+    public function close()
+    {
+        curl_close($this->curl);
     }
 
     private function treatResponse($r) {
@@ -116,4 +125,21 @@ class RESTHelper {
     {
         return $this->headers;
     }
+
+    /**
+     * @param mixed $curl
+     */
+    public function setCurl($curl)
+    {
+        $this->curl = $curl;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCurl()
+    {
+        return $this->curl;
+    }
+
 }

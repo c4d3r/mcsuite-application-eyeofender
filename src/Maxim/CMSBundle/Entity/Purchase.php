@@ -26,6 +26,9 @@ class Purchase
     const ITEM_DELIVERY_FAILED = "FAILED";
     const ITEM_DELIVERY_PENDING= "PENDING";
 
+    const PAYMENT_METHOD_PAYPAL = "PAYPAL";
+    const PAYMENT_METHOD_BITPAY = "BITPAY";
+
     /**
      * @var integer $id
      *

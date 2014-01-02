@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\Range;
 use Payum\Paypal\ExpressCheckout\Nvp\Api;
 
-class StoreController extends ModuleController
+class StoreController extends Controller
 {
 	public function indexAction()
 	{
@@ -221,17 +221,18 @@ class StoreController extends ModuleController
         {
             case "PAYPAL":
                 return $this->prepareAction($this->getUser(), $forUsername, $item);
-            //case "BTC":
-                //return $this->paymentCoinbase($purchase);
+            case "BTC":
+                return $this->paymentBitpay($this->getUser(), $forUsername, $item);
             default:
                 return $this->prepareAction($this->getUser(), $forUsername, $item);
         }
     }
 
-    public function paymentCoinbase($purchase)
+    public function paymentBitpay(User $user, $mcuser, StoreItem $item)
     {
-        $item = $purchase->getShop();
+        //https://bitpay.com/api/invoice
 
+        # item price calculations
         $total = $item->getAmount() * 1;
 
         $tax = 0;
@@ -239,30 +240,50 @@ class StoreController extends ModuleController
             $tax = ($total * ($item->getTax() / 100));
         }
 
-        # create a button response code
-        $rest = $this->get('maxim_cms.rest.helper');
-
-        $button = array(
-            "button" => array(
-                "name" => "test",
-                "type" => "buy_now",
-                "price_string" => "66.66",
-                "price_currency_iso" => "USD",
-                "custom" => "buy_now",
-                "callback_url" => "http://www.example.com/my_custom_button_callback",
-                "description" => "Sample description",
-                "style" => "custom_large",
-                "include_email" => true,
-            )
+        # get custom field
+        $custom = array(
+            "user_id" => $user->getId(),
+            "amount"  => $total,
+            "name"    => $mcuser,
+            "ip"      => $user->getLastip(),
+            "item_id" => $item->getId(),
+            "discount" => $item->getReduction(),
         );
 
-        $holder = $rest->execute(RESTHelper::METHOD_POST, array(), "https://coinbase.com/api/v1/buttons", $button)->getData();
-        $l = $this->get('logger');
-        $l->err(print_r($holder, true));
-        print_r($holder);
-        return new Response("test");
-        //return $this->redirect("https://coinbase.com/checkouts/" . $holder['button']['code']);
+        # start REST call
+        $rest = $this->get('maxim_cms.rest.helper');
+        $apiKey = "WV3IhdH0ysNsWSJtieYlLygwblFEJAXMo3tIWvH0I";
+        $uname = base64_encode($apiKey);
+        $data = array(
+            "price" => $total,
+            "currency" => "GBP",
+            "notificationURL" => "http://google.com",
+            "posData" => $custom
+        );
+        $data = json_encode($data);
+        $length = strlen($data);
+        $headers = array(
+            'Content-Type: application/json',
+            "Content-Length: $length",
+            "Authorization: Basic $uname",
+        );
+        $rest->open("https://bitpay.com/api/invoice");
+        $curl = $rest->getCurl();
 
+        # set extra curls
+        curl_setopt($curl, CURLOPT_PORT, 443);
+        curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC ) ;
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 1); // verify certificate
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2); // check existence of CN and verify that it matches hostname
+        curl_setopt($curl, CURLOPT_FORBID_REUSE, 1);
+        curl_setopt($curl, CURLOPT_FRESH_CONNECT, 1);
+
+        $holder = $rest->execute(RESTHelper::METHOD_POST, $headers, $data)->getData();
+        # the data contains the array
+
+        $holder = json_decode($holder, true);
+        return new \Symfony\Component\HttpFoundation\Response($holder["url"] . "&view=iframe&theme=dark");
+        //return $this->redirect("https://coinbase.com/checkouts/" . $holder['button']['code']);
     }
 
     public function completeAction(Request $request)

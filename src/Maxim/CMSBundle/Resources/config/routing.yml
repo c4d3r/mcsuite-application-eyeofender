@@ -55,6 +55,9 @@ shop_purchase_history:
 ipn_paypal:
   pattern: /shop/ipn/paypal
   defaults: { _controller: MaximCMSBundle:Ipn/IpnPaypal:paypal }
+ipn_paypal:
+  pattern: /shop/ipn/bitpay
+  defaults: { _controller: MaximCMSBundle:Ipn:bitpayIpn }
 paypal_done:
   pattern: /shop/complete
   defaults: { _controller: MaximCMSBundle:Store:complete }
