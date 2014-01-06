@@ -7,19 +7,18 @@
             <div class="profile-header-text">
                 <h2>{{ player.username }}</h2>
                 <span class="profile-rank {{ player.rank.cssClass }}">{{ player.rank }}</span>
+                {% if app.user and not (player.id == app.user.id) %}
+                    <div id="profile-actions" class="right">
+                        <ul>
+                            {% if player|isFriend(app.user) %}
+                                <li><button id="button_friend_delete" class="btn btn-xs profile-button" value="{{ player.id }}">Delete friend</button></li>
+                            {% elseif not hasFriendRequest(player) %}
+                                <li><button id="button_friend_request" class="btn btn-xs profile-button">Send friend request</button></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                {% endif %}
             </div>
-
-            {% if app.user and not (player.id == app.user.id) %}
-                <div id="profile-actions" class="right">
-                    <ul>
-                        {% if not hasFriendRequest(player) %}
-                            <li><button id="button_friend_request" class="btn btn-xs btn-default">Send friend request</button></li>
-                        {% elseif player|isFriend(app.user) %}
-                            <li><button id="button_friend_delete" class="btn btn-xs btn-default" value="{{ player.id }}">Delete friend</button></li>
-                        {% endif %}
-                    </ul>
-                </div>
-            {% endif %}
         </div>
         <div id="profile-content" class="row">
             <aside id="profile-sidebar" class="large-3 columns">

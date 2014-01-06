@@ -68,3 +68,19 @@
     border-radius:3px;
     box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.84);
 }
+
+/* PROFILE ACTIONS */
+#profile-actions > ul {
+    margin:0;
+}
+
+/* BUTTON */
+.profile-button {
+    background: rgba(124, 95, 146, 0.33);
+    border: 1px solid #564069;
+    margin-top: 3px;
+    padding: 4px 10px;
+}
+.profile-button:hover {
+    color:#fff;
+}
