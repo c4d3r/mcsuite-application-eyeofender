@@ -12,6 +12,11 @@ services:
         class: Maxim\CMSBundle\Component\Validator\Validator
         arguments:
             em: @doctrine.orm.entity_manager
+
+   # CONTROLLERS
+    maxim_cms.controller.exception_controller:
+        parent: twig.controller.exception
+        class: Maxim\CMSBundle\Controller\ExceptionController
    # HELPERS
     maxim_cms.rest.helper:
         class: Maxim\CMSBundle\Helper\RESTHelper
@@ -68,12 +73,6 @@ services:
     maxim_cms.action.store_notification:
         class: Maxim\CMSBundle\Action\StoreNotificationAction
         arguments: [ @doctrine.orm.entity_manager, @logger, @purchase.helper, @event_dispatcher, @minecraft.helper, %mysql%]
-    security.access.blacklist_voter:
-        class:      Maxim\CMSBundle\Security\Authorization\Voter\ClientIpVoter
-        arguments:  ["@service_container", [123.123.123.123, 171.171.171.171]]
-        public:     false
-        tags:
-            - { name: security.voter }
 
 # BLOCKS
     maxim_cms.block.latest_users:

@@ -62,7 +62,7 @@ framework:
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
-    exception_controller: Maxim\CMSBundle\Controller\ExceptionController::exceptionAction
+    exception_controller: "maxim_cms.controller.exception_controller:showAction"
     globals:
         maintenance: false
         social_facebook: http://www.google.com
@@ -104,9 +104,11 @@ doctrine:
         # path:     %database_path%
 
     orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
         default_entity_manager:   default
         entity_managers:
             default:
+                #auto_mapping: true
                 connection: default
                 metadata_cache_driver: apc
                 query_cache_driver: apc

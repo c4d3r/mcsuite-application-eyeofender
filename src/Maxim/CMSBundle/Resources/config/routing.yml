@@ -2,6 +2,9 @@
 # PAGES
 #-------
 #normal
+default:
+   pattern: /
+   defaults: { _controller: MaximCMSBundle:Default:index }
 home:
   pattern: /home
   defaults: { _controller: MaximCMSBundle:Default:index }

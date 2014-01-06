@@ -1,51 +1,75 @@
 {% extends 'MaximCMSBundle:Default:index.html.twig' %}
 
 {% block body %}
+    <div id="profile">
+        <div id="profile-header" class="clearfix">
+            <img src="https://minotar.net/helm/{{ player.username }}/115.png" id="profile-image" class="left"/>
+            <div class="profile-header-text">
+                <h2>{{ player.username }}</h2>
+                <span class="profile-rank {{ player.rank.cssClass }}">{{ player.rank }}</span>
+            </div>
 
-<div class="page">
-	<div class="page-header">
-		<h1>Player - {{ player }}</h1>
-	</div>
-	
-	<script>
-	$(document).ready(function()
-	{
-		$('.friend-action').hide();
-		$('.friend').click(function(){
-			$('.friend-action').animate({width: 'toggle'});
-		});
-	});
-		
-	</script>
-	<div class="page-content">
-		{% if friends is defined %}
-			<div class="profile-action">
-				<a href="{{ path('profile_friend_add', {'username' : player} )}}" alt="add friend">Add friend</a>
-			</div>
-			<h1>Website user</h1>
-			{{ Owner_profile }}
-			<br/><br/>
-			<h1>Friends</h1>
-			{% for friend in friends %}
-				{% if is_profileOwner(player) == "true" %}
-					<div class="friend">
-						<img src="https://minotar.net/avatar/{{ friend.username }}/40.png" title="{{ friend.username }}" style="display:block;width:50px;height:50px;float:left;"/>
-						<ul class="friend-action">
-							<li><a href="{{ path('server_player', {'username': friend.username} ) }}">View friend</a></li>
-							<li><a href="{{ path('profile_friend_delete', {'username': Owner_profile, 'friend': friend.username} ) }}">Delete friend</a></li>	
-						</ul>	
-					</div>
-				{% else %}
-					<a href="{{ path('server_player', {'username': friend.username} ) }}" style="display:block;width:50px;height:50px;float:left;">
-						<img src="https://minotar.net/avatar/{{ friend.username }}/40.png" title="{{ friend.username }}" />
-					</a>
-				{% endif %}
-			{% else %}
-			<p>This player has no friends yet</p>
-			{% endfor %}
-		{% else %}
-			<p>This player is not registered on our website.</p>
-		{% endif %}
-	</div>
-</div>
+            {% if app.user and not (player.id == app.user.id) %}
+                <div id="profile-actions" class="right">
+                    <ul>
+                        {% if not hasFriendRequest(player) %}
+                            <li><button id="button_friend_request" class="btn btn-xs btn-default">Send friend request</button></li>
+                        {% elseif player|isFriend(app.user) %}
+                            <li><button id="button_friend_delete" class="btn btn-xs btn-default" value="{{ player.id }}">Delete friend</button></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+        <div id="profile-content" class="row">
+            <aside id="profile-sidebar" class="large-3 columns">
+                <div class="profile-sidebar">
+                    <h3 class="profile-sidebar-header">Friends ({{ player.friends|length }})</h3>
+                    <div class="profile-sidebar-content">
+                        <ul class="profile-sidebar-imageblock">
+                            {% for key, friend in player.friends if key < 12%}
+                                <li>
+                                    <a href="{{path('profile', {'name' : friend.friend.username }) }}" title="View profile of {{ friend.friend.username }}"><img src="https://minotar.net/helm/{{ friend.friend.username }}/37.png" alt="{{ friend.friend.username }}"/></a>
+                                </li>
+                            {% else %}
+                                <span>This player has no friends</span>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+
+            <div class="profile-content large-9 columns end">
+                <h3 class="profile-content-header">User activity</h3>
+                <div class="profile-content-main">
+                    Work in progress
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripttags %}
+    {% if app.user %}
+        {# SCRIPTS #}
+        <script type="text/javascript">
+            $('#button_friend_request').on('click', function(){
+                AJAX.post_regular("{{ path('profile_friend_request_ajax') }}", { _user : "{{ app.user.id }}", _recipient : "{{ player.id }}" }, function(status) {
+                    AJAX.notify($('#global_messagebox'), status);
+                    if(status.success == true) {
+                        $('#button_friend_request').attr("disabled", true).text("Request sent!");
+                    }
+                });
+            });
+            $('#button_friend_delete').on('click', function(){
+                AJAX.post_regular("{{ path('profile_friend_delete_ajax') }}", { _friend : "{{ player.id }}" }, function(status) {
+                    AJAX.notify($('#global_messagebox'), status);
+                    if(status.success == true) {
+                        $('#button_friend_delete').attr("disabled", true).text("Friend deleted");
+                        setTimeout("location.reload();", 1000);
+                    }
+                });
+            });
+        </script>
+    {% endif %}
 {% endblock %}

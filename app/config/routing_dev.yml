@@ -12,13 +12,3 @@ _configurator:
 
 _main:
     resource: routing.yml
-
-# AcmeDemoBundle routes (to be removed)
-admin2:
-    resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
-    prefix: /admin
-
-_sonata_admin:
-    resource: .
-    type: sonata_admin
-    prefix: /admin

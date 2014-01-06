@@ -2,31 +2,27 @@
 namespace Maxim\CMSBundle\Controller;
 
 use Symfony\Component\HttpKernel\Exception\FlattenException;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-class ExceptionController extends Controller
+use Symfony\Bundle\TwigBundle\Controller\ExceptionController as BaseController;
+class ExceptionController extends BaseController
 {
-    /**
-     * Converts an Exception to a Response.
-     *
-     * @param FlattenException     $exception A FlattenException instance
-     * @param DebugLoggerInterface $logger    A DebugLoggerInterface instance
-     * @param string               $format    The format to use for rendering (html, xml, ...)
-     * @param Boolean              $embedded  Whether the rendered Response will be embedded or not
-     *
-     * @throws \InvalidArgumentException When the exception template does not exist
-     */
-    public function exceptionAction(FlattenException $exception, DebugLoggerInterface $logger = null, $format = 'html', $embedded = false)
+    private $exceptionClass;
+
+    public function showAction(Request $request, FlattenException $exception, DebugLoggerInterface $logger = null, $format = 'html')
     {
-        return $this->render('MaximCMSBundle:Exception:error.html.twig',
-                array(
-                    'exception' => $exception,
-                )
-        );
+        $this->exceptionClass = $exception->getClass();
+
+        return parent::showAction($request, $exception, $logger, $format);
     }
 
-    public function indexAction($match)
+    protected function findTemplate(Request $request, $format, $code, $debug)
     {
-        return $this->render('MaximCMSBundle:Exception:404.html.twig');
+        if (!$debug &&  strrpos($this->exceptionClass, "NotFound")) {
+            return 'MaximCMSBundle:Exception:error404.html.twig';
+        }
+
+        return parent::findTemplate($request, $format, $code, $debug);
     }
 }

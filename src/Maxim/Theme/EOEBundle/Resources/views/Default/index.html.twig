@@ -53,7 +53,7 @@
                     </ul>
                 </li>
             </ul>
-            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            {% if app.security.token and is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 <ul class="right">
                     <li class="has-dropdown">
                         <a href="#">Notifications<span class="badge">{{ app.user.unreadNotifications|length }}</span></a>
@@ -97,7 +97,7 @@
                 </ul>
             </li>
 
-            {% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            {% if app.security.token and not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 <li class="right"><a href="{{ path('login') }}">Login</a></li>
             {% else %}
                 <li class="right"><a href="{{ path('logout') }}">Logout</a></li>
@@ -105,7 +105,7 @@
         </ul>
         <div id="account" class="medium-2 medium-offset-1 large-2 large-offset-1 columns hide-for-small-only">
             {# PROFILE OR REGISTER BUTTON #}
-            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            {% if app.security.token and is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 
                 <div class="profile-container">
                 <a href="{{ path('profile', { 'name' : app.user.username }) }}" class="left">
@@ -168,12 +168,12 @@
             <h3 class="module-header">Account Panel</h3>
             <div class="module-content">
                 <ul class="menu menu-stacked">
-                    {% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                    {% if app.security.token and not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                         <li><a href="{{ path('login') }}" class="color-purple">Login</a></li>
                         <li><a href="{{ path('register') }}" class="color-purple">Register</a></li>
                     {% else %}
                         <li><a href="{{ path('account') }}" class="button [radius round]">Account panel</a></li>
-                        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_STAFF') %}
+                        {% if app.security.token and is_granted('ROLE_STAFF') %}
                             <li><a href="{{ path('sonata_admin_dashboard') }}" class="button [radius round]">Admin panel</a></li>
                         {% endif %}
                         <li><a href="{{ path('logout') }}" class="button [radius round]">Logout</a></li>

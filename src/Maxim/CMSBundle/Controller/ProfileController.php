@@ -29,7 +29,7 @@ class ProfileController extends Controller {
         }
         $data['player'] = $user;
 
-        return $this->render('MaximCMSBundle:pages:Profile/profile.html.twig', $data);
+        return $this->render('MaximCMSBundle:pages:profile.html.twig', $data);
     }
 
     public function sendFriendRequestAction(Request $request) {
@@ -144,7 +144,7 @@ class ProfileController extends Controller {
         # put in data
         $data['frequests'] = $frequests;
 
-        return $this->render('MaximCMSBundle:Account:Profile/friendrequests.html.twig', $data);
+        return $this->render('MaximCMSBundle:Account:friendrequests.html.twig', $data);
     }
 
     public function friendRequestAction($type)

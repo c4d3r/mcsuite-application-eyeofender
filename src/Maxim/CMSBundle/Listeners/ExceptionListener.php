@@ -11,11 +11,10 @@ namespace Maxim\CMSBundle\Listeners;
 
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
+
 class ExceptionListener {
 
     protected $logger;
@@ -29,8 +28,21 @@ class ExceptionListener {
 
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
-
         // You get the exception object from the received event
+        $exception = $event->getException();
+
+        if ($exception instanceof HttpExceptionInterface)
+        {
+            $this->logger->info(sprintf(
+                '[ERROR]: %s with code: %s (file: %s, line: %s)',
+                $exception->getMessage(),
+                $exception->getCode(),
+                $exception->getFile(),
+                $exception->getLine()
+            ));
+
+        }
+       /* // You get the exception object from the received event
         $exception = $event->getException();
 
         $message = sprintf(
@@ -45,18 +57,6 @@ class ExceptionListener {
         // Customize your response object to display the exception details
         $response = new Response();
 
-        if ($exception instanceof NotFoundHttpException) {
-            return $this->templating->render('MaximCMSBundle:Exception:404.html.twig');
-        }
-        if($exception instanceof AuthenticationCredentialsNotFoundException)
-        {
-            return $this->templating->render('MaximCMSBundle:Exception:404.html.twig');
-        }
-
-        if($exception instanceof AccessDeniedException)
-            return $this->render("MaximCMSBundle:Exception:AccessDenied.html.twig");
-
-
         // HttpExceptionInterface is a special type of exception that
         // holds status code and header details
         if ($exception instanceof HttpExceptionInterface)
@@ -68,7 +68,8 @@ class ExceptionListener {
         {
             $response->setStatusCode(500);
         }
+
         // Send the modified response object to the event
-        $event->setResponse($response);
+        $event->setResponse($response);       */
     }
 }

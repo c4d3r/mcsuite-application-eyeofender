@@ -152,7 +152,7 @@ class AccountController extends Controller
 			
 		}
 		$data['player'] = $username;
-		return $this->render('MaximCMSBundle:pages:profile.html.twig', $data);
+		return $this->render('MaximCMSBundle:Account:profile.html.twig', $data);
 	}
 	public function accountViewAction()
 	{

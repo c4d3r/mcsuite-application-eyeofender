@@ -1,0 +1,70 @@
+#profile-header{
+    background:gray;
+    margin: 0 auto;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    padding:10px;
+    background:url('/bundles/maximthemeeoe/theme/images/bg.jpg');
+}
+#profile-image {
+    width:100px;
+    height:100px;
+    margin-right:10px;
+}
+#profile-content {
+    margin: 10px auto;
+}
+
+/* HEADER */
+.profile-header-text {
+    text-shadow: 1px 1px black;
+}
+
+/* CONTENT */
+.profile-content {
+    padding:0 !important;
+}
+.profile-rank {
+    padding: 2px 6px;
+    box-shadow: none;
+    border: none;
+    border-radius: 2px;
+}
+
+/* SIDEBAR */
+#profile-sidebar {
+    padding:0 5px 0 0;
+}
+.profile-sidebar-header, .profile-content-header {
+    background: #4d4d4d;
+    margin: 0 0 1px 0;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    padding: 5px;
+    line-height: 30px;
+}
+.profile-sidebar-content, .profile-content-main {
+    background:#4d4d4d;
+    padding:5px;
+}
+.profile-sidebar-content ul {
+    margin:0;
+}
+.profile-sidebar-imageblock {
+    padding:0;
+}
+.profile-sidebar-imageblock > li {
+    list-style:none;
+    display:inline-block;
+    margin-right:3px;
+    margin-bottom:3px;
+}
+.profile-sidebar-imageblock > li:nth-child(4n) {
+    margin:0;
+}
+.profile-sidebar-imageblock > li > a > img{
+    height:37px;
+    width:37px;
+    border-radius:3px;
+    box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.84);
+}
