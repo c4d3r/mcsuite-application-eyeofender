@@ -22,21 +22,21 @@ class Visitor {
      * @ORM\Id
      * @ORM\Column(name="ip", type="string", length=39, nullable=false)
      */
-    private $ip;
+    protected $ip;
 
     /**
      * @var string $time
      * @ORM\Id
      * @ORM\Column(name="time", type="integer", nullable=false)
      */
-    private $time;
+    protected $time;
 
     /**
      * @var string $user_agent
      * @ORM\Id
      * @ORM\Column(name="user_agent", type="string", nullable=true)
      */
-    private $user_agent;
+    protected $user_agent;
 
     /**
      * @var User
@@ -44,7 +44,7 @@ class Visitor {
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
      */
-    private $user;
+    protected $user;
 
     /**
      * @param string $ip

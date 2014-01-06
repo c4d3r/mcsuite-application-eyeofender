@@ -25,21 +25,21 @@ class CoreApplication {
      *
      * @var integer $id
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string $description
      *
      * @ORM\Column(name="description", type="text", nullable=true)
      */
-    private $description;
+    protected $description;
 
     /**
      * @var string $name
      *
      * @ORM\Column(name="name", type="string", length=45, nullable=true)
      */
-    private $name;
+    protected $name;
 
     /**
      * @ORM\ManyToMany(targetEntity="Rank", mappedBy="applications", cascade={"persist"})

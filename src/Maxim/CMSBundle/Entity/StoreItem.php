@@ -23,63 +23,63 @@ class StoreItem
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string $name
      *
      * @ORM\Column(name="name", type="string", length=45, nullable=true)
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string $description
      *
      * @ORM\Column(name="description", type="text", nullable=true)
      */
-    private $description;
+    protected $description;
 
     /**
      * @var string $amount
      *
      * @ORM\Column(name="amount", type="decimal", precision=2)
      */
-    private $amount = 0.00;
+    protected $amount = 0.00;
 
     /**
      * @var boolean $visible
      *
      * @ORM\Column(name="visible", type="boolean", nullable=false)
      */
-    private $visible = true;
+    protected $visible = true;
 
     /**
      * @var string $command
      *
      * @ORM\Column(name="command", type="text", nullable=true)
      */
-    private $command;
+    protected $command;
 
     /**
      * @var string $image
      *
      * @ORM\Column(name="image", type="text", nullable=true)
      */
-    private $image;
+    protected $image;
 
 	 /**
      * @var string $image
      *
      * @ORM\Column(name="reduction", type="integer", type="decimal", precision=2, nullable=false)
      */
-     private $reduction = 0.00;
+    protected $reduction = 0.00;
 
     /**
      * @var string $priority
      *
      * @ORM\Column(name="priority", type="integer", nullable=true)
      */
-    private $priority;
+    protected $priority;
 
     /**
      * @var Section
@@ -87,7 +87,7 @@ class StoreItem
      * @ORM\ManyToOne(targetEntity="StoreCategory")
      * @ORM\JoinColumn(name="store_category_id", referencedColumnName="id", nullable=false)
      */
-    private $storeCategory;
+    protected $storeCategory;
 
     /**
      * @var Website
@@ -95,14 +95,14 @@ class StoreItem
      * @ORM\ManyToOne(targetEntity="Website")
      * @ORM\JoinColumn(name="website_id", referencedColumnName="id", nullable=false)
      */
-    private $website;
+    protected $website;
 
     /**
      * @var string $type
      *
      * @ORM\Column(name="type", type="text", nullable=false)
      */
-    private $type;
+    protected $type;
 
     /**
      * @var string $tax

@@ -22,119 +22,119 @@ class User implements AdvancedUserInterface
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 	
 
     /**
      * @var string $username
      * @ORM\Column(name="username", type="string", length=16, nullable=false)
      */
-    private $username;
+    protected $username;
 
     /**
      * @var string $password
      *
      * @ORM\Column(name="password", type="string", length=255, nullable=false)
      */
-    private $password;
+    protected $password;
 
-	private $passwordConfirm;
+    protected $passwordConfirm;
     /**
      * @var string $email
      *
      * @ORM\Column(name="email", type="string", length=255, nullable=false)
      */
-    private $email;
+    protected $email;
 
     /**
      * @var string $lastip
      *
      * @ORM\Column(name="lastIp", type="string", length=45, nullable=true)
      */
-    private $lastip;
+    protected $lastip;
 
     /**
      * @var \DateTime $lastlogin
      *
      * @ORM\Column(name="lastLogin", type="datetime", nullable=true)
      */
-    private $lastlogin;
+    protected $lastlogin;
 
 	/**
      * @var string $location
      *
      * @ORM\Column(name="location", type="text", nullable=true)
      */
-	private $location;
+    protected $location;
 	
 	/**
      * @var string $skype
      *
      * @ORM\Column(name="skype", type="text", nullable=true)
      */
-	private $skype;
+    protected $skype;
 
     /**
      * @ORM\ManyToOne(targetEntity="Country")
      * @ORM\JoinColumn(name="country_id", referencedColumnName="id", nullable=true)
      */
-    private $country;
+    protected $country;
 
     /**
      * @var string $street
      *
      * @ORM\Column(name="street", type="text", nullable=true)
      */
-    private $street;
+    protected $street;
 
     /**
      * @var string $city
      *
      * @ORM\Column(name="city", type="text", nullable=true)
      */
-    private $city;
+    protected $city;
 
     /**
      * @var string $housenumber
      *
      * @ORM\Column(name="housenumber", type="text", nullable=true)
      */
-    private $housenumber;
+    protected $housenumber;
 
     /**
      * @var string $postalcode
      *
      * @ORM\Column(name="postalcode", type="text", nullable=true)
      */
-    private $postalcode;
+    protected $postalcode;
 
     /**
      * @var string $state
      *
      * @ORM\Column(name="state", type="text", nullable=true)
      */
-    private $state;
+    protected $state;
 
     /**
      * @var string $telephone
      *
      * @ORM\Column(name="telephone", type="text", nullable=true)
      */
-    private $telephone;
+    protected $telephone;
 	
     /**
      * @var \DateTime $dateofbirth
      *
      * @ORM\Column(name="dateOfBirth", type="datetime", nullable=true)
      */
-    private $dateofbirth;
+    protected $dateofbirth;
 
 	 /**
      * @var \DateTime $registeredOn
      *
      * @ORM\Column(name="registeredOn", type="datetime", nullable=true)
      */
-    private $registeredOn;
+    protected $registeredOn;
 	
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
@@ -142,14 +142,14 @@ class User implements AdvancedUserInterface
      * @ORM\ManyToMany(targetEntity="Rank", fetch="EXTRA_LAZY")
      * @ORM\JoinTable(name="user_rank")
      */
-    private $ranks;
+    protected $ranks;
 	
 	/**
      * @var integer $verified
      *
      * @ORM\Column(name="verified", type="integer", nullable=false)
      */
-	private $verified = 0;
+    protected $verified = 0;
 
     /**
      * @var Friend

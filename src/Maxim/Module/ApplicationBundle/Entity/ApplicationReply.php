@@ -19,19 +19,19 @@ class ApplicationReply
      *
      * @var integer $id
      */
-    private $id;
+    protected $id;
     /**
      * @var string
      *
      * @ORM\Column(name="text", type="text", nullable=true)
      */
-    private $text;
+    protected $text;
 
     /**
      * @var \DateTime
      * @ORM\Column(name="date", type="datetime", nullable=false)
      */
-    private $date;
+    protected $date;
 
     /**
      * @var UserApplication
@@ -41,7 +41,7 @@ class ApplicationReply
      *   @ORM\JoinColumn(name="application_user_id", referencedColumnName="id")
      * })
      */
-    private $application;
+    protected $application;
 
     /**
      * @var \User
@@ -50,7 +50,7 @@ class ApplicationReply
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * })
      */
-    private $user;
+    protected $user;
 
 
     public function __construct()

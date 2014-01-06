@@ -19,35 +19,35 @@ class Page
      *
      * @var integer $id
      */
-    private $id;
+    protected $id;
 	
     /**
      * @var string $name
      *
      * @ORM\Column(name="name", type="string", length=50, nullable=true)
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string $content
      *
      * @ORM\Column(name="content", type="text", nullable=true)
      */
-    private $content;
+    protected $content;
 
     /**
      * @var \DateTime $createdOn
      *
      * @ORM\Column(name="createdOn", type="datetime", nullable=false)
      */
-    private $createdOn;
+    protected $createdOn;
 
 	/**
      * @var string $url
      *
      * @ORM\Column(name="url", type="string", length=50, nullable=true)
      */
-    private $url;
+    protected $url;
 
     /**
      * @var Website
@@ -55,7 +55,7 @@ class Page
      * @ORM\ManyToOne(targetEntity="Website")
      * @ORM\JoinColumn(name="website_id", referencedColumnName="id", nullable=false)
      */
-    private $website;
+    protected $website;
 
 	public function __construct()
 	{

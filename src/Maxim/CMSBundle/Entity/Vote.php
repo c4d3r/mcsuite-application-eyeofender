@@ -19,49 +19,49 @@ class Vote
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string $name
      *
      * @ORM\Column(name="name", type="string", length=45, nullable=true)
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string $link
      *
      * @ORM\Column(name="link", type="string", length=45, nullable=true)
      */
-    private $link;
+    protected $link;
 
     /**
      * @var string $image
      *
      * @ORM\Column(name="image", type="string", length=45, nullable=true)
      */
-    private $image;
+    protected $image;
 
     /**
      * @var integer $reset
      *
      * @ORM\Column(name="reset", type="integer", nullable=true)
      */
-    private $reset;
+    protected $reset;
 
     /**
      * @var string $website
      *
      * @ORM\Column(name="website", type="string", length=45, nullable=true)
      */
-    private $website;
+    protected $website;
 
     /**
      * @var boolean $votifier
      *
      * @ORM\Column(name="votifier", type="boolean", nullable=true)
      */
-    private $votifier;
+    protected $votifier;
 
     /**
      * Constructor

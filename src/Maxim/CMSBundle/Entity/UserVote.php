@@ -19,7 +19,7 @@ class UserVote
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var integer $siteid
@@ -27,7 +27,7 @@ class UserVote
      * @ORM\ManyToOne(targetEntity="Vote")
      * @ORM\JoinColumn(name="vote_id", referencedColumnName="id", nullable=false)
      */
-    private $site;
+    protected $site;
 
     /**
      * @var integer $siteid
@@ -35,14 +35,14 @@ class UserVote
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
-    private $user;
+    protected $user;
 
     /**
      * @var \DateTime $votedOn
      *
      * @ORM\Column(name="votedOn", type="datetime")
      */
-    private $votedOn;
+    protected $votedOn;
 
     function __construct()
     {

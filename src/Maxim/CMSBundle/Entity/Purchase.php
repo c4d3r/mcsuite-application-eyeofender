@@ -36,21 +36,21 @@ class Purchase
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var integer $amount
      *
      * @ORM\Column(name="amount", type="integer", nullable=true)
      */
-    private $amount;
+    protected $amount;
 
     /**
      * @var \DateTime $date
      *
      * @ORM\Column(name="date", type="datetime", nullable=false)
      */
-    private $date;
+    protected $date;
 
     /**
      * @var StoreItem
@@ -61,7 +61,7 @@ class Purchase
      *   @ORM\JoinColumn(name="store_item_id", referencedColumnName="id")
      * })
      */
-    private $storeItem;
+    protected $storeItem;
 
     /**
      * @var User
@@ -69,35 +69,35 @@ class Purchase
      * @ORM\ManyToOne(targetEntity="User", inversedBy="purchases", cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $user;
+    protected $user;
 	
 	/**
      * @var String $status
      *
      * @ORM\Column(name="status", type="text", nullable=false)
      */
-	private $status;
+    protected $status;
 
     /**
      * @var String $name
      *
      * @ORM\Column(name="name", type="text", nullable=true)
      */
-    private $name;
+    protected $name;
 	
 	/**
      * @var String $ip
      *
      * @ORM\Column(name="ip", type="text", nullable=true)
      */
-	private $ip;
+    protected $ip;
 
 	/**
      * @var String $transaction
      *
      * @ORM\Column(name="transaction", type="text", nullable=true)
      */
-	private $transaction;
+    protected $transaction;
 
     /**
      * @ORM\ManyToOne(targetEntity="Currency")
@@ -105,24 +105,24 @@ class Purchase
      *   @ORM\JoinColumn(name="currency_code", referencedColumnName="short")
      * })
      */
-    private $currency;
+    protected $currency;
 
     /**
      * @ORM\Column(name="payment_method", type="text", nullable=true)
      */
-    private $method;
+    protected $method;
 
     /**
      * @ORM\Column(name="store_item_delivery", type="text", nullable=false)
      */
-    private $itemDelivery = self::ITEM_DELIVERY_PENDING;
+    protected $itemDelivery = self::ITEM_DELIVERY_PENDING;
 
     /**
      * @var double $discount
      *
      * @ORM\Column(name="discount", type="decimal", precision=2, nullable=false)
      */
-    private $discount = 0.00;
+    protected $discount = 0.00;
 
     /**
      * Get id

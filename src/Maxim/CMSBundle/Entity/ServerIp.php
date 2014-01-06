@@ -24,28 +24,28 @@ class ServerIp {
      *
      * @var integer $id
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string $ip
      *
      * @ORM\Column(name="host", type="string", length=50, nullable=false)
      */
-    private $host;
+    protected $host;
 
     /**
      * @var string $ip
      *
      * @ORM\Column(name="ip", type="string", length=50, nullable=false)
      */
-    private $ip;
+    protected $ip;
 
     /**
      * @var Section
      *
      * @ORM\ManyToOne(targetEntity="Server")
      */
-    private $server;
+    protected $server;
 
     /**
      * @param int $id

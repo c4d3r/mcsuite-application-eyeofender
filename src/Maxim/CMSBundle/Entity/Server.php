@@ -24,35 +24,35 @@ class Server {
      *
      * @var integer $id
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string $title
      *
      * @ORM\Column(name="name", type="string", length=50, nullable=true)
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string $description
      *
      * @ORM\Column(name="description", type="text", nullable=true)
      */
-    private $description;
+    protected $description;
 
     /**
      * @var string $image
      *
      * @ORM\Column(name="image", type="string", length=50, nullable=true)
      */
-    private $image;
+    protected $image;
 
     /**
      * @var string $abbr
      *
      * @ORM\Column(name="abbr", type="string", length=10, nullable=true)
      */
-    private $abbr;
+    protected $abbr;
 
     /**
      * @var Website
@@ -60,7 +60,7 @@ class Server {
      * @ORM\ManyToOne(targetEntity="Website")
      * @ORM\JoinColumn(name="website_id", referencedColumnName="id", nullable=false)
      */
-    private $website;
+    protected $website;
 
     /**
      * @param string $description

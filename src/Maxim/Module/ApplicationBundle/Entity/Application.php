@@ -62,7 +62,7 @@ class Application
     protected $fields;
 
     /**
-     * @ORM\OneToMany(targetEntity="UserApplication", mappedBy="application")
+     * @ORM\OneToMany(targetEntity="UserApplication", mappedBy="application", fetch="EAGER")
      */
     protected $userApplications;
 

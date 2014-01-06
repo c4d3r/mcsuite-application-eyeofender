@@ -23,7 +23,7 @@ class UserFriend {
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="friend_user_id", referencedColumnName="id", nullable=true)
      */
-    private $friend;
+    protected $friend;
 
     /**
      * @var User
@@ -31,7 +31,7 @@ class UserFriend {
      * @ORM\ManyToOne(targetEntity="User", inversedBy="friends")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
      */
-    private $user;
+    protected $user;
 
     /**
      * @var \DateTime $date

@@ -30,7 +30,7 @@ class Announcement {
      *
      * @var integer $id
      */
-    private $id;
+    protected $id;
 
     /**
      * @var Website
@@ -45,28 +45,28 @@ class Announcement {
      *
      * @ORM\Column(name="text", type="string", nullable=true)
      */
-    private $text;
+    protected $text;
 
     /**
      * @var string $type
      *
      * @ORM\Column(name="type", type="string", nullable=false)
      */
-    private $type;
+    protected $type;
 
     /**
      * @var datetime $startdate
      *
      * @ORM\Column(name="startdate", type="datetime", nullable=false)
      */
-    private $startdate;
+    protected $startdate;
 
     /**
      * @var datetime $enddate
      *
      * @ORM\Column(name="enddate", type="datetime", nullable=true)
      */
-    private $enddate;
+    protected $enddate;
 
     /**
      * @var User
@@ -74,14 +74,14 @@ class Announcement {
      * @ORM\ManyToOne(targetEntity="User", inversedBy="announcements", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $user;
+    protected $user;
 
     /**
      * @var datetime $createdOn
      *
      * @ORM\Column(name="createdOn", type="datetime", nullable=false)
      */
-    private $createdOn;
+    protected $createdOn;
 
 
     public function __construct() {
