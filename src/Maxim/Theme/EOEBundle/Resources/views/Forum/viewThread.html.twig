@@ -141,7 +141,7 @@
                         {% if app.user %}
                         <form id="thread_reply" action="{{ path('forum_thread_reply_ajax', {'id' :  thread.forum.id, 'threadid' : thread.id}) }}">
                             <h3>Post a reply</h3>
-                            <div class="alert" id="reply-status"></div>
+                            <div class="alert" id="reply-status" style="display:none;"></div>
                             <div class="mcsf_thread_reply_form">
                                 <textarea id="post_reply_text" class="redactor-init" name="content" style="height: 560px;">
                                 </textarea>
