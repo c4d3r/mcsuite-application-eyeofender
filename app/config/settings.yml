@@ -1,16 +1,16 @@
 maxim_cms:
    general:
       default_role: Member
-      domain: http://mcthefridge.com/
+      domain: http://eyeofender.com/
       maintenance: true
    emails:
-      info: info@mcthefridge.com
-      support: support@mcthefridge.com
+      info: info@eyeofender.com
+      support: support@eyeofender.com
    pages:
-      forum:  http://forum.mcthefridge.com
+      forum:  http://eyeofender.com/forum
    server:
-      name: mcthefridge
-      ip: server.mcthefridge.com
+      name: EyeofEnder
+      ip: hub.eyeofender.com
       mysql:
          host: 198.245.49.34
          user: root
@@ -30,12 +30,11 @@ maxim_cms:
       salt: HTWgMJcfyb7QjyDqvcdD6ZbD
       #Time for how long the reset url should be valid, in seconds
       time: 3600
-      emailFrom: info@mcthefridge.com
    register:
       mail:
          enabled: true
          subject: Welcome to our website
-         message: Our server ip is: hub.mcthefridge.com have fun playing!
+         message: Our server ip is: hub.eyeofender.com have fun playing!
       validation: #Requires the user to validate it's email before registering
          enabled: true
          salt: uzegfuiqp #Security code, this can be anything, prefer numbers and letters

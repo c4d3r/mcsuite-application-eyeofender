@@ -335,7 +335,7 @@ class SecurityController extends Controller
     }
     public function changePassAction()
     {
-        $request = $this->getRequest();
+        $request = Request::createFromGlobals();
 
         if (!$request->isXmlHttpRequest()) {
             return new Response(json_encode(array('success' => false, 'message' => 'No POST request found!')));
@@ -375,18 +375,15 @@ class SecurityController extends Controller
     }
     public function forgotPassSendAction()
     {
-        $request = $this->getRequest();
+        $request = Request::createFromGlobals();
         $security = $this->get('security.helper');
 
-        $logger = $this->get('logger');
         if ($request->isXmlHttpRequest()) {
             throw new AccessDeniedException("Not a valid post request");
         }
         //TODO: remove Yaml:parse setteings
-        $config = Yaml::parse(__DIR__.'/../Resources/config/settings.yml');
-        if(count($config) == 0){
-            return new Response(json_encode(array("success" => false, "message" => "An error occured, please try again later")));
-        }
+        $config   = $this->container->getParameter('maxim_cms');
+
         $salt = $config['forgotPassword']['salt'];
 
         $email = $request->request->get('_email');
@@ -405,7 +402,7 @@ class SecurityController extends Controller
 
         $mail = \Swift_Message::newInstance()
             ->setSubject('Password reset')
-            ->setFrom($config['forgotPassword']['emailFrom'])
+            ->setFrom($config['emails']['info'])
             ->setTo($email)
             ->setBody($this->get('templating')->render('MaximCMSBundle:email:forgotpass.html.twig', array('company' => $config['server']['name'], "message" => $message)))
             ->setContentType("text/html")
@@ -476,7 +473,7 @@ class SecurityController extends Controller
 
         $message = \Swift_Message::newInstance()
             ->setSubject('New password')
-            ->setFrom($config['forgotPassword']['emailFrom'])
+            ->setFrom($config['emails']['info'])
             ->setTo($email[0])
             ->setBody($this->get('templating')->render('MaximCMSBundle:email:forgotpass.html.twig', array('company' => $config['server']['name'], "message" => $message)))
             ->setContentType("text/html")
