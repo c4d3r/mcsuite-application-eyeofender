@@ -2,7 +2,7 @@
     {% for thread in threads %}
         <li class="latestthread">
             <a href="{{ path('profile', {'name' : thread.createdBy }) }}" class="tooltip-init latestthread-profile" title="{{ thread.createdBy }}">
-                <img src="https://minotar.net/avatar/{{ thread.createdBy }}/35.png" alt="{{ thread.createdBy }}"/>
+                <img src="https://minotar.net/helm/{{ thread.createdBy }}/35.png" alt="{{ thread.createdBy }}"/>
             </a>
             <div class="latestthread-text">
                 <a href="{{ path('forum_thread_view', {'id' : thread.forum.id, 'threadid' : thread.id}) }}" class="tooltip-init latestthread-title" title="{{ thread.title|purify }}">{{ thread.title|cutlength(15) }}</a>

@@ -35,7 +35,7 @@
                     <div class="ticket-reply {% if key is even %}ticket-reply-even{% endif %}">
                         <div class="ticket-reply-even clearfix">
                             <div class="ticket-profile">
-                                <img src="https://minotar.net/avatar/{{ reply.user.username }}/40.png" alt="{{ reply.user.username }}" rel="tooltip" data-original-title="{{ reply.user.username }}"/>
+                                <img src="https://minotar.net/helm/{{ reply.user.username }}/40.png" alt="{{ reply.user.username }}" rel="tooltip" data-original-title="{{ reply.user.username }}"/>
                                 <h3>{{ reply.user.username }}</h3>
                                 <p class="ticket-postedon">{{ reply.date|date('Y-m-d h:i:s') }}</p>
                                 <a href="{{ path('admin_reply_edit', {'ticketid' : ticket.id, 'id' : reply.id}) }}" class="button-small inline">Edit</a>

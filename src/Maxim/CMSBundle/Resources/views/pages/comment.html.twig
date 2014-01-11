@@ -4,7 +4,7 @@
 <div class="news-comment" id="comment_{{ comment.id }}">
 	<div class="news-comment-user">
 		<a data-ot-ajax="{{ path('profile_load_content', {username : comment.username} )}}" data-ot-style="dark" id="my-element" href="{{ path('server_player', {'username': comment.username} ) }}" class="news-comment-user-portret">
-			<img src="https://minotar.net/avatar/{{ comment.username }}/40.png" alt="{{ comment.username }}" tag="{{ comment.username }}"/>
+			<img src="https://minotar.net/helm/{{ comment.username }}/40.png" alt="{{ comment.username }}" tag="{{ comment.username }}"/>
 		</a>
 		<div class="news-comment-text">
 			<span class="news-comment-username">{{ comment.username }} <span class="news-comment-date"> posted at {{ comment.date|date }}</span></span>

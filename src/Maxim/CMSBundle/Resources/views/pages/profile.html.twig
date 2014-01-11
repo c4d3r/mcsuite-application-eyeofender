@@ -57,7 +57,7 @@
 			{% for friend in friends %}
 				{% if is_profileOwner(player) == "true" %}
 					<div class="friend">
-						<img src="https://minotar.net/avatar/{{ friend.username }}/40.png" title="{{ friend.username }}" style="display:block;width:50px;height:50px;float:left;"/>
+						<img src="https://minotar.net/helm/{{ friend.username }}/40.png" title="{{ friend.username }}" style="display:block;width:50px;height:50px;float:left;"/>
 						<ul class="friend-action">
 							<li><a href="{{ path('server_player', {'username': friend.username} ) }}">View friend</a></li>
 							<li><a href="{{ path('profile_friend_delete', {'username': Owner_profile, 'friend': friend.username} ) }}">Delete friend</a></li>	
@@ -65,7 +65,7 @@
 					</div>
 				{% else %}
 					<a href="{{ path('server_player', {'username': friend.username} ) }}" style="display:block;width:50px;height:50px;float:left;">
-						<img src="https://minotar.net/avatar/{{ friend.username }}/40.png" title="{{ friend.username }}" />
+						<img src="https://minotar.net/helm/{{ friend.username }}/40.png" title="{{ friend.username }}" />
 					</a>
 				{% endif %}
 			{% else %}
