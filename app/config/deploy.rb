@@ -78,7 +78,7 @@ logger.level = Logger::MAX_LEVEL
 # =============================================================================
 
 #permissions fix
-=begin
+# should not be writable by group
 after "deploy:update_code" do
   namespace :symfony do
     desc "--> Fixing permissions"
@@ -87,7 +87,6 @@ after "deploy:update_code" do
     puts "--> Permissions adjusted"
   end
 end
-=end
 
 # Custom(ised) tasks
 namespace :deploy do
