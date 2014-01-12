@@ -42,7 +42,7 @@
                         <div class="mcsf_post_author large-3">
                             <div class="mcsf_post_author_image{% if thread.createdBy.granted(['ROLE_STAFF']) %} mcsf_author_staff{% endif %}">
                                 <a href="{{ path('profile', {'name' : thread.createdBy.username}) }}" alt="visit profile of{{ thread.createdBy.username }}">
-                                    <img src="{{ asset('/bundles/maximcms/images/blank.gif') }}" data-src="http://minotar.net/helm/{{ thread.createdBy.username }}/85.png" alt="mc the mass logo" class="preload"/>
+                                    <img src="http://minotar.net/helm/{{ thread.createdBy.username }}/85.png" alt="mc the mass logo" class="preload"/>
                                 </a>
                             </div>
                             <div class="mcsf_post_author_info large-8 small-offset-1">
@@ -86,7 +86,7 @@
                         <div class="mcsf_post_author large-3">
                             <div class="mcsf_post_author_image{% if post.createdBy.granted(['ROLE_STAFF']) %} mcsf_author_staff{% endif %}">
                                 <a href="{{ path('profile', {'name' : post.createdBy.username}) }}" alt="visit profile of{{ post.createdBy.username }}">
-                                    <img src="{{ asset('/bundles/maximcms/images/blank.gif') }}" data-src="http://minotar.net/helm/{{ post.createdBy.username }}/85.png" alt="mc the mass logo" class="preload"/>
+                                    <img src="http://minotar.net/helm/{{ post.createdBy.username }}/85.png" alt="mc the mass logo" class="preload"/>
                                 </a>
                             </div>
                             <div class="mcsf_post_author_info large-8 small-offset-1">

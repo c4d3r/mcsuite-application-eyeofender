@@ -7,6 +7,21 @@ UI = {
         'regexp_url':           new RegExp('/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/'),
         'regexp_image':         new RegExp(/([^\s]+(?=\.(jpg|gif|png))\.\2)/gm)
     },
+    preload: function()
+    {
+        var imgs = $('img.preload');
+        $.each(imgs, function(){
+            var img = $(this);
+            img.load(function(){
+                img.css('background', 'none');
+            });
+
+            if(img[0].complete) {
+                img.trigger('load');
+                console.log('hi');
+            }
+        });
+    },
 	editor: function(control, width, height, content, source)
 	{
 

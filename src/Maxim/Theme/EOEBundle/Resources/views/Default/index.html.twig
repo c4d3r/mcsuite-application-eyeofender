@@ -9,6 +9,7 @@
 
     <link rel="shortcut icon" href="{{ asset('/bundles/maximthemeeoe/theme/images/favicon.ico') }}">
     <link rel="apple-touch-icon image_src" href="{{ asset('/bundles/maximthemeeoe/theme/images/apple-touch-icon.png') }}">
+    <link href='http://fonts.googleapis.com/css?family=Exo+2' rel='stylesheet' type='text/css'>
 
     <meta name="twitter:card" content="summary">
     <meta name="twitter:domain" content="eyeofender.com"/>
@@ -76,7 +77,12 @@
     </nav>
 
     <nav id="navigation" class="row">
-        <ul class="medium-9 large-9 columns">
+        <div class="left navigation-logo">
+            <h1 class="logo-text"><a href="http://eyeofender.com" title="Eye Of Ender home page">Eye Of Ender</a></h1>
+            <span class="logo-caption">hub.eyeofender.com</span>
+        </div>
+        <ul class="right">
+
             <li><a href="{{ path('home') }}">Home</a></li>
             <li>
                 <a href="#" data-dropdown="drop-servers">Servers &raquo;</a>
@@ -90,7 +96,7 @@
             <li><a href="#" title="About Us">About Us</a></li>
             <li><a href="{{ path('tickets_index') }}" title="Contact">Contact</a></li>
             <li>
-                <a href="#" data-dropdown="drop-pages" style="border-top-right-radius: 3px;border-bottom-right-radius: 3px;">Other &raquo;</a>
+                <a href="#" data-dropdown="drop-pages">Other &raquo;</a>
 
                 <ul id="drop-pages" class="f-dropdown" data-dropdown-content>
                     {{ render(controller('MaximCMSBundle:Default:custom_pages')) }}
@@ -98,44 +104,12 @@
             </li>
 
             {% if app.security.token and not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                <li class="right"><a href="{{ path('login') }}">Login</a></li>
+                <li><a href="{{ path('login') }}">Login</a></li>
             {% else %}
-                <li class="right"><a href="{{ path('logout') }}">Logout</a></li>
+                <li><a href="{{ path('logout') }}">Logout</a></li>
             {% endif %}
+
         </ul>
-        <div id="account" class="medium-2 medium-offset-1 large-2 large-offset-1 columns hide-for-small-only">
-            {# PROFILE OR REGISTER BUTTON #}
-            {% if app.security.token and is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-
-                <div class="profile-container">
-                <a href="{{ path('profile', { 'name' : app.user.username }) }}" class="left">
-                    <img data-src="http://minotar.net/helm/{{ app.user.username }}/75.png" src="{{ asset('/bundles/maximcms/images/blank.gif') }}" alt="avatar from {{ app.user.username }}" class="preload"/>
-                    <noscript>
-                        <img src="http://minotar.net/helm/{{ app.user.username }}/75.png" rel="tooltip" data-original-title="{{ app.user.username }}" alt="player {{ app.user.username }}">
-                    </noscript>
-                </a>
-
-                <div class="sidebar-profile-content">
-                    <div class="sidebar-profile-holder">
-                        <div>
-                            <span class="radius secondary label bg-purple">{{ app.user.rank.name }}</span>
-                        </div>
-                        <div>
-                            <span class="radius secondary label">{{ app.user.username }}</span>
-                        </div>
-                        <div>
-                            <span class="radius secondary label">{{ app.user.lastLogin|date("M j, Y, g:i a") }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {% else %}
-                <ul class="menu" style="padding:5px;">
-                    <li class="logo-eoe"><a href="{{ path('register') }}"></a></li>
-                </ul>
-            {% endif %}
-        </div>
     </nav>
 </header>
 
@@ -165,13 +139,31 @@
     <aside class="medium-4 medium-offset-1 large-4 large-offset-1 columns">
         {# MODULE: Account Panel #}
         <div class="module">
-            <h3 class="module-header">Account Panel</h3>
-            <div class="module-content">
+            <div class="module-content" style="border-top-right-radius: 3px;border-top-left-radius: 3px;">
                 <ul class="menu menu-stacked">
                     {% if app.security.token and not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                        <ul class="menu" style="padding:5px;">
+                            <li class="logo-eoe"><a href="{{ path('register') }}"></a></li>
+                        </ul>
                         <li><a href="{{ path('login') }}" class="color-purple">Login</a></li>
                         <li><a href="{{ path('register') }}" class="color-purple">Register</a></li>
                     {% else %}
+                        <div class="profile-container">
+                            <a href="{{ path('profile', { 'name' : app.user.username }) }}" class="left">
+                                <img src="http://minotar.net/helm/{{ app.user.username }}/75.png" alt="avatar from {{ app.user.username }}" class="preload"/>
+                            </a>
+                            <ul class="sidebar-profile-holder">
+                                 <li>
+                                     <span class="radius secondary label bg-purple">{{ app.user.rank.name }}</span>
+                                 </li>
+                                <li>
+                                    <span class="radius secondary label">{{ app.user.username }}</span>
+                                </li>
+                                <li>
+                                    <span class="radius secondary label">{{ app.user.lastLogin|date("M j, Y, g:i a") }}</span>
+                                </li>
+                            </ul>
+                        </div>
                         <li><a href="{{ path('account') }}" class="button [radius round]">Account panel</a></li>
                         {% if app.security.token and is_granted('ROLE_STAFF') %}
                             <li><a href="{{ path('sonata_admin_dashboard') }}" class="button [radius round]">Admin panel</a></li>
@@ -244,7 +236,6 @@
     '@MaximCMSBundle/Resources/public/theme/plugins/cookie/jquery.cookie.js'
     '@MaximCMSBundle/Resources/public/plugins/parsley/parsley.js'
     '@MaximCMSBundle/Resources/public/js/redactor_init.js'
-    '@MaximCMSBundle/Resources/public/plugins/JAIL/jail.js'
 
     '@MaximThemeEOEBundle/Resources/public/theme/js/applications.js'
     '@MaximThemeEOEBundle/Resources/public/theme/js/changepassword.js'
@@ -254,7 +245,6 @@
     '@MaximThemeEOEBundle/Resources/public/theme/js/jquery.dd.min.js'
     '@MaximThemeEOEBundle/Resources/public/theme/js/login.js'
     '@MaximThemeEOEBundle/Resources/public/theme/js/opentip-jquery.js'
-    '@MaximThemeEOEBundle/Resources/public/theme/js/preloader.js'
     '@MaximThemeEOEBundle/Resources/public/theme/js/register.js'
     '@MaximThemeEOEBundle/Resources/public/theme/js/servers.js'
     '@MaximThemeEOEBundle/Resources/public/theme/js/shout.js'
@@ -280,13 +270,6 @@
     // twitter
     !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
 
-    $(".preload").jail({
-        placeholder : "{{ asset('/bundles/maximcms/images/preloader.gif') }}",
-        offset : 300,
-        event: "load",
-        loadHiddenImages : true
-    });
-
     //Google analytics
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -300,6 +283,7 @@
     $('.tooltip-init').tooltipster({
         theme: '.tooltipster-shadow'
     });
+    UI.preload();
 </script>
 {% block scripttags %}
 {% endblock %}

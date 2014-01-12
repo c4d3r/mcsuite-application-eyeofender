@@ -18,6 +18,10 @@ body {
     color:#FFF;
     background:transparent !important;
 }
+/* image preloader */
+img.preload {
+    background: url('/bundles/maximthemeeoe/theme/images/preloader.gif') no-repeat 50% 50%;
+}
 a {
 	text-decoration: none;
     color: #CCB4E2;
@@ -105,6 +109,31 @@ h1, h2, h3, h4, h5, h6 {
     color: #C5C3C3 !important;
     text-shadow: 1px 1px black;
 }
+
+.navigation-logo {
+    width: 310px;
+    height: 100%;
+    margin-left:10px;
+}
+.navigation-logo > h1 {
+    text-shadow: 1px 1px 5px black, 1px 1px black;
+    margin:0;
+}
+.navigation-logo > h1 > a {
+    color:#fff;
+}
+.navigation-logo > h1 > a:hover {
+    color: #ccb4e2;
+}
+.logo-text {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 29pt;
+    marign: 0;
+}
+.logo-caption {
+    display: block;
+    text-shadow: 1px 1px black;
+}
 #navigation {
 	height:75px;
 	margin:70px auto 0 auto;
@@ -112,9 +141,7 @@ h1, h2, h3, h4, h5, h6 {
 #navigation > ul {
 	padding:6px;
 	margin:0;
-	/*width:770px;*/
-	/*float:left;*/
-	background:#2f2f2f;
+    background:#2f2f2f;
 	height:100%;
 	border-radius:5px;
 }
@@ -138,7 +165,8 @@ h1, h2, h3, h4, h5, h6 {
 
 #navigation > ul > li:last-child > a
 {
-    border-radius:3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
 }
 #navigation > ul > li > a:hover {
 	/*background: #88882e;*/
@@ -169,14 +197,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ACCOUNT */
-#account {
-	background: #2f2f2f;
-	/*margin-left:790px;*/
-	height:100%;
-	border-radius:5px;
-    padding:0;
-}
-#account .profile-container a img {
+.profile-container a img {
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 }
@@ -333,14 +354,11 @@ article .comments {
 
 
 /* PROFILE */
-.sidebar-profile-content {
-    margin-left:75px;
-    padding:5px;
-}
 .sidebar-profile-holder {
-    background:#4d4d4d;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius:3px;
+    padding: 0;
+    margin: 0 0 0 80px;
+    position: relative;
+    top: -3px;
 }
 /* MENU */
 .menu {
@@ -480,6 +498,9 @@ article .comments {
 
 textarea, input {
     color:black;
+}
+textarea {
+    overflow: auto;
 }
 .redactor_editor p, .redactor_editor span{
     color: black !important;
