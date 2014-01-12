@@ -84,7 +84,7 @@ class StoreItem
     /**
      * @var Section
      *
-     * @ORM\ManyToOne(targetEntity="StoreCategory")
+     * @ORM\ManyToOne(targetEntity="StoreCategory", inversedBy="items")
      * @ORM\JoinColumn(name="store_category_id", referencedColumnName="id", nullable=false)
      */
     protected $storeCategory;

@@ -4,7 +4,7 @@
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
     padding:10px;
-    background:url('/bundles/maximthemeeoe/theme/images/bg.jpg');
+    background:url('../images/bg.jpg');
 }
 #profile-image {
     width:100px;

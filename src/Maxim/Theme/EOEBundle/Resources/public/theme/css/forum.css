@@ -406,7 +406,7 @@
 
 /* ICONS */
 .mcsf_icon-topic {
-    background:url('/bundles/maximthemeeoe/theme/images/forum/topic-icons.png');
+    background:url('../images/forum/topic-icons.png');
 }
 .mcsf_icon-topic-regular {
     background-position:0 0;

@@ -1,8 +1,8 @@
 forum_main:
-  pattern: /
+  path: /
   defaults: { _controller: MaximModuleForumBundle:Default:load }
 forum_view:
-  pattern: /{id}
+  path: /{id}
   defaults: { _controller: MaximModuleForumBundle:Default:forumView }
 
 
@@ -10,39 +10,39 @@ forum_view:
 # THREAD ACTIONS
 ##################
 forum_thread_create_ajax:
-  pattern: /{id}/thread/create/ajax
+  path: /{id}/thread/create/ajax
   defaults: { _controller: MaximModuleForumBundle:Thread:createAjax }
 forum_thread_create:
-  pattern: /{id}/thread/create
+  path: /{id}/thread/create
   defaults: { _controller: MaximModuleForumBundle:Thread:create }
 forum_thread_view:
-  pattern: /{id}/thread/{threadid}
+  path: /{id}/thread/{threadid}
   defaults: { _controller: MaximModuleForumBundle:Thread:view }
 forum_thread_edit_ajax:
-  pattern: /{id}/thread/{threadid}/edit/ajax
+  path: /{id}/thread/{threadid}/edit/ajax
   defaults: { _controller: MaximModuleForumBundle:Thread:editAjax }
 forum_thread_edit:
-  pattern: /{id}/thread/{threadid}/edit
+  path: /{id}/thread/{threadid}/edit
   defaults: { _controller: MaximModuleForumBundle:Thread:edit }
 
 forum_thread_pin_ajax:
-  pattern: /admin/thread/{id}/pin/ajax
+  path: /admin/thread/{id}/pin/ajax
   defaults: { _controller: MaximModuleForumBundle:Thread:adminPinAjax }
 forum_thread_lock_ajax:
-  pattern: /admin/thread/{id}/lock/ajax
+  path: /admin/thread/{id}/lock/ajax
   defaults: { _controller: MaximModuleForumBundle:Thread:adminLockAjax }
 forum_thread_archive_ajax:
-  pattern: /admin/thread/{id}/archive/ajax
+  path: /admin/thread/{id}/archive/ajax
   defaults: { _controller: MaximModuleForumBundle:Thread:adminArchiveAjax }
 forum_thread_move_ajax:
-  pattern: /admin/thread/{id}/move/ajax
+  path: /admin/thread/{id}/move/ajax
   defaults: { _controller: MaximModuleForumBundle:Thread:adminMoveAjax }
 
 ################
 # THREAD POSTS
 ################
 forum_thread_reply_ajax:
-  pattern: /{id}/thread/{threadid}/reply/action
+  path: /{id}/thread/{threadid}/reply/action
   defaults: { _controller: MaximModuleForumBundle:Post:reply }
 
 
@@ -50,11 +50,11 @@ forum_thread_reply_ajax:
 # POST ACTIONS
 ###############
 forum_post_like_ajax:
-  pattern: /post/{id}/like/ajax
+  path: /post/{id}/like/ajax
   defaults: { _controller: MaximModuleForumBundle:Post:likeAjax }
 forum_post_edit_ajax:
-  pattern: /{id}/thread/{threadid}/post/{postid}/edit/ajax
+  path: /{id}/thread/{threadid}/post/{postid}/edit/ajax
   defaults: { _controller: MaximModuleForumBundle:Post:editAjax }
 forum_post_edit:
-  pattern: /{id}/thread/{threadid}/post/{postid}/edit
+  path: /{id}/thread/{threadid}/post/{postid}/edit
   defaults: { _controller: MaximModuleForumBundle:Post:edit }

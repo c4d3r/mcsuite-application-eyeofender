@@ -1,13 +1,13 @@
 /*Simple reset*/
 * {margin: 0; padding: 0;}
 html {
-    background: url('/bundles/maximthemeeoe/theme/images/bg.jpg') no-repeat center center fixed;
+    background: url('../images/bg.jpg') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/bundles/maximthemeeoe/theme/images/bg.jpg', sizingMethod='scale');
-    -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/bundles/maximthemeeoe/theme/images/bg.jpg', sizingMethod='scale')";
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/bg.jpg', sizingMethod='scale');
+    -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/bg.jpg', sizingMethod='scale')";
 }
 
 body {
@@ -20,7 +20,7 @@ body {
 }
 /* image preloader */
 img.preload {
-    background: url('/bundles/maximthemeeoe/theme/images/preloader.gif') no-repeat 50% 50%;
+    background: url('../images/preloader.gif') no-repeat 50% 50%;
 }
 a {
 	text-decoration: none;
@@ -49,7 +49,7 @@ h1, h2, h3, h4, h5, h6 {
 .logo-eoe {
     background-color: transparent !important;
     border:none !important;
-    background: url('/bundles/maximthemeeoe/theme/images/logo-eoe.png') no-repeat !important;
+    background: url('../images/logo-eoe.png') no-repeat !important;
     width:258px;
     height:97px;
     position: relative;
@@ -67,7 +67,7 @@ h1, h2, h3, h4, h5, h6 {
     left:0;
     width:258px;
     height:97px;
-    background:url('/bundles/maximthemeeoe/theme/images/logo-eoe.png') 0 -97px !important;
+    background:url('../images/logo-eoe.png') 0 -97px !important;
     opacity: 0;
     z-index: 999;
     display:block;

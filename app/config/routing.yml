@@ -55,7 +55,7 @@ fos_js_routing:
 
 # no other matches found
 CMS_DEFAULT:
-  pattern: /
+  path: /
   defaults: { _controller: MaximCMSBundle:Exception:index }
 
 

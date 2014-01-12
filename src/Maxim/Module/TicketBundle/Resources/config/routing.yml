@@ -1,20 +1,20 @@
 tickets_index:
-  pattern: /account/tickets
+  path: /account/tickets
   defaults: { _controller: MaximModuleTicketBundle:Ticket:index }
 ticket_create:
-  pattern: /account/ticket/create
+  path: /account/ticket/create
   defaults: { _controller: MaximModuleTicketBundle:Ticket:create }
 ticket_view:
-  pattern: /account/ticket/view/{id}
+  path: /account/ticket/view/{id}
   defaults: { _controller: MaximModuleTicketBundle:Ticket:viewTicket }
 ticket_view_pattern:
-  pattern: /account/ticket/view
+  path: /account/ticket/view
 ticket_reply:
-  pattern: /account/ticket/reply
+  path: /account/ticket/reply
   defaults: { _controller: MaximModuleTicketBundle:Ticket:reply }
 ticket_close:
-  pattern: /account/ticket/close
+  path: /account/ticket/close
   defaults: { _controller: MaximModuleTicketBundle:Ticket:close }
 ticket_open:
-  pattern: /account/ticket/open
+  path: /account/ticket/open
   defaults: { _controller: MaximModuleTicketBundle:Ticket:open }

@@ -40,6 +40,14 @@ set   :app_path,      "app"
 set   :use_sudo,    false
 set   :user,        "admin"
 
+# =============================================================================
+# PERMISSIONS
+# NOTE : For multistage usage you just have to override these variables on stage specific files if ever needed.
+# =============================================================================
+set :writable_dirs,       ["app/cache", "app/logs"]
+set :webserver_user,      "admin"
+set :permission_method,   :acl
+set :use_set_permissions, true
 # als er een kopie op de server moet behouden worden van de git (zo moet het niet telkens alles kopieren)
 # set :deploy_via, :remote_cache
 
@@ -70,6 +78,7 @@ logger.level = Logger::MAX_LEVEL
 # =============================================================================
 
 #permissions fix
+=begin
 after "deploy:update_code" do
   namespace :symfony do
     desc "--> Fixing permissions"
@@ -78,7 +87,7 @@ after "deploy:update_code" do
     puts "--> Permissions adjusted"
   end
 end
-
+=end
 
 # Custom(ised) tasks
 namespace :deploy do

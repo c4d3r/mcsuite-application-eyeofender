@@ -3,38 +3,38 @@
 <html>
 <head>
     <title>{% block title %}Eye of Ender - Minecraft{% endblock title %}</title>
-    <meta itemprop="image" content="{{ asset('/bundles/maximthemeeoe/theme/images/apple-touch-icon.png') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="utf-8" />
 
-    <link rel="shortcut icon" href="{{ asset('/bundles/maximthemeeoe/theme/images/favicon.ico') }}">
-    <link rel="apple-touch-icon image_src" href="{{ asset('/bundles/maximthemeeoe/theme/images/apple-touch-icon.png') }}">
+    <link rel="shortcut icon" href="{{ asset('bundles/maximthemeeoe/theme/images/favicon.ico') }}">
     <link href='http://fonts.googleapis.com/css?family=Exo+2' rel='stylesheet' type='text/css'>
 
     <meta name="twitter:card" content="summary">
     <meta name="twitter:domain" content="eyeofender.com"/>
     <meta name="og:type" content="website" />
-    <meta name="og:image" content="{{ asset('/bundles/maxim/maximthemeeoe/theme/images/apple-touch-icon.png') }}"/>
-    <meta name="og:title" content="Eye of ender minecraft, A free-to-play minecraft server" />
-    <meta name="og:description" content="Eye of ender is a high quality free to play minecraft server" />
+    <meta name="og:title" content="Eye Of Ender minecraft, A free-to-play minecraft server" />
+    <meta name="og:description" content="Eye Of Ender is a high quality free to play minecraft server" />
     <meta name="og:url" content="http://eyeofender.com"/>
 
     <meta name="description" content="Eye of ender is a minecraft server that provides the user with a unique minigames and a good list of minigames to choose from, this network is supported by the famous youtuber gizzy14gazza">
 
-    {% stylesheets
-        output='css'
-        output='themes/eyeofender/css/main.css'
-        package='css'
-        '@MaximThemeEOEBundle/Resources/public/theme/framework/zurb/css/*'
-        '@MaximThemeEOEBundle/Resources/public/theme/css/*'
-        '@MaximCMSBundle/Resources/public/plugins/tooltipster/css/tooltipster.css'
-        '@MaximCMSBundle/Resources/public/plugins/tooltipster/css/themes/tooltipster-shadow.css'
-        '@MaximCMSBundle/Resources/public/plugins/tooltip-toolbar/css/jquery.toolbars.css'
-        '@MaximCMSBundle/Resources/public/plugins/tooltip-toolbar/css/toolbars-custom.css'
-        '@MaximCMSBundle/Resources/public/plugins/redactor/redactor.css'
-    %}
-        <link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>
-    {% endstylesheets %}
+    {% block stylesheets %}
+        {% stylesheets
+            output='css'
+            output='themes/eyeofender/css/main.css'
+            package='css'
+            filter='cssrewrite'
+            'bundles/maximthemeeoe/theme/framework/zurb/css/*'
+            'bundles/maximthemeeoe/theme/css/*'
+            'bundles/maximcms/plugins/tooltipster/css/tooltipster.css'
+            'bundles/maximcms/plugins/tooltipster/css/themes/tooltipster-shadow.css'
+            'bundles/maximcms/plugins/tooltip-toolbar/css/jquery.toolbars.css'
+            'bundles/maximcms/plugins/tooltip-toolbar/css/toolbars-custom.css'
+            'bundles/maximcms/plugins/redactor/redactor.css'
+        %}
+            <link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>
+        {% endstylesheets %}
+    {% endblock %}
 
     {% block head %}
     {% endblock %}
@@ -203,7 +203,7 @@
 {# FOOTER #}
 <footer class="row">
     <div class="medium-2 columns hide-for-small-only">
-        <img src="{{ asset('/bundles/maximthemeeoe/theme/images/logo-small.png') }}" class="logo left" />
+        <img src="{{ asset('bundles/maximthemeeoe/theme/images/logo-small.png') }}" class="logo left" />
     </div>
     <div class="medium-9 medium-centered columns">
         <p>All Rights Reserved 2013 © Eye of Ender, Created by <a href="mailto:c4d3r@hotmail.com">C4D3R</a></p>
