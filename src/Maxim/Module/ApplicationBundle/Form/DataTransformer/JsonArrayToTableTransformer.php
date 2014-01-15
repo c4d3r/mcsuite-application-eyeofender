@@ -15,7 +15,6 @@ class JsonArrayToTableTransformer implements DataTransformerInterface
 {
     public function transform($jsonarray)
     {
-        var_dump($jsonarray);
         $output = "<div>";
         foreach($jsonarray as $row)
         {

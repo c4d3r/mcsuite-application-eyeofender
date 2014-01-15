@@ -72,7 +72,7 @@ class MinecraftHelper
 
                  # Unknown error
                  default:
-                     $errorMessage = print_r($response);
+                     $errorMessage = "Unknown error";
              }
 
              //$this->logger->info("[MINECRAFT API]" . $errorMessage);
