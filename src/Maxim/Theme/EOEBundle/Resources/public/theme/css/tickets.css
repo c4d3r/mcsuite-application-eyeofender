@@ -1,16 +1,16 @@
 .ticket-id-1 {
-    color: #E74342;
-    text-shadow: 1px 1px rgb(46, 46, 46);
-    font-weight: bold;
+    color: #E74342 !important;
+    text-shadow: 1px 1px rgb(46, 46, 46) !important;
+    font-weight: bold !important;
 }
 .ticket-id-0 {
-    color: #67ae41;
-    text-shadow: 1px 1px rgb(46, 46, 46);
-    font-weight: bold;
+    color: #67ae41 !important;
+    text-shadow: 1px 1px rgb(46, 46, 46) !important;
+    font-weight: bold !important;
 }
 .ticket-reply {
-    margin-bottom: 10px;
-    background-color: #2E2E2E;
-    border: 1px solid #252525;
-    padding: 5px;
+    margin-bottom: 10px !important;
+    background-color: #2E2E2E !important;
+    border: 1px solid #252525 !important;
+    padding: 5px !important;
 }
