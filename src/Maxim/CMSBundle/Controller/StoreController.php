@@ -353,31 +353,4 @@ class StoreController extends Controller
 
     }
 
-    # future
-    public function isBanned($username)
-    {
-        $config = Yaml::parse(__DIR__.'/../Resources/config/settings.yml');
-
-        $conn = new \PDO('mysql:host='.$config['host'].';dbname='.$config['database'], $config['username'], $config['password']);
-
-        try
-        {
-            $stmt = $conn->prepare("SELECT * FROM PlayerBans WHERE UPPER(Name) = :name");
-            $stmt->execute(array(":name" => strtoupper($username)));
-
-            if($stmt->rowCount() > 0)
-            {
-                $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-                return (strtoupper($result['Perm']) == "TRUE" ? true : false);
-            }
-            else
-            {
-                return false;
-            }
-        }
-        catch(\Exception $ex)
-        {
-            return array("success" => false, "message" => $ex->getMessage());
-        }
-    }
 }

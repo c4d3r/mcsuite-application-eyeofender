@@ -232,8 +232,47 @@ maxim_cms:
        cancel: http://themassmc.com/shop/sorry.html
        ipn: http://themassmc.com/shop/ipn/paypal
    register:
-       validation:
-           enabled: true
+      mail:
+         enabled: true
+         subject: Welcome to our website
+         message: Our server ip is: hub.eyeofender.com have fun playing!
+      validation: #Requires the user to validate it's email before registering
+         enabled: true
+         salt: uzegfuiqp #Security code, this can be anything, prefer numbers and letters
+         time: 864000 #Time they get before the validation key expires, default 10 days
+         subject: Validate your website account now!
+         message: Please validate your website account by following the link beneath
+   server:
+       name: EyeofEnder
+       ip: hub.eyeofender.com
+       mysql:
+           host: %server.mysql.host%
+           user: %server.mysql.user%
+           pass: %server.mysql.pass%
+           db: %server.mysql.db%
+   general:
+      default_role: Member
+      domain: http://eyeofender.com/
+      maintenance: true
+   emails:
+      info: info@eyeofender.com
+      support: support@eyeofender.com
+   pages:
+      forum:  http://eyeofender.com/forum
+   account:
+      #Salt code for your unique minecraft code,
+      #used to validate ingame user accounts when linking a minecraft acccount to a website account,
+      #should be the same as in the jar
+      codeSalt: f4uarQzr2ZZC9g6g5t3NV
+      codeLength: 5
+      send:
+         enabled: true
+         command: pex user {USER} group add Member
+   forgotPassword:
+      #Salt for the forgot password function, SECURITY precaution
+      salt: HTWgMJcfyb7QjyDqvcdD6ZbD
+      #Time for how long the reset url should be valid, in seconds
+      time: 3600
 maxim_module_forum:
    threads:
        threshold: 3 # in minutes
