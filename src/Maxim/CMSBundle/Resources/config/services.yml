@@ -2,17 +2,10 @@ services:
 #    maxim_cms.example:
 #        class: %maxim_cms.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
-    authentication_handler:
-        class: Maxim\CMSBundle\Handler\AuthenticationHandler
-        arguments: [ @templating ]
-        calls:
-            - [ setContainer, [ @service_container ] ]
-
     maxim_cms.validator:
         class: Maxim\CMSBundle\Component\Validator\Validator
         arguments:
             em: @doctrine.orm.entity_manager
-
    # CONTROLLERS
     maxim_cms.controller.exception_controller:
         parent: twig.controller.exception
@@ -35,9 +28,6 @@ services:
         tags:
             - { name: twig.extension }
         arguments: [@doctrine, @security.context]
-    permission.helper:
-        class: Maxim\CMSBundle\Helper\PermissionHelper
-        arguments: [ @security.context, @doctrine, @logger ]
     minecraft.helper:
         class: Maxim\CMSBundle\Helper\MinecraftHelper
         arguments: [ @logger, @maxim_cms.rest.helper ]
@@ -73,7 +63,13 @@ services:
     maxim_cms.action.store_notification:
         class: Maxim\CMSBundle\Action\StoreNotificationAction
         arguments: [ @doctrine.orm.entity_manager, @logger, @purchase.helper, @event_dispatcher, @minecraft.helper, %mysql%]
-
+# VALIDATORS
+    maxim_cms.validator.minecraft:
+        class: Maxim\CMSBundle\Component\Validator\ValidMinecraftValidator
+        tags:
+            - { name: validator.constraint_validator, alias: maxim_cms_validator_minecraft }
+        calls:
+            - [ setMinecraftHelper, [@minecraft.helper]]
 # BLOCKS
     maxim_cms.block.latest_users:
         public: true

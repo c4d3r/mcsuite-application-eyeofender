@@ -29,99 +29,30 @@ class Purchase
     const PAYMENT_METHOD_PAYPAL = "PAYPAL";
     const PAYMENT_METHOD_BITPAY = "BITPAY";
 
-    /**
-     * @var integer $id
-     *
-    *  @ORM\Column(name="purchaseId", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
     protected $id;
 
-    /**
-     * @var integer $amount
-     *
-     * @ORM\Column(name="amount", type="integer", nullable=true)
-     */
     protected $amount;
 
-    /**
-     * @var \DateTime $date
-     *
-     * @ORM\Column(name="date", type="datetime", nullable=false)
-     */
     protected $date;
 
-    /**
-     * @var StoreItem
-     *
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\ManyToOne(targetEntity="StoreItem")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="store_item_id", referencedColumnName="id")
-     * })
-     */
     protected $storeItem;
 
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="purchases", cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     */
     protected $user;
-	
-	/**
-     * @var String $status
-     *
-     * @ORM\Column(name="status", type="text", nullable=false)
-     */
+
     protected $status;
 
-    /**
-     * @var String $name
-     *
-     * @ORM\Column(name="name", type="text", nullable=true)
-     */
     protected $name;
-	
-	/**
-     * @var String $ip
-     *
-     * @ORM\Column(name="ip", type="text", nullable=true)
-     */
+
     protected $ip;
 
-	/**
-     * @var String $transaction
-     *
-     * @ORM\Column(name="transaction", type="text", nullable=true)
-     */
     protected $transaction;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Currency")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="currency_code", referencedColumnName="short")
-     * })
-     */
     protected $currency;
 
-    /**
-     * @ORM\Column(name="payment_method", type="text", nullable=true)
-     */
     protected $method;
 
-    /**
-     * @ORM\Column(name="store_item_delivery", type="text", nullable=false)
-     */
     protected $itemDelivery = self::ITEM_DELIVERY_PENDING;
 
-    /**
-     * @var double $discount
-     *
-     * @ORM\Column(name="discount", type="decimal", precision=2, nullable=false)
-     */
     protected $discount = 0.00;
 
     /**

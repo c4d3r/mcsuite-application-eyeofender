@@ -70,7 +70,7 @@ var SqlHighlightRules = function() {
     );
 
     var builtinFunctions = (
-        "count|min|max|avg|sum|rank|now|coalesce"
+        "count|min|max|avg|sum|group|now|coalesce"
     );
 
     var keywordMapper = this.createKeywordMapper({

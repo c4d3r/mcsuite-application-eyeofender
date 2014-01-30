@@ -70,7 +70,7 @@ var keywords = "abort|else|new|return|abs|elsif|not|reverse|abstract|end|null|ac
     );
 
     var builtinFunctions = (
-        "count|min|max|avg|sum|rank|now|coalesce|main"
+        "count|min|max|avg|sum|group|now|coalesce|main"
     );
 
     var keywordMapper = this.createKeywordMapper({

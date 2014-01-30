@@ -23,64 +23,20 @@ class Announcement {
     const TYPE_INFO    = "info";
     const TYPE_SUCCESS = "success";
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
-     * @var integer $id
-     */
     protected $id;
 
-    /**
-     * @var Website
-     *
-     * @ORM\ManyToOne(targetEntity="Website", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="website_id", referencedColumnName="id", nullable=true)
-     */
     protected $website;
 
-    /**
-     * @var string $text
-     *
-     * @ORM\Column(name="text", type="string", nullable=true)
-     */
     protected $text;
 
-    /**
-     * @var string $type
-     *
-     * @ORM\Column(name="type", type="string", nullable=false)
-     */
     protected $type;
 
-    /**
-     * @var datetime $startdate
-     *
-     * @ORM\Column(name="startdate", type="datetime", nullable=false)
-     */
     protected $startdate;
 
-    /**
-     * @var datetime $enddate
-     *
-     * @ORM\Column(name="enddate", type="datetime", nullable=true)
-     */
     protected $enddate;
 
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="announcements", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     */
     protected $user;
 
-    /**
-     * @var datetime $createdOn
-     *
-     * @ORM\Column(name="createdOn", type="datetime", nullable=false)
-     */
     protected $createdOn;
 
 

@@ -3,28 +3,28 @@
 {% block middle %}
     <div id="middle_menu_top">
         <div class="vertical">
-            <h1>Add Rank</h1>
+            <h1>Add Group</h1>
         </div>
     </div>
     <div id="middle_menu_small">
         <ul>
-            <li><a href="{{ path('admin_ranks')}}">ranks</a></li>
-            <li><a href="{{ path('admin_ranks_add')}}">add</a></li>
+            <li><a href="{{ path('admin_groups')}}">groups</a></li>
+            <li><a href="{{ path('admin_groups_add')}}">add</a></li>
             <!--<li><a href="#">test3</a></li>-->
         </ul>
     </div>
     <div id="middle_content">
         <div class="window">
             <div class="window-header">
-                <h6>Add new rank</h6>
+                <h6>Add new group</h6>
             </div>
             <div class="window-content">
-                <div id="rank-status" class="alert"></div>
+                <div id="group-status" class="alert"></div>
                 <!-- ADD PAGE -->
-                <form action="{{ path('admin_ranks_add_ajax') }}" id="frmAddRank" method="post">
+                <form action="{{ path('admin_groups_add_ajax') }}" id="frmAddGroup" method="post">
                     <p>
                         <label for="name">Name:</label><br/>
-                        <input type="text" name="_admin_rank_name" class="inputbox" id="name" >
+                        <input type="text" name="_admin_group_name" class="inputbox" id="name" >
                     </p>
                     <p>
                         <label for="server">Role name</label><br/>
@@ -32,32 +32,32 @@
                     </p>
                     <p>
                         <label for="name">Applicable:</label>
-                        <input type="checkbox" name="_admin_rank_application" class="inputbox" id="application" >
+                        <input type="checkbox" name="_admin_group_application" class="inputbox" id="application" >
                     </p>
                     <p>
                         <label for="description">Description:</label><br/>
-                        <textarea name="_admin_rank_description" cols="20" rows="30" class="inputbox" id="description" ></textarea>
+                        <textarea name="_admin_group_description" cols="20" rows="30" class="inputbox" id="description" ></textarea>
                     </p>
-                    <button type="submit" id="btnRankAdd" class="darkround">Add rank</button>
+                    <button type="submit" id="btnGroupAdd" class="darkround">Add group</button>
                 </form>
                 </br/>
             </div>
             <script>
                 $(document).ready(function(){
                     UI.editor('content', "100%", "600px");
-                    $("#frmAddRank").submit(function() {
+                    $("#frmAddGroup").submit(function() {
                         for ( instance in CKEDITOR.instances )
                             CKEDITOR.instances[instance].updateElement();
 
                         AJAX.post(
-                                $("#frmAddRank").attr("action"),
+                                $("#frmAddGroup").attr("action"),
                                 {
-                                    _admin_rank_name : $('#name').val(),
-                                    _admin_rank_role : $("#admin_rank_roles").val(),
-                                    _admin_rank_application : $("#application").is(':checked'),
-                                    _admin_rank_description : $("#description").val()
+                                    _admin_group_name : $('#name').val(),
+                                    _admin_group_role : $("#admin_group_roles").val(),
+                                    _admin_group_application : $("#application").is(':checked'),
+                                    _admin_group_description : $("#description").val()
                                 },
-                                $("#rank-status"), $('#btnRankAdd'));
+                                $("#group-status"), $('#btnGroupAdd'));
                         return false;
                     });
                 });

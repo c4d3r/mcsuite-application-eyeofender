@@ -18,56 +18,19 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="Maxim\CMSBundle\Entity\StoreCategoryRepository")
  */
 class StoreCategory {
-    /**
-     * @var integer $id
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+
     protected $id;
 
-    /**
-     * @var string $name
-     *
-     * @ORM\Column(name="name", type="string", nullable=true)
-     */
     protected $name;
 
-    /**
-     * @var string $description
-     *
-     * @ORM\Column(name="description", type="string", nullable=true)
-     */
     protected $description;
 
-    /**
-     * @var Website
-     *
-     * @ORM\ManyToOne(targetEntity="Website")
-     * @ORM\JoinColumn(name="website_id", referencedColumnName="id", nullable=false)
-     */
     private $website;
 
-    /**
-     * @var boolean $visible
-     *
-     * @ORM\Column(name="visible", type="boolean", nullable=false)
-     */
     protected $visible = true;
 
-    /**
-     * @var string $description
-     *
-     * @ORM\OneToMany(targetEntity="StoreItem", mappedBy="storeCategory")
-     */
     protected $items;
 
-    /**
-     * @var string $description
-     *
-     * @ORM\Column(name="sort", type="integer", nullable=false, length=10)
-     */
     protected $sort = 0;
 
 

@@ -79,7 +79,7 @@ var keywords = "always|and|assign|automatic|begin|buf|bufif0|bufif1|case|casex|c
     );
 
     var builtinFunctions = (
-        "count|min|max|avg|sum|rank|now|coalesce|main"
+        "count|min|max|avg|sum|group|now|coalesce|main"
     );
 
     var keywordMapper = this.createKeywordMapper({

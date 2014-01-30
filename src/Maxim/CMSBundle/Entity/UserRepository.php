@@ -17,7 +17,7 @@ class UserRepository extends EntityRepository
         $query = $this->getEntityManager()->createQuery(
             "SELECT u
             FROM MaximCMSBundle:User u
-            ORDER BY u.registeredOn DESC"
+            ORDER BY u.createdAt DESC"
         );
         $query->setMaxResults($amount);
         return $query->getResult();

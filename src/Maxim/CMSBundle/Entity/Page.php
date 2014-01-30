@@ -12,49 +12,17 @@ use Symfony\Component\Validation\Constraints AS Assert;
  */
 class Page
 {
-  	/**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
-     * @var integer $id
-     */
+
     protected $id;
-	
-    /**
-     * @var string $name
-     *
-     * @ORM\Column(name="name", type="string", length=50, nullable=true)
-     */
+
     protected $name;
 
-    /**
-     * @var string $content
-     *
-     * @ORM\Column(name="content", type="text", nullable=true)
-     */
     protected $content;
 
-    /**
-     * @var \DateTime $createdOn
-     *
-     * @ORM\Column(name="createdOn", type="datetime", nullable=false)
-     */
     protected $createdOn;
 
-	/**
-     * @var string $url
-     *
-     * @ORM\Column(name="url", type="string", length=50, nullable=true)
-     */
     protected $url;
 
-    /**
-     * @var Website
-     *
-     * @ORM\ManyToOne(targetEntity="Website")
-     * @ORM\JoinColumn(name="website_id", referencedColumnName="id", nullable=false)
-     */
     protected $website;
 
 	public function __construct()

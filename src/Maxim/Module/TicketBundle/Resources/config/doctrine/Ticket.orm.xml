@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Maxim\Module\TicketBundle\Entity\Ticket" table="ticket">
+    <indexes>
+      <index name="IDX_97A0ADA320288DAA" columns="sectionChangedBy"/>
+      <index name="IDX_97A0ADA3D823E37A" columns="section_id"/>
+      <index name="IDX_97A0ADA3A76ED395" columns="user_id"/>
+      <index name="IDX_97A0ADA318F45C82" columns="website_id"/>
+    </indexes>
+
+    <id name="id" type="bigint" column="id"/>
+
+    <field name="description" type="text" column="description" nullable="false"/>
+    <field name="date" type="datetime" column="date" nullable="true"/>
+    <field name="closed" type="integer" column="closed" nullable="false"/>
+    <field name="statuschangedon" type="datetime" column="statusChangedOn" nullable="true"/>
+    <field name="status" type="text" column="status" nullable="true"/>
+
+    <many-to-one field="sectionchangedby" target-entity="\Maxim\CMSBundle\Entity\User">
+      <join-columns>
+        <join-column name="sectionChangedBy" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+
+    <many-to-one field="website" target-entity="\Maxim\CMSBundle\Entity\Website">
+      <join-columns>
+        <join-column name="website_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+
+    <many-to-one field="section" target-entity="TicketSection">
+      <join-columns>
+          <join-column name="section_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+
+    <many-to-one field="user" target-entity="\Maxim\CMSBundle\Entity\User">
+      <join-columns>
+          <join-column name="user_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

@@ -26,19 +26,17 @@ class UserAdmin extends Admin{
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            /*->add('country', 'sonata_type_model_list', array(
-                    'btn_add'       => false,      //Specify a custom label
-                    'btn_list'      => 'List countries',     //which will be translated
-                    'btn_delete'    => false,             //or hide the button.
-                ),array(
-                    'placeholder' => 'No country selected'
-                )
-            )*/
-            ->add('username', 'text', array('label' => 'Username'))
-            ->add('email', 'email', array('label' => 'E-mail'))
-            ->add('lastIp', 'text', array('label' => 'last Ip-address'))
-            ->add('skype', 'text', array('label' => 'Skype'))
-            ->add('dateOfBirth', 'date', array('label' => 'Date of birth'))
+            ->with('General')
+                ->add('location', 'country', array('required' => false))
+                ->add('username', 'text', array('label' => 'Username'))
+                ->add('email', 'email', array('label' => 'E-mail'))
+                ->add('lastIp', 'text', array('label' => 'last Ip-address'))
+                ->add('skype', 'text', array('label' => 'Skype', 'required' => false))
+                ->add('dateOfBirth', 'date', array('label' => 'Date of birth'))
+            ->end()
+            ->with('Groups')
+                ->add('groups')
+            ->end()
         ;
     }
 
@@ -48,7 +46,7 @@ class UserAdmin extends Admin{
         $datagridMapper
             ->add('email')
             ->add('username')
-            ->add('country')
+            ->add('location')
         ;
     }
 
@@ -60,7 +58,14 @@ class UserAdmin extends Admin{
             ->add('username')
             ->add('email')
             ->add('lastIp')
-            ->add('country')
+            ->add('location')
+            ->add('_action', 'actions', array(
+                'actions' => array(
+                    'edit' => array(),
+                    'delete' => array(),
+                ),
+                "label" => 'actions'
+            ))
         ;
     }
 }

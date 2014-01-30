@@ -64,39 +64,39 @@ class AdminUserController extends Controller{
        // $repository = $em->getRepository('MaximCMSBundle:Useraccounts');
        // $accounts	= $repository->findBy(array("user" => $user->getId()));
 
-        //Get ranks
-        $repository = $em->getRepository('MaximCMSBundle:Rank');
-        $ranks		= $repository->findAll();
+        //Get groups
+        $repository = $em->getRepository('MaximCMSBundle:Group');
+        $groups		= $repository->findAll();
 
-        $rank_banned = $repository->findBy(array("id" => $config['admin']['ban']['webgroup']));
+        $group_banned = $repository->findBy(array("id" => $config['admin']['ban']['webgroup']));
 
         //CHECK IF USER HAS BANNED RANK
-        $rank_contains = false;
-        //$ranks2 = array_diff((array)$ranks, (array)$user->getRank());
+        $group_contains = false;
+        //$groups2 = array_diff((array)$groups, (array)$user->getGroup());
 
 
-        for($i = 0; $i < count($ranks); $i++)
+        for($i = 0; $i < count($groups); $i++)
         {
-            foreach($user->getRank() as $user_rank)
+            foreach($user->getGroup() as $user_group)
             {
-                if(isset($ranks[$i]))
+                if(isset($groups[$i]))
                 {
-                    if($ranks[$i]->getId() == $user_rank->getId())
+                    if($groups[$i]->getId() == $user_group->getId())
                     {
 
-                        unset($ranks[$i]);
+                        unset($groups[$i]);
                     }
                 }
 
                 // CHECK FOR BANNED STATUS AS WELL
-                if($user_rank->getId() == $rank_banned[0]->getId())
+                if($user_group->getId() == $group_banned[0]->getId())
                 {
-                    $rank_contains = true;
+                    $group_contains = true;
                 }
             }
         }
         /* USER RANKS */
-        $userRanks = $user->getRank();
+        $userGroups = $user->getGroup();
         $data['user'] = array(
             "id" 			=> $user->getId(),
             "username" 		=> $user->getUsername(),
@@ -108,13 +108,13 @@ class AdminUserController extends Controller{
             "skype" 		=> $user->getSkype(),
             "registeredOn" 	=> $user->getRegisteredOn(),
             "verified"		=> $user->getVerified(),
-            "userRanks"		=> $user->getRank(),
-            "banned" 		=> $rank_contains,
+            "userGroups"		=> $user->getGroup(),
+            "banned" 		=> $group_contains,
         );
         //CHECK IF USER HAS THIS ROLE
 
        // $data['accounts'] = $accounts;
-        $data['ranks'] = $ranks;
+        $data['groups'] = $groups;
 
         return $this->render('MaximAdminBundle:Users:profile.html.twig', $data);
     }
@@ -169,7 +169,7 @@ class AdminUserController extends Controller{
             $user_dateOfBirth 	= $request->request->get('_admin_user_dateOfBirth');
             $user_location 		= $request->request->get('_admin_user_location');
             $user_skype 	 	= $request->request->get('_admin_user_skype');
-            $user_ranks 		= $request->request->get('_admin_user_ranks');
+            $user_groups 		= $request->request->get('_admin_user_groups');
 
             $user = $repository->findOneById($user_id);
 
@@ -185,22 +185,22 @@ class AdminUserController extends Controller{
                 $user->setLocation($user_location);
                 $user->setSkype($user_skype);
 
-                //Clear all ranks, just read them afterwards, way faster
-                //get current ranks
+                //Clear all groups, just read them afterwards, way faster
+                //get current groups
 
-                $user_current_ranks = $user->getRank();
-                foreach($user_current_ranks as $user_current_rank)
+                $user_current_groups = $user->getGroup();
+                foreach($user_current_groups as $user_current_group)
                 {
-                    $user->removeRank($user_current_rank);
+                    $user->removeGroup($user_current_group);
                 }
 
-                $repoRank = $this->getDoctrine()->getRepository('MaximCMSBundle:Rank');
+                $repoGroup = $this->getDoctrine()->getRepository('MaximCMSBundle:Group');
                 //add updated list
-                if(isset($user_ranks) && count($user_ranks) > 0 && isset($user_ranks[0])) {
-                    foreach($user_ranks as $user_rank)
+                if(isset($user_groups) && count($user_groups) > 0 && isset($user_groups[0])) {
+                    foreach($user_groups as $user_group)
                     {
-                        $rankadd = $repoRank->findOneById($user_rank);
-                        $user->addRank($rankadd);
+                        $groupadd = $repoGroup->findOneById($user_group);
+                        $user->addGroup($groupadd);
                     }
                 }
                 $em->flush();
@@ -235,11 +235,11 @@ class AdminUserController extends Controller{
             if($permanent)
             {
                 //GET BANNED RANK
-                $repository = $this->getDoctrine()->getRepository('MaximCMSBundle:Rank');
-                $rank = $repository->findOneBy(array("id" => $config['admin']['ban']['webgroup']));
-                if($rank)
+                $repository = $this->getDoctrine()->getRepository('MaximCMSBundle:Group');
+                $group = $repository->findOneBy(array("id" => $config['admin']['ban']['webgroup']));
+                if($group)
                 {
-                    $user->addRank($rank);
+                    $user->addGroup($group);
                     $em->flush();
                     //SEND INGAME
                     $minecraft->send(array(1 => ModuleController::parseCommand(array("USER" => $username, "REASON" => $reason), $config['admin']['ban']['command'])));
@@ -247,7 +247,7 @@ class AdminUserController extends Controller{
                 }
                 else
                 {
-                    $output = array("succes" => true, "message" => "Could not find rank with id: ".$config['admin']['ban']['webgroup']);
+                    $output = array("succes" => true, "message" => "Could not find group with id: ".$config['admin']['ban']['webgroup']);
                 }
             }
             else
@@ -279,9 +279,9 @@ class AdminUserController extends Controller{
         if($user)
         {
             //REMOVE UNBAN WEB RANK
-            $repository = $this->getDoctrine()->getRepository('MaximCMSBundle:Rank');
-            $rank = $repository->findOneBy(array("id" => $config['admin']['ban']['webgroup']));
-            $user->removeRank($rank);
+            $repository = $this->getDoctrine()->getRepository('MaximCMSBundle:Group');
+            $group = $repository->findOneBy(array("id" => $config['admin']['ban']['webgroup']));
+            $user->removeGroup($group);
             $em->flush();
             //SEND INGAME
             $minecraft->send(array(1 => ModuleController::parseCommand(array("USER" => $username), $config['admin']['unban']['command'])));

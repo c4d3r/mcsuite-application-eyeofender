@@ -1,29 +1,49 @@
-<h3>Login</h3>
-<div class="alert" id="login-message" style="display:none;">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-</div>
+{% extends 'MaximCMSBundle::layout.html.twig' %}
 
-<form id="myForm" class="form-horizontal" action="{{ path('login_check') }}" method="post">
-    <div class="form-group">
-        <div class="col-lg-10">
-            <input type="text" class="form-control" name="_login_username" id="login_username" placeholder="Username">
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block title %}Login{% endblock title %}
+
+{% block fos_user_content %}
+
+    <div class="page">
+        <h3 class="page-header">Login</h3>
+
+        {% if error %}
+            <div id="login_statusbox" class="alert alert-error">{{ error|trans }}</div>
+        {% endif %}
+
+        <div class="page-content">
+            {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+                <form class="form-horizontal" action="{{ path("fos_user_security_check") }}" method="post">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+
+                    <div class="form-group">
+                        <div>
+                            <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}" required="required" placeholder="{{ 'security.login.username'|trans }}"/>
+                        </div>
+                    </div>
+                    <div class="form-group clearfix clearfix-left">
+                        <div>
+                            <input type="password" class="form-control" id="password" name="_password" required="required" placeholder="{{ 'security.login.password'|trans }}"/>
+                            <div class="checkbox" style="margin-bottom:20px;">
+                                <label>
+                                    <input type="checkbox" id="remember_me" name="_remember_me" value="on" />  {{ 'security.login.remember_me'|trans }}
+                                </label>
+                            </div>
+                            <div class="btn-group">
+                                <button type="submit" value="{{ 'security.login.submit'|trans }}" id="_submit" name="_submit" class="btn btn-default left">{{ 'security.login.submit'|trans }}</button>
+                                <div style="margin-left:75px;">
+                                    <a href="{{ path('register') }}" >Register</a><br/>
+                                    <a href="{{ path('account_forgot_password') }}" style="position: relative;top: 6px;">Forgot password</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            {% else %}
+                <p>You are already logged in, you are being redirected to the home page in <span id="redirect_countdown">5</span></p>
+            {% endif %}
         </div>
     </div>
-    <div class="form-group">
-        <div class="col-lg-10">
-            <input type="password" name="_login_password" class="form-control" id="login_password" placeholder="Password">
-            <div class="checkbox">
-                <label>
-                    <input id="remember_me" name="_remember_me" type="checkbox"> Remember me
-                </label>
-            </div>
-
-            <div class="btn-group">
-                <button type="submit" class="btn btn-default">Sign in</button>
-                <a href="{{ path('register') }}" class="btn btn-default">Register</a>
-                <a href="{{ path('account_forgot_password') }}" class="btn btn-default">Forgot password</a>
-            </div>
-        </div>
-    </div>
-</form>
-
+{% endblock fos_user_content %}

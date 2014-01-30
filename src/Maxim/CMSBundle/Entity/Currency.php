@@ -16,25 +16,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Currency
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(name="short", type="string", length=3)
-     */
     protected $short;
 
-    /**
-     * @ORM\Column(name="symbol", type="string", length=3)
-     */
     protected $symbol;
 
-    /**
-     * @ORM\Column(name="fullname", type="text")
-     */
     protected $fullname;
 
-    /**
-     * @ORM\Column(name="description", type="text")
-     */
     protected $description;
 
     /**

@@ -1,0 +1,9 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block fos_user_content %}
+<div class="page">
+    <h3 class="page-header">Forgot password</h3>
+
+    {% include "FOSUserBundle:Resetting:request_content.html.twig" %}
+</div>
+{% endblock fos_user_content %}

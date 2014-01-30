@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Maxim\Module\ForumBundle\Entity\ThreadEdit" table="mcsf_thread_edit">
+    <indexes>
+      <index name="IDX_97078E09E2904019" columns="thread_id"/>
+      <index name="IDX_97078E09E8DE7170" columns="updatedBy"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="reason" type="text" column="reason" nullable="false"/>
+    <field name="updatedOn" type="datetime" column="updatedOn" nullable="false"/>
+
+    <many-to-one field="updatedBy" target-entity="\Maxim\CMSBundle\Entity\User" inversed-by="threadedits">
+      <join-columns>
+        <join-column name="updatedBy" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+
+    <many-to-one field="thread" target-entity="Thread">
+      <join-columns>
+        <join-column name="thread_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

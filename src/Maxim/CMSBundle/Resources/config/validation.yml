@@ -15,17 +15,18 @@ Maxim\CMSBundle\Entity\User:
         email:
             - NotBlank: { message: "Field email is required" }
             - Email: { message: "Please provide a valid e-mail" }
-        dateofbirth:
+        dateOfBirth:
             - NotBlank: { message: "Field date of birth is required" }
             - Date: ~
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: username
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: email
+        - Maxim\CMSBundle\Validator\Constraints\ValidMinecraft: ~
     getters:
-        passwordMatch:
-            - "True": { message: "Both passwords should match" }
-        emailMatchUsername:
-            - "False": { message: "Your username can not be the same as the e-mail"}
+        #passwordMatch:
+        #    - "True": { message: "Both passwords should match" }
+        #emailMatchUsername:
+        #    - "False": { message: "Your username can not be the same as the e-mail"}
 Maxim\CMSBundle\Entity\Comment:
     properties:
         message:

@@ -10,29 +10,29 @@ namespace Maxim\CMSBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Maxim\CMSBundle\Entity\Rank;
+use Maxim\CMSBundle\Entity\Group;
 
-class LoadRankData extends AbstractFixture implements OrderedFixtureInterface{
+class LoadGroupData extends AbstractFixture implements OrderedFixtureInterface{
 
     public function load(ObjectManager $manager)
     {
-        $rankAdmin = new Rank();
-        $rankAdmin->setName("Admin");
-        $rankAdmin->setRoleName("ROLE_ADMIN");
-        $rankAdmin->setDescription("The admin rank");
+        $groupAdmin = new Group();
+        $groupAdmin->setName("Admin");
+        $groupAdmin->setRoleName("ROLE_ADMIN");
+        $groupAdmin->setDescription("The admin group");
 
-        $manager->persist($rankAdmin);
+        $manager->persist($groupAdmin);
 
-        $rank = new Rank();
-        $rank->setName("Member");
-        $rank->setRoleName("ROLE_MEMBER");
-        $rank->setDescription("The member rank");
-        $rank->setDefault(true);
+        $group = new Group();
+        $group->setName("Member");
+        $group->setRoleName("ROLE_MEMBER");
+        $group->setDescription("The member group");
+        $group->setDefault(true);
 
-        $manager->persist($rank);
+        $manager->persist($group);
         $manager->flush();
 
-        $this->addReference('rank-admin', $rankAdmin);
+        $this->addReference('group-admin', $groupAdmin);
     }
 
 

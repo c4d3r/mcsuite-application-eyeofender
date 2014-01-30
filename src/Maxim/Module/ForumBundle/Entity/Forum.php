@@ -11,86 +11,26 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Forum {
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
-     * @var integer $id
-     */
     protected $id;
 
-    /**
-     * @var Category
-     *
-     * @ORM\ManyToOne(targetEntity="Category", inversedBy="forums", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=true)
-     */
     protected $category;
 
-    /**
-     * @var string $title
-     *
-     * @ORM\Column(name="title", type="string", nullable=false)
-     */
     protected $title;
 
-    /**
-     * @var string $description
-     *
-     * @ORM\Column(name="description", type="string", nullable=false)
-     */
     protected $description;
 
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="\Maxim\CMSBundle\Entity\User", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="createdBy", referencedColumnName="id")
-     */
     protected $createdBy;
 
-    /**
-     * @var datetime $createdOn
-     *
-     * @ORM\Column(name="createdOn", type="datetime", nullable=false)
-     */
     protected $createdOn;
 
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="\Maxim\CMSBundle\Entity\User", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="updatedBy", referencedColumnName="id")
-     */
     protected $updatedBy;
 
-    /**
-     * @var datetime $updatedOn
-     *
-     * @ORM\Column(name="updatedOn", type="datetime", nullable=true)
-     */
     protected $updatedOn;
 
-    /**
-     * @var Thread
-     *
-     * @ORM\OneToMany(targetEntity="Thread", mappedBy="forum", fetch="EXTRA_LAZY")
-     */
     protected $threads;
 
-    /**
-     * @var boolean $showOnHome
-     *
-     * @ORM\Column(name="showOnHome", type="boolean", nullable=false)
-     */
     protected $showOnHome = false;
 
-    /**
-     * @var string $sort
-     *
-     * @ORM\Column(name="sort", type="integer", nullable=false)
-     */
     protected $sort = 0;
 
     public function __construct()

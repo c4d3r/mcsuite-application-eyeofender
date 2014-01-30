@@ -23,10 +23,12 @@
                             </h3>
                             <p>Threads: {{ forum.threads|length }}, posts: {{ forum.findAmountPosts() }}</p>
                         </div>
+
                         <div class="mcsf_forum_latest">
                             {% if forum.getLatestThread() != null %}
                                 Latest: <a href="#">{{ forum.getLatestThread().title }}</a><br/>
-                                {{ forum.getLatestThread().createdBy.username }}, {{ forum.getLatestThread().createdOn|prettydate }}
+
+                                {#{{ forum.getLatestThread().createdBy.username }}, {{ forum.getLatestThread().createdOn|prettydate }}#}
                             {% else %}
                                 This thread contains no posts.
                             {% endif %}

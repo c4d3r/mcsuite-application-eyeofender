@@ -103,6 +103,7 @@ doctrine:
         # e.g. database_path: %kernel.root_dir%/data/data.db3
         # path:     %database_path%
 
+
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         default_entity_manager:   default
@@ -137,6 +138,14 @@ swiftmailer:
     password:  %mailer_password%
     spool:     { type: memory }
 
+
+#FOS
+fos_user:
+    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    firewall_name: main
+    user_class: Maxim\CMSBundle\Entity\User
+    group:
+        group_class: Maxim\CMSBundle\Entity\Rank
 # Payum Configuration
 payum:
     contexts:

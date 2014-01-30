@@ -17,34 +17,13 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  */
 class ServerIp {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
-     * @var integer $id
-     */
+
     protected $id;
 
-    /**
-     * @var string $ip
-     *
-     * @ORM\Column(name="host", type="string", length=50, nullable=false)
-     */
     protected $host;
 
-    /**
-     * @var string $ip
-     *
-     * @ORM\Column(name="ip", type="string", length=50, nullable=false)
-     */
     protected $ip;
 
-    /**
-     * @var Section
-     *
-     * @ORM\ManyToOne(targetEntity="Server")
-     */
     protected $server;
 
     /**

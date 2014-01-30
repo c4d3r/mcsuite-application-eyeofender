@@ -1,19 +1,19 @@
 {% extends 'MaximAdminBundle:Default:index.html.twig' %}
 {% block content %}
     <div class="container" style="width:100%;">
-        <h1>Rank statistics</h1>
+        <h1>Group statistics</h1>
         <div class="container-content">
             <p>Adding later</p>
         </div>
     </div>
     <div class="container" style="width:100%;">
-        <h1>Edit rank</h1>
+        <h1>Edit group</h1>
         <div class="container-content clearfix">
-            <div id="rank-status" class="alert"></div>
-            <form action="{{ path('admin_ranks_edit_ajax') }}" class="form-clean" id="frmEditRank" method="post">
+            <div id="group-status" class="alert"></div>
+            <form action="{{ path('admin_groups_edit_ajax') }}" class="form-clean" id="frmEditGroup" method="post">
                 <p>
                     <label for="name">Name:</label><br/>
-                    <input type="text" name="_admin_rank_name" class="inputbox" id="name" value="{{ rank.name }}" placeholder="Rank name">
+                    <input type="text" name="_admin_group_name" class="inputbox" id="name" value="{{ group.name }}" placeholder="Group name">
                 </p>
                 <p>
                     <label for="server">Role name</label><br/>
@@ -21,37 +21,37 @@
                 </p>
                 <p>
                     <label for="name">Applicable:</label>
-                    <input type="checkbox" name="_admin_rank_applicable" class="inputbox" id="application" >
+                    <input type="checkbox" name="_admin_group_applicable" class="inputbox" id="application" >
                 </p>
                 <p>
                     <label for="description">Description:</label><br/>
-                    <textarea name="_admin_rank_description" cols="20" rows="30" class="inputbox" id="description" placeholder="Rank description">{{ rank.description }}</textarea>
+                    <textarea name="_admin_group_description" cols="20" rows="30" class="inputbox" id="description" placeholder="Group description">{{ group.description }}</textarea>
                 </p>
-                <input type="hidden" name="_admin_rank_id" id="id" value="{{ rank.id }}" />
-                <button type="submit" id="btnRankAdd" class="btn">Save rank</button>
+                <input type="hidden" name="_admin_group_id" id="id" value="{{ group.id }}" />
+                <button type="submit" id="btnGroupAdd" class="btn">Save group</button>
             </form>
             </br/>
         </div>
         <script>
             $(document).ready(function(){
 
-                $("#admin_rank_roles option[value='{{ rank.roleName }}']").attr("selected", "selected");
+                $("#admin_group_roles option[value='{{ group.roleName }}']").attr("selected", "selected");
 
                 UI.editor('description', "100%", "600px");
-                $("#frmEditRank").submit(function() {
+                $("#frmEditGroup").submit(function() {
                     for ( instance in CKEDITOR.instances )
                         CKEDITOR.instances[instance].updateElement();
 
                     AJAX.post(
-                        $("#frmAddRank").attr("action"),
+                        $("#frmAddGroup").attr("action"),
                         {
-                            _admin_rank_name : $('#name').val(),
-                            _admin_rank_role : $("#admin_rank_roles").val(),
-                            _admin_rank_application : $("#application").is(':checked'),
-                            _admin_rank_description : $("#description").val(),
-                            _admin_rank_id : $('#id').val()
+                            _admin_group_name : $('#name').val(),
+                            _admin_group_role : $("#admin_group_roles").val(),
+                            _admin_group_application : $("#application").is(':checked'),
+                            _admin_group_description : $("#description").val(),
+                            _admin_group_id : $('#id').val()
                         },
-                        $("#rank-status"), $('#btnRankAdd'));
+                        $("#group-status"), $('#btnGroupAdd'));
                     return false;
                 });
             });

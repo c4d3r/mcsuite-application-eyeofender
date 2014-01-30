@@ -192,11 +192,11 @@ class ThreadController extends Controller{
         //if(!$thread) { return new Response(json_encode(array("success" => false, "message" => "Could not find the requested thread."))); }
 
         $query = $em->createQuery(
-            "SELECT t, f, u, r, p
+            "SELECT t, f, u, g, p
             FROM MaximModuleForumBundle:Thread t
             JOIN t.forum f
             JOIN t.createdBy u
-            LEFT JOIN u.ranks r
+            LEFT JOIN u.groups g
             LEFT JOIN u.posts p
             WHERE t.id = :id
             "
@@ -209,10 +209,10 @@ class ThreadController extends Controller{
         # SEARCH POSTS
         $query = $em->getRepository('MaximModuleForumBundle:Post')->findBy(array("thread" => $thread));
         $query = $em->createQuery(
-            "SELECT p, u, l, r
+            "SELECT p, u, l, g
             FROM MaximModuleForumBundle:Post p
             JOIN p.createdBy u
-            LEFT JOIN u.ranks r
+            LEFT JOIN u.groups g
             JOIN p.thread t
             LEFT JOIN p.likes l
             WHERE t.id = :id

@@ -17,27 +17,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class UserFriend {
 
-    /**
-     * @var User
-     * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="friend_user_id", referencedColumnName="id", nullable=true)
-     */
     protected $friend;
 
-    /**
-     * @var User
-     * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="friends")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
-     */
     protected $user;
 
-    /**
-     * @var \DateTime $date
-     *
-     * @ORM\Column(name="addedOn", type="datetime", nullable=true)
-     */
     protected $addedOn;
 
     public function __construct() {

@@ -21,7 +21,7 @@
 		</div>
 		<div class="membership-info">
 			<p>Welcome <span id="username">{{ app.user.username }}</span></p>
-			<p>Rank: {% for role in app.user.roles %}{{ role.name }}{% if not loop.last %},{% endif %}{% endfor %}</p>
+			<p>Group: {% for role in app.user.roles %}{{ role.name }}{% if not loop.last %},{% endif %}{% endfor %}</p>
 		</div>
 	</div>
 </div>

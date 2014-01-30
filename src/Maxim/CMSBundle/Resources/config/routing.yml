@@ -101,14 +101,14 @@ account_profile_save:
     _method: POST
 login:
     pattern:   /login
-    defaults:  { _controller: MaximCMSBundle:Security:loginForm } # Where ViewSubDir is a folder in the views directory of your bundle. And, where login is your controller action.
-loginForm:
-    pattern:   /login
-    defaults:  { _controller: MaximCMSBundle:Security:loginForm } # Where ViewSubDir is a folder in the views directory of your bundle. And, where login is your controller action.
-login_check:
-    pattern:   /login_check
-    requirements:
-        _method:  POST
+    defaults:  { _controller: MaximCMSBundle:Security:login } # Where ViewSubDir is a folder in the views directory of your bundle. And, where login is your controller action.
+#loginForm:
+#    pattern:   /login
+#    defaults:  { _controller: MaximCMSBundle:Security:loginForm } # Where ViewSubDir is a folder in the views directory of your bundle. And, where login is your controller action.
+#login_check:
+#    pattern:   /login_check
+#    requirements:
+#        _method:  POST
 logout:
   path: /logout
 reset:
@@ -178,9 +178,9 @@ profile_load_content:
 ajax_register_action:
   path: /register_action
   defaults: { _controller: MaximCMSBundle:Security:register }
-ajax_login:
-    pattern:   /ajax_login
-    defaults:  { _controller: MaximCMSBundle:Security:ajaxLogin } # Where ViewSubDir is a folder in the views directory of your bundle. And, where login is your controller action.
+#ajax_login:
+#    pattern:   /ajax_login
+#    defaults:  { _controller: MaximCMSBundle:Security:ajaxLogin } # Where ViewSubDir is a folder in the views directory of your bundle. And, where login is your controller action.
 ajax_shoutbox:
   path: /module/shoutbox/add
   defaults: { _controller: MaximCMSBundle:Module/Shout/Shout:shout }

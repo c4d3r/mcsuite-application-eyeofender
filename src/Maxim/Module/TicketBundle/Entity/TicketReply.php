@@ -12,42 +12,15 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class TicketReply
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
-     * @var integer $id
-     */
+
     private $id;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="text", type="text", nullable=true)
-     */
+
     private $text;
 
-    /**
-     * @var \DateTime
-     * @ORM\Column(name="date", type="datetime", nullable=false)
-     */
     private $date;
 
-    /**
-     * @var Ticket
-     *
-     * @ORM\ManyToOne(targetEntity="Ticket", inversedBy="replies")
-     * @ORM\JoinColumn(name="ticket_id", referencedColumnName="id", unique=false)
-     */
     private $ticket;
 
-    /**
-     * @var \Maxim\CMSBundle\Entity\User
-     * @ORM\ManyToOne(targetEntity="Maxim\CMSBundle\Entity\User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     * })
-     */
     private $user;
 
 

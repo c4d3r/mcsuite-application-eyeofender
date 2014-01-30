@@ -22,7 +22,6 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Maxim\CMSBundle\Entity\UserManager;
 class LatestUsersBlockService extends BaseBlockService
 {
-
     protected $userManager;
 
     public function getName()

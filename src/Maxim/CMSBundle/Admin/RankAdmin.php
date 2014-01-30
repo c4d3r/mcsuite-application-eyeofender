@@ -14,7 +14,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Security\Core\SecurityContext;
 
 
-class RankAdmin extends Admin
+class GroupAdmin extends Admin
 {
     public $supportsPreviewMode = true;
     protected $security;
@@ -23,10 +23,10 @@ class RankAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('name', 'text', array('label' => 'Rank name', 'required' => true))
-            ->add('roleName', 'choice', array(
+            ->add('name', 'text', array('label' => 'Group name', 'required' => true))
+            ->add('roles', 'choice', array(
                 'multiple' => false,
-                'choices' => Rank::getRoleList()
+                'choices' => Group::getRoleList()
             ))
             ->add('title', 'text', array('label' => 'title'))
             ->add('text', 'textarea', array(

@@ -92,30 +92,30 @@ admin_unban_user:
   path: /admin/unban
   defaults: { _controller: MaximAdminBundle:AdminUser:userUnban }
 
-#ranks
-admin_ranks:
-  path: /admin/ranks
-  defaults: { _controller: MaximAdminBundle:AdminRank:listView }
-admin_ranks_list:
-  path: /admin/ranks/list
-  defaults: { _controller: MaximAdminBundle:AdminRank:list }
-admin_ranks_add:
-  path: /admin/ranks/add
-  defaults: { _controller: MaximAdminBundle:AdminRank:addView }
-admin_ranks_view_pattern:
-  path: /admin/ranks
-admin_ranks_view:
-  path: /admin/ranks/{id}
-  defaults: { _controller: MaximAdminBundle:AdminRank:view }
-admin_rank_delete_ajax:
-  path: /admin/ranks/delete/{id]/ajax
-  defaults: { _controller: MaximAdminBundle:AdminRank:delete }
-admin_ranks_add_ajax:
-  path: /admin/ranks/add/ajax
-  defaults: { _controller: MaximAdminBundle:AdminRank:add }
-admin_ranks_edit_ajax:
-  path: /admin/ranks/edit/ajax
-  defaults: { _controller: MaximAdminBundle:AdminRank:edit }
+#groups
+admin_groups:
+  path: /admin/groups
+  defaults: { _controller: MaximAdminBundle:AdminGroup:listView }
+admin_groups_list:
+  path: /admin/groups/list
+  defaults: { _controller: MaximAdminBundle:AdminGroup:list }
+admin_groups_add:
+  path: /admin/groups/add
+  defaults: { _controller: MaximAdminBundle:AdminGroup:addView }
+admin_groups_view_pattern:
+  path: /admin/groups
+admin_groups_view:
+  path: /admin/groups/{id}
+  defaults: { _controller: MaximAdminBundle:AdminGroup:view }
+admin_group_delete_ajax:
+  path: /admin/groups/delete/{id]/ajax
+  defaults: { _controller: MaximAdminBundle:AdminGroup:delete }
+admin_groups_add_ajax:
+  path: /admin/groups/add/ajax
+  defaults: { _controller: MaximAdminBundle:AdminGroup:add }
+admin_groups_edit_ajax:
+  path: /admin/groups/edit/ajax
+  defaults: { _controller: MaximAdminBundle:AdminGroup:edit }
 
 #permissions
 admin_permgroup_edit_view:

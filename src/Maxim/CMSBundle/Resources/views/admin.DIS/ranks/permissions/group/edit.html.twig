@@ -3,24 +3,24 @@
 {% block middle %}
     <div id="middle_menu_top">
         <div class="vertical">
-            <h1>Add Rank</h1>
+            <h1>Add Group</h1>
         </div>
     </div>
     <div id="middle_menu_small">
         <ul>
-            <li><a href="{{ path('admin_ranks')}}">ranks</a></li>
-            <li><a href="{{ path('admin_ranks_add')}}">edit</a></li>
+            <li><a href="{{ path('admin_groups')}}">groups</a></li>
+            <li><a href="{{ path('admin_groups_add')}}">edit</a></li>
             <!--<li><a href="#">test3</a></li>-->
         </ul>
     </div>
     <div id="middle_content">
         <div class="window">
             <div class="window-header">
-                <h6>Edit a rank</h6>
+                <h6>Edit a group</h6>
             </div>
             <div class="window-content">
-                <div id="rank-status" class="alert"></div>
-                <p>Editing rank: {{ rank.name }}</p>
+                <div id="group-status" class="alert"></div>
+                <p>Editing group: {{ group.name }}</p>
                 <!-- ADD PAGE -->
                 <form action="{{ path('admin_permgroup_edit') }}" id="frmEditPermissions" method="post">
                     <p>
@@ -34,7 +34,7 @@
                             {% endfor %}
                         </select>
                     </p>
-                    <input type="hidden" name="_admin_rank_id" id="id" value="{{ rank.id }}" />
+                    <input type="hidden" name="_admin_group_id" id="id" value="{{ group.id }}" />
                     <button type="submit" id="btnPermissionsAdd" class="btn">Save permissions</button>
                 </form>
                 </br/>
@@ -48,9 +48,9 @@
                                 $("#frmEditPermissions").attr("action"),
                                 {
                                     _admin_permissions : $('#permissions').val(),
-                                    _admin_rank : $('#id').val()
+                                    _admin_group : $('#id').val()
                                 },
-                                $("#rank-status"), $('#btnPermissionsAdd'));
+                                $("#group-status"), $('#btnPermissionsAdd'));
                         return false;
                     });
                 });

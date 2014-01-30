@@ -1125,7 +1125,7 @@ GMaps.prototype.addLayer = function(layerName, options) {
             location : options.location || null,
             name : options.name || null,
             radius : options.radius || null,
-            rankBy : options.rankBy || null,
+            groupBy : options.groupBy || null,
             types : options.types || null
           };
 

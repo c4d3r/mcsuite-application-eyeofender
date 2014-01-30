@@ -1,7 +1,7 @@
 <?php
 /**
  * Project: MCSuite
- * File: AdminRankController.php
+ * File: AdminGroupController.php
  * User: Maxim
  * Date: 27/04/13
  * Time: 22:21
@@ -9,22 +9,22 @@
 
 namespace Maxim\AdminBundle\Controller;
 use Doctrine\ORM\EntityNotFoundException;
-use Maxim\CMSBundle\Entity\Rank;
+use Maxim\CMSBundle\Entity\Group;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Yaml\Yaml;
 use LanKit\DatatablesBundle\Datatables\DataTable;
 
-class AdminRankController extends Controller{
+class AdminGroupController extends Controller{
 
     public function listViewAction()
     {
-        return $this->render('MaximAdminBundle:Ranks:view.html.twig');
+        return $this->render('MaximAdminBundle:Groups:view.html.twig');
     }
 
     public function addViewAction()
     {
-        return $this->render('MaximAdminBundle:Ranks:add.html.twig');
+        return $this->render('MaximAdminBundle:Groups:add.html.twig');
     }
 
     public function editAction()
@@ -35,17 +35,17 @@ class AdminRankController extends Controller{
         {
             $em = $this->getDoctrine()->getManager();
 
-            $rank = $em->getRepository('MaximCMSBundle:Rank')->findOneBy(array("id" => $request->request->get('_admin_rank_id')));
-            if(!$rank){ throw new EntityNotFoundException(); }
+            $group = $em->getRepository('MaximCMSBundle:Group')->findOneBy(array("id" => $request->request->get('_admin_group_id')));
+            if(!$group){ throw new EntityNotFoundException(); }
 
-            $rank->setRoleName($request->request->get('_admin_rank_role'));
-            $rank->setName($request->request->get('_admin_rank_name'));
-            $rank->setDescription($request->request->get('_admin_rank_description'));
-            $rank->setApplication($request->request->get('_admin_rank_application'));
+            $group->setRoleName($request->request->get('_admin_group_role'));
+            $group->setName($request->request->get('_admin_group_name'));
+            $group->setDescription($request->request->get('_admin_group_description'));
+            $group->setApplication($request->request->get('_admin_group_application'));
 
             $em->flush();
 
-            $result = array("success" => true, "message" => "Your rank has been edited successfully");
+            $result = array("success" => true, "message" => "Your group has been edited successfully");
         }
         else
         {
@@ -57,13 +57,13 @@ class AdminRankController extends Controller{
 
     public function viewAction($id)
     {
-        $rank = $this->getDoctrine()->getRepository('MaximCMSBundle:Rank')->findOneBy(array("id" => $id));
-        if(!$rank){ throw new EntityNotFoundException(); }
-        $data['rank'] = $rank;
-        return $this->render('MaximAdminBundle:Ranks:edit.html.twig', $data);
+        $group = $this->getDoctrine()->getRepository('MaximCMSBundle:Group')->findOneBy(array("id" => $id));
+        if(!$group){ throw new EntityNotFoundException(); }
+        $data['group'] = $group;
+        return $this->render('MaximAdminBundle:Groups:edit.html.twig', $data);
     }
     public function listAction() {
-        $datatable = $this->get('lankit_datatables')->getDatatable('MaximCMSBundle:Rank');
+        $datatable = $this->get('lankit_datatables')->getDatatable('MaximCMSBundle:Group');
 
         // The default type for all joins is inner. Change it to left if desired.
         $datatable->setDefaultJoinType(Datatable::JOIN_LEFT);
@@ -78,19 +78,19 @@ class AdminRankController extends Controller{
         {
             $em = $this->getDoctrine()->getManager();
 
-            $name = $request->request->get('_admin_rank_name');
-            $role = $request->request->get('_admin_rank_role');
-            $applicable = $request->request->get('_admin_rank_application');
-            $description = $request->request->get('_admin_rank_description');
+            $name = $request->request->get('_admin_group_name');
+            $role = $request->request->get('_admin_group_role');
+            $applicable = $request->request->get('_admin_group_application');
+            $description = $request->request->get('_admin_group_description');
 
-            $rank = new Rank($name, $role);
-            $rank->setDescription($description);
-            $rank->setApplication($applicable);
+            $group = new Group($name, $role);
+            $group->setDescription($description);
+            $group->setApplication($applicable);
 
-            $em->persist($rank);
+            $em->persist($group);
             $em->flush();
 
-            $result = array("success" => true, "message" => "Your rank has been added successfully");
+            $result = array("success" => true, "message" => "Your group has been added successfully");
         }
         else
         {
@@ -107,13 +107,13 @@ class AdminRankController extends Controller{
         {
             $em = $this->getDoctrine()->getManager();
 
-            $rank = $em->getRepository('MaximCMSBundle:Rank')->findOneBy(array("id" => $id));
-            if(!$rank){ throw new EntityNotFoundException(); array("success" => false, "message" => "We could not find the specified rank"); }
+            $group = $em->getRepository('MaximCMSBundle:Group')->findOneBy(array("id" => $id));
+            if(!$group){ throw new EntityNotFoundException(); array("success" => false, "message" => "We could not find the specified group"); }
 
-            $em->remove($rank);
+            $em->remove($group);
             $em->flush();
 
-            $result = array("success" => true, "message" => "Rank deleted succesfuly");
+            $result = array("success" => true, "message" => "Group deleted succesfuly");
         }
         else
         {

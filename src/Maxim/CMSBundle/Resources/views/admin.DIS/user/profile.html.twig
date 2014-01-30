@@ -77,12 +77,12 @@
 							<input type="text" name="_admin_user_skype" class="inputbox" value="{{ user.skype }}" id="skype" />
 						</p>
 						<p>
-							<select id="ranks" class="multiselect" multiple="multiple" name="ranks[]">
-								{% for rank in ranks %}
-                                    <option value="{{ rank.id }}">{{ rank.name }}</option>
+							<select id="groups" class="multiselect" multiple="multiple" name="groups[]">
+								{% for group in groups %}
+                                    <option value="{{ group.id }}">{{ group.name }}</option>
                                 {% endfor %}
-                                {% for user_ranks in user.userRanks %}
-                                    <option value="{{ user_ranks.id }}" selected="selected">{{ user_ranks.name }}</option>
+                                {% for user_groups in user.userGroups %}
+                                    <option value="{{ user_groups.id }}" selected="selected">{{ user_groups.name }}</option>
                                 {% endfor %}
 							</select>
 						</p>
@@ -135,7 +135,7 @@
 
 <script>
 $(document).ready(function() {
-	$("#ranks").multiselect();
+	$("#groups").multiselect();
 	
 	$("#frmEditUser").submit(function() {
 		AJAX.post(
@@ -149,7 +149,7 @@ $(document).ready(function() {
 				_admin_user_dateOfBirth : $("#frmEditUser #dateOfBirth").val(),
 				_admin_user_location 	: $("#frmEditUser #location").val(),
 				_admin_user_skype 		: $("#frmEditUser #skype").val(),
-				_admin_user_ranks		: $("#frmEditUser #ranks").val()
+				_admin_user_groups		: $("#frmEditUser #groups").val()
 			}, 
 			$("#msgbox") ,
 			$('#btnSaveUser')

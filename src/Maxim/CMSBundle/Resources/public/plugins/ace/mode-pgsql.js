@@ -168,7 +168,7 @@ var PgsqlHighlightRules = function() {
         "date_le_timestamp|date_le_timestamptz|date_lt|date_lt_timestamp|date_lt_timestamptz|" +
         "date_mi|date_mi_interval|date_mii|date_ne|date_ne_timestamp|date_ne_timestamptz|" +
         "date_out|date_part|date_pl_interval|date_pli|date_recv|date_send|date_smaller|" +
-        "date_trunc|datetime_pl|datetimetz_pl|dcbrt|decode|degrees|dense_rank|dexp|diagonal|" +
+        "date_trunc|datetime_pl|datetimetz_pl|dcbrt|decode|degrees|dense_group|dexp|diagonal|" +
         "diameter|dispell_init|dispell_lexize|dist_cpoly|dist_lb|dist_pb|dist_pc|dist_pl|" +
         "dist_ppath|dist_ps|dist_sb|dist_sl|div|dlog1|dlog10|domain_in|domain_recv|dpow|dround|" +
         "dsimple_init|dsimple_lexize|dsnowball_init|dsnowball_lexize|dsqrt|dsynonym_init|" +
@@ -275,7 +275,7 @@ var PgsqlHighlightRules = function() {
         "on_pl|on_ppath|on_ps|on_sb|on_sl|opaque_in|opaque_out|overlaps|overlay|path|path_add|" +
         "path_add_pt|path_center|path_contain_pt|path_distance|path_div_pt|path_in|path_inter|" +
         "path_length|path_mul_pt|path_n_eq|path_n_ge|path_n_gt|path_n_le|path_n_lt|path_npoints|" +
-        "path_out|path_recv|path_send|path_sub_pt|pclose|percent_rank|pg_advisory_lock|" +
+        "path_out|path_recv|path_send|path_sub_pt|pclose|percent_group|pg_advisory_lock|" +
         "pg_advisory_lock_shared|pg_advisory_unlock|pg_advisory_unlock_all|" +
         "pg_advisory_unlock_shared|pg_advisory_xact_lock|pg_advisory_xact_lock_shared|" +
         "pg_available_extension_versions|pg_available_extensions|pg_backend_pid|" +
@@ -349,7 +349,7 @@ var PgsqlHighlightRules = function() {
         "postgresql_fdw_validator|pow|power|prsd_end|prsd_headline|prsd_lextype|prsd_nexttoken|" +
         "prsd_start|pt_contained_circle|pt_contained_poly|query_to_xml|" +
         "query_to_xml_and_xmlschema|query_to_xmlschema|querytree|quote_ident|quote_literal|" +
-        "quote_nullable|radians|radius|random|rank|record_eq|record_ge|record_gt|record_in|" +
+        "quote_nullable|radians|radius|random|group|record_eq|record_ge|record_gt|record_in|" +
         "record_le|record_lt|record_ne|record_out|record_recv|record_send|regclass|regclassin|" +
         "regclassout|regclassrecv|regclasssend|regconfigin|regconfigout|regconfigrecv|" +
         "regconfigsend|regdictionaryin|regdictionaryout|regdictionaryrecv|regdictionarysend|" +
@@ -403,7 +403,7 @@ var PgsqlHighlightRules = function() {
         "tintervalrel|tintervalsame|tintervalsend|tintervalstart|to_ascii|to_char|to_date|to_hex|" +
         "to_number|to_timestamp|to_tsquery|to_tsvector|transaction_timestamp|translate|" +
         "trigger_in|trigger_out|trunc|ts_debug|ts_headline|ts_lexize|ts_match_qv|ts_match_tq|" +
-        "ts_match_tt|ts_match_vq|ts_parse|ts_rank|ts_rank_cd|ts_rewrite|ts_stat|ts_token_type|" +
+        "ts_match_tt|ts_match_vq|ts_parse|ts_group|ts_group_cd|ts_rewrite|ts_stat|ts_token_type|" +
         "ts_typanalyze|tsmatchjoinsel|tsmatchsel|tsq_mcontained|tsq_mcontains|tsquery_and|" +
         "tsquery_cmp|tsquery_eq|tsquery_ge|tsquery_gt|tsquery_le|tsquery_lt|tsquery_ne|" +
         "tsquery_not|tsquery_or|tsqueryin|tsqueryout|tsqueryrecv|tsquerysend|tsvector_cmp|" +

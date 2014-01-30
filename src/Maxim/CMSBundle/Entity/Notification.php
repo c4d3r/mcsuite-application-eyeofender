@@ -22,48 +22,16 @@ class Notification {
     const TYPE_PM            = "NOTIFICATION_PM";
     const TYPE_PURCHASE      = "NOTIFICATION_PURCHASE";
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
-     * @var integer $id
-     */
     protected $id;
 
-    /**
-     * @var String $text
-     *
-     * @ORM\Column(type="string", nullable=true)
-     */
     protected $text;
 
-    /**
-     * @var \DateTime $createdOn
-     *
-     * @ORM\Column(name="createdOn", type="datetime", nullable=false)
-     */
     protected $createdOn;
 
-    /**
-     * @var \DateTime $readOn
-     *
-     * @ORM\Column(name="readOn", type="datetime", nullable=true)
-     */
     protected $readOn;
 
-    /**
-     * @var User
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="notifications")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
-     */
     protected $user;
 
-    /**
-     * @var String $type
-     *
-     * @ORM\Column(type="string")
-     */
     protected $type;
 
     public function __construct()

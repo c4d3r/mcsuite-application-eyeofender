@@ -12,55 +12,19 @@ use Symfony\Component\Validation\Constraints AS Assert;
  */
 class Module
 {
-  	/**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
-     * @var integer $id
-     */
+
     private $id;
-	
-    /**
-     * @var string $name
-     *
-     * @ORM\Column(name="name", type="string", length=100, nullable=true)
-     */
+
     private $name;
 
-    /**
-     * @var string $description
-     *
-     * @ORM\Column(name="description", type="text", nullable=true)
-     */
     private $description;
 
-    /**
-     * @var \DateTime $date
-     *
-     * @ORM\Column(name="date", type="datetime", nullable=true)
-     */
     private $date;
 
-	/**
-     * @var integer $activated
-     *
-     * @ORM\Column(name="activated", type="integer", length=1, nullable=true)
-     */
     private $activated;
-	
-	/**
-     * @var string $version
-     *
-     * @ORM\Column(name="version", type="string", length=45, nullable=true)
-     */
+
     private $version;
 
-    /**
-     * @var string $author
-     *
-     * @ORM\Column(name="author", type="string", length=45, nullable=true)
-     */
     private $author;
 
 	public function __construct()

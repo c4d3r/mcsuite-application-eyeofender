@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Maxim\Module\ApplicationBundle\Entity\UserApplication" table="user_application">
+    <indexes>
+      <index name="IDX_D401454A76ED395" columns="user_id"/>
+      <index name="IDX_D4014543E030ACD" columns="application_id"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+
+    <field name="date" type="datetime" column="date" nullable="true"/>
+    <field name="denied" type="boolean" column="denied" nullable="false"/>
+    <field name="details" type="json_array" column="details" nullable="true"/>
+
+    <many-to-one field="application" target-entity="Application">
+      <join-columns>
+          <join-column name="application_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+
+    <many-to-one field="user" target-entity="\Maxim\CMSBundle\Entity\User">
+      <join-columns>
+          <join-column name="user_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

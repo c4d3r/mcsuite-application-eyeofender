@@ -14,41 +14,14 @@ class FriendRequest {
     const STATE_ACCEPT  = "APPROVED";
     const STATE_DENY    = "IGNORED";
 
-    /**
-     * @var User
-     * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="recipient_user_id", referencedColumnName="id", nullable=false)
-     */
     protected $recipient;
 
-    /**
-     * @var User
-     * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="friendRequests")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
-     */
     protected $user;
 
-    /**
-     * @var \DateTime $date
-     *
-     * @ORM\Column(name="requestedOn", type="datetime", nullable=false)
-     */
     protected $requestedOn;
 
-    /**
-     * @var \DateTime $date
-     *
-     * @ORM\Column(name="changedOn", type="datetime", nullable=true)
-     */
     protected $changedOn;
 
-    /**
-     * @var String $state
-     *
-     * @ORM\Column(name="state", type="string", nullable=false)
-     */
     protected $state;
 
     public function __construct() {

@@ -77,7 +77,7 @@ var keywords = "ACCEPT|MERGE|SUM|ADD||MESSAGE|TABLE|ADVANCING|MODE|TAPE|" +
     );
 
     var builtinFunctions = (
-        "count|min|max|avg|sum|rank|now|coalesce|main"
+        "count|min|max|avg|sum|group|now|coalesce|main"
     );
 
     var keywordMapper = this.createKeywordMapper({

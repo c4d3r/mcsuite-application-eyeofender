@@ -31,7 +31,7 @@ class ApplicationFormAdmin extends Admin
         $formMapper
             ->add('name', 'text', array('label' => 'Application name'))
             ->add('website', 'entity', array('class' => 'Maxim\CMSBundle\Entity\Website'))
-            ->add('rank', 'entity', array('class' => 'Maxim\CMSBundle\Entity\Rank'))
+            ->add('group', 'entity', array('class' => 'Maxim\CMSBundle\Entity\Group'))
         ;
     }
 
@@ -51,7 +51,7 @@ class ApplicationFormAdmin extends Admin
         $listMapper
             ->addIdentifier('id')
             ->add('name')
-            ->add('rank')
+            ->add('group')
             ->add('website')
             ->add('enabled')
         ;

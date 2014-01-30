@@ -18,34 +18,13 @@ use Symfony\Component\Validation\Constraints AS Assert;
  * @ORM\Table(name="website")
  */
 class Website {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
-     * @var integer $id
-     */
+
     protected $id;
 
-    /**
-     * @var string $name
-     *
-     * @ORM\Column(name="name", type="string", length=45, nullable=true)
-     */
     protected $name;
 
-    /**
-     * @var string $content
-     *
-     * @ORM\Column(name="description", type="text", nullable=true)
-     */
     protected $description;
 
-    /**
-     * @var string $site
-     *
-     * @ORM\Column(name="site", type="text", nullable=true)
-     */
     protected $site;
 
     /**

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="Maxim\Module\ForumBundle\Entity\Forum" table="mcsf_forum" repository-class="Maxim\Module\ForumBundle\Entity\ForumRepository">
+        <indexes>
+            <index name="IDX_D615468912469DE2" columns="category_id"/>
+            <index name="IDX_D6154689D3564642" columns="createdBy"/>
+            <index name="IDX_D6154689E8DE7170" columns="updatedBy"/>
+        </indexes>
+        <id name="id" type="integer" column="id">
+            <generator strategy="IDENTITY"/>
+        </id>
+        <field name="title" type="string" column="title" length="255" nullable="false"/>
+        <field name="description" type="string" column="description" length="255" nullable="false"/>
+        <field name="createdOn" type="datetime" column="createdOn" nullable="false"/>
+        <field name="updatedOn" type="datetime" column="updatedOn" nullable="true"/>
+        <field name="sort" type="integer" column="sort" nullable="true"/>
+        <field name="showOnHome" type="boolean" column="showOnHome" nullable="false"/>
+        <many-to-one field="updatedBy" target-entity="\Maxim\CMSBundle\Entity\User">
+            <join-columns>
+                <join-column name="updatedBy" referenced-column-name="id"/>
+            </join-columns>
+        </many-to-one>
+        <many-to-one field="createdBy" target-entity="\Maxim\CMSBundle\Entity\User">
+            <join-columns>
+                <join-column name="createdBy" referenced-column-name="id"/>
+            </join-columns>
+        </many-to-one>
+        <many-to-one field="category" target-entity="Category">
+            <join-columns>
+                <join-column name="category_id" referenced-column-name="id"/>
+            </join-columns>
+        </many-to-one>
+
+        <one-to-many field="threads" target-entity="Thread" mapped-by="forum" />
+    </entity>
+</doctrine-mapping>

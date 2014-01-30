@@ -19,33 +19,12 @@ use Symfony\Component\Security\Acl\Model\DomainObjectInterface;
  */
 class CoreNode implements DomainObjectInterface
 {
-    /**
-     * @var string $description
-     *
-     * @ORM\Id
-     * @ORM\Column(name="node", type="string", length=255, nullable=false)
-     */
     protected $node;
 
-    /**
-     * @var string $description
-     *
-     * @ORM\Column(name="content", type="text", nullable=true)
-     */
     protected $content;
 
-    /**
-     * @var \datetime $createdOn
-     *
-     * @ORM\Column(name="createdOn", type="datetime", nullable=false)
-     */
     protected $createdOn;
 
-    /**
-     * @var \datetime $updatedOn
-     *
-     * @ORM\Column(name="updatedOn", type="datetime", nullable=true)
-     */
     protected $updatedOn;
 
     public function __construct()

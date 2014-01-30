@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Maxim\CMSBundle\Entity\Announcement" table="announcement">
+    <indexes>
+      <index name="IDX_4DB9D91C18F45C82" columns="website_id"/>
+      <index name="IDX_4DB9D91CA76ED395" columns="user_id"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+
+    <field name="text" type="string" column="text" length="255" nullable="true"/>
+    <field name="type" type="string" column="type" length="255" nullable="false"/>
+    <field name="startdate" type="datetime" column="startdate" nullable="false"/>
+    <field name="enddate" type="datetime" column="enddate" nullable="true"/>
+    <field name="createdOn" type="datetime" column="createdOn" nullable="false"/>
+
+    <many-to-one field="user" target-entity="User" inversed-by="announcements">
+      <join-columns>
+        <join-column name="user_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+
+    <many-to-one field="website" target-entity="Website">
+      <join-columns>
+        <join-column name="website_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+
+  </entity>
+</doctrine-mapping>

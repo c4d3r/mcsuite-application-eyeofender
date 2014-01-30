@@ -9,9 +9,15 @@
 namespace Maxim\CMSBundle\Entity;
 
 use Doctrine\ORM\EntityManager;
+use FOS\UserBundle\Model\User;
+use FOS\UserBundle\Model\UserInterface;
 use Sonata\CoreBundle\Entity\DoctrineBaseManager;
+use FOS\UserBundle\Model\UserManager as BaseUserManager;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\User\UserInterface as SecurityUserInterface;
 
-class UserManager extends DoctrineBaseManager
+class UserManager
 {
     protected $em;
 

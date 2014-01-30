@@ -19,57 +19,18 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Post {
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
-     * @var integer $id
-     */
     protected $id;
 
-    /**
-     * @var Thread
-     *
-     * @ORM\ManyToOne(targetEntity="Thread", inversedBy="posts", fetch="EAGER")
-     * @ORM\JoinColumn(name="thread_id", referencedColumnName="id", nullable=false)
-     */
     protected $thread;
 
-    /**
-     * @var string $text
-     *
-     * @ORM\Column(name="text", type="text", nullable=false)
-     */
     protected $text;
 
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="\Maxim\CMSBundle\Entity\User", inversedBy="posts", cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="createdBy", referencedColumnName="id")
-     */
     protected $createdBy;
 
-    /**
-     * @var datetime $createdOn
-     *
-     * @ORM\Column(name="createdOn", type="datetime", nullable=false)
-     */
     protected $createdOn;
 
-    /**
-     * @var PostLike
-     *
-     * @ORM\OneToMany(targetEntity="PostLike", mappedBy="post", fetch="EXTRA_LAZY")
-     */
     protected $likes;
 
-    /**
-     * @var PostUpdate
-     *
-     * @ORM\OneToMany(targetEntity="PostEdit", mappedBy="post", fetch="EXTRA_LAZY")
-     */
     protected $updates;
 
     public function __construct() {

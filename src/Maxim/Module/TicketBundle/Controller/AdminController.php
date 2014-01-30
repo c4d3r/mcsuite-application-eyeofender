@@ -25,19 +25,19 @@ class AdminController extends Controller{
     {
         $em = $this->getDoctrine()->getManager();
 
-        //Get ranks
-        $repository    = $em->getRepository('MaximCMSBundle:Rank');
-        $data['ranks'] = $repository->findAll();
+        //Get groups
+        $repository    = $em->getRepository('MaximCMSBundle:Group');
+        $data['groups'] = $repository->findAll();
 
         return $this->render("MaximModuleTicketBundle:Admin:Section/add.html.twig", $data);
     }
     public function editViewAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        //Get ranks
-        $repository = $em->getRepository('MaximCMSBundle:Rank');
+        //Get groups
+        $repository = $em->getRepository('MaximCMSBundle:Group');
 
-        $data['ranks']		= $repository->findAll();
+        $data['groups']		= $repository->findAll();
         $data['section'] = $this->getDoctrine()->getRepository('MaximModuleTicketBundle:TicketSection')->findOneBy(array("id" => $id));
         return $this->render("MaximModuleTicketBundle:Admin:Section/edit.html.twig", $data);
     }
@@ -130,16 +130,16 @@ class AdminController extends Controller{
         if($request->isXmlHttpRequest())
         {
             $name  = $request->request->get('_name');
-            $ranks = $request->request->get('_ranks');
+            $groups = $request->request->get('_groups');
 
             $section = new TicketSection();
 
-            $repoRank = $this->getDoctrine()->getRepository('MaximCMSBundle:Rank');
+            $repoGroup = $this->getDoctrine()->getRepository('MaximCMSBundle:Group');
             //add updated list
-            foreach($ranks as $rank)
+            foreach($groups as $group)
             {
-                $rankadd = $repoRank->findOneById($rank);
-                $section->addRank($rankadd);
+                $groupadd = $repoGroup->findOneById($group);
+                $section->addGroup($groupadd);
             }
 
             $section->setName($name);
@@ -168,22 +168,22 @@ class AdminController extends Controller{
             $sectionid =$request->request->get('_section');
             $section = $em->getRepository('MaximModuleTicketBundle:TicketSection')->findOneBy(array("id" => $sectionid));
             $name = $request->request->get('_name');
-            $ranks = $request->request->get('_ranks');
+            $groups = $request->request->get('_groups');
 
-            //Clear all ranks, just read them afterwards, way faster
-            //get current ranks
-            $currRanks = $section->getRank();
-            foreach($currRanks as $rank)
+            //Clear all groups, just read them afterwards, way faster
+            //get current groups
+            $currGroups = $section->getGroup();
+            foreach($currGroups as $group)
             {
-                $section->removeRank($rank);
+                $section->removeGroup($group);
             }
 
-            $repoRank = $this->getDoctrine()->getRepository('MaximCMSBundle:Rank');
+            $repoGroup = $this->getDoctrine()->getRepository('MaximCMSBundle:Group');
             //add updated list
-            foreach($ranks as $rank)
+            foreach($groups as $group)
             {
-                $rankadd = $repoRank->findOneById($rank);
-                $section->addRank($rankadd);
+                $groupadd = $repoGroup->findOneById($group);
+                $section->addGroup($groupadd);
             }
 
             $section->setName($name);

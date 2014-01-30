@@ -18,86 +18,26 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Category {
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
-     * @var integer $id
-     */
     protected $id;
 
-    /**
-     * @var Website
-     *
-     * @ORM\ManyToOne(targetEntity="\Maxim\CMSBundle\Entity\Website")
-     * @ORM\JoinColumn(name="website_id", referencedColumnName="id", nullable=true)
-     */
     protected $website;
 
-    /**
-     * @var string $title
-     *
-     * @ORM\Column(name="title", type="string", nullable=true)
-     */
     protected $title;
 
-    /**
-     * @var string $description
-     *
-     * @ORM\Column(name="description", type="string", nullable=true)
-     */
     protected $description;
 
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="\Maxim\CMSBundle\Entity\User")
-     * @ORM\JoinColumn(name="createdBy", referencedColumnName="id")
-     */
     protected $createdBy;
 
-    /**
-     * @var datetime $createdOn
-     *
-     * @ORM\Column(name="createdOn", type="datetime", nullable=false)
-     */
     protected $createdOn;
 
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="\Maxim\CMSBundle\Entity\User")
-     * @ORM\JoinColumn(name="updatedBy", referencedColumnName="id")
-     */
     protected $updatedBy;
 
-    /**
-     * @var datetime $updatedOn
-     *
-     * @ORM\Column(name="updatedOn", type="datetime", nullable=true)
-     */
     protected $updatedOn;
 
-    /**
-     * @var Forum
-     *
-     * @ORM\OneToMany(targetEntity="Forum", mappedBy="category")
-     */
     protected $forums;
 
-    /**
-     * @var boolean $visible
-     *
-     * @ORM\Column(name="visible", type="boolean", nullable=false)
-     */
     protected $visible = false;
 
-    /**
-     * @var string $sort
-     *
-     * @ORM\Column(name="sort", type="integer", nullable=false)
-     */
     protected $sort = 0;
 
     public function __construct()

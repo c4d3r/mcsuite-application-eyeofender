@@ -10,9 +10,9 @@
                     <input type="text" name="_name" id="name" placeholder="place the section name here"/>
                 </p>
                 <p>
-                    <select id="ranks" class="multiselect" multiple="multiple" name="ranks[]">
-                        {% for rank in ranks %}
-                            <option value="{{ rank.id }}">{{ rank.name }}</option>
+                    <select id="groups" class="multiselect" multiple="multiple" name="groups[]">
+                        {% for group in groups %}
+                            <option value="{{ group.id }}">{{ group.name }}</option>
                         {% endfor %}
                     </select>
                 </p>
@@ -25,7 +25,7 @@
     <div class="clearfix"></div>
     <script>
         $(document).ready(function(){
-            $("#ranks").multiselect();
+            $("#groups").multiselect();
         });
         $("#frmAddSection").submit(function() {
             //get the url for the form
@@ -33,7 +33,7 @@
                 $("#frmAddSection").attr("action"),
                 {
                     _name : $('#name').val(),
-                    _ranks : $('#ranks').val()
+                    _groups : $('#groups').val()
                 },
                 $("#section-status"),
                 $("#btnAdd")

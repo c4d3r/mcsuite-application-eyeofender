@@ -25,19 +25,19 @@ class AdminController extends Controller
     public function applicationAddViewAction()
     {
         $websites = $this->getDoctrine()->getRepository('MaximCMSBundle:Website')->findAll();
-        $ranks = $this->getDoctrine()->getRepository('MaximCMSBundle:Rank')->findAll();
+        $groups = $this->getDoctrine()->getRepository('MaximCMSBundle:Group')->findAll();
 
         $data['websites'] = $websites;
-        $data['ranks'] = $ranks;
+        $data['groups'] = $groups;
         return $this->render("MaximModuleApplicationBundle:Admin:add_form.html.twig", $data);
     }
     public function applicationCreateAction()
     {
         $websites = $this->getDoctrine()->getRepository('MaximCMSBundle:Website')->findAll();
-        $ranks = $this->getDoctrine()->getRepository('MaximCMSBundle:Rank')->findAll();
+        $groups = $this->getDoctrine()->getRepository('MaximCMSBundle:Group')->findAll();
 
         $data['websites'] = $websites;
-        $data['ranks'] = $ranks;
+        $data['groups'] = $groups;
         return $this->render('MaximModuleApplicationBundle:Admin:createApplication.html.twig', $data);
     }
 
@@ -245,12 +245,12 @@ class AdminController extends Controller
 
         $name       = $main['_admin_app_name'];
         $website = $em->getRepository('MaximCMSBundle:Website')->findOneBy(array("id" => $main['_admin_app_website']));
-        $rank    = $em->getRepository('MaximCMSBundle:Rank')->findOneBy(array("id" => $main['_admin_app_rank']));
+        $group    = $em->getRepository('MaximCMSBundle:Group')->findOneBy(array("id" => $main['_admin_app_group']));
 
         $application = new Application();
         $application->setWebsite($website);
         $application->setEnabled(true);
-        $application->setRank($rank);
+        $application->setGroup($group);
         $application->setName($name);
         $application->setFields($fields);
 

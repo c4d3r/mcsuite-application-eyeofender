@@ -17,49 +17,17 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  */
 class Server {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
-     * @var integer $id
-     */
+
     protected $id;
 
-    /**
-     * @var string $title
-     *
-     * @ORM\Column(name="name", type="string", length=50, nullable=true)
-     */
     protected $name;
 
-    /**
-     * @var string $description
-     *
-     * @ORM\Column(name="description", type="text", nullable=true)
-     */
     protected $description;
 
-    /**
-     * @var string $image
-     *
-     * @ORM\Column(name="image", type="string", length=50, nullable=true)
-     */
     protected $image;
 
-    /**
-     * @var string $abbr
-     *
-     * @ORM\Column(name="abbr", type="string", length=10, nullable=true)
-     */
     protected $abbr;
 
-    /**
-     * @var Website
-     *
-     * @ORM\ManyToOne(targetEntity="Website")
-     * @ORM\JoinColumn(name="website_id", referencedColumnName="id", nullable=false)
-     */
     protected $website;
 
     /**

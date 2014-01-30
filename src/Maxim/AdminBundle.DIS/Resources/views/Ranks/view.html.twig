@@ -1,15 +1,15 @@
 {% extends 'MaximAdminBundle:Default:index.html.twig' %}
 {% block content %}
     <div class="container" style="width:100%;">
-        <h1>Rank statistics</h1>
+        <h1>Group statistics</h1>
         <div class="container-content">
             <p>Adding later</p>
         </div>
     </div>
     <div class="container" style="width:100%;">
-        <h1>Ranks</h1>
+        <h1>Groups</h1>
         <div class="container-content clearfix">
-            <div id="ranks-status" class="alert"></div>
+            <div id="groups-status" class="alert"></div>
             <div id="tabs">
                 <ul>
                     <li><a href="#tabs-1">RANKS</a></li>
@@ -17,7 +17,7 @@
                     <li><a href="#tabs-3">USER PERMISSIONS</a></li>
                 </ul>
                 <div id="tabs-1">
-                    <table id="table_ranks">
+                    <table id="table_groups">
                         <thead>
                         <tr>
                             <th style="width:20px;">ID:</th>
@@ -45,11 +45,11 @@
                             // Create the form
 
                             // Edit record
-                            $('#table_ranks').on('click', 'a.editor_edit', function (e) {
+                            $('#table_groups').on('click', 'a.editor_edit', function (e) {
                                 e.preventDefault();
 
                                 //call ajax delete request
-                                var url = '{{ path("admin_ranks_view", {'id': 'region_id'}) }}';
+                                var url = '{{ path("admin_groups_view", {'id': 'region_id'}) }}';
                                 url = url.replace("region_id", this.getAttribute("data-id"));
 
                                 var win=window.open(url, '_blank');
@@ -57,17 +57,17 @@
                             });
 
                             // Delete a record (without asking a user for confirmation)
-                            $('#table_ranks').on('click', 'a.editor_remove', function (e) {
+                            $('#table_groups').on('click', 'a.editor_remove', function (e) {
                                 e.preventDefault();
 
                                 //call ajax delete request
-                                var url = '{{ path("admin_rank_delete_ajax", {'id': 'region_id'}) }}';
+                                var url = '{{ path("admin_group_delete_ajax", {'id': 'region_id'}) }}';
                                 url = url.replace("region_id", this.getAttribute("data-id"));
 
                                 AJAX.post_url_datatable(url, $(this).parents('tr')[0], oTable);
                             });
 
-                            oTable = $('#table_ranks').dataTable( {
+                            oTable = $('#table_groups').dataTable( {
                                 "bSort": true,
                                 "bFilter": true,
                                 "bProcessing": true,
@@ -78,7 +78,7 @@
                                         aTargets: [ '_all' ]
                                     }
                                 ],
-                                "sAjaxSource": "{{ path('admin_ranks_list') }}",
+                                "sAjaxSource": "{{ path('admin_groups_list') }}",
                                 "aoColumns": [
                                     { "mData": "id" },
                                     { "mData": "name" },

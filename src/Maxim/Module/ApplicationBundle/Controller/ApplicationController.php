@@ -176,7 +176,7 @@ class ApplicationController extends Controller{
             $fields  = explode(';', $request->request->get("_fields"));
             $app_id  = $request->request->get("_application_id");
 
-            //get the rank
+            //get the group
             $em    = $this->getDoctrine()->getManager();
             $app   = $em->getRepository('MaximModuleApplicationBundle:Application')->findOneBy(array("id" => $app_id));
 

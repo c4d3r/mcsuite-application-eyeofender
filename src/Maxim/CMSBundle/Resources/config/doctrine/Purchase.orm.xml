@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Maxim\CMSBundle\Entity\Purchase" table="purchase" repository-class="Maxim\CMSBundle\Entity\PurchaseRepository">
+    <indexes>
+      <index name="IDX_6117D13B4D16C4DD" columns="store_item_id"/>
+      <index name="IDX_6117D13BA76ED395" columns="user_id"/>
+      <index name="IDX_6117D13BFDA273EC" columns="currency_code"/>
+    </indexes>
+
+    <id name="id" type="integer" column="purchaseId">
+      <generator strategy="IDENTITY"/>
+    </id>
+
+    <field name="amount" type="integer" column="amount" nullable="true"/>
+    <field name="date" type="datetime" column="date" nullable="false"/>
+    <field name="status" type="text" column="status" nullable="false"/>
+    <field name="name" type="text" column="name" nullable="true"/>
+    <field name="ip" type="text" column="ip" nullable="true"/>
+    <field name="transaction" type="text" column="transaction" nullable="true"/>
+    <field name="method" type="text" column="payment_method" nullable="true"/>
+    <field name="itemDelivery" type="string" column="store_item_delivery" length="255" nullable="false"/>
+    <field name="discount" type="decimal" column="discount" precision="5" scale="2" nullable="false"/>
+
+    <many-to-one field="user" target-entity="User" inversed-by="purchases">
+      <join-column name="user_id" referenced-column-name="id" />
+    </many-to-one>
+
+    <many-to-one field="currency" target-entity="Currency">
+      <join-columns>
+        <join-column name="currency_code" referenced-column-name="short"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="storeItem" target-entity="StoreItem">
+      <join-columns>
+        <join-column name="store_item_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Maxim\CMSBundle\Entity\Visitor" table="stat_visitor">
+    <indexes>
+      <index name="IDX_2E1F9606A76ED395" columns="user_id"/>
+    </indexes>
+    <id name="ip" type="string" column="ip" length="39"/>
+    <id name="time" type="integer" column="time"/>
+    <id name="userAgent" type="string" column="user_agent" length="255"/>
+
+    <many-to-one field="user" target-entity="User">
+      <join-columns>
+          <join-column name="user_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

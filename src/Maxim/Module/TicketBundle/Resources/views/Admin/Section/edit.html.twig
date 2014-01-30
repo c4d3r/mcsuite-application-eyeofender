@@ -13,12 +13,12 @@
                     <input type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" name="_btnEdit" id="btnEdit" value="Edit section" />
                 </p>
                 <p>
-                    <select id="ranks" class="multiselect" multiple="multiple" name="ranks[]">
-                        {% for rank in ranks %}
-                            <option value="{{ rank.id }}">{{ rank.name }}</option>
+                    <select id="groups" class="multiselect" multiple="multiple" name="groups[]">
+                        {% for group in groups %}
+                            <option value="{{ group.id }}">{{ group.name }}</option>
                         {% endfor %}
-                        {% for section_ranks in section.rank %}
-                            <option value="{{ section_ranks.id }}" selected="selected">{{ section_ranks.name }}</option>
+                        {% for section_groups in section.group %}
+                            <option value="{{ section_groups.id }}" selected="selected">{{ section_groups.name }}</option>
                         {% endfor %}
                     </select>
                 </p>
@@ -31,7 +31,7 @@
     <div class="clearfix"></div>
     <script>
         $(document).ready(function(){
-            $("#ranks").multiselect();
+            $("#groups").multiselect();
         });
         $("#frmEditSection").submit(function() {
             //get the url for the form
@@ -40,7 +40,7 @@
                     {
                         _name : $('#name').val(),
                         _section : $('#section').val(),
-                        _ranks : $('#ranks').val()
+                        _groups : $('#groups').val()
                     },
                     $("#section-status"),
                     $("#btnEdit")

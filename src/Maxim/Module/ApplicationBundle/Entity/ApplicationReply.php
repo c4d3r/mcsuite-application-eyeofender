@@ -12,44 +12,15 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ApplicationReply
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
-     * @var integer $id
-     */
+
     protected $id;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="text", type="text", nullable=true)
-     */
+
     protected $text;
 
-    /**
-     * @var \DateTime
-     * @ORM\Column(name="date", type="datetime", nullable=false)
-     */
     protected $date;
 
-    /**
-     * @var UserApplication
-     *
-     * @ORM\ManyToOne(targetEntity="UserApplication", inversedBy="replies")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="application_user_id", referencedColumnName="id")
-     * })
-     */
     protected $application;
 
-    /**
-     * @var \User
-     * @ORM\ManyToOne(targetEntity="\Maxim\CMSBundle\Entity\User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     * })
-     */
     protected $user;
 
 

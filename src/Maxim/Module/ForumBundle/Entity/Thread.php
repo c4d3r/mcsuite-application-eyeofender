@@ -9,91 +9,34 @@
 
 namespace Maxim\Module\ForumBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-/**
- * Maxim\CMSBundle\Entity\Announcement
- *
- * @ORM\Table(name="mcsf_thread")
- * @ORM\Entity(repositoryClass="ThreadRepository")
- */
+
 class Thread {
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
-     * @var integer $id
-     */
     protected $id;
 
-    /**
-     * @var Post
-     *
-     * @ORM\ManyToOne(targetEntity="Forum", inversedBy="threads", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="forum_id", referencedColumnName="id", nullable=false)
-     */
     protected $forum;
 
-    /**
-     * @var string $locked
-     *
-     * @ORM\Column(name="locked", type="boolean", nullable=false)
-     */
     protected $locked = false;
 
-    /**
-     * @var string $pinned
-     *
-     * @ORM\Column(name="pinned", type="boolean", nullable=false)
-     */
     protected $pinned = false;
 
-    /**
-     * @var string $text
-     *
-     * @ORM\Column(name="text", type="text", nullable=true)
-     */
     protected $text;
 
-    /**
-     * @var string $title
-     *
-     * @ORM\Column(name="title", type="string", nullable=true)
-     */
     protected $title;
 
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="\Maxim\CMSBundle\Entity\User", inversedBy="threads", cascade={"persist", "remove"}, fetch="EAGER")
-     * @ORM\JoinColumn(name="createdBy", referencedColumnName="id")
-     */
     protected $createdBy;
 
-    /**
-     * @var datetime $createdOn
-     *
-     * @ORM\Column(name="createdOn", type="datetime", nullable=false)
-     */
     protected $createdOn;
 
-    /**
-     * @var Post
-     *
-     * @ORM\OneToMany(targetEntity="Post", mappedBy="thread", fetch="EXTRA_LAZY")
-     */
     protected $posts;
 
-    /**
-     * @var ThreadEdit
-     *
-     * @ORM\OneToMany(targetEntity="ThreadEdit", mappedBy="thread", fetch="EXTRA_LAZY")
-     */
     protected $updates;
 
     public function __construct() {
         $this->setCreatedOn(new \DateTime("now"));
+        $this->posts = new ArrayCollection();
     }
 
     /**

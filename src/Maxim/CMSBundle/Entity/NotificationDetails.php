@@ -17,26 +17,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class NotificationDetails
 {
-    /**
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+
     protected $id;
 
-    /**
-     * @ORM\Column(name="payment_name", type="string", nullable=false)
-     */
     protected $paymentName;
 
-    /**
-     * @ORM\Column(name="details", type="object", nullable=false)
-     */
     protected $details;
 
-    /**
-     * @ORM\Column(name="created_at", type="datetime", nullable=false)
-     */
     protected $createdAt;
 
     /**

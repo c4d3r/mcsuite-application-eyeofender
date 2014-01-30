@@ -12,55 +12,19 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Vote
 {
-    /**
-     * @var integer $id
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+
     protected $id;
 
-    /**
-     * @var string $name
-     *
-     * @ORM\Column(name="name", type="string", length=45, nullable=true)
-     */
     protected $name;
 
-    /**
-     * @var string $link
-     *
-     * @ORM\Column(name="link", type="string", length=45, nullable=true)
-     */
     protected $link;
 
-    /**
-     * @var string $image
-     *
-     * @ORM\Column(name="image", type="string", length=45, nullable=true)
-     */
     protected $image;
 
-    /**
-     * @var integer $reset
-     *
-     * @ORM\Column(name="reset", type="integer", nullable=true)
-     */
     protected $reset;
 
-    /**
-     * @var string $website
-     *
-     * @ORM\Column(name="website", type="string", length=45, nullable=true)
-     */
     protected $website;
 
-    /**
-     * @var boolean $votifier
-     *
-     * @ORM\Column(name="votifier", type="boolean", nullable=true)
-     */
     protected $votifier;
 
     /**

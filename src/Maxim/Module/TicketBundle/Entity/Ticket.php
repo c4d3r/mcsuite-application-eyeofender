@@ -12,92 +12,32 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Ticket
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="bigint", nullable=false)
-     * @ORM\Id
-     */
+
     protected $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="text", nullable=false)
-     */
     protected $description;
 
-    /**
-     * @var \DateTime
-     * @ORM\Column(name="date", type="datetime", nullable=true)
-     */
     protected $date;
 
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="closed", type="boolean", nullable=false)
-     */
     protected $closed = 0;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="statusChangedOn", type="datetime", nullable=true)
-     */
     protected $statuschangedon;
 
-    /**
-     * @var String
-     *
-     * @ORM\Column(name="status", type="text", nullable=true)
-     */
     protected $status;
 
-    /**
-     * @var \Maxim\CMSBundle\Entity\User
-     *
-     * @ORM\ManyToOne(targetEntity="Maxim\CMSBundle\Entity\User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="sectionChangedBy", referencedColumnName="id")
-     * })
-     */
     protected $sectionchangedby;
 
-    /**
-     * @var TicketSection
-     *
-     * @ORM\ManyToOne(targetEntity="TicketSection")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="section_id", referencedColumnName="id")
-     * })
-     */
     protected $section;
 
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="Maxim\CMSBundle\Entity\User")
-     */
     protected $user;
 
-    /**
-     * @var \Maxim\CMSBundle\Entity\Website
-     *
-     * @ORM\ManyToOne(targetEntity="\Maxim\CMSBundle\Entity\Website")
-     * @ORM\JoinColumn(name="website_id", referencedColumnName="id", nullable=true)
-     */
     protected $website;
 
-    /**
-     * @var TicketReply
-     *
-     * @ORM\OneToMany(targetEntity="TicketReply", mappedBy="ticket")
-     */
     protected $replies;
 
-    public function __construct()
+    public function __construct($id)
     {
+        $this->setId($id);
         $this->setDate(new \DateTime("now"));
         $this->setStatuschangedon(new \DateTIme("now"));
         $this->replies = new ArrayCollection();

@@ -24,13 +24,13 @@ class AdminGroupPermissionsController extends Controller
         $grantedapps = array();
         $applications_available = array();
         $permissions = array();
-        $rank = $em->getRepository('MaximCMSBundle:Rank')->findOneBy(array("id" => $id));
-        if(!$rank){ throw new EntityNotFoundException(); }
+        $group = $em->getRepository('MaximCMSBundle:Group')->findOneBy(array("id" => $id));
+        if(!$group){ throw new EntityNotFoundException(); }
 
         $applications = $em->getRepository('MaximCMSBundle:CoreApplication')->findAll();
-        $grantedapps  = $em->getRepository('MaximCMSBundle:Rank')->findOneBy(array("id" => $id));
+        $grantedapps  = $em->getRepository('MaximCMSBundle:Group')->findOneBy(array("id" => $id));
 
-        $permissions = $rank->getApplications();
+        $permissions = $group->getApplications();
 
         if($grantedapps && (count($grantedapps) > 0))
         {
@@ -53,14 +53,14 @@ class AdminGroupPermissionsController extends Controller
             }
         }
 
-        $data['rank'] = $rank;
+        $data['group'] = $group;
         $data['permissions'] = $permissions;
         $data['applications'] = $applications_available;
-        return $this->render('MaximAdminBundle:Ranks/permissions/group:edit.html.twig', $data);
+        return $this->render('MaximAdminBundle:Groups/permissions/group:edit.html.twig', $data);
     }
     public function listAction()
     {
-        $datatable = $this->get('lankit_datatables')->getDatatable('MaximCMSBundle:Rank');
+        $datatable = $this->get('lankit_datatables')->getDatatable('MaximCMSBundle:Group');
 
         // The default type for all joins is inner. Change it to left if desired.
         $datatable->setDefaultJoinType(Datatable::JOIN_LEFT);
@@ -74,14 +74,14 @@ class AdminGroupPermissionsController extends Controller
         {
             $logger = $this->get('logger');
             $em = $this->getDoctrine()->getManager();
-            $rank = $em->getRepository('MaximCMSBundle:Rank')->findOneBy(array("id" => $request->request->get('_admin_rank')));
-            if(!$rank){return new Response(json_encode(array("success" => false, "message" => "Could not find the rank specified"))); }
+            $group = $em->getRepository('MaximCMSBundle:Group')->findOneBy(array("id" => $request->request->get('_admin_group')));
+            if(!$group){return new Response(json_encode(array("success" => false, "message" => "Could not find the group specified"))); }
 
             $permissions = $request->request->get('_admin_permissions');
 
-            foreach($rank->getApplications() as $a)
+            foreach($group->getApplications() as $a)
             {
-                $rank->removeApplication($a);
+                $group->removeApplication($a);
             }
 
             $em->flush();
@@ -93,7 +93,7 @@ class AdminGroupPermissionsController extends Controller
                     foreach($permissions as $permission)
                     {
                         $app = $em->getRepository('MaximCMSBundle:CoreApplication')->findOneBy(array("id" => $permission));
-                        $rank->addApplication($app);
+                        $group->addApplication($app);
                     }
                     $em->flush();
                 }

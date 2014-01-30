@@ -10,56 +10,21 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="user_application")
  * @ORM\Entity
  */
-class UserApplication {
-    /**
-     * @var integer $id
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+class UserApplication
+{
+
     protected $id;
 
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="Maxim\CMSBundle\Entity\User")
-     */
     protected $user;
 
-    /**
-     * @var json_array $details
-     *
-     * @ORM\Column(name="details", type="json_array", nullable=false)
-     */
     protected $details;
 
-    /**
-     * @var \DateTime $date
-     *
-     * @ORM\Column(name="date", type="datetime", nullable=true)
-     */
     protected $date;
 
-    /**
-     * @var integer $denied
-     *
-     * @ORM\Column(name="denied", type="boolean", nullable=false)
-     */
     protected $denied = false;
 
-    /**
-     * @var Application
-     *
-     * @ORM\ManyToOne(targetEntity="Application", inversedBy="userApplications")
-     */
     protected $application;
 
-    /**
-     * @var ApplicationReply
-     *
-     * @ORM\OneToMany(targetEntity="ApplicationReply", mappedBy="application")
-     */
     protected $replies;
 
 

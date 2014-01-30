@@ -9,6 +9,7 @@
 namespace Maxim\Module\TicketBundle\Controller;
 
 use Maxim\CMSBundle\Controller\ModuleController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Maxim\Module\TicketBundle\Entity\Ticket;
 use Maxim\Module\TicketBundle\Entity\TicketReply;
@@ -28,7 +29,7 @@ class TicketController extends Controller
 
     public function createAction()
     {
-        $request = $this->getRequest();
+        $request = Request::createFromGlobals();
         $logger = $this->get('logger');
 
         if($request->isXmlHttpRequest())
@@ -45,8 +46,8 @@ class TicketController extends Controller
                 $section = $em->getRepository('MaximModuleTicketBundle:TicketSection')->findOneBy(array("id" => $section));
                 $user = $this->getUser();
 
-                $ticket = new Ticket();
-                $ticket->setId(time() . $user->getId());
+                $ticket = new Ticket(time() . $user->getId());
+
                 $ticket->setDescription($bbcode->parse($description));
                 $ticket->setSection($section);
                 $ticket->setUser($this->getUser());
@@ -90,7 +91,7 @@ class TicketController extends Controller
     }
     public function closeAction()
     {
-        $request = $this->getRequest();
+        $request = Request::createFromGlobals();
         if($request->isXmlHttpRequest())
         {
             $em         = $this->getDoctrine()->getManager();
@@ -125,7 +126,7 @@ class TicketController extends Controller
     }
     public function openAction()
     {
-        $request = $this->getRequest();
+        $request = Request::createFromGlobals();
         if($request->isXmlHttpRequest())
         {
             $em         = $this->getDoctrine()->getManager();
@@ -152,7 +153,7 @@ class TicketController extends Controller
     }
     public function replyAction()
     {
-        $request = $this->getRequest();
+        $request = Request::createFromGlobals();
         $logger = $this->get('logger');
 
         if($request->isXmlHttpRequest())

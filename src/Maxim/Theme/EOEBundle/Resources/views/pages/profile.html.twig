@@ -6,7 +6,7 @@
             <img src="https://minotar.net/helm/{{ player.username }}/115.png" id="profile-image" class="left"/>
             <div class="profile-header-text">
                 <h2>{{ player.username }}</h2>
-                <span class="profile-rank {{ player.rank.cssClass }}">{{ player.rank }}</span>
+                <span class="profile-group {{ player.group.cssClass }}">{{ player.group }}</span>
                 {% if app.user and not (player.id == app.user.id) %}
                     <div id="profile-actions" class="right">
                         <ul>

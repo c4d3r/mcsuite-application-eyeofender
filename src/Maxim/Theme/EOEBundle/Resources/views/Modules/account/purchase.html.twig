@@ -26,7 +26,7 @@
                     {% endif %}
 
 					<td>{{ purchase.date|date }}</td>
-                    <td><a href="{{ purchase.shop.website.site }}" class="label label-info">{{ purchase.shop.website.site }}</a></td>
+                    <td><a href="{{ purchase.storeItem.website.site }}" class="label label-info">{{ purchase.storeItem.website.site }}</a></td>
 				</tr>
 			{% else %}
 			<tr>

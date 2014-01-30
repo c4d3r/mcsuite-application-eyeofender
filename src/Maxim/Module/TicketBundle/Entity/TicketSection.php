@@ -12,42 +12,15 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class TicketSection
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+
     private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=50, nullable=true)
-     */
     private $name;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="createdOn", type="datetime", nullable=true)
-     */
     private $createdon;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="Maxim\CMSBundle\Entity\Rank", mappedBy="sections", cascade={"persist"})
-     */
-    private $ranks;
+    private $groups;
 
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="Maxim\CMSBundle\Entity\User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="createdBy", referencedColumnName="id")
-     * })
-     */
     private $createdby;
 
     /**
@@ -55,7 +28,7 @@ class TicketSection
      */
     public function __construct()
     {
-        $this->rank = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->group = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
 
@@ -116,36 +89,36 @@ class TicketSection
     }
 
     /**
-     * Add rank
+     * Add group
      *
-     * @param \Maxim\CMSBundle\Entity\Rank $rank
+     * @param \Maxim\CMSBundle\Entity\Group $group
      * @return TicketSection
      */
-    public function addRank(\Maxim\CMSBundle\Entity\Rank $rank)
+    public function addGroup(\Maxim\CMSBundle\Entity\Group $group)
     {
-        $this->ranks[] = $rank;
+        $this->groups[] = $group;
     
         return $this;
     }
 
     /**
-     * Remove rank
+     * Remove group
      *
-     * @param \Maxim\CMSBundle\Entity\Rank $rank
+     * @param \Maxim\CMSBundle\Entity\Group $group
      */
-    public function removeRank(\Maxim\CMSBundle\Entity\Rank $rank)
+    public function removeGroup(\Maxim\CMSBundle\Entity\Group $group)
     {
-        $this->ranks->removeElement($rank);
+        $this->groups->removeElement($group);
     }
 
     /**
-     * Get rank
+     * Get group
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getRanks()
+    public function getGroups()
     {
-        return $this->ranks;
+        return $this->groups;
     }
 
     /**

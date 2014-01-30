@@ -16,113 +16,34 @@ class StoreItem
     const STORE_SQL = 'SQL';
     const STORE_COMMAND = 'COMMAND';
 
-    /**
-     * @var integer $id
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
     protected $id;
 
-    /**
-     * @var string $name
-     *
-     * @ORM\Column(name="name", type="string", length=45, nullable=true)
-     */
     protected $name;
 
-    /**
-     * @var string $description
-     *
-     * @ORM\Column(name="description", type="text", nullable=true)
-     */
     protected $description;
 
-    /**
-     * @var string $amount
-     *
-     * @ORM\Column(name="amount", type="decimal", precision=2)
-     */
     protected $amount = 0.00;
 
-    /**
-     * @var boolean $visible
-     *
-     * @ORM\Column(name="visible", type="boolean", nullable=false)
-     */
     protected $visible = true;
 
-    /**
-     * @var string $command
-     *
-     * @ORM\Column(name="command", type="text", nullable=true)
-     */
     protected $command;
 
-    /**
-     * @var string $image
-     *
-     * @ORM\Column(name="image", type="text", nullable=true)
-     */
     protected $image;
 
-	 /**
-     * @var string $image
-     *
-     * @ORM\Column(name="reduction", type="integer", type="decimal", precision=2, nullable=false)
-     */
     protected $reduction = 0.00;
 
-    /**
-     * @var string $priority
-     *
-     * @ORM\Column(name="priority", type="integer", nullable=true)
-     */
     protected $priority;
 
-    /**
-     * @var Section
-     *
-     * @ORM\ManyToOne(targetEntity="StoreCategory", inversedBy="items")
-     * @ORM\JoinColumn(name="store_category_id", referencedColumnName="id", nullable=false)
-     */
     protected $storeCategory;
 
-    /**
-     * @var Website
-     *
-     * @ORM\ManyToOne(targetEntity="Website")
-     * @ORM\JoinColumn(name="website_id", referencedColumnName="id", nullable=false)
-     */
     protected $website;
 
-    /**
-     * @var string $type
-     *
-     * @ORM\Column(name="type", type="text", nullable=false)
-     */
     protected $type;
 
-    /**
-     * @var string $tax
-     *
-     * @ORM\Column(name="tax", type="decimal", precision=2, nullable=false)
-     */
     protected $tax = 0;
 
-    /**
-     * @var string $description
-     *
-     * @ORM\Column(name="sort", type="integer", nullable=false, length=10)
-     */
     protected $sort = 0;
 
-    /**
-     * @var string $duration
-     *
-     * @ORM\Column(name="duration", type="integer", nullable=false, length=11)
-     */
     protected $duration = 0;
 
     /**

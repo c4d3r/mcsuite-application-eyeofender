@@ -18,43 +18,14 @@ use Doctrine\ORM\Mapping as ORM;
 class PostEdit
 {
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
-     * @var integer $id
-     */
     protected $id;
 
-    /**
-     * @var Post
-     *
-     * @ORM\ManyToOne(targetEntity="Post", inversedBy="updates", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
-     */
     protected $post;
 
-    /**
-     * @var String $reason
-     *
-     * @ORM\Column(name="reason", type="text", nullable=false)
-     */
     protected $reason;
 
-    /**
-     * @var \Maxim\CMSBundle\Entity\User
-     *
-     * @ORM\ManyToOne(targetEntity="\Maxim\CMSBundle\Entity\User", inversedBy="postedits", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="updatedBy", referencedColumnName="id")
-     */
     protected $updatedBy;
 
-    /**
-     * @var \Datetime $updatedOn
-     *
-     * @ORM\Column(name="updatedOn", type="datetime", nullable=false)
-     */
     protected $updatedOn;
 
     public function __construct() {

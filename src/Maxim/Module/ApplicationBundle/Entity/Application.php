@@ -15,55 +15,18 @@ class Application
     const FIELD_NAME = "NAME";
     const FIELD_TYPE = "TYPE";
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
-     * @var integer $id
-     */
     protected $id;
 
-    /**
-     * @var Rank
-     *
-     * @ORM\ManyToOne(targetEntity="\Maxim\CMSBundle\Entity\Rank")
-     * @ORM\JoinColumn(name="rank_id", referencedColumnName="id", nullable=false)
-     */
-    protected $rank;
+    protected $group;
 
-    /**
-     * @var Website
-     *
-     * @ORM\ManyToOne(targetEntity="\Maxim\CMSBundle\Entity\Website")
-     * @ORM\JoinColumn(name="website_id", referencedColumnName="id", nullable=false)
-     */
     protected $website;
 
-    /**
-     * @var string $name
-     *
-     * @ORM\Column(name="application_name", type="string", nullable=false)
-     */
     protected $name;
 
-    /**
-     * @var string $enabled
-     *
-     * @ORM\Column(name="application_enabled", type="integer", nullable=false)
-     */
     protected $enabled = 0;
 
-    /**
-     * @var array $fields
-     *
-     * @ORM\Column(name="application_fields", type="json_array", nullable=true)
-     */
     protected $fields;
 
-    /**
-     * @ORM\OneToMany(targetEntity="UserApplication", mappedBy="application", fetch="EAGER")
-     */
     protected $userApplications;
 
     public function __construct()
@@ -121,19 +84,19 @@ class Application
     }
 
     /**
-     * @param \Maxim\CMSBundle\Entity\Rank $rank
+     * @param \Maxim\CMSBundle\Entity\Group $group
      */
-    public function setRank($rank)
+    public function setGroup($group)
     {
-        $this->rank = $rank;
+        $this->group = $group;
     }
 
     /**
-     * @return \Maxim\CMSBundle\Entity\Rank
+     * @return \Maxim\CMSBundle\Entity\Group
      */
-    public function getRank()
+    public function getGroup()
     {
-        return $this->rank;
+        return $this->group;
     }
 
     /**

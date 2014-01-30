@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Maxim\CMSBundle\Entity\ServerIp" table="server_ip">
+    <indexes>
+      <index name="IDX_29E32CA1844E6B7" columns="server_id"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="host" type="string" column="host" length="50" nullable="false"/>
+    <field name="ip" type="string" column="ip" length="50" nullable="false"/>
+    <many-to-one field="server" target-entity="Server">
+      <join-columns>
+        <join-column name="server_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

@@ -40,7 +40,7 @@
                 <div class="mcsf_post_main">
                     <div class="mcsf_post row">
                         <div class="mcsf_post_author large-3">
-                            <div class="mcsf_post_author_image{% if thread.createdBy.granted(['ROLE_STAFF']) %} mcsf_author_staff{% endif %}">
+                            <div class="mcsf_post_author_image{% if thread.createdBy.hasRole('ROLE_STAFF') %} mcsf_author_staff{% endif %}">
                                 <a href="{{ path('profile', {'name' : thread.createdBy.username}) }}" alt="visit profile of{{ thread.createdBy.username }}">
                                     <img src="http://minotar.net/helm/{{ thread.createdBy.username }}/85.png" alt="mc the mass logo" class="preload"/>
                                 </a>
@@ -52,7 +52,7 @@
                                     <span class="mcsf_admin_userip">{{ thread.createdBy.lastIp }}</span>
                                 {% endif %}
                                 <p class="mcsf_post_author_name"><a href="{{ path('profile', {'name' : thread.createdBy.username}) }}" alt="visit profile of{{ thread.createdBy.username }}">{{ thread.createdBy.username }}</a></p>
-                                <p class="mcsf_post_author_title {{ thread.createdBy.rank.cssClass }}">{{ thread.createdBy.rank.name }}</p>
+                                <p class="mcsf_post_author_title {{ thread.createdBy.group.cssClass }}">{{ thread.createdBy.group.name }}</p>
                             </div>
                         </div>
                         <div class="mcsf_post_content">
@@ -84,7 +84,7 @@
                     {% for post in posts %}
                     <div class="mcsf_post row">
                         <div class="mcsf_post_author large-3">
-                            <div class="mcsf_post_author_image{% if post.createdBy.granted(['ROLE_STAFF']) %} mcsf_author_staff{% endif %}">
+                            <div class="mcsf_post_author_image{% if post.createdBy.hasRole('ROLE_STAFF') %} mcsf_author_staff{% endif %}">
                                 <a href="{{ path('profile', {'name' : post.createdBy.username}) }}" alt="visit profile of{{ post.createdBy.username }}">
                                     <img src="http://minotar.net/helm/{{ post.createdBy.username }}/85.png" alt="mc the mass logo" class="preload"/>
                                 </a>
@@ -99,7 +99,7 @@
                                         {{ post.createdBy.username }}
                                     </a>
                                 </p>
-                                <p class="mcsf_post_author_title {{ post.createdBy.rank.cssClass }}">{{ post.createdBy.rank.name }}</p>
+                                <p class="mcsf_post_author_title {{ post.createdBy.group.cssClass }}">{{ post.createdBy.group.name }}</p>
                             </div>
                         </div>
                         <div class="mcsf_post_content">

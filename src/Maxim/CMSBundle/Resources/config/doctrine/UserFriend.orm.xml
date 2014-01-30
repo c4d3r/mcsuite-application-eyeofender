@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="Maxim\CMSBundle\Entity\UserFriend" table="user_friend">
+        <indexes>
+            <index name="IDX_30BCB75C93D1119E" columns="friend_user_id"/>
+            <index name="IDX_30BCB75CA76ED395" columns="user_id"/>
+        </indexes>
+
+        <id name="user" association-key="true" />
+        <id name="friend" association-key="true" />
+
+        <field name="addedOn" type="datetime" column="addedOn" nullable="false"/>
+
+        <many-to-one field="user" target-entity="User" inversed-by="friends">
+            <join-columns>
+                <join-column name="user_id" referenced-column-name="id"/>
+            </join-columns>
+        </many-to-one>
+
+        <many-to-one field="friend" target-entity="User">
+            <join-columns>
+                <join-column name="friend_user_id" referenced-column-name="id"/>
+            </join-columns>
+        </many-to-one>
+
+    </entity>
+</doctrine-mapping>

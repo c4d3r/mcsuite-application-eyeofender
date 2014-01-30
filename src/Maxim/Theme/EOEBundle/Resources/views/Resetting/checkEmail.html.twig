@@ -1,0 +1,13 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+<div class="page">
+    <h3 class="page-header">Check email</h3>
+
+    <p>
+    {{ 'resetting.check_email'|trans({'%email%': email}) }}
+    </p>
+</div>
+{% endblock %}

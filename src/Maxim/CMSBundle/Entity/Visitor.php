@@ -16,34 +16,13 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  */
 class Visitor {
-    /**
-     * @var string $ip
-     *
-     * @ORM\Id
-     * @ORM\Column(name="ip", type="string", length=39, nullable=false)
-     */
+
     protected $ip;
 
-    /**
-     * @var string $time
-     * @ORM\Id
-     * @ORM\Column(name="time", type="integer", nullable=false)
-     */
     protected $time;
 
-    /**
-     * @var string $user_agent
-     * @ORM\Id
-     * @ORM\Column(name="user_agent", type="string", nullable=true)
-     */
     protected $user_agent;
 
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
-     */
     protected $user;
 
     /**

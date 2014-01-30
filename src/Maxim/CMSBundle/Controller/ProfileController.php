@@ -17,8 +17,9 @@ use Symfony\Component\Form\Exception\InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use FOS\UserBundle\Controller\ProfileController as BaseProfileController;
 
-class ProfileController extends Controller {
+class ProfileController extends BaseProfileController {
 
     public function viewAction($name)
     {

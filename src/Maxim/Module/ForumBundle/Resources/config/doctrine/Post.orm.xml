@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Maxim\Module\ForumBundle\Entity\Post" table="mcsf_post" repository-class="Maxim\Module\ForumBundle\Entity\PostRepository">
+    <indexes>
+      <index name="IDX_D7E1187FE2904019" columns="thread_id"/>
+      <index name="IDX_D7E1187FD3564642" columns="createdBy"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="text" type="text" column="text" nullable="false"/>
+    <field name="createdOn" type="datetime" column="createdOn" nullable="false"/>
+
+    <many-to-one field="createdBy" target-entity="\Maxim\CMSBundle\Entity\User" inversed-by="posts">
+      <join-columns>
+        <join-column name="createdBy" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+
+    <many-to-one field="thread" target-entity="Thread" inversed-by="posts">
+      <join-columns>
+          <join-column name="thread_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+
+
+    <one-to-many field="likes" target-entity="PostLike" mapped-by="post" />
+
+  </entity>
+</doctrine-mapping>

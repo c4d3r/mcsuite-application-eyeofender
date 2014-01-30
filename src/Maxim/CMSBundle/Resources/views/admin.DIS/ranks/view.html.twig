@@ -3,12 +3,12 @@
 {% block middle %}
     <div id="middle_menu_top">
         <div class="vertical">
-            <h1>Ranks</h1>
+            <h1>Groups</h1>
         </div>
     </div>
     <div id="middle_menu_small">
         <ul>
-            <li><a href="{{ path('admin_ranks')}}">ranks</a></li>
+            <li><a href="{{ path('admin_groups')}}">groups</a></li>
         </ul>
     </div>
     <script>
@@ -22,7 +22,7 @@
                 <h6>Tickets</h6>
             </div>
             <div class="window-content">
-                <div id="ranks-status" class="alert"></div>
+                <div id="groups-status" class="alert"></div>
                 <div id="tabs">
                     <ul>
                         <li><a href="#tabs-1">RANKS</a></li>
@@ -32,9 +32,9 @@
                     <div id="tabs-1">
 
                         <!-- buttons -->
-                        <a href="{{ path('admin_ranks_add') }}" id="add-rank" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">Add Rank</a>
-                        <button type="button" name="" id="view-rank" value="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">View Rank</button>
-                        <button type="button" name="" id="delete-rank" value="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">Delete Rank</button>
+                        <a href="{{ path('admin_groups_add') }}" id="add-group" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">Add Group</a>
+                        <button type="button" name="" id="view-group" value="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">View Group</button>
+                        <button type="button" name="" id="delete-group" value="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">Delete Group</button>
 
                         <!-- VIEW NEWS POSTS -->
                         <table id="table_id">
@@ -68,23 +68,23 @@
                                 });
 
                                 /* Add a click handler for the edit row */
-                                $('#view-rank').click( function() {
+                                $('#view-group').click( function() {
                                     var anSelected = fnGetSelected( oTable );
                                     var aData = oTable.fnGetData(anSelected);
 
-                                    window.location.href = "{{ path('admin_ranks_view_pattern') }}" + "/" + aData["id"];
+                                    window.location.href = "{{ path('admin_groups_view_pattern') }}" + "/" + aData["id"];
                                 } );
 
-                                $('#delete-rank').click(function(){
+                                $('#delete-group').click(function(){
                                     var anSelected = fnGetSelected( oTable );
                                     var aData = oTable.fnGetData(anSelected);
                                     //AJAX REQUEST TO CLOSE TICKET
                                     AJAX.post_noButton(
-                                            "{{ path('admin_rank_delete_ajax')}}",
+                                            "{{ path('admin_group_delete_ajax')}}",
                                             {
-                                                _rank : aData["id"]
+                                                _group : aData["id"]
                                             },
-                                            $('#ranks-status')
+                                            $('#groups-status')
                                     );
                                 });
 
@@ -93,7 +93,7 @@
                                     "bFilter": true,
                                     "bProcessing": true,
                                     "bServerSide": true,
-                                    "sAjaxSource": "{{ path('admin_ranks_list') }}",
+                                    "sAjaxSource": "{{ path('admin_groups_list') }}",
                                     "aoColumns": [
                                         { "mData": "id" },
                                         { "mData": "name" },

@@ -16,15 +16,16 @@ use Maxim\CMSBundle\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\Yaml\Yaml;
-
+use FOS\UserBundle\Controller\SecurityController as BaseSecurityController;
 //If it inherits from ModuleController then it can be overwrited!!
-class SecurityController extends Controller
+
+class SecurityController extends BaseSecurityController
 {
 
     protected $details = array();
 
     /* LOGIN */
-    public function loginAction()
+    /*public function loginAction()
     {
         $request = Request::createFromGlobals();
         $session = new Session();
@@ -57,7 +58,7 @@ class SecurityController extends Controller
             'last_username' => $session->get(SecurityContext::LAST_USERNAME),
             'error'         => $error,
         ));
-    }
+    }     */
     /* REGISTER */
     public function registerViewAction()
     {

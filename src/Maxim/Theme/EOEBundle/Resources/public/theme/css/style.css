@@ -93,6 +93,17 @@ h1, h2, h3, h4, h5, h6 {
     border-bottom: 1px solid rgb(88, 85, 0);
     box-shadow: inset 1px 1px 1px 0px rgba(0, 0, 0, 1);
 }
+.sf_date {
+    width:100%;
+    margin-bottom:5px;
+}
+.sf_date > select{
+    display: inline-block;
+    width: 75px;
+}
+.sf_date > select + select {
+    margin-left:5px;
+}
 .alert {
     padding: 15px;
     border-radius: 3px;

@@ -1,16 +1,16 @@
 {% extends 'MaximAdminBundle:Default:index.html.twig' %}
 {% block content %}
     <div class="container" style="width:100%;">
-        <h1>Rank statistics</h1>
+        <h1>Group statistics</h1>
         <div class="container-content">
             <p>Adding later</p>
         </div>
     </div>
     <div class="container" style="width:100%;">
-        <h1>Edit rank</h1>
+        <h1>Edit group</h1>
         <div class="container-content clearfix">
-            <div id="rank-status" class="alert"></div>
-            <p>Editing rank: {{ rank.name }}</p>
+            <div id="group-status" class="alert"></div>
+            <p>Editing group: {{ group.name }}</p>
             <!-- ADD PAGE -->
             <form action="{{ path('admin_permgroup_edit') }}" id="frmEditPermissions" class="form-clean" method="post">
                 <p>
@@ -24,7 +24,7 @@
                         {% endfor %}
                     </select>
                 </p>
-                <input type="hidden" name="_admin_rank_id" id="id" value="{{ rank.id }}" />
+                <input type="hidden" name="_admin_group_id" id="id" value="{{ group.id }}" />
                 <button type="submit" id="btnPermissionsAdd" class="btn">Save permissions</button>
             </form>
         </div>
@@ -37,9 +37,9 @@
                             $("#frmEditPermissions").attr("action"),
                             {
                                 _admin_permissions : $('#permissions').val(),
-                                _admin_rank : $('#id').val()
+                                _admin_group : $('#id').val()
                             },
-                            $("#rank-status"), $('#btnPermissionsAdd'));
+                            $("#group-status"), $('#btnPermissionsAdd'));
                     return false;
                 });
             });

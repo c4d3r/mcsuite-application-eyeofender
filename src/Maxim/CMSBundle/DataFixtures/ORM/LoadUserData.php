@@ -22,7 +22,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface{
         $userC4D3R->setUsername("c4d3r");
         $userC4D3R->setPassword("1839a056396a1385bc387dfa2973c632722f0346");
 
-        $userC4D3R->addRank($this->getReference('rank-admin'));
+        $userC4D3R->addGroup($this->getReference('group-admin'));
 
         $manager->persist($userC4D3R);
         $manager->flush();
