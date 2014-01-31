@@ -155,8 +155,6 @@ fos_user:
         confirmation:
             enabled: true
             template: MaximCMSBundle:Registration:email.html.twig
-        email:
-            template:
 
 # Payum Configuration
 payum:
