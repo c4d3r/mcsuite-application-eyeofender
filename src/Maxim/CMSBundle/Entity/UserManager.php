@@ -9,7 +9,7 @@
 namespace Maxim\CMSBundle\Entity;
 
 use Doctrine\ORM\EntityManager;
-use FOS\UserBundle\Model\User;
+use FOS\UserBundle\Model\User as BaseUser;
 use FOS\UserBundle\Model\UserInterface;
 use Sonata\CoreBundle\Entity\DoctrineBaseManager;
 use FOS\UserBundle\Model\UserManager as BaseUserManager;

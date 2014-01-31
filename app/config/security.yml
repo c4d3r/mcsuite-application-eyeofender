@@ -25,6 +25,12 @@ security:
                 csrf_provider: form.csrf_provider
                 #success_handler: authentication_handler
                 #failure_handler: authentication_handler
+            remember_me:
+                key: %secret%
+                lifetime: 31536000
+                path: ~
+                domain: ~
+                always_remember_me: true
             logout:       true
             anonymous:    true
     access_control:
