@@ -1,0 +1,24 @@
+{% trans_default_domain 'FOSUserBundle' %}
+<html>
+<table style="width:500px;font-family:arial;">
+    <tr style="height:150px;">
+        <td style="width:500px;background:#1C1C1C"><h1 style="color:white;">Welcome to our minecraft server {{ user.username }}</h1></td>
+    </tr>
+    <tr>
+        <td style="width:500px;background:#fff;">
+            {% block subject %}
+                {% autoescape false %}
+                {{ 'registration.email.subject'|trans({'%username%': user.username, '%confirmationUrl%': confirmationUrl}) }}
+                {% endautoescape %}
+            {% endblock %}
+            {% block body_text %}
+                {% autoescape false %}
+                {{ 'registration.email.message'|trans({'%username%': user.username, '%confirmationUrl%': confirmationUrl}) }}
+                {% endautoescape %}
+            {% endblock %}
+            {% block body_html %}{% endblock %}
+        </td>
+    </tr>
+
+</table>
+</html>

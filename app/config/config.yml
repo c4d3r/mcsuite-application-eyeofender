@@ -146,6 +146,18 @@ fos_user:
     user_class: Maxim\CMSBundle\Entity\User
     group:
         group_class: Maxim\CMSBundle\Entity\Rank
+    from_email:
+        address:     no-reply@eyeofender.com
+        sender_name: Eye of Ender customer service
+    service:
+        mailer: fos_user.mailer.twig_swift
+    registration:
+        confirmation:
+            enabled: true
+            template: MaximCMSBundle:Registration:email.html.twig
+        email:
+            template:
+
 # Payum Configuration
 payum:
     contexts:
