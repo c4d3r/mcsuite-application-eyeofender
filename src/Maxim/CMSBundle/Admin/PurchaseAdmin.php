@@ -59,6 +59,8 @@ class PurchaseAdmin extends Admin
             ->add('status')
             ->add('transaction')
             ->add('name')
+            ->add('method')
+            ->add('itemDelivery')
             ->add('date')
         ;
     }
@@ -72,6 +74,8 @@ class PurchaseAdmin extends Admin
             ->add('name')
             //->add('storeItem')
             ->add('status')
+            ->add('itemDelivery')
+            ->add('method')
             ->add('amount')
         ;
     }

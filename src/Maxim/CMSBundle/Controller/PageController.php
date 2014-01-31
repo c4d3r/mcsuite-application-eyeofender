@@ -39,7 +39,7 @@ class PageController extends Controller
         $result = $query->getResult();
 		if(!$page || (count($result) <= 0))
 		{
-            return $this->render('MaximCMSBundle:Exception:404.html.twig');
+            return $this->render('MaximCMSBundle:Exception:error404.html.twig');
 		}
 		else
 		{
