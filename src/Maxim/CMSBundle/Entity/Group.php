@@ -39,6 +39,11 @@ class Group extends BaseGroup
         );
     }
 
+    public function __toString()
+    {
+        return $this->name;
+    }
+
     /**
      * Consturcts a new instance of Role.
      */

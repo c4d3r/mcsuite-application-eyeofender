@@ -35,6 +35,7 @@ class User extends BaseUser
     {
         parent::__construct();
     }
+
     /**
      * Hook on pre-persist operations
      */
