@@ -1,13 +1,11 @@
 Maxim\CMSBundle\Entity\User:
     properties:
         username:
-            - NotBlank:
-                message: "Field Username is required"
             - Length:
                 min: 3
                 minMessage: "Your username must consist out of {{ limit }} characters."
             - Regex: { pattern: "/(^[^@]+$)/" , message: "Username not valid" }
-        password:
+        plainPassword:
             - NotBlank: { message: "Field Password is required" }
             - Length:
                 min: 5
@@ -21,7 +19,7 @@ Maxim\CMSBundle\Entity\User:
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: username
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: email
-        - Maxim\CMSBundle\Validator\Constraints\ValidMinecraft: ~
+        - Maxim\CMSBundle\Validator\Constraints\ValidMinecraft: { groups: [Registration] }
     getters:
         #passwordMatch:
         #    - "True": { message: "Both passwords should match" }
