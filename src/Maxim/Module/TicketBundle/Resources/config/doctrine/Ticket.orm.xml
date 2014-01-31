@@ -12,7 +12,7 @@
 
     <field name="description" type="text" column="description" nullable="false"/>
     <field name="date" type="datetime" column="date" nullable="true"/>
-    <field name="closed" type="integer" column="closed" nullable="false"/>
+    <field name="closed" type="boolean" column="closed" nullable="false"/>
     <field name="statuschangedon" type="datetime" column="statusChangedOn" nullable="true"/>
     <field name="status" type="text" column="status" nullable="true"/>
 
@@ -39,5 +39,7 @@
           <join-column name="user_id" referenced-column-name="id"/>
       </join-columns>
     </many-to-one>
+
+    <one-to-many field="replies" target-entity="TicketReply" mapped-by="ticket" />
   </entity>
 </doctrine-mapping>

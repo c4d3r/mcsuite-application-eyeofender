@@ -4,7 +4,7 @@
 {% block field %}
     {% for key, v in value %}
         <div>
-            {% if v.user.granted(['ROLE_STAFF', 'ROLE_ADMIN'])%}
+            {% if v.user.hasRole('ROLE_STAFF')%}
                 <span class="label label-info">Staff</span>
             {% endif %}
 

@@ -11,7 +11,7 @@
     <field name="text" type="text" column="text" nullable="true"/>
     <field name="date" type="datetime" column="date" nullable="false"/>
 
-    <many-to-one field="ticket" target-entity="Ticket">
+    <many-to-one field="ticket" target-entity="Ticket" inversed-by="replies">
       <join-columns>
         <join-column name="ticket_id" referenced-column-name="id"/>
       </join-columns>
