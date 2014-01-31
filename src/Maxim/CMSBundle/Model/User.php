@@ -108,9 +108,9 @@ abstract class User extends BaseUser
     public static function getGenderList()
     {
         return array(
-            UserInterface::GENDER_UNKNOWN => 'gender_unknown',
-            UserInterface::GENDER_FEMALE  => 'gender_female',
-            UserInterface::GENDER_MALE    => 'gender_male',
+            UserInterface::GENDER_UNKNOWN => 'unknown',
+            UserInterface::GENDER_FEMALE  => 'female',
+            UserInterface::GENDER_MALE    => 'male',
         );
     }
 

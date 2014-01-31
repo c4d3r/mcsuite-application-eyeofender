@@ -15,7 +15,22 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Maxim\CMSBundle\Entity\User;
 use Maxim\CMSBundle\Twig\Extension\FriendExtension;
-class UserAdmin extends Admin{
+class UserAdmin extends Admin
+{
+
+    public function getFormBuilder()
+    {
+        $this->formOptions['data_class'] = $this->getClass();
+
+        $options = $this->formOptions;
+        $options['validation_groups'] = (!$this->getSubject() || is_null($this->getSubject()->getId())) ? 'Registration' : 'Profile';
+
+        $formBuilder = $this->getFormContractor()->getFormBuilder( $this->getUniqid(), $options);
+
+        $this->defineFormBuilder($formBuilder);
+
+        return $formBuilder;
+    }
 
     protected function configureRoutes(RouteCollection $collection)
     {
@@ -27,15 +42,26 @@ class UserAdmin extends Admin{
     {
         $formMapper
             ->with('General')
-                ->add('location', 'country', array('required' => false))
                 ->add('username', 'text', array('label' => 'Username'))
                 ->add('email', 'email', array('label' => 'E-mail'))
                 ->add('lastIp', 'text', array('label' => 'last Ip-address'))
+            ->end()
+            ->with('Profile')
+                ->add('location', 'country', array('required' => false))
                 ->add('skype', 'text', array('label' => 'Skype', 'required' => false))
                 ->add('dateOfBirth', 'date', array('label' => 'Date of birth'))
+                ->add('gender', 'choice', array(
+                    'multiple' => false,
+                    'choices' => User::getGenderList()
+                ))
             ->end()
             ->with('Groups')
                 ->add('groups')
+                /*->add('groups', 'sonata_type_model', array(
+                    'required' => false,
+                    'expanded' => true,
+                    'multiple' => true
+                ))  */
             ->end()
         ;
     }
@@ -47,7 +73,19 @@ class UserAdmin extends Admin{
             ->add('email')
             ->add('username')
             ->add('location')
+            ->add('groups')
         ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getExportFields()
+    {
+        // avoid security field to be exported
+        return array_filter(parent::getExportFields(), function($v) {
+            return !in_array($v, array('password', 'salt'));
+        });
     }
 
     // Fields to be shown on lists
@@ -59,6 +97,7 @@ class UserAdmin extends Admin{
             ->add('email')
             ->add('lastIp')
             ->add('location')
+            ->add('groups')
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'edit' => array(),
@@ -67,5 +106,10 @@ class UserAdmin extends Admin{
                 "label" => 'actions'
             ))
         ;
+        if ($this->isGranted('ROLE_ALLOWED_TO_SWITCH')) {
+            $listMapper
+                ->add('impersonating', 'string', array('template' => 'SonataAdminBundle:Admin:Field/impersonating.html.twig'))
+            ;
+        }
     }
 }

@@ -161,5 +161,4 @@ class Group extends BaseGroup
         return $this->application;
     }
 
-
 }

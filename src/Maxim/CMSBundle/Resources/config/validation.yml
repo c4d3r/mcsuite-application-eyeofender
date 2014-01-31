@@ -6,10 +6,11 @@ Maxim\CMSBundle\Entity\User:
                 minMessage: "Your username must consist out of {{ limit }} characters."
             - Regex: { pattern: "/(^[^@]+$)/" , message: "Username not valid" }
         plainPassword:
-            - NotBlank: { message: "Field Password is required" }
+            - NotBlank: { message: "Field Password is required", groups: [Registration, ChangePassword] }
             - Length:
                 min: 5
                 minMessage: "Your password must consist out of {{ limit }} characters."
+                groups: [Registration, ChangePassword]
         email:
             - NotBlank: { message: "Field email is required" }
             - Email: { message: "Please provide a valid e-mail" }

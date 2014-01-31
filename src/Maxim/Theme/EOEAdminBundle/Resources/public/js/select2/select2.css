@@ -483,24 +483,26 @@ disabled look for disabled choices in the results dropdown
     margin: 0;
     padding: 0;
     white-space: nowrap;
+    height: auto !important;
 }
 
 .select2-container-multi .select2-choices .select2-search-field input {
     padding: 5px;
     margin: 1px 0;
 
+    height: auto !important;
     font-family: sans-serif;
     font-size: 100%;
     color: #666;
     outline: 0;
     border: 0;
     -webkit-box-shadow: none;
-            box-shadow: none;
+    box-shadow: none;
     background: transparent !important;
 }
 
 .select2-container-multi .select2-choices .select2-search-field input.select2-active {
-    background: #fff url('select2-spinner.gif') no-repeat 100% !important;
+    background: #fff url('/bundles/sonataadmin/select2/select2-spinner.gif') no-repeat 100% !important;
 }
 
 .select2-default {
@@ -539,6 +541,12 @@ disabled look for disabled choices in the results dropdown
     background-image: -o-linear-gradient(top, #f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eee 100%);
     background-image: -ms-linear-gradient(top, #f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eee 100%);
     background-image: linear-gradient(top, #f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eee 100%);
+}
+.select2-container-multi .select2-choices .select2-search-choice:hover {
+    background-color: #2e3e4e;
+    background-image: none;
+    color: #fff;
+    border-color: #1a2435;
 }
 .select2-container-multi .select2-choices .select2-search-choice .select2-chosen {
     cursor: default;

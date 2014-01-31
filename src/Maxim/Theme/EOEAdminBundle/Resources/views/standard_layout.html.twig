@@ -54,6 +54,15 @@ file that was distributed with this source code.
                 .select2-container {
                     padding:0 !important;
                     border:none !important;
+                    width: 10% !important;
+                    min-width: 215px;
+                    margin-right:5px;
+                }
+                .per-page {
+                    min-width:55px !important;
+                }
+                .select2-container + .select2-container {
+
                 }
                 #filter_date_value {
                     padding:0;
@@ -240,6 +249,11 @@ file that was distributed with this source code.
                     <li>
                         <a href="{{ path('account') }}">Settings</a>
                     </li>
+                    {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+                        <li>
+                            <a href="?_switch_user=_exit" title="stop impersonate user">Stop impersonating</a>
+                        </li>
+                    {% endif %}
                     {#<li>
                         <a href="#">
                             <span class="badge bg-danger pull-right">3</span>
