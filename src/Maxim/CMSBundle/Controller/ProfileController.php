@@ -16,27 +16,29 @@ use Maxim\CMSBundle\Entity\User;
 use Symfony\Component\Form\Exception\InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use FOS\UserBundle\Controller\ProfileController as BaseProfileController;
 
-class ProfileController extends Controller {
+class ProfileController extends BaseProfileController
+{
 
     public function viewAction($name)
     {
-        $user = $this->getDoctrine()->getRepository('MaximCMSBundle:User')->findOneBy(array("username" => $name));
+        $user = $this->container->get('doctrine')->getRepository('MaximCMSBundle:User')->findOneBy(array("username" => $name));
 
         if(!$user) {
-            throw $this->createNotFoundException(sprintf('Could not find a user with username: %s', $name));
+            throw new NotFoundHttpException(sprintf('Could not find a user with username: %s', $name));
         }
         $data['player'] = $user;
 
-        return $this->render('MaximCMSBundle:pages:profile.html.twig', $data);
+        return $this->container->get('templating')->renderResponse('MaximCMSBundle:pages:profile.html.twig', $data);
     }
 
     public function sendFriendRequestAction(Request $request) {
 
-        $em = $this->getDoctrine()->getManager();
-        $logger = $this->get('logger');
+        $em = $this->container->get('doctrine')->getManager();
+        $logger = $this->container->get('logger');
 
         # GET PARAMS
         $recipientid = $request->request->get('_recipient');
@@ -49,11 +51,11 @@ class ProfileController extends Controller {
         # EXCEPTIONS
         if(!$user) {
             $logger->err("Could not find requesting user");
-            throw $this->createNotFoundException("Could not find requesting user");
+            throw new NotFoundHttpException("Could not find requesting user");
         }
         if(!$recipient) {
             $logger->err("Could not find receiving user");
-            throw $this->createNotFoundException("Could not find receiving user");
+            throw new NotFoundHttpException("Could not find receiving user");
         }
 
         # CREATE REQUEST
@@ -95,9 +97,9 @@ class ProfileController extends Controller {
         }
 
         # init vars
-        $em     = $this->getDoctrine()->getManager();
-        $user   = $this->getUser();
-        $logger = $this->get('logger');
+        $em     = $this->container->get('doctrine')->getManager();
+        $user   = $this->container->get('security.context')->getToken()->getUser();
+        $logger = $this->container->get('logger');
 
         try
         {
@@ -137,36 +139,37 @@ class ProfileController extends Controller {
     }
     public function viewFriendrequestsAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->container->get('doctrine')->getManager();
 
         # get friend requests
-        $frequests = $em->getRepository('MaximCMSBundle:FriendRequest')->findBy(array("recipient" => $this->getUser(), "state" => FriendRequest::STATE_PENDING));
+        $frequests = $em->getRepository('MaximCMSBundle:FriendRequest')->findBy(array("recipient" => $this->container->get('security.context')->getToken()->getUser(), "state" => FriendRequest::STATE_PENDING));
 
         # put in data
         $data['frequests'] = $frequests;
 
-        return $this->render('MaximCMSBundle:Account:friendrequests.html.twig', $data);
+        return $this->container->get('templating')->renderResponse('MaximCMSBundle:Account:friendrequests.html.twig', $data);
     }
 
     public function friendRequestAction($type)
     {
-        $request = $this->getRequest();
+        $request = Request::createFromGlobals();
+
         if(!$request->isXmlHttpRequest()){
             throw new AccessDeniedException("Access denied!");
         }
 
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->container->get('doctrine')->getManager();
 
         # get user to accept
         $userid = $request->request->get('_userid');
         $user = $em->getRepository('MaximCMSBundle:User')->findOneBy(array("id" => $userid));
 
         if(!$user) {
-            throw $this->createNotFoundException("User could not be found.");
+            throw new NotFoundHttpException("User could not be found.");
         }
 
         # get the friendrequest
-        $frequest = $em->getRepository('MaximCMSBundle:FriendRequest')->findOneBy(array("recipient" => $this->getUser(), "user" => $user));
+        $frequest = $em->getRepository('MaximCMSBundle:FriendRequest')->findOneBy(array("recipient" => $this->container->get('security.context')->getToken()->getUser(), "user" => $user));
         if(!$frequest || in_array($frequest->getState(), array(FriendRequest::STATE_ACCEPT, FriendRequest::STATE_DENY))) {
             return new Response(json_encode(array("success" => false, "userid" => $user->getId(), "message" => "Could not find the request, possibly the friend has already been accepted or denied.")));
         }
@@ -180,14 +183,14 @@ class ProfileController extends Controller {
 
                 # add the friend to the receiving user
                 $friend = new UserFriend();
-                $friend->setUser($this->getUser());
+                $friend->setUser($this->container->get('security.context')->getToken()->getUser());
                 $friend->setFriend($user);
                 $em->persist($friend);
 
                 # add the friend to the requesting user
                 $friend = new UserFriend();
                 $friend->setUser($user);
-                $friend->setFriend($this->getUser());
+                $friend->setFriend($this->container->get('security.context')->getToken()->getUser());
                 $em->persist($friend);
 
                 # notify the user who sent the request
@@ -207,7 +210,7 @@ class ProfileController extends Controller {
         }
         catch(\Exception $ex)
         {
-            $this->get('logger')->err($ex->getMessage());
+            $this->container->get('logger')->err($ex->getMessage());
             return new Response(json_encode(array("success" => false, "userid" => $user->getId(), "message" => "An error occured, please try again later")));
         }
 

@@ -24,4 +24,16 @@ class WidgetController extends Controller
 
         return $this->render('MaximCMSBundle:Forum:widget/latestThreads.html.twig', $data);
     }
+
+    public function latestPostsAction($amount = 10)
+    {
+        $em = $this->getDoctrine();
+
+        # get latest posts
+        $posts = $em->getRepository('MaximModuleForumBundle:Post')->findLatestPosts($amount, $this->container->getParameter('website'));
+
+        $data['posts'] = $posts;
+
+        return $this->render('MaximCMSBundle:Forum:widget/latestPosts.html.twig', $data);
+    }
 }

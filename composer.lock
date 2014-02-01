@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "d77c35083a9700aff08316eadc230fa2",
+    "hash": "86015b651959e9f41558005de3f8ac25",
     "packages": [
         {
             "name": "ajbdev/authorizenet-php-api",
@@ -2849,12 +2849,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataAdminBundle.git",
-                "reference": "7e7245288e0eeb3e5dd8ad336783b8aeea1923df"
+                "reference": "11b8733dff29c277e45140d7b15b26eb39039386"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/7e7245288e0eeb3e5dd8ad336783b8aeea1923df",
-                "reference": "7e7245288e0eeb3e5dd8ad336783b8aeea1923df",
+                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/11b8733dff29c277e45140d7b15b26eb39039386",
+                "reference": "11b8733dff29c277e45140d7b15b26eb39039386",
                 "shasum": ""
             },
             "require": {
@@ -2921,7 +2921,7 @@
                 "bootstrap",
                 "sonata"
             ],
-            "time": "2014-01-30 08:36:39"
+            "time": "2014-02-01 09:58:27"
         },
         {
             "name": "sonata-project/block-bundle",

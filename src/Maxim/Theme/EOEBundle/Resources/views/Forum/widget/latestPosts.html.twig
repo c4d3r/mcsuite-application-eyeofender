@@ -1,0 +1,17 @@
+<ul class="module-list">
+    {% for post in posts%}
+        <li class="latestpost">
+            <a href="{{ path('profile', {'name' : post.createdBy.username }) }}" class="tooltip-init latestpost-profile" title="{{ post.createdBy.username }}">
+                <img src="https://minotar.net/helm/{{ post.createdBy.username }}/35.png" alt="{{ post.createdBy.username }}"/>
+            </a>
+            <div class="latestpost-text">
+                <a href="{{ path('forum_thread_view', {'id' : post.thread.forum.id, 'threadid' : post.thread.id}) }}" class="tooltip-init latestpost-title">{{ post.createdBy.username }}</a>
+                <span class="latestpost-timeago">{{ post.createdOn|date('U')|timeago }} ago in <a href="{{ path('forum_thread_view', {'id' : post.thread.forum.id, 'threadid' : post.thread.id}) }}">{{ post.thread.title }}</a></span>
+            </div>
+        </li>
+    {% else %}
+        <li class="latestpost">
+            <p>No posts have been created yet.</p>
+        </li>
+    {% endfor %}
+</ul>

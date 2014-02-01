@@ -26,4 +26,23 @@ class PostRepository extends EntityRepository
         $query->setMaxResults(1);
         return $query->getResult();
     }
+
+    public function findLatestPosts($amount = 10, $websiteid)
+    {
+        $query = $this->getEntityManager()->createQuery(
+            "SELECT p, u, t, f
+            FROM MaximModuleForumBundle:Post p
+            JOIN p.createdBy u
+            JOIN p.thread t
+            JOIN t.forum f
+            JOIN f.category c
+            WHERE c.website = :websiteid
+            ORDER BY p.createdOn DESC
+        ");
+
+        $query->setParameter('websiteid', $websiteid);
+        $query->setMaxResults($amount);
+        return $query->getResult();
+
+    }
 }
