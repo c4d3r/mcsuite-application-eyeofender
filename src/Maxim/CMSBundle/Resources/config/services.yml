@@ -16,6 +16,11 @@ services:
         arguments: [%fos_user.model.user.class%]
         tags:
             - { name: form.type, alias: maxim_cms_user_profile }
+    maxim_cms_user.registration.form.type:
+        class: Maxim\CMSBundle\Form\Type\RegistrationFormType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: maxim_cms_user_registration }
    # HELPERS
     maxim_cms.rest.helper:
         class: Maxim\CMSBundle\Helper\RESTHelper

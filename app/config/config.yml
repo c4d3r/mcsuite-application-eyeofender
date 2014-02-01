@@ -155,6 +155,8 @@ fos_user:
         confirmation:
             enabled: true
             template: MaximCMSBundle:Registration:email.html.twig
+        form:
+            type: maxim_cms_user_registration
     profile:
         form:
             type: maxim_cms_user_profile
