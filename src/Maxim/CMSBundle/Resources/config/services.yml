@@ -10,6 +10,12 @@ services:
     maxim_cms.controller.exception_controller:
         parent: twig.controller.exception
         class: Maxim\CMSBundle\Controller\ExceptionController
+   # TYPES
+    maxim_cms_user.profile.form.type:
+        class: Maxim\CMSBundle\Form\Type\ProfileFormType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: maxim_cms_user_profile }
    # HELPERS
     maxim_cms.rest.helper:
         class: Maxim\CMSBundle\Helper\RESTHelper

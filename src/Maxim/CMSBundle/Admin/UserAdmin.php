@@ -49,7 +49,7 @@ class UserAdmin extends Admin
             ->with('Profile')
                 ->add('location', 'country', array('required' => false))
                 ->add('skype', 'text', array('label' => 'Skype', 'required' => false))
-                ->add('dateOfBirth', 'date', array('label' => 'Date of birth'))
+                ->add('dateOfBirth', 'date', array('years' => range(1910, 2014), 'label' => 'Date of birth'))
                 ->add('gender', 'choice', array(
                     'multiple' => false,
                     'choices' => User::getGenderList()
