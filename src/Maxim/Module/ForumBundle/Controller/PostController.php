@@ -19,10 +19,11 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class PostController extends Controller{
 
-    public function replyAction($id, $threadid) {
+    public function replyAction($id, $threadid)
+    {
         $em = $this->getDoctrine()->getManager();
         $logger = $this->get('logger');
-        $request = $this->getRequest();
+        $request = Request::createFromGlobals();
 
         # SEARCH THREAD
         $thread = $em->getRepository('MaximModuleForumBundle:Thread')->findOneBy(array("id" => $threadid));
@@ -67,6 +68,12 @@ class PostController extends Controller{
         try {
 
             $em->persist($post);
+            $thread->setLastPost($post);
+            $thread->getForum()->setLastPost($post);
+            $thread->setLastPostCreator($this->getUser());
+            $thread->getForum()->setLastPostCreator($this->getUser());
+            $thread->getForum()->addPostCount(1);
+            $thread->addPostCount(1);
             $em->flush();
 
             return new Response(json_encode(array("success" => true, "message"  => "Your post has been added succesfully!")));
@@ -79,7 +86,7 @@ class PostController extends Controller{
 
     public function likeAjaxAction($id)
     {
-        $request = $this->getRequest();
+        $request = Request::createFromGlobals();
         $em = $this->getDoctrine()->getManager();
         $logger = $this->get('logger');
 
@@ -134,7 +141,7 @@ class PostController extends Controller{
             throw new AccessDeniedException("You are not allowed to edit this thread");
         }
 
-        $request = $this->getRequest();
+        $request = Request::createFromGlobals();
         $text = $request->request->get('_post_text');
 
         $post->setText(strip_tags($text));

@@ -340,7 +340,7 @@ class StoreController extends Controller
                 ->orderBy('p.date', 'DESC');
 
 			$result['purchases'] = $purchases->getQuery()->getResult();
-			return $this->render('MaximCMSBundle:Modules:account/purchase.html.twig', $result);
+			return $this->render('MaximCMSBundle:Account:purchases.html.twig', $result);
 		}
 	}
 

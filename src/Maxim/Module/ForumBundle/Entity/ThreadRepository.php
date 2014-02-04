@@ -46,12 +46,13 @@ class ThreadRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT f, t, c, w, p
+                'SELECT f, t, c, w, p, u
                 FROM MaximModuleForumBundle:Thread t
                 LEFT JOIN t.posts p
                 INNER JOIN t.forum f
                 INNER JOIN f.category c
                 INNER JOIN c.website w
+                INNER JOIN t.createdBy u
                 WHERE f.showOnHome = true AND w.id = :website
                 ORDER BY t.createdOn DESC
                 '

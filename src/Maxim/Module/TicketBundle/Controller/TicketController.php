@@ -16,15 +16,20 @@ use Maxim\Module\TicketBundle\Entity\TicketReply;
 use Maxim\Module\TicketBundle\Entity\TicketSection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class TicketController extends Controller
+class TicketController extends ModuleController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->bundle = "MaximModuleTicketBundle";
+    }
     public function indexAction()
     {
         $doctrine = $this->getDoctrine()->getManager();
         $data['tickets']  = $doctrine->getRepository('MaximModuleTicketBundle:Ticket')->findBy(array("user" => $this->getUser()));
         $data['sections'] = $doctrine->getRepository('MaximModuleTicketBundle:TicketSection')->findAll();
 
-        return $this->render('MaximCMSBundle:Module:tickets/tickets.html.twig', $data);
+        return $this->render('Module:Ticket/tickets.html.twig', $data);
     }
 
     public function createAction()
@@ -76,17 +81,17 @@ class TicketController extends Controller
         if(count($data['ticket']) == 0)
         {
             //Not found
-            return $this->render("MaximCMSBundle:Module:tickets/notFound.html.twig");
+            return $this->render("Module:Ticket/notFound.html.twig");
         }
         $data['replies'] = $this->getDoctrine()->getManager()->getRepository('MaximModuleTicketBundle:TicketReply')->findBy(array("ticket" => $data['ticket']));
 
         if($this->isTicketOwner($data['ticket'], $this->getUser()))
         {
-            return $this->render("MaximCMSBundle:Module:tickets/view.html.twig", $data);
+            return $this->render("Module:Ticket/view.html.twig", $data);
         }
         else
         {
-            return $this->render("MaximCMSBundle:Module:tickets/notOwner.html.twig");
+            return $this->render("Module:Ticket/notOwner.html.twig");
         }
     }
     public function closeAction()

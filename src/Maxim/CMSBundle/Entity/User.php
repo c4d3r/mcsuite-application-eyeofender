@@ -27,7 +27,7 @@ class User extends BaseUser
             return $this->groups[0];
 
         $group = new Group('Member', array('ROLE_MEMBER'));
-        $group->setCssClass('rank-member');
+        $group->setCssClass('group-member');
         return $group;
 
     }

@@ -15,19 +15,37 @@
         <field name="updatedOn" type="datetime" column="updatedOn" nullable="true"/>
         <field name="sort" type="integer" column="sort" nullable="true"/>
         <field name="showOnHome" type="boolean" column="showOnHome" nullable="false"/>
+        <field name="threadCount" type="integer" column="thread_count" nullable="false"/>
+        <field name="postCount" type="integer" column="post_count" nullable="false"/>
+
         <many-to-one field="updatedBy" target-entity="\Maxim\CMSBundle\Entity\User">
             <join-columns>
                 <join-column name="updatedBy" referenced-column-name="id"/>
             </join-columns>
         </many-to-one>
+
         <many-to-one field="createdBy" target-entity="\Maxim\CMSBundle\Entity\User">
             <join-columns>
                 <join-column name="createdBy" referenced-column-name="id"/>
             </join-columns>
         </many-to-one>
+
         <many-to-one field="category" target-entity="Category">
             <join-columns>
                 <join-column name="category_id" referenced-column-name="id"/>
+            </join-columns>
+        </many-to-one>
+
+        <!-- CACHED VARS -->
+        <many-to-one field="lastPostCreator" target-entity="\Maxim\CMSBundle\Entity\User">
+            <join-columns>
+                <join-column name="last_post_user_id" referenced-column-name="id"/>
+            </join-columns>
+        </many-to-one>
+
+        <many-to-one field="lastPost" target-entity="Post">
+            <join-columns>
+                <join-column name="last_post_id" referenced-column-name="id"/>
             </join-columns>
         </many-to-one>
 

@@ -12,7 +12,10 @@ namespace Maxim\Module\ForumBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
-class Thread {
+class Thread
+{
+    const THREAD_STATE_VISIBLE = "visible";
+    const THREAD_STATE_DELETED = "deleted";
 
     protected $id;
 
@@ -30,13 +33,25 @@ class Thread {
 
     protected $createdOn;
 
+    protected $lastPost;
+
+    protected $lastPostCreator;
+
+    protected $state;
+
     protected $posts;
 
     protected $updates;
 
-    public function __construct() {
+    protected $postCount = 0;
+
+    protected $viewCount = 0;
+
+    public function __construct()
+    {
         $this->setCreatedOn(new \DateTime("now"));
         $this->posts = new ArrayCollection();
+        $this->state = self::THREAD_STATE_VISIBLE;
     }
 
     /**
@@ -199,22 +214,20 @@ class Thread {
         return $this->posts;
     }
 
+    /**
+     * @param mixed $lastPost
+     */
+    public function setLastPost($lastPost)
+    {
+        $this->lastPost = $lastPost;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getLastPost()
     {
-        $lastPost = null;
-
-        if(!isset($this->posts)) {
-            return null;
-        }
-
-        foreach($this->posts as $post)
-        {
-            if($lastPost == null || ($post->getCreatedOn() >= $lastPost->getCreatedOn()))
-            {
-                $lastPost = $post;
-            }
-        }
-        return $lastPost;
+        return $this->lastPost;
     }
 
     public function __toString() {
@@ -241,5 +254,82 @@ class Thread {
         return $this->updates;
     }
 
+    /**
+     * @param mixed $lastPostCreator
+     */
+    public function setLastPostCreator($lastPostCreator)
+    {
+        $this->lastPostCreator = $lastPostCreator;
+    }
 
+    /**
+     * @return mixed
+     */
+    public function getLastPostCreator()
+    {
+        return $this->lastPostCreator;
+    }
+
+    /**
+     * @param mixed $threadState
+     */
+    public function setState($threadState)
+    {
+        //get types
+        $reflect = new \ReflectionClass(get_class($this));
+
+        if(!in_array($threadState, $reflect->getConstants())) {
+            throw new \InvalidArgumentException("Invalid type specified for Entity Thread");
+        }
+
+        $this->threadState = $threadState;
+
+    }
+
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * @param int $postCount
+     */
+    public function setPostCount($postCount)
+    {
+        $this->postCount = $postCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPostCount()
+    {
+        return $this->postCount;
+    }
+
+    /**
+     * @param int $viewCount
+     */
+    public function setViewCount($viewCount)
+    {
+        $this->viewCount = $viewCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getViewCount()
+    {
+        return $this->viewCount;
+    }
+
+    public function addPostCount($amount)
+    {
+        $this->postCount += $amount;
+    }
+
+    public function addViewCount($amount)
+    {
+        $this->viewCount += $amount;
+    }
 }

@@ -12,7 +12,7 @@
             <div class="mcsf_category_content">
                 {% for forum in forums if forum.category == category%}
                     <div class="mcsf_forum clearfix clearfix-left">
-                        {% if forum.threads|length > config.forum.popularPERC %}
+                        {% if forum.threadCount > config.forum.popularPERC %}
                             <span class="mcsf_forum_icon mcsf_icon-topic mcsf_icon-topic-popular"></span>
                         {% else%}
                             <span class="mcsf_forum_icon mcsf_icon-topic mcsf_icon-topic-regular"></span>
@@ -21,14 +21,16 @@
                             <h3>
                                 <a href="{{ path('forum_view', {'id' : forum.id}) }}">{{ forum.title }}</a>
                             </h3>
-                            <p>Threads: {{ forum.threads|length }}, posts: {{ forum.findAmountPosts() }}</p>
+                            <p>Threads: {{ forum.threadCount }}, posts: {{ forum.postCount }}</p>
                         </div>
 
                         <div class="mcsf_forum_latest">
                             {% if forum.getLatestThread() != null %}
                                 Latest: <a href="#">{{ forum.getLatestThread().title }}</a><br/>
 
-                                {#{{ forum.getLatestThread().createdBy.username }}, {{ forum.getLatestThread().createdOn|prettydate }}#}
+                                {% if forum.lastPostCreator != null and forum.lastPost != null %}
+                                    {{ forum.lastPostCreator.username }}, {{ forum.lastPost.createdOn|prettydate }}
+                                {% endif %}
                             {% else %}
                                 This thread contains no posts.
                             {% endif %}

@@ -9,14 +9,22 @@
 
 namespace Maxim\Module\ApplicationBundle\Controller;
 
+use Maxim\CMSBundle\Controller\ModuleController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Maxim\Module\ApplicationBundle\Entity\Application;
 use Maxim\Module\ApplicationBundle\Entity\UserApplication;
 use Maxim\Module\ApplicationBundle\Entity\ApplicationReply;
 
-class ApplicationController extends Controller{
+class ApplicationController extends ModuleController
+{
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->bundle = 'MaximModuleApplicationBundle';
+    }
     /**
      * Defines what application to load from a file
      */
@@ -24,7 +32,7 @@ class ApplicationController extends Controller{
     {
         #init vars
         $em = $this->getDoctrine()->getManager();
-        $request = $this->getRequest();
+        $request = Request::createFromGlobals();
 
         #action
         $application = $em->getRepository('MaximModuleApplicationBundle:Application')->findOneBy(array("id" => $id));
@@ -71,7 +79,7 @@ class ApplicationController extends Controller{
             return $this->redirect($this->generateUrl("application_account"));
         }
 
-        return $this->render("MaximModuleApplicationBundle:Application:view.html.twig", array(
+        return $this->render("Module:Application/view.html.twig", array(
             'form' => $form->createView(),
         ));
     }
@@ -85,7 +93,7 @@ class ApplicationController extends Controller{
         $data['applications'] = $em->getRepository('MaximModuleApplicationBundle:Application')->findBy(array("website" => $website));
 
         # return view
-        return $this->render("MaximModuleApplicationBundle:Application:applications.html.twig", $data);
+        return $this->render("Module:Application/applications.html.twig", $data);
     }
     public function accountAction()
     {
@@ -93,7 +101,7 @@ class ApplicationController extends Controller{
         $data['userApplications'] = $this->getDoctrine()->getRepository('MaximModuleApplicationBundle:UserApplication')->findBy(array("user" => $this->getUser()));
 
         # return view
-        return $this->render("MaximModuleApplicationBundle:Application:applications_user.html.twig", $data);
+        return $this->render("Module:Application/applications_user.html.twig", $data);
     }
     public function accountViewAction($id, $name)
     {
@@ -111,7 +119,7 @@ class ApplicationController extends Controller{
         $data['replies']  = $replies;
         $data['application'] = $application;
 
-        return $this->render("MaximModuleApplicationBundle:Application:application_detail.html.twig", $data);
+        return $this->render("Module:Application/application_detail.html.twig", $data);
     }
     public function replyAction()
     {
@@ -167,7 +175,7 @@ class ApplicationController extends Controller{
     }
     public function addAction(){
 
-        $request = $this->getRequest();
+        $request = Request::createFromGlobals();
         $logger = $this->get('logger');
 
         if($request->isXmlHttpRequest())
@@ -190,7 +198,7 @@ class ApplicationController extends Controller{
             if(count($applications) > 0){ return new Response(json_encode(array("success" => false, "message" => "You have already submited an application in the last 30 days, please try again later."))); }
 
             if($app)
-            {             $logger->err("hi5");
+            {
                 $description = "<table>";
                 foreach($fields as $key => $field)
                 {

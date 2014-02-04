@@ -2,6 +2,7 @@
 namespace Maxim\Module\ForumBundle\Controller;
 
 use Doctrine\ORM\Query;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -13,15 +14,12 @@ class DefaultController extends Controller{
 
         # LOAD FORUMS
         $query = $em->createQuery(
-            "SELECT f, c, u, t, p
+            "SELECT f, c
             FROM MaximModuleForumBundle:Forum f
-            LEFT JOIN f.createdBy u
             LEFT JOIN f.category c
-            LEFT JOIN f.threads t
-            LEFT JOIN t.posts p
             ORDER BY c.sort DESC"
         );
-        $query->useResultCache(true, 3600, __METHOD__ . serialize($query->getParameters()));
+        $query->useResultCache(true, 60, __METHOD__ . serialize($query->getParameters()));
         $data['forums'] = $query->getResult();
 
         # LOAD CATEGORIES
@@ -45,7 +43,7 @@ class DefaultController extends Controller{
     {
         $em = $this->getDoctrine()->getManager();
         $logger = $this->get('logger');
-        $request = $this->getRequest();
+        $request = Request::createFromGlobals();
 
         # FORUM
         $forum = $em->getRepository('MaximModuleForumBundle:Forum')->findOneBy(array("id" => $id));
@@ -53,10 +51,8 @@ class DefaultController extends Controller{
         # THREADS
         #   PINNED THREADS
         $query = $em->createQuery(
-            "SELECT t, u, f, p, u2
+            "SELECT t, u, f
             FROM MaximModuleForumBundle:Thread t
-            JOIN t.posts p
-            JOIN p.createdBy u2
             LEFT JOIN t.createdBy u
             JOIN t.forum f
             WHERE f.id = :id AND t.pinned = true
@@ -73,10 +69,8 @@ class DefaultController extends Controller{
 
         #   NON-PINNED THREADS
         $query = $em->createQuery(
-            "SELECT t, u, f, p, u2
+            "SELECT t, u, f
             FROM MaximModuleForumBundle:Thread t
-            LEFT JOIN t.posts p
-            LEFT JOIN p.createdBy u2
             LEFT JOIN t.createdBy u
             JOIN t.forum f
             WHERE f.id = :id AND t.pinned = false

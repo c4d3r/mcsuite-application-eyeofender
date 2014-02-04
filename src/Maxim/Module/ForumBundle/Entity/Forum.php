@@ -3,12 +3,8 @@
 namespace Maxim\Module\ForumBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-/**
- * Maxim\CMSBundle\Entity\Forum
- *
- * @ORM\Table(name="mcsf_forum")
- * @ORM\Entity(repositoryClass="ForumRepository")
- */
+
+
 class Forum {
 
     protected $id;
@@ -29,9 +25,17 @@ class Forum {
 
     protected $threads;
 
+    protected $lastPost;
+
+    protected $lastPostCreator;
+
     protected $showOnHome = false;
 
     protected $sort = 0;
+
+    protected $threadCount = 0;
+
+    protected $postCount = 0;
 
     public function __construct()
     {
@@ -245,6 +249,80 @@ class Forum {
     public function getShowOnHome()
     {
         return $this->showOnHome;
+    }
+
+    /**
+     * @param mixed $lastPost
+     */
+    public function setLastPost($lastPost)
+    {
+        $this->lastPost = $lastPost;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastPost()
+    {
+        return $this->lastPost;
+    }
+
+    /**
+     * @param mixed $lastPostCreator
+     */
+    public function setLastPostCreator($lastPostCreator)
+    {
+        $this->lastPostCreator = $lastPostCreator;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastPostCreator()
+    {
+        return $this->lastPostCreator;
+    }
+
+    /**
+     * @param int $postCount
+     */
+    public function setPostCount($postCount)
+    {
+        $this->postCount = $postCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPostCount()
+    {
+        return $this->postCount;
+    }
+
+    /**
+     * @param int $threadCount
+     */
+    public function setThreadCount($threadCount)
+    {
+        $this->threadCount = $threadCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getThreadCount()
+    {
+        return $this->threadCount;
+    }
+
+    public function addThreadCount($amount)
+    {
+        $this->threadCount += $amount;
+    }
+
+    public function addPostCount($amount)
+    {
+        $this->postCount += $amount;
     }
 
 }

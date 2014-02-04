@@ -10,6 +10,10 @@
 namespace Maxim\Module\ApplicationBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class MaximModuleApplicationBundle extends Bundle{
-
+class MaximModuleApplicationBundle extends Bundle
+{
+    public function getParent()
+    {
+        //return 'MaximCMSBundle';
+    }
 }

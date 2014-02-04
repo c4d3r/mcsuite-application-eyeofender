@@ -19,44 +19,29 @@ use Maxim\CMSBundle\Entity\Pollresult;
 
 class ModuleController extends Controller
 {
+    const BUNDLE_MAXIMCMS = "MaximCMSBundle";
+
     protected $version;
     protected $name = array();
     protected $config;
     protected $container;
+    protected $bundle;
 
+    public function __construct()
+    {
+        $this->bundle = "";
+    }
 
     # overwrite render view
-    public function renderView($view, array $parameters = array())
+    public function render($view, array $parameters = array(), Response $response = null)
     {
-
-        $activeTheme = $this->get('liip_theme.active_theme');
-
-        if(is_array($this->name))
+        if($this->get('templating')->exists(self::BUNDLE_MAXIMCMS . ':' . $view))
         {
-            # plugin name
-            foreach($this->name as $key => $name)
-            {
-                if(file_exists('../src/Maxim/CMSBundle/Resources/views/themes/'.$activeTheme->getName().'/views/Module/'.$name.'/'.$view))
-                {
-                    return new Response($this->container->get('templating')->render('MaximCMSBundle:Module/'.$name.':'.$view, $parameters));
-                }
-                else
-                {
-                    return new Response($this->container->get('templating')->render($name.'/view/'.$view, $parameters));
-                }
-            }
+            return parent::render(self::BUNDLE_MAXIMCMS . ':' . $view, $parameters);
         }
         else
         {
-            if(file_exists('../src/Maxim/CMSBundle/Resources/views/themes/'.$activeTheme->getName().'/views/Module/'.$this->name.'/'.$view))
-            {
-                return new Response($this->container->get('templating')->render('MaximCMSBundle:Module/'.$this->name.':'.$view, $parameters));
-            }
-            else
-            {
-                #IF code gets here then there is no module found with the correct name
-                return new Response($this->container->get('templating')->render($this->name.'/view/'.$view, $parameters));
-            }
+            return parent::render($this->bundle . ':' . $view, $parameters);
         }
     }
 

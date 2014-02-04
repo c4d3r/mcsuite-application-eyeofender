@@ -65,7 +65,7 @@ class ThreadController extends Controller{
             throw new AccessDeniedException("You are not allowed to edit this thread");
         }
 
-        $request = $this->getRequest();
+        $request = Request::createFromGlobals();
         $text = $request->request->get('_thread_text');
 
         $thread->setText(strip_tags($text));
@@ -133,6 +133,8 @@ class ThreadController extends Controller{
         $thread->setTitle(strip_tags($threadTitle));
         $thread->setCreatedBy($user);
         $thread->setForum($forum);
+        $thread->setLastPostCreator($this->getUser());
+        $forum->setLastPostCreator($this->getUser());
 
         # validate thread object
         $validator = $this->get('validator');
@@ -165,6 +167,7 @@ class ThreadController extends Controller{
         # CREATE THREAD
         try {
             $em->persist($thread);
+            $forum->addThreadCount(1);
             $em->flush();
         }catch(\Exception $ex) {
             $logger->err("[FORUM]" . $ex->getMessage());
