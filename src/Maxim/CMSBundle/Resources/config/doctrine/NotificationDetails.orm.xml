@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="Maxim\CMSBundle\Entity\NotificationDetails" table="payum_notification_details">
+        <id name="id" type="integer" column="id">
+            <generator strategy="IDENTITY"/>
+        </id>
+        <field name="paymentName" type="string" column="payment_name" length="255" nullable="true"/>
+        <field name="details" type="json_array" column="details" length="255" nullable="true"/>
+        <field name="createdAt" type="datetime" column="created_at" length="255" nullable="true"/>
+    </entity>
+</doctrine-mapping>
