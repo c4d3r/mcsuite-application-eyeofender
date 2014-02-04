@@ -1,0 +1,7 @@
+.label-important[href]:hover,
+.label-important[href]:focus {
+    background-color: #c9302c;
+}
+.label-important {
+    background-color: #d9534f;
+}

@@ -1,0 +1,39 @@
+{% extends 'MaximCMSBundle:Default:index.html.twig' %}
+
+{% block body %}
+<div class="page">
+    <h3 class="page-header">Purchase history</h3>
+	<div class="page-content">
+		<table class="table table-striped table-hover">
+            <tr>
+                <th>Account name:</th>
+                <th>Amount: </th>
+                <th>Status: </th>
+                <th>Date: </th>
+                <th>Website: </th>
+            </tr>
+			{% for purchase in purchases %}
+				<tr>
+					<td>{{ purchase.name }}</td>
+					<td>{{ purchase.amount }}</td>
+
+                    {% if purchase.status == "COMPLETED" %}
+                        <td><span class="label label-success">{{ purchase.status }}</span></td>
+                    {% elseif purchase.status == "PENDING" %}
+                        <td><span class="label label-warning">{{ purchase.status }}</span></td>
+                    {% else %}
+                        <td><span class="label label-danger">{{ purchase.status }}</span></td>
+                    {% endif %}
+
+					<td>{{ purchase.date|date }}</td>
+                    <td><a href="{{ purchase.storeItem.website.site }}" class="label label-info">{{ purchase.storeItem.website.site }}</a></td>
+				</tr>
+			{% else %}
+			<tr>
+				<td colspan="5">You have not purchased anything yet.</td>
+			</tr>
+			{% endfor %}
+		</table>
+	</div>
+</div>
+{% endblock %}
