@@ -10,7 +10,7 @@
                 <h1>{{ category.title }}</h1>
             </div>
             <div class="mcsf_category_content">
-                {% for forum in forums if forum.category == category%}
+                {% for forum in category.forums %}
                     <div class="mcsf_forum clearfix clearfix-left">
                         {% if forum.threadCount > config.forum.popularPERC %}
                             <span class="mcsf_forum_icon mcsf_icon-topic mcsf_icon-topic-popular"></span>
@@ -25,8 +25,8 @@
                         </div>
 
                         <div class="mcsf_forum_latest">
-                            {% if forum.getLatestThread() != null %}
-                                Latest: <a href="#">{{ forum.getLatestThread().title }}</a><br/>
+                            {% if forum.lastPost != null %}
+                                Latest: <a href="#">{{ forum.lastPost.thread.title }}</a><br/>
 
                                 {% if forum.lastPostCreator != null and forum.lastPost != null %}
                                     {{ forum.lastPostCreator.username }}, {{ forum.lastPost.createdOn|prettydate }}
@@ -36,6 +36,8 @@
                             {% endif %}
                         </div>
                     </div>
+                {% else %}
+                    <p>No forums found in this category</p>
                 {% endfor %}
             </div>
         </div>

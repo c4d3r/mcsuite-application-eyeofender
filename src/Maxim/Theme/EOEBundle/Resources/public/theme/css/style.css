@@ -355,7 +355,7 @@ article .comments {
     font-size: 13px;
 }
 
-.latestpost-timeago {
+.latestthread-timeago, .latestpost-timeago {
     display: block;
     line-height: 13px;
     font-size: 11px;

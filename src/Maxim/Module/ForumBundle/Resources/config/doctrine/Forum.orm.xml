@@ -30,7 +30,7 @@
             </join-columns>
         </many-to-one>
 
-        <many-to-one field="category" target-entity="Category">
+        <many-to-one field="category" target-entity="Category" inversed-by="forums">
             <join-columns>
                 <join-column name="category_id" referenced-column-name="id"/>
             </join-columns>
@@ -49,6 +49,6 @@
             </join-columns>
         </many-to-one>
 
-        <one-to-many field="threads" target-entity="Thread" mapped-by="forum" />
+        <one-to-many field="threads" target-entity="Thread" mapped-by="forum" fetch="EXTRA_LAZY"/>
     </entity>
 </doctrine-mapping>

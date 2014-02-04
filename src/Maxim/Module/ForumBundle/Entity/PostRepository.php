@@ -10,6 +10,7 @@ namespace Maxim\Module\ForumBundle\Entity;
 
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 
 class PostRepository extends EntityRepository
 {
@@ -30,18 +31,19 @@ class PostRepository extends EntityRepository
     public function findLatestPosts($amount = 10, $websiteid)
     {
         $query = $this->getEntityManager()->createQuery(
-            "SELECT p, u, t, f
+            "SELECT p, u, t
             FROM MaximModuleForumBundle:Post p
-            JOIN p.createdBy u
-            JOIN p.thread t
-            JOIN t.forum f
-            JOIN f.category c
+            INNER JOIN p.createdBy u
+            INNER JOIN p.thread t
+            INNER JOIN t.forum f
+            INNER JOIN f.category c
             WHERE c.website = :websiteid
             ORDER BY p.createdOn DESC
         ");
-
         $query->setParameter('websiteid', $websiteid);
         $query->setMaxResults($amount);
+        $query->setHint(Query::HYDRATE_OBJECT, true);
+
         return $query->getResult();
 
     }

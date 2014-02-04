@@ -16,16 +16,18 @@ class ThreadRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t, f, u, c
+                'SELECT t, u
                 FROM MaximModuleForumBundle:Thread t
-                JOIN t.forum f
-                JOIN t.createdBy u
-                JOIN f.category c
+                INNER JOIN t.forum f
+                INNER JOIN t.createdBy u
+                INNER JOIN f.category c
                 WHERE c.website = :website
                 ORDER BY t.createdOn DESC'
             )
             ->setParameter("website", $website)
+            ->setHint(Query::HYDRATE_OBJECT, true)
             ->setMaxResults($amount)
+            ->useResultCache(true, 60, __METHOD__ . serialize("website_forum_latestthreads"))
             ->getResult();
     }
     public function findLatestThread($user)
@@ -46,7 +48,7 @@ class ThreadRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT f, t, c, w, p, u
+                'SELECT t, p, u, f
                 FROM MaximModuleForumBundle:Thread t
                 LEFT JOIN t.posts p
                 INNER JOIN t.forum f

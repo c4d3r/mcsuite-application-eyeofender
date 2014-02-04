@@ -12,23 +12,14 @@ class DefaultController extends Controller{
     {
         $em = $this->getDoctrine()->getManager();
 
-        # LOAD FORUMS
-        $query = $em->createQuery(
-            "SELECT f, c
-            FROM MaximModuleForumBundle:Forum f
-            LEFT JOIN f.category c
-            ORDER BY c.sort DESC"
-        );
-        $query->useResultCache(true, 60, __METHOD__ . serialize($query->getParameters()));
-        $data['forums'] = $query->getResult();
-
         # LOAD CATEGORIES
         $query = $em->createQuery(
-            "SELECT c, w
+            "SELECT c, w, f
             FROM MaximModuleForumBundle:Category c
-            JOIN c.website w
+            LEFT JOIN c.forums f
+            INNER JOIN c.website w
             WHERE w.id = :wid
-            ORDER BY c.sort DESC"
+            ORDER BY c.sort DESC, f.sort DESC, c.title ASC, f.title ASC"
         )->setParameter("wid", $this->container->getParameter('website'));
         $query->useResultCache(true, 3600, __METHOD__ . serialize($query->getParameters()));
         $data['categories'] = $query->getResult();

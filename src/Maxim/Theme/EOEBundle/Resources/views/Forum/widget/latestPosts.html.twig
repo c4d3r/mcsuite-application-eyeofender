@@ -1,5 +1,5 @@
 <ul class="module-list">
-    {% for post in posts%}
+    {#{% for post in posts%}
         <li class="latestpost">
             <a href="{{ path('profile', {'name' : post.createdBy.username }) }}" class="tooltip-init latestpost-profile" title="{{ post.createdBy.username }}">
                 <img src="https://minotar.net/helm/{{ post.createdBy.username }}/35.png" alt="{{ post.createdBy.username }}"/>
@@ -13,5 +13,5 @@
         <li class="latestpost">
             <p>No posts have been created yet.</p>
         </li>
-    {% endfor %}
+    {% endfor %}#}
 </ul>
