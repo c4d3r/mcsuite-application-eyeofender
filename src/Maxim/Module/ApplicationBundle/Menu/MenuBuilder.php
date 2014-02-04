@@ -34,7 +34,7 @@ class MenuBuilder {
         $applications = $em->getRepository('MaximModuleApplicationBundle:Application')->findBy(array("website" => $website));
         $data['applications'] = $applications;
 
-        $event = new MenuEvent($this->container->get('templating')->render('MaximModuleApplicationBundle:Navigation:applications.html.twig', $data));
+        $event = new MenuEvent($this->container->get('templating')->render('MaximModuleApplicationBundle:Module:Navigation\applications.html.twig', $data));
         $this->dispatcher->dispatch('maxim_cms.event_menu', $event);
 
     }
