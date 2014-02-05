@@ -8,7 +8,9 @@
 
 namespace Maxim\Module\ForumBundle\DependencyInjection;
 
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class MaximModuleForumExtension extends Extension{
@@ -31,6 +33,9 @@ class MaximModuleForumExtension extends Extension{
 
         $container->setParameter('maxim_module_forum.threads.threshold', $config['threads']['threshold']);
         $container->setParameter('maxim_module_forum.posts.threshold', $config['posts']['threshold']);
+
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('services.yml');
 
     }
 }

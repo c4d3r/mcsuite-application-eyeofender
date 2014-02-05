@@ -12,6 +12,9 @@ Maxim\Module\ForumBundle\Entity\Thread:
             - Length:
                 min: 5
                 minMessage: "The title must contain at least 5 characters"
+    constraints:
+        - Maxim\Module\ForumBundle\Validator\Constraints\ThreadThreshold: ~
+        - Maxim\Module\ForumBundle\Validator\Constraints\StaffHomepage: ~
 Maxim\Module\ForumBundle\Entity\Post:
     properties:
         text:
@@ -20,6 +23,8 @@ Maxim\Module\ForumBundle\Entity\Post:
             - Length:
                 min: 10
                 minMessage: "Your text must contain at least 10 characters"
+    constraints:
+        - Maxim\Module\ForumBundle\Validator\Constraints\PostThreshold: ~
 Maxim\Module\ForumBundle\Entity\PostEdit:
     properties:
         reason:

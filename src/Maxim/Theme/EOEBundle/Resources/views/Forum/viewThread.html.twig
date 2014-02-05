@@ -139,15 +139,13 @@
                         <p>This thread is locked.</p>
                     {% else %}
                         {% if app.user %}
-                        <form id="thread_reply" action="{{ path('forum_thread_reply_ajax', {'id' :  thread.forum.id, 'threadid' : thread.id}) }}">
                             <h3>Post a reply</h3>
-                            <div class="alert" id="reply-status" style="display:none;"></div>
-                            <div class="mcsf_thread_reply_form">
-                                <textarea id="post_reply_text" class="redactor-init" name="content" style="height: 560px;">
-                                </textarea>
-                            </div>
-                            <button id="thread_reply_button" style="margin-top:5px;" class="btn btn-default btn-small" type="submit">Post reply</button>
-                        </form>
+                            <form action="{{ path('forum_thread_view', {'id' : thread.forum.id, 'threadid' : thread.id}) }}" {{ form_enctype(form) }} method="post">
+                                {{ form_widget(form) }}
+                                <div>
+                                    <input type="submit" value="Reply to thread" class="btn btn-default"/>
+                                </div>
+                            </form>
                         {% else %}
                             <p>You must be logged in to reply to a thread.</p>
                         {% endif %}

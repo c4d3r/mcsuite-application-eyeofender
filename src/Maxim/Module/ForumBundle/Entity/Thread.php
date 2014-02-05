@@ -47,13 +47,14 @@ class Thread
 
     protected $viewCount = 0;
 
-    protected $website;
-
-    public function __construct()
+    public function __construct($createdBy = NULL, $forum = NULL)
     {
         $this->setCreatedOn(new \DateTime("now"));
         $this->posts = new ArrayCollection();
         $this->state = self::THREAD_STATE_VISIBLE;
+
+        $this->createdBy = $createdBy;
+        $this->forum = $forum;
     }
 
     /**
@@ -335,19 +336,4 @@ class Thread
         $this->viewCount += $amount;
     }
 
-    /**
-     * @param mixed $website
-     */
-    public function setWebsite($website)
-    {
-        $this->website = $website;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWebsite()
-    {
-        return $this->website;
-    }
 }

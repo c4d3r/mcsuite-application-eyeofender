@@ -64,4 +64,21 @@ class ThreadRepository extends EntityRepository
             ->useResultCache(true, 3600, __METHOD__ . serialize("website_newsposts"))
             ->getArrayResult();
     }
+    public function findThreadById($threadid)
+    {
+        $query = $this->getEntityManager()->createQuery(
+            "SELECT t, f, u, g, p
+            FROM MaximModuleForumBundle:Thread t
+            JOIN t.forum f
+            JOIN t.createdBy u
+            LEFT JOIN u.groups g
+            LEFT JOIN u.posts p
+            WHERE t.id = :id
+            "
+        )
+            ->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true)
+            ->setParameter("id", $threadid);
+        $query->useResultCache(true, 10, __METHOD__ . serialize($query->getParameters()));
+        return $query->getSingleResult();
+    }
 }

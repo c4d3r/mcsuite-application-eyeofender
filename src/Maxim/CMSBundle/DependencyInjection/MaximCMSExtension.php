@@ -49,43 +49,8 @@ class MaximCMSExtension extends Extension
         $container->setParameter("maxim_cms", $config);
         $this->loadParameters($container, $config, 'maxim_cms');
 
-        // LOAD services.xml
-       // $cacheDriver = new ApcCache();
-
-        /*if(!$cacheDriver->contains("_core_services"))
-        { */
-            $exclude = array("AdminBundle");
-            $names   = array("services.yml");
-            $paths   = array();
-
-            for($i = 0; $i < count($names); $i++)
-            {
-                $finder  = new Finder();
-                $finder->name($names[$i]);
-
-                $configuration = new Configuration();
-                $config = $this->processConfiguration($configuration, $configs);
-
-                foreach($finder->in(__DIR__ . "/../../")->exclude($exclude) as $file)
-                {
-                    $paths[] = array("name" => $names[$i], "path" => substr($file, 0, count($file) - (strlen($names[$i]) + 1)));
-                }
-            }
-
-            //$cacheDriver->save("_core_services", $paths, 3600);
-       /* }
-        else
-        {
-            $paths = $cacheDriver->fetch("_core_services");
-        }   */
-
-        for($i = 0; $i < count($paths); $i++)
-        {
-            $locator =  new FileLocator(array($paths[$i]["path"]));
-            $loader  = new Loader\YamlFileLoader($container, $locator);
-
-            $loader->load($paths[$i]["name"]);
-        }
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('services.yml');
     }
     public function getAlias()
     {

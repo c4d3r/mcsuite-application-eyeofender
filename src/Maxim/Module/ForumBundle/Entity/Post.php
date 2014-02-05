@@ -33,9 +33,12 @@ class Post {
 
     protected $updates;
 
-    public function __construct() {
+    public function __construct($user = null, $thread = null) {
         $this->setCreatedOn(new \DateTime("now"));
         $this->children = new ArrayCollection();
+
+        $this->createdBy = $user;
+        $this->thread    = $thread;
     }
     /**
      * @param \Maxim\Module\ForumBundle\Entity\User $createdBy

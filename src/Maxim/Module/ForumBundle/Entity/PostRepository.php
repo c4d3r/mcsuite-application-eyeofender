@@ -34,8 +34,10 @@ class PostRepository extends EntityRepository
             "SELECT p, u, t
             FROM MaximModuleForumBundle:Post p
             INNER JOIN p.createdBy u
-            INNER JOIN p.thread t
-            WHERE t.website = :websiteid
+            LEFT JOIN p.thread t
+            INNER JOIN t.forum f
+            INNER JOIN f.category c
+            WHERE c.website = :websiteid
             ORDER BY p.createdOn DESC
         ");
         $query->setParameter('websiteid', $websiteid);
@@ -44,5 +46,23 @@ class PostRepository extends EntityRepository
 
         return $query->getResult();
 
+    }
+
+    public function findThreadPosts($threadid)
+    {
+        $query = $this->getEntityManager()->createQuery(
+            "SELECT p, u, l, g
+            FROM MaximModuleForumBundle:Post p
+            JOIN p.createdBy u
+            LEFT JOIN u.groups g
+            JOIN p.thread t
+            LEFT JOIN p.likes l
+            WHERE t.id = :id
+            "
+        )
+            ->setParameter("id", $threadid)
+            ->setHint(Query::HYDRATE_OBJECT, true)
+        ;
+        return $query->getResult();
     }
 }

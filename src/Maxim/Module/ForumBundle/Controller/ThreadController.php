@@ -14,23 +14,51 @@ use Doctrine\ORM\Query;
 use Maxim\Module\ForumBundle\Entity\Post;
 use Maxim\Module\ForumBundle\Entity\Thread;
 use Maxim\Module\ForumBundle\Entity\ThreadEdit;
+use Maxim\Module\ForumBundle\Form\Type\PostFormType;
+use Maxim\Module\ForumBundle\Form\Type\ThreadFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-class ThreadController extends Controller{
+class ThreadController extends Controller
+{
+    public function createAction($id)
+    {
+        $request = Request::createFromGlobals();
+        $em      = $this->getDoctrine()->getEntityManager();
+        $user    = $this->get('security.context')->getToken()->getUser();
 
-    public function createAction($id) {
-
-        $em = $this->getDoctrine();
-
-        # SEARCH FORUM
+        # search forum
         $forum = $em->getRepository('MaximModuleForumBundle:Forum')->findOneBy(array("id" => $id));
         if(!$forum) { $this->createNotFoundException('Could not find the requested forum'); }
 
-        # SHOW FORM
+        # create form
+        $thread = new Thread($user, $forum);
+        $form = $this->createForm(new ThreadFormType(), $thread);
+
+        # handle form
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+
+            $thread = $form->getData();
+            $thread->setLastPostCreator($user);
+            $em->persist($thread);
+
+            $forum->setLastPostCreator($user);
+            $forum->addThreadCount(1);
+            $em->flush();
+
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'Your thread has been created!'
+            );
+            return $this->redirect($this->generateUrl('forum_thread_view', array('id' => $forum->getId(), 'threadid' => $thread->getId())));
+        }
+
+        # set vars
         $data['forum'] = $forum;
+        $data['form']  = $form->createView();
         return $this->render('MaximCMSBundle:Forum:createThread.html.twig', $data);
     }
 
@@ -103,130 +131,19 @@ class ThreadController extends Controller{
         ))));
     }
 
-    public function createAjaxAction(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $logger = $this->get('logger');
-
-        # GET FIELDS
-        $forumid    = $request->request->get('_forumid');
-        $threadText  = $request->request->get('_thread_text');
-        $threadTitle = $request->request->get('_thread_title');
-        # GET USER
-        $user = $this->getUser();
-        if(!$user){
-            return new Response(json_encode(array("success" => false, "message" => "You must be logged in to use this feature!")));
-        }
-
-        # SEARCH FORUM
-        $forum = $em->getRepository('MaximModuleForumBundle:Forum')->findOneBy(array("id" => $forumid));
-        if(!$forum) { return new Response(json_encode(array("success" => false, "message" => "Could not find the forum you are trying to create a thread for."))); }
-
-        # exploit prevention
-        if($forum->getShowOnHome() == true && !$this->get('security.context')->isGranted('ROLE_STAFF')) {
-            throw new AccessDeniedException("Only staff members can create news threads in this category!");
-        }
-
-        # create Thread object
-        $thread = new Thread();
-        $thread->setText(strip_tags($threadText));
-        $thread->setTitle(strip_tags($threadTitle));
-        $thread->setCreatedBy($user);
-        $thread->setForum($forum);
-        $thread->setLastPostCreator($this->getUser());
-        $thread->setWebsite($this->container->getParameter('website'));
-        $forum->setLastPostCreator($this->getUser());
-
-        # validate thread object
-        $validator = $this->get('validator');
-        $result = $validator->validate($thread);
-        $data['array'] = $result;
-
-        if ((count($result) > 0)){
-            return new Response(json_encode(array('success' => false, 'message' => $this->renderView('MaximCMSBundle:Exception:arrayToList.html.twig', $data))));
-        }
-
-        $thread->setTitle($threadTitle);
-        $thread->setText($threadText);
-
-        # spam protection, max every xx min
-        $lastThread = $em->getRepository("MaximModuleForumBundle:Thread")->findLatestThread($user);
-        if(isset($lastThread[0]) && (false === $this->get('security.context')->isGranted('ROLE_STAFF')))
-        {
-            // check time difference
-            $diff = $lastThread[0]->getCreatedOn()->diff(new \DateTime("now"));
-            if(!($diff->days > 0 || $diff->i > 3))
-            {
-                $threshold = $this->container->getParameter("maxim_module_forum.threads.threshold");
-                return new Response(json_encode(array("success" => false, "message" => sprintf("please wait %d %s before posting a new thread",
-                    $threshold,
-                    $threshold > 1 ? "minutes" : "minute"
-                ))));
-            }
-        }
-
-        # CREATE THREAD
-        try {
-            $em->persist($thread);
-            $forum->addThreadCount(1);
-            $em->flush();
-        }catch(\Exception $ex) {
-            $logger->err("[FORUM]" . $ex->getMessage());
-            return new Response(json_encode(array("success" => false, "message" => "An error has occured while creating your thread, please try again later.")));
-        }
-
-        return new Response(json_encode(array(
-                "success"   => true,
-                "message"   => "Your thread has been created succesfully!",
-                "redirect"  => $this->generateUrl('forum_thread_view', array(
-                    'threadid'   => $thread->getId(),
-                    "id"        => $forum->getId()
-                ))
-            )
-        ));
-    }
-
     public function viewAction($id, $threadid)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em      = $this->getDoctrine()->getManager();
         $request = Request::createFromGlobals();
+        $user    = $this->get('security.context')->getToken()->getUser();
 
-        # SEARCH THREAD
-       // $thread = $em->getRepository('MaximModuleForumBundle:Thread')->findOneBy(array("id" => $threadid));
-        //if(!$thread) { return new Response(json_encode(array("success" => false, "message" => "Could not find the requested thread."))); }
+        # find thread
+        $thread = $em->getRepository('MaximModuleForumBundle:Thread')->findThreadById($threadid);
 
-        $query = $em->createQuery(
-            "SELECT t, f, u, g, p
-            FROM MaximModuleForumBundle:Thread t
-            JOIN t.forum f
-            JOIN t.createdBy u
-            LEFT JOIN u.groups g
-            LEFT JOIN u.posts p
-            WHERE t.id = :id
-            "
-        )
-            ->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true)
-            ->setParameter("id", $threadid);
-        $query->useResultCache(true, 10, __METHOD__ . serialize($query->getParameters()));
-        $thread = $query->getSingleResult();
+        # find thread posts
+        $query = $em->getRepository('MaximModuleForumBundle:Post')->findThreadPosts($thread->getId());
 
-        # SEARCH POSTS
-        $query = $em->getRepository('MaximModuleForumBundle:Post')->findBy(array("thread" => $thread));
-        $query = $em->createQuery(
-            "SELECT p, u, l, g
-            FROM MaximModuleForumBundle:Post p
-            JOIN p.createdBy u
-            LEFT JOIN u.groups g
-            JOIN p.thread t
-            LEFT JOIN p.likes l
-            WHERE t.id = :id
-            "
-        )
-            ->setParameter("id", $threadid)
-            ->setHint(Query::HYDRATE_OBJECT, true)
-        ;
-        //$query->useResultCache(true, 5, __METHOD__ . serialize($query->getParameters()));
-
+        # paginate the thread posts
         $paginator  = $this->get('knp_paginator');
         $posts = $paginator->paginate(
             $query,
@@ -234,6 +151,7 @@ class ThreadController extends Controller{
             10/*limit per page*/
         );
 
+        # send page to check if
         $page = $request->query->get('page');
 
         if(!($page == null))  {
@@ -242,23 +160,42 @@ class ThreadController extends Controller{
             }
         }
 
+        # create form
+        $post = new Post($user, $thread);
+        $form = $this->createForm(new PostFormType(), $post);
+
+        # handle form
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+
+            $post = $form->getData();
+            $em->persist($post);
+
+            $forum = $thread->getForum();
+            $forum->setLastPostCreator($user);
+            $forum->addPostCount(1);
+            $thread->addPostCount(1);
+            $thread->setLastPostCreator($user);
+            $forum->setLastPostCreator($user);
+            $thread->setLastPost($post);
+            $forum->setLastPost($post);
+            $em->flush();
+
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'Your post has been added!'
+            );
+            return $this->redirect($this->generateUrl('forum_thread_view', array('id' => $forum->getId(), 'threadid' => $thread->getId())));
+        }
+
         $data['posts']  = $posts;
         $data['thread'] = $thread;
+        $data['form']   = $form->createView();
 
-        // ADMIN TOOLS
-        if ($this->get('security.context')->isGranted('ROLE_STAFF')) {
-
-            $query = $em->createQuery(
-                "SELECT f, c, u
-                FROM MaximModuleForumBundle:Forum f
-                LEFT JOIN f.category c
-                LEFT JOIN f.createdBy u
-                "
-            )->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true);
-
-            $query->useResultCache(true, 3600, __METHOD__ . serialize($query->getParameters()));
-
-            $data['forums'] = $query->getResult();
+        # admin tools
+        if ($this->get('security.context')->isGranted('ROLE_STAFF'))
+        {
+            $data['forums'] = $em->getRepository('MaximModuleForumBundle:Forum')->findAllForums();
         }
 
         return $this->render('MaximCMSBundle:Forum:viewThread.html.twig', $data);

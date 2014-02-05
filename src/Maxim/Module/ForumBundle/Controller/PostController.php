@@ -17,73 +17,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Maxim\Module\ForumBundle\Entity\PostLike;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-class PostController extends Controller{
-
-    public function replyAction($id, $threadid)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $logger = $this->get('logger');
-        $request = Request::createFromGlobals();
-
-        # SEARCH THREAD
-        $thread = $em->getRepository('MaximModuleForumBundle:Thread')->findOneBy(array("id" => $threadid));
-        if(!$thread) { return new Response(json_encode(array("success" => false, "message" => "Could not find the requested thread."))); }
-
-        $reply_text = $request->request->get('_post_reply_text');
-        $user = $this->getuser();
-
-        # create the object
-        $post = new Post();
-        $post->setText(strip_tags($reply_text));
-        $post->setCreatedBy($user);
-        $post->setThread($thread);
-
-        # validate thread object
-        $validator = $this->get('validator');
-        $result = $validator->validate($post);
-        $data['array'] = $result;
-
-        if ((count($result) > 0)){
-            return new Response(json_encode(array('success' => false, 'message' => $this->renderView('MaximCMSBundle:Exception:arrayToList.html.twig', $data))));
-        }
-
-        $post->setText($reply_text);
-
-        $lastPost = $em->getRepository("MaximModuleForumBundle:Post")->findLatestPost($this->getUser());
-        if(isset($lastPost[0]) && (false === $this->get('security.context')->isGranted('ROLE_STAFF')))
-        {
-            // check time difference
-            $diff = $lastPost[0]->getCreatedOn()->diff(new \DateTime("now"));
-            $threshold = $this->container->getParameter("maxim_module_forum.posts.threshold");
-            if(!($diff->days > 0 || $diff->i > $threshold))
-            {
-                return new Response(json_encode(array("success" => false, "message" => sprintf("please wait %d %s before posting a new post",
-                    $threshold,
-                    $threshold > 1 ? "minutes" : "minute"
-                ))));
-            }
-        }
-
-        # CREATE POST
-        try {
-
-            $em->persist($post);
-            $thread->setLastPost($post);
-            $thread->getForum()->setLastPost($post);
-            $thread->setLastPostCreator($this->getUser());
-            $thread->getForum()->setLastPostCreator($this->getUser());
-            $thread->getForum()->addPostCount(1);
-            $thread->addPostCount(1);
-            $em->flush();
-
-            return new Response(json_encode(array("success" => true, "message"  => "Your post has been added succesfully!")));
-
-        }catch(\Exception $ex) {
-            $logger->err("[FORUM]" . $ex->getMessage());
-            return new Response(json_encode(array("success" => false, "message" => "Can not reply at this moment, please try again later or contact an administrator")));
-        }
-    }
-
+class PostController extends Controller
+{
     public function likeAjaxAction($id)
     {
         $request = Request::createFromGlobals();

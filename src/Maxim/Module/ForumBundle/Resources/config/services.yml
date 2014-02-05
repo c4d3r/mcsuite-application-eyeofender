@@ -1,0 +1,17 @@
+services:
+# VALIDATORS
+    maxim_module_forum.validator.threadThreshold:
+        class: Maxim\Module\ForumBundle\Component\Validator\ThreadThresholdValidator
+        tags:
+            - { name: validator.constraint_validator, alias: maxim_module_forum_validator_threadThreshold }
+        arguments: [@security.context, @doctrine.orm.entity_manager, %maxim_module_forum.threads.threshold%]
+    maxim_module_forum.validator.postThreshold:
+        class: Maxim\Module\ForumBundle\Component\Validator\PostThresholdValidator
+        tags:
+            - { name: validator.constraint_validator, alias: maxim_module_forum_validator_postThreshold }
+        arguments: [@security.context, @doctrine.orm.entity_manager, %maxim_module_forum.posts.threshold%]
+    maxim_module_forum.validator.notStaffHomepage:
+        class: Maxim\Module\ForumBundle\Component\Validator\HomepageStaffValidator
+        tags:
+            - { name: validator.constraint_validator, alias: maxim_module_forum_validator_notstaffhomepage }
+        arguments: [@security.context]
