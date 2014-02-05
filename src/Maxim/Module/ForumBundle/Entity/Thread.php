@@ -47,6 +47,8 @@ class Thread
 
     protected $viewCount = 0;
 
+    protected $website;
+
     public function __construct()
     {
         $this->setCreatedOn(new \DateTime("now"));
@@ -331,5 +333,21 @@ class Thread
     public function addViewCount($amount)
     {
         $this->viewCount += $amount;
+    }
+
+    /**
+     * @param mixed $website
+     */
+    public function setWebsite($website)
+    {
+        $this->website = $website;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWebsite()
+    {
+        return $this->website;
     }
 }

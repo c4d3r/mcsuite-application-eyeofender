@@ -35,9 +35,7 @@ class PostRepository extends EntityRepository
             FROM MaximModuleForumBundle:Post p
             INNER JOIN p.createdBy u
             INNER JOIN p.thread t
-            INNER JOIN t.forum f
-            INNER JOIN f.category c
-            WHERE c.website = :websiteid
+            WHERE t.website = :websiteid
             ORDER BY p.createdOn DESC
         ");
         $query->setParameter('websiteid', $websiteid);

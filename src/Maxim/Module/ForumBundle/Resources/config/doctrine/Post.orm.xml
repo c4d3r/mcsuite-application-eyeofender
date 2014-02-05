@@ -9,7 +9,7 @@
       <generator strategy="IDENTITY"/>
     </id>
     <field name="text" type="text" column="text" nullable="false"/>
-    <field name="createdOn" type="datetime" column="createdOn" nullable="false"/>
+    <field name="createdOn" type="datetime" column="created_on" nullable="false"/>
 
     <many-to-one field="createdBy" target-entity="\Maxim\CMSBundle\Entity\User" inversed-by="posts">
       <join-columns>

@@ -134,6 +134,7 @@ class ThreadController extends Controller{
         $thread->setCreatedBy($user);
         $thread->setForum($forum);
         $thread->setLastPostCreator($this->getUser());
+        $thread->setWebsite($this->container->getParameter('website'));
         $forum->setLastPostCreator($this->getUser());
 
         # validate thread object
@@ -188,7 +189,7 @@ class ThreadController extends Controller{
     public function viewAction($id, $threadid)
     {
         $em = $this->getDoctrine()->getManager();
-        $request = $this->getRequest();
+        $request = Request::createFromGlobals();
 
         # SEARCH THREAD
        // $thread = $em->getRepository('MaximModuleForumBundle:Thread')->findOneBy(array("id" => $threadid));
@@ -359,7 +360,7 @@ class ThreadController extends Controller{
 
         $em = $this->getDoctrine()->getManager();
         $logger = $this->get('logger');
-        $request = $this->getRequest();
+        $request = Request::createFromGlobals();
 
         $forumIdTo = $request->request->get('_forumto');
 
