@@ -28,9 +28,7 @@
                             {% if forum.lastPost != null and forum.lastPostCreator != null %}
                                 Latest: <a href="#">{{ forum.lastPost.thread.title }}</a><br/>
 
-                                {% if forum.lastPostCreator != null and forum.lastPost != null %}
-                                    {{ forum.lastPostCreator.username }}, {{ forum.lastPost.createdOn|prettydate }}
-                                {% endif %}
+                                {{ forum.lastPostCreator.username }}, {{ forum.lastPost.createdOn|prettydate }}
                             {% else %}
                                 <p>Unable to fetch last post</p>
                             {% endif %}

@@ -139,7 +139,6 @@
     font-size:9pt;
     margin-top:11px;
     font-style:italic;
-    word-break: break-word;
     word-wrap: break-word;
     width: 150px;
 }
@@ -252,7 +251,8 @@
     background: #2f2f2f;
     border-radius: 5px;
     padding: 10px;
-    word-break: break-all;
+    word-break: break-word;
+    text-align: justify;
 }
 .mcsf_post_content > div {
     /* PREVENT OVERLOAD */
