@@ -25,15 +25,15 @@
                         </div>
 
                         <div class="mcsf_forum_latest">
-                           {# {% if forum.lastPost != null %}
+                            {% if forum.lastPost != null and forum.lastPostCreator != null %}
                                 Latest: <a href="#">{{ forum.lastPost.thread.title }}</a><br/>
 
                                 {% if forum.lastPostCreator != null and forum.lastPost != null %}
                                     {{ forum.lastPostCreator.username }}, {{ forum.lastPost.createdOn|prettydate }}
                                 {% endif %}
                             {% else %}
-                                This thread contains no posts.
-                            {% endif %}#}
+                                <p>Unable to fetch last post</p>
+                            {% endif %}
                         </div>
                     </div>
                 {% else %}

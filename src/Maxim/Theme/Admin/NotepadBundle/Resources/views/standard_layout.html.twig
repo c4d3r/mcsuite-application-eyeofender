@@ -32,24 +32,24 @@ file that was distributed with this source code.
         {#<link rel="stylesheet" href="{{ asset('bundles/sonataadmin/x-editable/css/bootstrap-editable.css') }}" type="text/css" media="all" />#}
 
         {# NEW STYLESHEETS #}
-        <link rel="stylesheet" href="{{ asset('bundles/maximthemeeoeadmin/css/bootstrap.css') }}" type="text/css" media="all" />
-        <link rel="stylesheet" href="{{ asset('bundles/maximthemeeoeadmin/css/animate.css') }}" type="text/css" media="all" />
-        <link rel="stylesheet" href="{{ asset('bundles/maximthemeeoeadmin/css/font-awesome.min.css') }}" type="text/css" media="all" />
-        <link rel="stylesheet" href="{{ asset('bundles/maximthemeeoeadmin/css/font.css') }}" type="text/css" media="all" />
-        <link rel="stylesheet" href="{{ asset('bundles/maximthemeeoeadmin/css/app.css') }}" type="text/css" media="all" />
-        <link rel="stylesheet" href="{{ asset('bundles/maximthemeeoeadmin/css/maxim-extra.css') }}" type="text/css" media="all" />
+        <link rel="stylesheet" href="{{ asset('bundles/maximthemeadminnotepad/css/bootstrap.css') }}" type="text/css" media="all" />
+        <link rel="stylesheet" href="{{ asset('bundles/maximthemeadminnotepad/css/animate.css') }}" type="text/css" media="all" />
+        <link rel="stylesheet" href="{{ asset('bundles/maximthemeadminnotepad/css/font-awesome.min.css') }}" type="text/css" media="all" />
+        <link rel="stylesheet" href="{{ asset('bundles/maximthemeadminnotepad/css/font.css') }}" type="text/css" media="all" />
+        <link rel="stylesheet" href="{{ asset('bundles/maximthemeadminnotepad/css/app.css') }}" type="text/css" media="all" />
+        <link rel="stylesheet" href="{{ asset('bundles/maximthemeadminnotepad/css/maxim-extra.css') }}" type="text/css" media="all" />
 
-        <link rel="stylesheet" href="{{ asset('bundles/maximthemeeoeadmin/js/calendar/bootstrap_calendar.css') }}" type="text/css" media="all" />
+        <link rel="stylesheet" href="{{ asset('bundles/maximthemeadminnotepad/js/calendar/bootstrap_calendar.css') }}" type="text/css" media="all" />
         <!--[if lt IE 9]>
-        <script src="{{ asset('bundles/maximthemeeoeadmin/js/ie/html5shiv.js') }}" cache="false"></script>
-        <script src="{{ asset('bundles/maximthemeeoeadmin/js/ie/respond.min.js') }}" cache="false"></script>
-        <script src="{{ asset('bundles/maximthemeeoeadmin/js/ie/excanvas.js') }}" cache="false"></script>
+        <script src="{{ asset('bundles/maximthemeadminnotepad/js/ie/html5shiv.js') }}" cache="false"></script>
+        <script src="{{ asset('bundles/maximthemeadminnotepad/js/ie/respond.min.js') }}" cache="false"></script>
+        <script src="{{ asset('bundles/maximthemeadminnotepad/js/ie/excanvas.js') }}" cache="false"></script>
         <![endif]-->
 
         {% if admin_pool is defined and admin_pool.getOption('use_select2') %}
-            {#<link rel="stylesheet" href="{{ asset('bundles/maximthemeeoeadmin/css/select2.css') }}" type="text/css" media="all" />#}
-            <link rel="stylesheet" href="{{ asset('bundles/maximthemeeoeadmin/js/select2/select2.css') }}" type="text/css" media="all" />
-            <link rel="stylesheet" href="{{ asset('bundles/maximthemeeoeadmin/js/select2/theme.css') }}" type="text/css" media="all" />
+            {#<link rel="stylesheet" href="{{ asset('bundles/maximthemeadminnotepad/css/select2.css') }}" type="text/css" media="all" />#}
+            <link rel="stylesheet" href="{{ asset('bundles/maximthemeadminnotepad/js/select2/select2.css') }}" type="text/css" media="all" />
+            <link rel="stylesheet" href="{{ asset('bundles/maximthemeadminnotepad/js/select2/theme.css') }}" type="text/css" media="all" />
             <style>
                 .select2-container {
                     padding:0 !important;
@@ -86,7 +86,7 @@ file that was distributed with this source code.
         <link rel="stylesheet" href="{{ asset('bundles/sonataadmin/css/layout.css') }}" type="text/css" media="all" />
         <link rel="stylesheet" href="{{ asset('bundles/sonataadmin/css/colors.css') }}" type="text/css" media="all" />
 
-        <script src="{{ asset('bundles/maximthemeeoeadmin/js/jquery.min.js') }}"></script>
+        <script src="{{ asset('bundles/maximthemeadminnotepad/js/jquery.min.js') }}"></script>
         <script type="text/javascript">
             window.SONATA_CONFIG = {
                 CONFIRM_EXIT: {% if admin_pool is defined and admin_pool.getOption('confirm_exit') %}true{% else %}false{% endif %},
@@ -507,21 +507,21 @@ file that was distributed with this source code.
 {% block javascripts %}
 
     <!-- Bootstrap -->
-    <script src="{{ asset('bundles/maximthemeeoeadmin/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('bundles/maximthemeadminnotepad/js/bootstrap.js') }}"></script>
     <!-- App -->
-    <script src="{{ asset('bundles/maximthemeeoeadmin/js/app.js') }}"></script>
-    <script src="{{ asset('bundles/maximthemeeoeadmin/js/app.plugin.js') }}"></script>
-    <script src="{{ asset('bundles/maximthemeeoeadmin/js/slimscroll/jquery.slimscroll.min.js') }}"></script>
-    <script src="{{ asset('bundles/maximthemeeoeadmin/js/charts/easypiechart/jquery.easy-pie-chart.js') }}" cache="false"></script>
-    <script src="{{ asset('bundles/maximthemeeoeadmin/js/charts/sparkline/jquery.sparkline.min.js') }}" cache="false"></script>
-    <script src="{{ asset('bundles/maximthemeeoeadmin/js/charts/flot/jquery.flot.min.js') }}" cache="false"></script>
-    <script src="{{ asset('bundles/maximthemeeoeadmin/js/charts/flot/jquery.flot.tooltip.min.js') }}" cache="false"></script>
-    <script src="{{ asset('bundles/maximthemeeoeadmin/js/charts/flot/jquery.flot.resize.js') }}" cache="false"></script>
-    <script src="{{ asset('bundles/maximthemeeoeadmin/js/charts/flot/jquery.flot.grow.js') }}" cache="false"></script>
-    <script src="{{ asset('bundles/maximthemeeoeadmin/js/charts/flot/jquery.flot.time.js') }}" cache="false"></script>
-    <script src="{{ asset('bundles/maximthemeeoeadmin/js/calendar/bootstrap_calendar.js') }}" cache="false"></script>
+    <script src="{{ asset('bundles/maximthemeadminnotepad/js/app.js') }}"></script>
+    <script src="{{ asset('bundles/maximthemeadminnotepad/js/app.plugin.js') }}"></script>
+    <script src="{{ asset('bundles/maximthemeadminnotepad/js/slimscroll/jquery.slimscroll.min.js') }}"></script>
+    <script src="{{ asset('bundles/maximthemeadminnotepad/js/charts/easypiechart/jquery.easy-pie-chart.js') }}" cache="false"></script>
+    <script src="{{ asset('bundles/maximthemeadminnotepad/js/charts/sparkline/jquery.sparkline.min.js') }}" cache="false"></script>
+    <script src="{{ asset('bundles/maximthemeadminnotepad/js/charts/flot/jquery.flot.min.js') }}" cache="false"></script>
+    <script src="{{ asset('bundles/maximthemeadminnotepad/js/charts/flot/jquery.flot.tooltip.min.js') }}" cache="false"></script>
+    <script src="{{ asset('bundles/maximthemeadminnotepad/js/charts/flot/jquery.flot.resize.js') }}" cache="false"></script>
+    <script src="{{ asset('bundles/maximthemeadminnotepad/js/charts/flot/jquery.flot.grow.js') }}" cache="false"></script>
+    <script src="{{ asset('bundles/maximthemeadminnotepad/js/charts/flot/jquery.flot.time.js') }}" cache="false"></script>
+    <script src="{{ asset('bundles/maximthemeadminnotepad/js/calendar/bootstrap_calendar.js') }}" cache="false"></script>
 
-    <script src="{{ asset('bundles/maximthemeeoeadmin/js/sortable/jquery.sortable.js') }}" cache="false"></script>
+    <script src="{{ asset('bundles/maximthemeadminnotepad/js/sortable/jquery.sortable.js') }}" cache="false"></script>
     <script>
         $(function(){
             $('input').each(function(){
