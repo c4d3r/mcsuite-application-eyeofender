@@ -100,7 +100,7 @@ class AdminController extends Controller
     public function __construct()
     {
         $options = array(\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION);
-        $this->conn =  new \PDO("mysql:dbname=cms;host=localhost", 'root', 'lvsdev1410', $options);
+        $this->conn =  new \PDO("mysql:dbname=" . $this->container->getParameter('database_name') . ";host=" . $this->container->getParameter('database_host'), $this->container->getParameter('database_user'), $this->container->getParameter('database_password'), $options);
     }
     public function recacheAction(Request $request)
     {
