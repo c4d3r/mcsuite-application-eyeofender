@@ -10,6 +10,7 @@ namespace Maxim\Module\ForumBundle\Controller;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use \PDO;
@@ -89,21 +90,18 @@ class AdminController extends Controller
                                                 GROUP BY a.forum_id
                                                 ";
 
-
-
     const TABLE_THREAD = 'mcsf_thread';
     const TABLE_FORUM  = 'mcsf_forum';
 
     private $conn;
     private $status;
 
-    public function __construct()
+
+    public function recacheAction(Request $request)
     {
         $options = array(\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION);
         $this->conn =  new \PDO("mysql:dbname=" . $this->container->getParameter('database_name') . ";host=" . $this->container->getParameter('database_host'), $this->container->getParameter('database_user'), $this->container->getParameter('database_password'), $options);
-    }
-    public function recacheAction(Request $request)
-    {
+
         $this->conn->query("SET foreign_key_checks = 0;");
         # recache thread post_count
         $this->setStatus("Recaching thread post count");
