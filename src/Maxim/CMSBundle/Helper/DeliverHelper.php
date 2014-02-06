@@ -46,7 +46,7 @@ class DeliverHelper
                     break;
                 default:
                     $options = array(\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION);
-                    $pdo = new \PDO('mysql:host='.$this->config["host"].';dbname='.$this->config["database"], $this->config["username"], $this->config["password"], $options);
+                    $pdo = new \PDO('mysql:host='.$this->config["host"].';dbname='.$this->config["db"], $this->config["user"], $this->config["pass"], $options);
                     $pdo->query($this->minecraft->parseCommand($item->getCommand(), array("USER" => $purchase->getName())));
                     $pdo  = null;
                     $purchase->setStatus(Purchase::PURCHASE_COMPLETE);
