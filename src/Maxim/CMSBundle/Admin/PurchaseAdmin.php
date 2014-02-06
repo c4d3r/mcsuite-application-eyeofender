@@ -16,6 +16,12 @@ use Sonata\AdminBundle\Route\RouteCollection;
 
 class PurchaseAdmin extends Admin
 {
+    protected $datagridValues = array(
+        '_page' => 1,            // display the first page (default = 1)
+        '_sort_order' => 'DESC', // reverse order (default = 'ASC')
+        '_sort_by' => 'date'  // name of the ordered field
+    );
+
     protected function configureRoutes(RouteCollection $collection)
     {
         $collection
@@ -77,6 +83,12 @@ class PurchaseAdmin extends Admin
             ->add('itemDelivery')
             ->add('method')
             ->add('amount')
+            ->add('_action', 'actions', array(
+                'label' => 'Actions',
+                'actions' => array(
+                    'action_name' => array('template' => 'MaximCMSBundle:Admin:Purchase/resendButton.html.twig')
+                )
+            ))
         ;
     }
 } 

@@ -229,6 +229,10 @@ page_staff:
 page_clan:
   path: /page/clan/{clan}
   defaults: {_controller: MaximCMSBundle:Module/Clan/Clan:view }
+
+admin_shop_resend:
+  path: /admin/shop/resend
+  defaults: { _controller: MaximCMSBundle:Admin:resendPurchase }
 CMS_DEFAULT_HOME:
   path: /
   defaults: { _controller: MaximCMSBundle:Default:index }

@@ -55,6 +55,9 @@ services:
     purchase.helper:
         class: Maxim\CMSBundle\Helper\PurchaseHelper
         arguments: [ @doctrine.orm.entity_manager, @logger ]
+    maxim_cms.deliver.helper:
+        class: Maxim\CMSBundle\Helper\DeliverHelper
+        arguments: [ @event_dispatcher, @minecraft.helper, @doctrine.orm.entity_manager, @logger, %mysql%]
 
 # LISTENERS
     exception.listener:
@@ -69,7 +72,7 @@ services:
             - { name: kernel.event_listener, event: 'maxim_cms.event_menu', method: configureMenu}
     maxim_cms.action.store_notification:
         class: Maxim\CMSBundle\Action\StoreNotificationAction
-        arguments: [ @doctrine.orm.entity_manager, @logger, @purchase.helper, @event_dispatcher, @minecraft.helper, %mysql%]
+        arguments: [ @doctrine.orm.entity_manager, @logger, @purchase.helper, @event_dispatcher, @maxim_cms.deliver.helper]
 # VALIDATORS
     maxim_cms.validator.minecraft:
         class: Maxim\CMSBundle\Component\Validator\ValidMinecraftValidator

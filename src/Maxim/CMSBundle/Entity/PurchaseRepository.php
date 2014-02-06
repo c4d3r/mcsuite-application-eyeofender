@@ -36,10 +36,8 @@ class PurchaseRepository extends EntityRepository
             FROM MaximCMSBundle:Purchase p
             JOIN p.user u
             JOIN p.storeItem i
-            WHERE p.status = :status
             ORDER BY p.date DESC"
         );
-        $query->setParameter("status", Purchase::PURCHASE_COMPLETE);
         $query->setMaxResults($amount);
         return $query->getResult();
     }
@@ -50,14 +48,12 @@ class PurchaseRepository extends EntityRepository
             FROM MaximCMSBundle:Purchase p
             JOIN p.user u
             JOIN p.storeItem i
-            WHERE p.status = :status
-            AND MONTH(p.date) = :month
+            WHERE MONTH(p.date) = :month
             AND YEAR(p.date) = :year
             ORDER BY p.date DESC"
         );
         $t = date('d-m-Y');
         $query->setParameters(array(
-            "status" => Purchase::PURCHASE_COMPLETE,
             "month"  => date("m",strtotime($t)),
             "year"   => date("Y",strtotime($t))
         ));
@@ -71,8 +67,7 @@ class PurchaseRepository extends EntityRepository
             FROM MaximCMSBundle:Purchase p
             JOIN p.user u
             JOIN p.storeItem i
-            WHERE p.status = :status
-            AND MONTH(p.date) = :month
+            WHERE MONTH(p.date) = :month
             AND YEAR(p.date) = :year
             GROUP BY date
             ORDER BY p.date DESC
@@ -80,7 +75,6 @@ class PurchaseRepository extends EntityRepository
         );
         $t = date('d-m-Y');
         $query->setParameters(array(
-            "status" => Purchase::PURCHASE_COMPLETE,
             "month"  => date("m",strtotime($t)),
             "year"   => date("Y",strtotime($t))
         ));

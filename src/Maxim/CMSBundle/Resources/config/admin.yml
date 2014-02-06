@@ -84,6 +84,7 @@ services:
             - ~
         calls:
             - [ setTemplate, [edit, MaximCMSBundle:AdminSonata:edit.html.twig]]
+
     sonata.admin.forum.category:
         class: Maxim\Module\ForumBundle\Admin\CategoryAdmin
         tags:

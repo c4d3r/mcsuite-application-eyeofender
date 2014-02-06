@@ -305,4 +305,13 @@ class Purchase
         return $this->discount;
     }
 
+    public function getStatusOK()
+    {
+        return $this->status == self::PURCHASE_COMPLETE;
+    }
+
+    public function getDeliveryOK()
+    {
+        return $this->itemDelivery == self::ITEM_DELIVERY_SUCCESS;
+    }
 }

@@ -24,7 +24,7 @@ class RecacheBlockService extends BaseBlockService
 {
     public function getName()
     {
-        return "Recache";
+        return "Recache Forums";
     }
 
     public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
@@ -55,7 +55,7 @@ class RecacheBlockService extends BaseBlockService
     {
         $resolver->setDefaults(array(
             'url'      => false,
-            'title'    => 'Recache',
+            'title'    => 'Recache Forums',
             'template' => 'MaximCMSBundle:Admin:Block/recache.html.twig',
         ));
     }

@@ -7,22 +7,33 @@
 
             <div class="sonata-purchases-container">
                 <ul class="list-group alt">
-                   {% for key, purchase in latestPurchases %}
-                       <li class="list-group-item">
-                           <div class="media">
-                               <span class="pull-left thumb-sm">
-                                   <img src="http://minotar.net/helm/{{ purchase.user.username }}" alt="{{ purchase.user.username }}" class="img-circle">
-                               </span>
-                               <div class="pull-right text-muted m-t-sm"> {{ purchase.amount }}  £</div>
-                               <div class="media-body">
-                                   <div>
-                                       <a href="{{ path('admin_maxim_cms_storeitem_edit', { 'id': purchase.storeItem.id }) }}">{{ purchase.storeItem.name }}</a>
-                                   </div>
-                                   <small class="text-muted">{{ purchase.date|prettydate }}</small>
-                               </div>
-                           </div>
-                       </li>
-                   {% endfor %}
+                    {% for key, purchase in latestPurchases %}
+                        <li class="list-group-item">
+                            <div class="media">
+                                <span class="pull-left thumb-sm">
+                                    <img src="http://minotar.net/helm/{{ purchase.user.username }}" data-toggle="tooltip" data-placement="top" data-original-title="{{ purchase.user.username }}" alt="{{ purchase.user.username }}" class="img-circle">
+                                </span>
+                                <button class="pull-right btn btn-default admin-shop-resend" value="{{ purchase.id }}">
+                                    <span class="text">
+                                        <i class="fa fa-refresh text-success"></i>
+                                        Resend
+                                    </span>
+                                </button>
+                                <div class="media-body">
+                                    <div>
+                                        <span class="badge bg-success">{{ purchase.amount }}  <i class="fa fa-gbp"></i></span>
+                                        <span id="admin-shop-purchase-{{ purchase.id }}-status" class="badge {% if(purchase.statusOK) %}bg-success{% else %}bg-danger{% endif %}">{{ purchase.status }}</span>
+                                        <span id="admin-shop-purchase-{{ purchase.id }}-delivery" class="badge {% if(purchase.deliveryOK) %}bg-success{% else %}bg-danger{% endif %}">{{ purchase.itemDelivery }}</span>
+                                    </div>
+                                    <small class="text-muted">
+                                        <a href="{{ path('admin_maxim_cms_storeitem_edit', { 'id': purchase.storeItem.id }) }}">{{ purchase.storeItem.name }}</a>
+                                        {{ purchase.date|prettydate }}
+                                    </small>
+                                </div>
+
+                            </div>
+                        </li>
+                    {% endfor %}
                 </ul>
             </div>
         </section>

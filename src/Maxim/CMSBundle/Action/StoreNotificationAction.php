@@ -13,6 +13,7 @@ use Maxim\CMSBundle\Entity\Notification;
 use Maxim\CMSBundle\Entity\NotificationDetails;
 use Maxim\CMSBundle\Event\MinecraftSendEvent;
 use Maxim\CMSBundle\Exception\CommandExecutionException;
+use Maxim\CMSBundle\Helper\DeliverHelper;
 use Maxim\CMSBundle\Helper\MinecraftHelper;
 use Maxim\CMSBundle\Helper\PurchaseHelper;
 use Monolog\Logger;
@@ -29,16 +30,14 @@ class StoreNotificationAction implements ActionInterface
     protected $logger;
     protected $purchaseHelper;
     protected $eventDispatcher;
+    protected $deliverHelper;
 
-    protected $config;
-
-    public function __construct(EntityManager $doctrine, Logger $logger, PurchaseHelper $purchaseHelper, $eventDispatcher, MinecraftHelper $minecraft, $config) {
+    public function __construct(EntityManager $doctrine, Logger $logger, PurchaseHelper $purchaseHelper, $eventDispatcher, DeliverHelper $deliverHelper) {
         $this->doctrine = $doctrine;
         $this->logger = $logger;
         $this->purchaseHelper = $purchaseHelper;
         $this->eventDispatcher = $eventDispatcher;
-        $this->minecraft = $minecraft;
-        $this->config = $config;
+        $this->deliverHelper = $deliverHelper;
     }
 
     /**
@@ -92,43 +91,8 @@ class StoreNotificationAction implements ActionInterface
                 $purchase->setStatus(Purchase::PURCHASE_INVALID_AMOUNT);
             }
 
-            $succeeded = false;
-
-            try
-            {
-                switch($item->getType()) {
-                    case "COMMAND" :
-                        $this->eventDispatcher->dispatch("minecraft.send", new MinecraftSendEvent(array($purchase)));
-                        break;
-                    default:
-                        $options = array(\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION);
-                        $pdo = new \PDO('mysql:host='.$this->config["host"].';dbname='.$this->config["database"], $this->config["username"], $this->config["password"], $options);
-                        $pdo->query($this->minecraft->parseCommand($item->getCommand(), array("USER" => $purchase->getName())));
-                        $pdo  = null;
-                        $purchase->setStatus(Purchase::PURCHASE_COMPLETE);
-                        $purchase->setItemDelivery(Purchase::ITEM_DELIVERY_SUCCESS);
-                        $this->doctrine->flush();
-                }
-                $succeeded = true;
-            }
-            catch(\PDOException $ex)
-            {
-                $purchase->setStatus(Purchase::PURCHASE_ERROR_SQL);
-                $purchase->setItemDelivery(Purchase::ITEM_DELIVERY_FAILED);
-                $this->doctrine->flush();
-            }
-            catch(CommandExecutionException $ex)
-            {
-                $purchase->setStatus(Purchase::PURCHASE_ERROR_COMMAND);
-                $purchase->setItemDelivery(Purchase::ITEM_DELIVERY_FAILED);
-                $this->doctrine->flush();
-            }
-            catch(\Exception $ex)
-            {
-                $purchase->setStatus(Purchase::PURCHASE_ERROR_UNKNOWN);
-                $purchase->setItemDelivery(Purchase::ITEM_DELIVERY_FAILED);
-                $this->doctrine->flush();
-            }
+            # deliver the item
+            $succeeded = $this->deliverHelper->deliver($purchase);
 
             # Create notification
             $notification = new Notification();
