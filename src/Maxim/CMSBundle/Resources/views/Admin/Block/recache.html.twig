@@ -1,0 +1,46 @@
+{% extends sonata_block.templates.block_base %}
+
+{% block block %}
+    {% if is_granted("ROLE_SUPER_ADMIN") %}
+        <section class="panel panel-default">
+            <header class="panel-heading">{{ settings.title }}</header>
+
+            <div class="sonata-purchases-container" style="padding:10px;">
+                <button id="btn_admin_recache" class="btn btn-s-md btn-dark btn-rounded">Recache</button>
+            </div>
+        </section>
+
+        <script>
+            $('#btn_admin_recache').click(function(){
+
+                var _button = $(this);
+                var oldText = _button.text();
+
+                _button.text('Recaching...').attr('disabled', 'disabled');
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{ path('admin_forum_recache') }}",
+                    data: {},
+                    dataType: "json",
+                    timeout: 15000,
+                    success: function(data) {
+
+
+
+                        _button.text('Recaching finished!').removeAttr('disabled');
+                        setTimeout(function(){ _button.text(oldText)}, 2500);
+                    },
+                    error: function(request, status, err) {
+                        console.log("error: " + err);
+                    }
+                }, function(data){
+                    //to get the error
+                    console.log("error");
+                    console.log(data.responseText);
+                });
+            });
+
+        </script>
+    {% endif %}
+{% endblock %}

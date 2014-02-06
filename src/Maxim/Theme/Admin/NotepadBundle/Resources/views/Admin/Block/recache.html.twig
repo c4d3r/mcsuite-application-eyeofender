@@ -1,0 +1,13 @@
+{% extends sonata_block.templates.block_base %}
+
+{% block block %}
+    {% if is_granted("ROLE_SUPER_ADMIN") %}
+        <section class="panel panel-default">
+            <header class="panel-heading">{{ settings.title }}</header>
+
+            <div class="sonata-purchases-container">
+                Button here
+            </div>
+        </section>
+    {% endif %}
+{% endblock %}

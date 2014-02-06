@@ -217,6 +217,7 @@ sonata_block:
         maxim_cms.block.latest_users: ~
         maxim_cms.block.latest_purchases: ~
         maxim_cms.block.purchases: ~
+        maxim_cms.block.recache: ~
         # Your other blocks
 sonata_admin:
     title:      MCSuite
@@ -232,6 +233,7 @@ sonata_admin:
         blocks:
             - { position: left, type: sonata.admin.block.admin_list}
              #- { position: center, type: sonata.block.service.text, settings: { content: "<h2>Welcome!</h2> You can customize this dashboard by editing the sonata_admin.yml file. The current dashboard presents the recent items from the NewsBundle and a timeline with the latest action"} }
+            - { position: center, type: maxim_cms.block.recache }
             - { position: center, type: maxim_cms.block.latest_users }
             - { position: right, type: maxim_cms.block.purchases }
             - { position: right, type: maxim_cms.block.latest_purchases }

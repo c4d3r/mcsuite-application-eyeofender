@@ -5,52 +5,7 @@ admin_forum:
   path: /
   defaults: { _controller: MaximModuleForumBundle:AdminForum:view }
 
-# view
-forum_admin_categories_view:
-  path: /categories/view
-  defaults: { _controller: MaximModuleForumBundle:AdminForum:viewCategories }
-forum_admin_forums_view:
-  path: /forums/{categoryid}/view
-  defaults: { _controller: MaximModuleForumBundle:AdminForum:viewForums }
-forum_admin_forums_view_pattern:
-  path: /forums/
-
-# list - ajax
-forum_admin_category_list_ajax:
-  path: /categories/list/ajax
-  defaults: { _controller: MaximModuleForumBundle:AdminForum:listCategories }
-forum_admin_forum_list_ajax:
-  path: /forums/{categoryid}/list/ajax
-  defaults: { _controller: MaximModuleForumBundle:AdminForum:listForums }
-
-# edit - ajax
-forum_admin_category_edit_ajax:
-  path: /category/{id}/edit/ajax
-  defaults: { _controller: MaximModuleForumBundle:AdminForum:editCategoryAjax }
-forum_admin_forum_edit_ajax:
-  path: /forum/{id}/edit/ajax
-  defaults: { _controller: MaximModuleForumBundle:AdminForum:editForumAjax }
-
-# edit - view
-forum_admin_category_edit_view:
-  path: /category/{id}/view
-  defaults: { _controller: MaximModuleForumBundle:AdminForum:editCategory }
-forum_admin_forum_edit_view:
-  path: /forum/{id}/view
-  defaults: { _controller: MaximModuleForumBundle:AdminForum:editForum }
-
-# delete - ajax
-forum_admin_category_delete_ajax:
-  path: /category/{id}/delete/ajax
-  defaults: { _controller: MaximModuleForumBundle:AdminForum:deleteCategoryAjax }
-forum_admin_forum_delete_ajax:
-  path: /forum/{id}/delete/ajax
-  defaults: { _controller: MaximModuleForumBundle:AdminForum:deleteForumAjax }
-
-# add - view
-forum_admin_category_add_view:
-  path: /category/add
-  defaults: { _controller: MaximModuleForumBundle:AdminForum:addCategoryView }
-forum_admin_forum_add_view:
-  path: /forum/add
-  defaults: { _controller: MaximModuleForumBundle:AdminForum:addForumView }
+# admin - recache
+admin_forum_recache:
+   path: /recache
+   defaults: { _controller: MaximModuleForumBundle:Admin:recache }

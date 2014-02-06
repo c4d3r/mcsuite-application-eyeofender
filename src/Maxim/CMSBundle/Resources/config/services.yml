@@ -121,6 +121,14 @@ services:
         calls:
             - [ setPurchaseManager, [@maxim_cms.manager.purchase]]
             - [ setConfigs, [%maxim_cms.store%]]
+    maxim_cms.block.recache:
+        public: true
+        class: Maxim\CMSBundle\Block\RecacheBlockService
+        tags:
+            - { name: sonata.block }
+        arguments:
+            - "maxim_cms.block.recache"
+            - @templating
 # MANAGERS
     maxim_cms.manager.user:
         class: Maxim\CMSBundle\Entity\UserManager
