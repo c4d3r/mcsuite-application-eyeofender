@@ -57,16 +57,19 @@ class DeliverHelper
         }
         catch(\PDOException $ex)
         {
+            $this->logger->err("DELIVER:" . $ex->getMessage());
             $purchase->setStatus(Purchase::PURCHASE_ERROR_SQL);
             $purchase->setItemDelivery(Purchase::ITEM_DELIVERY_FAILED);
         }
         catch(CommandExecutionException $ex)
         {
+            $this->logger->err("DELIVER:" . $ex->getMessage());
             $purchase->setStatus(Purchase::PURCHASE_ERROR_COMMAND);
             $purchase->setItemDelivery(Purchase::ITEM_DELIVERY_FAILED);
         }
         catch(\Exception $ex)
         {
+            $this->logger->err("DELIVER:" . $ex->getMessage());
             $purchase->setStatus(Purchase::PURCHASE_ERROR_UNKNOWN);
             $purchase->setItemDelivery(Purchase::ITEM_DELIVERY_FAILED);
         }
