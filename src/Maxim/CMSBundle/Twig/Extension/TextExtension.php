@@ -68,13 +68,13 @@ class TextExtension extends \Twig_Extension
         $now = new \DateTime("now");
         $day = $date->format('j');
         $dayNow = $now->format('j');
-        $diff = ($dayNow - $day);
+        $diff = $date->diff($now);
 
-        if($diff <= 1)
+        if($diff->d <= 1)
         {
-            $dayWord = (($diff == 1) ? "Yesterday" : "Today");
+            $dayWord = (($diff->d == 1) ? "Yesterday" : "Today");
         }
-        elseif($diff >= 2 && $diff <= 6)
+        elseif($diff->d >= 2 && $diff->d <= 6)
         {
             $dayWord = $date->format('l');
         }
