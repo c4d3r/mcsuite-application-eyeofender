@@ -67,7 +67,7 @@
                             </div>
                             <div class="mcsf_thread_update">
                                 {% if thread.lastPost is not null %}
-                                    <h4>last post by {{ thread.lastPost.createdBy.username }}</h4>
+                                    <h4>last post by {{ thread.lastPostCreator.username }}</h4>
                                     <p>{{ thread.lastPost.createdOn|prettydate }}</button></p>
                                 {% endif %}
                             </div>

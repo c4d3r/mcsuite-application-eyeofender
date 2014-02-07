@@ -31,9 +31,9 @@ class PostRepository extends EntityRepository
     public function findLatestPosts($amount = 10, $websiteid)
     {
         $query = $this->getEntityManager()->createQuery(
-            "SELECT p, u, t
+            "SELECT p, u2, t
             FROM MaximModuleForumBundle:Post p
-            INNER JOIN p.createdBy u
+            INNER JOIN p.createdBy u2
             LEFT JOIN p.thread t
             INNER JOIN t.forum f
             INNER JOIN f.category c
@@ -42,7 +42,8 @@ class PostRepository extends EntityRepository
         ");
         $query->setParameter('websiteid', $websiteid);
         $query->setMaxResults($amount);
-        $query->setHint(Query::HYDRATE_OBJECT, true);
+        $query->useResultCache(true, 60, __METHOD__ . serialize("website_forum_latestposts"));
+        $query->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true);
 
         return $query->getResult();
 

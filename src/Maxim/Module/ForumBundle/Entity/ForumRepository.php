@@ -24,9 +24,10 @@ class ForumRepository extends EntityRepository
              "
          )->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true);
 
-         $query->useResultCache(true, 3600, __METHOD__ . serialize($query->getParameters()));
+         $query->useResultCache(true, 60, __METHOD__ . serialize($query->getParameters()));
          return $query->getResult();
 
      }
+
 
 }

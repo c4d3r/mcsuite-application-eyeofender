@@ -170,6 +170,7 @@ class ThreadController extends Controller
 
             $post = $form->getData();
             $em->persist($post);
+            $em->flush();
 
             $forum = $thread->getForum();
             $forum->setLastPostCreator($user);

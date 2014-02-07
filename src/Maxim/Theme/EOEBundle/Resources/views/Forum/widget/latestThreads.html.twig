@@ -1,5 +1,5 @@
 <ul class="module-list">
-    {% for thread in threads %}
+    {% for thread in latestThreads %}
         <li class="latestthread">
             <a href="{{ path('profile', {'name' : thread.createdBy.username }) }}" class="tooltip-init latestthread-profile" title="{{ thread.createdBy.username }}">
                 <img src="https://minotar.net/helm/{{ thread.createdBy.username }}/35.png" alt="{{ thread.createdBy.username }}"/>

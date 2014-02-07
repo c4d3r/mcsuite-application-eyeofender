@@ -25,7 +25,7 @@ class ThreadRepository extends EntityRepository
                 ORDER BY t.createdOn DESC'
             )
             ->setParameter("website", $website)
-            ->setHint(Query::HYDRATE_OBJECT, true)
+            ->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true)
             ->setMaxResults($amount)
             ->useResultCache(true, 60, __METHOD__ . serialize("website_forum_latestthreads"))
             ->getResult();
@@ -80,5 +80,25 @@ class ThreadRepository extends EntityRepository
             ->setParameter("id", $threadid);
         $query->useResultCache(true, 10, __METHOD__ . serialize($query->getParameters()));
         return $query->getSingleResult();
+    }
+
+    public function findThreads($forumid, $pinned = false)
+    {
+        $query = $this->getEntityManager()->createQuery(
+            "SELECT t, u, f, p, u2
+            FROM MaximModuleForumBundle:Thread t
+            LEFT JOIN t.createdBy u
+            JOIN t.forum f
+            JOIN t.lastPost p
+            JOIN t.lastPostCreator u2
+            WHERE f.id = :id AND t.pinned = :pinned
+            ORDER BY p.createdOn DESC"
+        )
+            ->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true)
+            ->setParameter('pinned', $pinned)
+            ->setParameter('id', $forumid);
+        $query->useResultCache(true, 60, __METHOD__ . serialize($query->getParameters()));
+
+        return $query->getResult();
     }
 }

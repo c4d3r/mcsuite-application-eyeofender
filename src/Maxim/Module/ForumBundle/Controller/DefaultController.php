@@ -14,14 +14,17 @@ class DefaultController extends Controller{
 
         # LOAD CATEGORIES
         $query = $em->createQuery(
-            "SELECT c, w, f
+            "SELECT c, w, f, p, t, u
             FROM MaximModuleForumBundle:Category c
             LEFT JOIN c.forums f
             INNER JOIN c.website w
+            JOIN f.lastPostCreator u
+            JOIN f.lastPost p
+            JOIN p.thread t
             WHERE w.id = :wid
             ORDER BY c.sort DESC, f.sort DESC, c.title ASC, f.title ASC"
         )->setParameter("wid", $this->container->getParameter('website'));
-        $query->useResultCache(true, 3600, __METHOD__ . serialize($query->getParameters()));
+        $query->useResultCache(true, 60, __METHOD__ . serialize($query->getParameters()));
         $data['categories'] = $query->getResult();
         $data['config'] = array("forum" => array("popularPERC" => 20));
         # CLEANUP
@@ -33,47 +36,19 @@ class DefaultController extends Controller{
     public function forumViewAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $logger = $this->get('logger');
         $request = Request::createFromGlobals();
 
-        # FORUM
+        # forum
         $forum = $em->getRepository('MaximModuleForumBundle:Forum')->findOneBy(array("id" => $id));
 
-        # THREADS
-        #   PINNED THREADS
-        $query = $em->createQuery(
-            "SELECT t, u, f
-            FROM MaximModuleForumBundle:Thread t
-            LEFT JOIN t.createdBy u
-            JOIN t.forum f
-            WHERE f.id = :id AND t.pinned = true
-            ORDER BY t.createdOn DESC"
-        )
-            ->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true)
-            ->setParameter('id', $id);
-        $query->useResultCache(true, 10, __METHOD__ . serialize($query->getParameters()));
-
-        $result = $query->getResult();
-        if(count($result) > 0) {
-            $data['threads_pinned'] = $result;
-        }
-
-        #   NON-PINNED THREADS
-        $query = $em->createQuery(
-            "SELECT t, u, f
-            FROM MaximModuleForumBundle:Thread t
-            LEFT JOIN t.createdBy u
-            JOIN t.forum f
-            WHERE f.id = :id AND t.pinned = false
-            ORDER BY t.createdOn DESC"
-        )
-            ->setParameter('id', $id)
-            ->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true);
-        $query->useResultCache(true, 10, __METHOD__ . serialize($query->getParameters()));
+        # threads
+        $data['threads_pinned'] = $em->getRepository('MaximModuleForumBundle:Thread')->findThreads($id, true);
+        $threads = $em->getRepository('MaximModuleForumBundle:Thread')->findThreads($id, false);
 
         $paginator  = $this->get('knp_paginator');
-        $threads = $paginator->paginate(
-            $query,
+
+        $threadsPaginator = $paginator->paginate(
+            $threads,
             $this->get('request')->query->get('page', 1)/*page number*/,
             20/*limit per page*/
         );
@@ -86,8 +61,8 @@ class DefaultController extends Controller{
             }
         }
 
+        $data['threads'] = $threadsPaginator;
         $data['forum']   = $forum;
-        $data['threads'] = $threads;
         # CLEANUP
         $query = null;
 

@@ -20,7 +20,7 @@ class WidgetController extends Controller
         # get latest threads
         $threads = $em->getRepository('MaximModuleForumBundle:Thread')->findLatestThreads(10, $this->container->getParameter('website'));
 
-        $data['threads'] = $threads;
+        $data['latestThreads'] = $threads;
 
         return $this->render('MaximCMSBundle:Forum:widget/latestThreads.html.twig', $data);
     }
@@ -32,7 +32,7 @@ class WidgetController extends Controller
         # get latest posts
         $posts = $em->getRepository('MaximModuleForumBundle:Post')->findLatestPosts($amount, $this->container->getParameter('website'));
 
-        $data['posts'] = $posts;
+        $data['latestPosts'] = $posts;
 
         return $this->render('MaximCMSBundle:Forum:widget/latestPosts.html.twig', $data);
     }
