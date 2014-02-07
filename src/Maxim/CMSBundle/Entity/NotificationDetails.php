@@ -11,10 +11,6 @@ namespace Maxim\CMSBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="payum_notification_details")
- * @ORM\Entity
- */
 class NotificationDetails
 {
 

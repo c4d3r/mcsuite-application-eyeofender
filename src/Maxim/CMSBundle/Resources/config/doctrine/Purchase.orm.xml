@@ -11,15 +11,16 @@
       <generator strategy="IDENTITY"/>
     </id>
 
-    <field name="amount" type="integer" column="amount" nullable="true"/>
-    <field name="date" type="datetime" column="date" nullable="false"/>
-    <field name="status" type="text" column="status" nullable="false"/>
-    <field name="name" type="text" column="name" nullable="true"/>
-    <field name="ip" type="text" column="ip" nullable="true"/>
-    <field name="transaction" type="text" column="transaction" nullable="true"/>
-    <field name="method" type="text" column="payment_method" nullable="true"/>
-    <field name="itemDelivery" type="string" column="store_item_delivery" length="255" nullable="false"/>
-    <field name="discount" type="decimal" column="discount" precision="5" scale="2" nullable="false"/>
+    <field name="amount"        type="integer"      column="amount"                                                 nullable="true"/>
+    <field name="date"          type="datetime"     column="date"                                                   nullable="false"/>
+    <field name="status"        type="text"         column="status"                                                 nullable="false"/>
+    <field name="name"          type="text"         column="name"                                                   nullable="true"/>
+    <field name="ip"            type="text"         column="ip"                                                     nullable="true"/>
+    <field name="transaction"   type="text"         column="transaction"                                            nullable="true"/>
+    <field name="method"        type="text"         column="payment_method"                                         nullable="true"/>
+    <field name="itemDelivery"  type="string"       column="store_item_delivery"                    length="255"    nullable="false"/>
+    <field name="discount"      type="decimal"      column="discount"               precision="5"   scale="2"       nullable="false"/>
+    <field name="details"       type="array"        column="details"                                                nullable="true"/>
 
     <many-to-one field="user" target-entity="User" inversed-by="purchases">
       <join-column name="user_id" referenced-column-name="id" />

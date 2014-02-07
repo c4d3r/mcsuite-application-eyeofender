@@ -5,3 +5,24 @@
 .label-important {
     background-color: #d9534f;
 }
+
+/* BLOCK LATEST PURCHASES */
+.sonata-purchases-container > .list-group > .list-group-item:not(.admin-shop-resend):hover {
+    cursor:pointer;
+    background-color: rgb(252, 252, 252);
+}
+.purchases-info {
+    display: none;
+    background-color: rgb(245, 245, 245);
+    padding: 5px 10px;
+    margin-top: 5px;
+}
+.purchases-info > p {
+    margin:0;
+}
+.purchases > ul {
+    padding:0;
+}
+.purchase-info-key {
+    font-weight:bold;
+}

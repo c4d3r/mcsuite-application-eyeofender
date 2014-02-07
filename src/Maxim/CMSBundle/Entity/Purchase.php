@@ -55,6 +55,13 @@ class Purchase
 
     protected $discount = 0.00;
 
+    protected $details;
+
+
+    public function __construct()
+    {
+        $this->details = array();
+    }
     /**
      * Get id
      *
@@ -313,5 +320,31 @@ class Purchase
     public function getDeliveryOK()
     {
         return $this->itemDelivery == self::ITEM_DELIVERY_SUCCESS;
+    }
+
+    /**
+     * @param mixed $details
+     */
+    public function setDetails($details)
+    {
+        $this->details = $details;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDetails()
+    {
+        return $this->details;
+    }
+
+    public function addDetail($key, $detail)
+    {
+        $this->details[$key] = $detail;
+    }
+
+    public function containsDetails()
+    {
+        return count($this->details) > 0;
     }
 }

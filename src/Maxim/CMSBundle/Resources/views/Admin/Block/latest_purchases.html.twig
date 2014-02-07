@@ -32,10 +32,35 @@
                                 </div>
 
                             </div>
+                            <div class="purchases-info">
+                                {% if purchase.containsDetails() %}
+                                    <ul>
+                                        {% for key, value in purchase.details %}
+                                            <li><span class="purchase-info-key">{{ key }}</span>: {{ value }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    <p>No errors have been found</p>
+                                {% endif %}
+                            </div>
                         </li>
                     {% endfor %}
                 </ul>
             </div>
         </section>
+        <script>
+            $(function(){
+                //.sonata-purchases-container > .list-group-item
+                $('.sonata-purchases-container > .list-group > .list-group-item:not(.admin-shop-resend)').click(function(event){
+
+                    var infoContainer = $(this).find('.purchases-info');
+                    infoContainer.slideToggle();
+
+                });
+                $('.admin-shop-resend').click(function(e){
+                    e.stopPropagation();
+                })
+            })
+        </script>
     {% endif %}
 {% endblock %}
