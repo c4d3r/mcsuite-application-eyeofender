@@ -203,7 +203,7 @@ class Forum {
     }
 
     public function __toString() {
-        return $this->category . " > " . $this->category . " > " . $this->title;
+        return $this->category . " > " . $this->title;
     }
 
     public function getLatestThread() {
