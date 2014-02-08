@@ -56,12 +56,10 @@ class UserAdmin extends Admin
                 ))
             ->end()
             ->with('Groups')
-                ->add('groups')
-                /*->add('groups', 'sonata_type_model', array(
+                ->add('groups', null, array(
                     'required' => false,
-                    'expanded' => true,
                     'multiple' => true
-                ))  */
+                ))
             ->end()
         ;
     }
