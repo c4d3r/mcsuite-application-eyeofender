@@ -26,7 +26,7 @@
 
                         <div class="mcsf_forum_latest">
                             {% if forum.lastPost != null and forum.lastPostCreator != null %}
-                                Latest: <a href="#">{{ forum.lastPost.thread.title }}</a><br/>
+                                Latest: <a href="{{ path('forum_thread_view', {'id' : forum.id, 'threadid' : forum.lastPost.thread.id }) }}">{{ forum.lastPost.thread.title }}</a><br/>
 
                                 {{ forum.lastPostCreator.username }}, {{ forum.lastPost.createdOn|prettydate }}
                             {% else %}
