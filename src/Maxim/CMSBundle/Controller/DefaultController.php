@@ -42,6 +42,15 @@ class DefaultController extends Controller
         return $this->render('MaximCMSBundle:pages:home.html.twig', $data);
     }
 
+    public function notificationAction()
+    {
+        $notifications = $this->getDoctrine()->getRepository('MaximCMSBundle:User')->findNotifications($this->getUser(), 10);
+
+        $data['userNotifications'] = $notifications;
+
+        return $this->render('MaximCMSBundle:Profile:notifications.html.twig', $data);
+    }
+
     public function announcementsLoadAction()
     {
 

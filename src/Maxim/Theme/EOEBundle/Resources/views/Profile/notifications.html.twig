@@ -1,0 +1,48 @@
+<ul class="right">
+    <li class="has-dropdown">
+        <a href="#">Notifications<span class="badge">{{ userNotifications|length }}</span></a>
+        <ul class="dropdown" id="notifications">
+            {% for notification in userNotifications %}
+                <li class="notification{% if notification.isRead() %} notification-read{% endif %}" id="{{ notification.id }}">
+                    {% if notification.type == "NOTIFICATION_FRIENDREQUEST" %}
+                        {% if notification.data != null and notification.data['accepted'] != null %}
+                            <div class="notification-container" data-href="{{ path('profile_friend_requests') }}">
+                                <div class="notification-image">
+                                    <img src="https://minotar.net/helm/{{ notification.user.username }}/30.png"/>
+                                </div>
+                                <div class="notification-data">
+                                    <div class="notification-text">{{ notification.user }} has{% if notification.data['accepted'] %} accepted {% else %} declined {% endif %}your friend request</div>
+                                    <div class="notification-date">{{ notification.createdOn|prettydate }}</div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="notification-container" data-href="{{ path('profile_friend_requests') }}">
+                                <div class="notification-image">
+                                    <img src="https://minotar.net/helm/{{ notification.user.username }}/30.png"/>
+                                </div>
+                                <div class="notification-data">
+                                    <div class="notification-text">{{  notification.user }} has sent you a friend request</div>
+                                        <div class="notification-date">{{ notification.createdOn|prettydate }}</div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% elseif notification.type == "NOTIFICATION_PM" %}
+                        <div class="notification-container">
+                            <div class="notification-text">PM</div>
+                                <div class="notification-date">{{ notification.createdOn|prettydate }}</div>
+                        </div>
+                    {% elseif notification.type == "NOTIFICATION_PURCHASE" %}
+                        {% if notification.data != null %}
+                            <div class="notification-container" data-href="{{ path('shop_purchase_history') }}">
+                                <div class="notification-text">Your payment for order {{ notification.data['order'] }} was successful</div>
+                                <div class="notification-date">{{ notification.createdOn|prettydate }}</div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </li>
+            {% else %}
+                <li><span>No unread notifications left.</span></li>
+            {% endfor %}
+        </ul>
+    </li>
+</ul>

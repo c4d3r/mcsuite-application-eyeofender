@@ -16,27 +16,34 @@ use Symfony\Component\Form\Exception\InvalidArgumentException;
  * @ORM\Table(name="notification")
  * @ORM\Entity
  */
-class Notification {
-
+class UserNotification
+{
     const TYPE_FRIENDREQUEST = "NOTIFICATION_FRIENDREQUEST";
     const TYPE_PM            = "NOTIFICATION_PM";
     const TYPE_PURCHASE      = "NOTIFICATION_PURCHASE";
 
     protected $id;
 
-    protected $text;
-
     protected $createdOn;
 
     protected $readOn;
 
-    protected $user;
+    protected $receiver;
+
+    protected $user = null;
+
+    protected $data;
+
+    protected $website;
 
     protected $type;
 
+    protected $link;
+
     public function __construct()
     {
-        $this->createdOn = new \DateTime("now");
+        $this->createdOn    = new \DateTime("now");
+        $this->data         = array();
     }
 
     /**
@@ -56,7 +63,23 @@ class Notification {
     }
 
     /**
-     * @param int $id
+     * @param array $data
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
+    }
+
+    /**
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * @param mixed $id
      */
     public function setId($id)
     {
@@ -64,7 +87,7 @@ class Notification {
     }
 
     /**
-     * @return int
+     * @return mixed
      */
     public function getId()
     {
@@ -72,7 +95,7 @@ class Notification {
     }
 
     /**
-     * @param \DateTime $readOn
+     * @param mixed $readOn
      */
     public function setReadOn($readOn)
     {
@@ -80,7 +103,7 @@ class Notification {
     }
 
     /**
-     * @return \DateTime
+     * @return mixed
      */
     public function getReadOn()
     {
@@ -88,23 +111,56 @@ class Notification {
     }
 
     /**
-     * @param String $text
+     * @param mixed $receiver
      */
-    public function setText($text)
+    public function setReceiver($receiver)
     {
-        $this->text = $text;
+        $this->receiver = $receiver;
     }
 
     /**
-     * @return String
+     * @return mixed
      */
-    public function getText()
+    public function getReceiver()
     {
-        return $this->text;
+        return $this->receiver;
+    }
+
+    /**
+     * @param null $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @return null
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $website
+     */
+    public function setWebsite($website)
+    {
+        $this->website = $website;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWebsite()
+    {
+        return $this->website;
     }
 
     /**
      * @param String $type
+     * @throws InvalidArgumentException
      */
     public function setType($type)
     {
@@ -129,18 +185,28 @@ class Notification {
     }
 
     /**
-     * @param \Maxim\CMSBundle\Entity\User $user
+     * @param mixed $link
      */
-    public function setUser($user)
+    public function setLink($link)
     {
-        $this->user = $user;
+        $this->link = $link;
     }
 
     /**
-     * @return \Maxim\CMSBundle\Entity\User
+     * @return mixed
      */
-    public function getUser()
+    public function getLink()
     {
-        return $this->user;
+        return $this->link;
+    }
+
+    public function addData($key, $value)
+    {
+        $this->data[$key] = $value;
+    }
+
+    public function isRead()
+    {
+        return $this->readOn != null;
     }
 }

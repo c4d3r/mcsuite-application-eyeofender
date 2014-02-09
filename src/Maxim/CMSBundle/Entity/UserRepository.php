@@ -22,4 +22,22 @@ class UserRepository extends EntityRepository
         $query->setMaxResults($amount);
         return $query->getResult();
     }
+
+    public function findNotifications($user, $limit)
+    {
+        $query = $this->getEntityManager()->createQuery(
+            "SELECT un, u, r
+            FROM MaximCMSBundle:UserNotification un
+            INNER JOIN un.receiver r
+            LEFT JOIN un.user u
+            WHERE un.receiver = :id
+            ORDER BY un.createdOn DESC"
+        );
+        $query->setParameters(array(
+            'id'    => $user
+        ));
+
+        $query->setMaxResults($limit);
+        return $query->getResult();
+    }
 }

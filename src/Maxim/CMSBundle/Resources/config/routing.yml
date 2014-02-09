@@ -172,6 +172,11 @@ profile_load_content:
      username: ".+"
 
 
+# Notifications
+notification_read_ajax:
+  path: /notification/read/ajax
+  defaults: { _controller: MaximCMSBundle:Notification:readNotification }
+
 #------
 # AJAX
 #------

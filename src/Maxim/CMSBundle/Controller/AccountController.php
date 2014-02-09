@@ -14,7 +14,7 @@ class AccountController extends Controller
 		return $this->render('MaximCMSBundle:pages:account.html.twig');
 	}
 	#Minecraft Accounts
-	public function minecraftViewAction()
+	/*public function minecraftViewAction()
 	{
 		//VIEW MINECRAFT ACCOUNTS
 		//Load News
@@ -202,7 +202,7 @@ class AccountController extends Controller
 			
 			return new Response(json_encode($result));
 		}
-	}
+	}       */
 	public function profileAjaxAction($username)
 	{
 		$em = $this->getDoctrine()->getManager();

@@ -55,22 +55,7 @@
                 </li>
             </ul>
             {% if app.security.token and is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                <ul class="right">
-                    <li class="has-dropdown">
-                        <a href="#">Notifications<span class="badge">{{ app.user.unreadNotifications|length }}</span></a>
-                        <ul class="dropdown">
-                            {% for notification in app.user.unreadNotifications %}
-                                <li>
-                                    <a href="#">
-                                        {{ notification.text }}
-                                    </a>
-                                </li>
-                            {% else %}
-                                <li><span>No unread notifications left.</span></li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                </ul>
+                {{ render(controller('MaximCMSBundle:Default:notification')) }}
             {% endif %}
         </section>
         {% endif %}
@@ -297,6 +282,17 @@
         theme: '.tooltipster-shadow'
     });
     UI.preload();
+
+    $('#notifications > .notification').on('click', function(){
+        //mark notification as read
+        $.ajax({
+            type: "POST",
+            url: "{{ path('notification_read_ajax') }}",
+            data: { "_id" : $(this).attr('id') }
+        });
+
+        window.location.href = $(this).find('.notification-container').attr("data-href");
+    })
 </script>
 {% block scripttags %}
 {% endblock %}

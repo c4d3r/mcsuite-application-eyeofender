@@ -2,6 +2,9 @@
 
 namespace Maxim\CMSBundle\Controller;
 
+use Maxim\CMSBundle\Entity\UserNotification;
+use Maxim\CMSBundle\Event\MinecraftSendEvent;
+use Maxim\CMSBundle\Exception\CommandExecutionException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
@@ -169,10 +172,13 @@ class IpnController extends Controller
             }
 
             # Create notification
-            $notification = new Notification();
-            $notification->setType(Notification::TYPE_PURCHASE);
-            $notification->setUser($purchase->getUser());
-            $notification->setText(sprintf("Payment for order %s was %s", "#".$purchase->getId(), $succeeded ? "successful" : "unsuccessful"));
+            $notification = new UserNotification();
+            $notification->setType(UserNotification::TYPE_PURCHASE);
+            $notification->setReceiver($purchase->getUser());
+            $notification->setData(array(
+                'order'  =>  $purchase->getId(),
+                'status' =>  $succeeded ? "successful" : "unsuccessful"
+            ));
             $this->doctrine->persist($notification);
             $this->doctrine->flush();
 

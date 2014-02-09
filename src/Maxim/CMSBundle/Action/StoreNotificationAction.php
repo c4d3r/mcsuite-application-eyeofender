@@ -11,6 +11,7 @@ namespace Maxim\CMSBundle\Action;
 use Doctrine\ORM\EntityManager;
 use Maxim\CMSBundle\Entity\Notification;
 use Maxim\CMSBundle\Entity\NotificationDetails;
+use Maxim\CMSBundle\Entity\UserNotification;
 use Maxim\CMSBundle\Event\MinecraftSendEvent;
 use Maxim\CMSBundle\Exception\CommandExecutionException;
 use Maxim\CMSBundle\Helper\DeliverHelper;
@@ -95,10 +96,13 @@ class StoreNotificationAction implements ActionInterface
             $succeeded = $this->deliverHelper->deliver($purchase);
 
             # Create notification
-            $notification = new Notification();
-            $notification->setType(Notification::TYPE_PURCHASE);
-            $notification->setUser($purchase->getUser());
-            $notification->setText(sprintf("Payment for order %s was %s", "#".$purchase->getId(), $succeeded ? "successful" : "unsuccessful"));
+            $notification = new UserNotification();
+            $notification->setType(UserNotification::TYPE_PURCHASE);
+            $notification->setReceiver($purchase->getUser());
+            $notification->setData(array(
+                'order'  =>  $purchase->getId(),
+                'status' =>  $succeeded ? "successful" : "unsuccessful"
+            ));
             $this->doctrine->persist($notification);
             $this->doctrine->flush();
 

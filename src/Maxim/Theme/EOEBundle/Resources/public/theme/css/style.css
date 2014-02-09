@@ -684,3 +684,45 @@ button.close {
 .label-purple {
     background-color: #6B4B85;
 }
+
+#notifications {
+    width: 300px;
+}
+.notification {
+    -ms-word-break: break-all;
+    word-break: break-all;
+
+}
+.notification-container {
+    font-size: 10pt;
+    background: #2f2f2f;
+    padding:10px;
+    word-break: break-word;
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
+}
+.notification-container:hover {
+    background: rgb(29, 29, 29);
+    cursor:pointer;
+}
+.notification-read > .notification-container{
+    background: #3D3D3D !important;
+}
+.notification-image {
+    float:left;
+    width:40px;
+}
+.notification-data {
+    margin-left: 40px;
+}
+.notification-text {
+    margin:0;
+    line-height: 15px;
+}
+.notification-date {
+    font-size: 8pt;
+    color: gray;
+}
+.notification + .notification {
+    border-top: 1px solid #3F3F3F;
+}

@@ -11,6 +11,7 @@ namespace Maxim\CMSBundle\Controller;
 use Maxim\CMSBundle\Entity\FriendRequest;
 use Maxim\CMSBundle\Entity\Notification;
 use Maxim\CMSBundle\Entity\UserFriend;
+use Maxim\CMSBundle\Entity\UserNotification;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Maxim\CMSBundle\Entity\User;
 use Symfony\Component\Form\Exception\InvalidArgumentException;
@@ -67,10 +68,10 @@ class ProfileController extends BaseProfileController
             $em->persist($fr);
 
             # make a notification
-            $notification = new Notification();
-            $notification->setUser($recipient);
+            $notification = new UserNotification();
+            $notification->setReceiver($recipient);
+            $notification->setUser($user);
             $notification->setType($notification::TYPE_FRIENDREQUEST);
-            $notification->setText(sprintf("%s has sent you a friend request", $user->getUsername()));
             $em->persist($notification);
 
             # force flush
@@ -194,10 +195,11 @@ class ProfileController extends BaseProfileController
                 $em->persist($friend);
 
                 # notify the user who sent the request
-                $notification = new Notification();
-                $notification->setUser($frequest->getUser());
-                $notification->setType(Notification::TYPE_FRIENDREQUEST);
-                $notification->setText(sprintf("%s accepted your friend request", $frequest->getRecipient()->getUsername()));
+                $notification = new UserNotification();
+                $notification->setReceiver($frequest->getUser());
+                $notification->setUser($frequest->getRecipient());
+                $notification->setType($notification::TYPE_FRIENDREQUEST);
+                $notification->addData('accepted', true);
                 $em->persist($notification);
             }
             else

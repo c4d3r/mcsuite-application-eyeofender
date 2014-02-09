@@ -57,7 +57,7 @@ abstract class User extends BaseUser
 
     protected $friendRequests;
 
-    protected $notifications;
+   //protected $notifications;
 
     protected $announcements;
 
@@ -65,9 +65,9 @@ abstract class User extends BaseUser
 
     protected $posts;
 
-    protected $threadedits;
+   /* protected $threadedits;
 
-    protected $postedits;
+    protected $postedits;*/
 
     protected $purchases;
 
@@ -368,7 +368,7 @@ abstract class User extends BaseUser
     /**
      * @param mixed $notifications
      */
-    public function setNotifications($notifications)
+   /* public function setNotifications($notifications)
     {
         $this->notifications = $notifications;
     }
@@ -376,10 +376,10 @@ abstract class User extends BaseUser
     /**
      * @return mixed
      */
-    public function getNotifications()
+    /*public function getNotifications()
     {
         return $this->notifications;
-    }
+    }       */
 
     /**
      * @param mixed $phone
