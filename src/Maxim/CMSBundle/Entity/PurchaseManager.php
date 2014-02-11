@@ -10,9 +10,8 @@ namespace Maxim\CMSBundle\Entity;
 
 
 use Doctrine\ORM\EntityManager;
-use Sonata\CoreBundle\Entity\DoctrineBaseManager;
 
-class PurchaseManager extends DoctrineBaseManager
+class PurchaseManager
 {
     protected $em;
 

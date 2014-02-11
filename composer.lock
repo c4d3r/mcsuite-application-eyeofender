@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "86015b651959e9f41558005de3f8ac25",
+    "hash": "d46654de9ed00faa09ed2944f91f3dad",
     "packages": [
         {
             "name": "ajbdev/authorizenet-php-api",
@@ -212,16 +212,16 @@
         },
         {
             "name": "doctrine/collections",
-            "version": "v1.1",
+            "version": "v1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/collections.git",
-                "reference": "560f29c39cfcfbcd210e5d549d993a39d898b04b"
+                "reference": "b99c5c46c87126201899afe88ec490a25eedd6a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/collections/zipball/560f29c39cfcfbcd210e5d549d993a39d898b04b",
-                "reference": "560f29c39cfcfbcd210e5d549d993a39d898b04b",
+                "url": "https://api.github.com/repos/doctrine/collections/zipball/b99c5c46c87126201899afe88ec490a25eedd6a2",
+                "reference": "b99c5c46c87126201899afe88ec490a25eedd6a2",
                 "shasum": ""
             },
             "require": {
@@ -230,7 +230,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1.x-dev"
+                    "dev-master": "1.2.x-dev"
                 }
             },
             "autoload": {
@@ -244,7 +244,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jonathan H. Wage",
+                    "name": "Jonathan Wage",
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/",
                     "role": "Creator"
@@ -276,7 +276,7 @@
                 "collections",
                 "iterator"
             ],
-            "time": "2013-03-07 12:15:54"
+            "time": "2014-02-03 23:07:43"
         },
         {
             "name": "doctrine/common",
@@ -482,12 +482,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineBundle.git",
-                "reference": "1b76e216240e9ef677af55d4e89e4541b17d7878"
+                "reference": "e84e0229bae89a57106abf17753e351e9e16874a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/1b76e216240e9ef677af55d4e89e4541b17d7878",
-                "reference": "1b76e216240e9ef677af55d4e89e4541b17d7878",
+                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/e84e0229bae89a57106abf17753e351e9e16874a",
+                "reference": "e84e0229bae89a57106abf17753e351e9e16874a",
                 "shasum": ""
             },
             "require": {
@@ -525,7 +525,9 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
                 },
                 {
                     "name": "Symfony Community",
@@ -544,7 +546,7 @@
                 "orm",
                 "persistence"
             ],
-            "time": "2014-01-28 19:12:18"
+            "time": "2014-02-03 21:03:15"
         },
         {
             "name": "doctrine/doctrine-fixtures-bundle",
@@ -722,16 +724,16 @@
         },
         {
             "name": "doctrine/orm",
-            "version": "v2.4.1",
+            "version": "v2.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/doctrine2.git",
-                "reference": "84373d05a4198ec380918d535abf83c454c3867f"
+                "reference": "0363a5548d9263f979f9ca149decb9cfc66419ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/84373d05a4198ec380918d535abf83c454c3867f",
-                "reference": "84373d05a4198ec380918d535abf83c454c3867f",
+                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/0363a5548d9263f979f9ca149decb9cfc66419ab",
+                "reference": "0363a5548d9263f979f9ca149decb9cfc66419ab",
                 "shasum": ""
             },
             "require": {
@@ -794,7 +796,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2013-11-12 12:40:13"
+            "time": "2014-02-08 16:35:09"
         },
         {
             "name": "exercise/htmlpurifier-bundle",
@@ -1565,12 +1567,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/JMSSecurityExtraBundle.git",
-                "reference": "802b05e30b069e5003805cd246ecbb343c91383c"
+                "reference": "66d9c79607a7261e4ce1423b9d6fdc78256a911e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/JMSSecurityExtraBundle/zipball/802b05e30b069e5003805cd246ecbb343c91383c",
-                "reference": "802b05e30b069e5003805cd246ecbb343c91383c",
+                "url": "https://api.github.com/repos/schmittjoh/JMSSecurityExtraBundle/zipball/66d9c79607a7261e4ce1423b9d6fdc78256a911e",
+                "reference": "66d9c79607a7261e4ce1423b9d6fdc78256a911e",
                 "shasum": ""
             },
             "require": {
@@ -1627,7 +1629,7 @@
                 "secure",
                 "security"
             ],
-            "time": "2013-12-17 23:05:58"
+            "time": "2014-02-11 15:23:43"
         },
         {
             "name": "jms/serializer",
@@ -2849,12 +2851,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataAdminBundle.git",
-                "reference": "11b8733dff29c277e45140d7b15b26eb39039386"
+                "reference": "ade85bec2633625836535807d1ac4dbf820ce41f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/11b8733dff29c277e45140d7b15b26eb39039386",
-                "reference": "11b8733dff29c277e45140d7b15b26eb39039386",
+                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/ade85bec2633625836535807d1ac4dbf820ce41f",
+                "reference": "ade85bec2633625836535807d1ac4dbf820ce41f",
                 "shasum": ""
             },
             "require": {
@@ -2921,7 +2923,7 @@
                 "bootstrap",
                 "sonata"
             ],
-            "time": "2014-02-01 09:58:27"
+            "time": "2014-02-11 13:40:43"
         },
         {
             "name": "sonata-project/block-bundle",
@@ -2930,16 +2932,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataBlockBundle.git",
-                "reference": "657ae74116ec03cc91c23ce1f15390af3bf943bf"
+                "reference": "58366c4467fa3ed7ba26a64f4313d666ce0ea378"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataBlockBundle/zipball/657ae74116ec03cc91c23ce1f15390af3bf943bf",
-                "reference": "657ae74116ec03cc91c23ce1f15390af3bf943bf",
+                "url": "https://api.github.com/repos/sonata-project/SonataBlockBundle/zipball/58366c4467fa3ed7ba26a64f4313d666ce0ea378",
+                "reference": "58366c4467fa3ed7ba26a64f4313d666ce0ea378",
                 "shasum": ""
             },
             "require": {
                 "doctrine/common": "~2.3",
+                "sonata-project/cache": "~1.0@dev",
                 "sonata-project/core-bundle": "~2.2",
                 "symfony/form": "~2.2",
                 "symfony/http-kernel": "~2.2"
@@ -2947,7 +2950,7 @@
             "require-dev": {
                 "knplabs/knp-menu-bundle": "~1.1",
                 "sonata-project/admin-bundle": "~2.2",
-                "sonata-project/cache-bundle": "~2.1"
+                "sonata-project/cache": "~1.0@dev"
             },
             "suggest": {
                 "knplabs/knp-menu-bundle": "~1.1",
@@ -2986,7 +2989,66 @@
                 "block",
                 "sonata"
             ],
-            "time": "2014-01-29 10:34:19"
+            "time": "2014-02-08 17:41:22"
+        },
+        {
+            "name": "sonata-project/cache",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sonata-project/cache.git",
+                "reference": "882f41583d10e6320fcc5376964b934790add59f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sonata-project/cache/zipball/882f41583d10e6320fcc5376964b934790add59f",
+                "reference": "882f41583d10e6320fcc5376964b934790add59f",
+                "shasum": ""
+            },
+            "require-dev": {
+                "doctrine/orm": "~2.2",
+                "doctrine/phpcr-odm": "~1.0",
+                "predis/predis": "~0.8",
+                "psr/log": "~1.0"
+            },
+            "suggest": {
+                "doctrine/orm": "ORM support",
+                "doctrine/phpcr-odm": "PHPCR ODM support",
+                "ext-apc": "Caching with ext/apc",
+                "ext-memcached": "Caching with ext/memcached",
+                "predis/predis": "Install redis php"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Sonata\\Cache\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Thomas Rabaix",
+                    "email": "thomas.rabaix@gmail.com",
+                    "homepage": "http://sonata-project.org/"
+                }
+            ],
+            "description": "Cache library",
+            "homepage": "https://github.com/sonata-project/cache",
+            "keywords": [
+                "cache",
+                "memcached",
+                "mongodb",
+                "redis"
+            ],
+            "time": "2014-02-11 15:15:48"
         },
         {
             "name": "sonata-project/core-bundle",
@@ -2995,12 +3057,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataCoreBundle.git",
-                "reference": "991143570bf19ddd37f5bfb8af7382c4aa90de24"
+                "reference": "2391040a4d0f47cce1be2add4eb8089ad346f8ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataCoreBundle/zipball/991143570bf19ddd37f5bfb8af7382c4aa90de24",
-                "reference": "991143570bf19ddd37f5bfb8af7382c4aa90de24",
+                "url": "https://api.github.com/repos/sonata-project/SonataCoreBundle/zipball/2391040a4d0f47cce1be2add4eb8089ad346f8ac",
+                "reference": "2391040a4d0f47cce1be2add4eb8089ad346f8ac",
                 "shasum": ""
             },
             "require": {
@@ -3011,6 +3073,8 @@
                 "twig/twig": "~1.12"
             },
             "require-dev": {
+                "doctrine/orm": "~2.4",
+                "doctrine/phpcr-odm": "~1.0",
                 "sonata-project/exporter": "~1.3"
             },
             "type": "symfony-bundle",
@@ -3044,7 +3108,7 @@
             "keywords": [
                 "sonata"
             ],
-            "time": "2014-01-15 14:43:01"
+            "time": "2014-02-10 14:20:29"
         },
         {
             "name": "sonata-project/doctrine-orm-admin-bundle",
@@ -3053,12 +3117,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataDoctrineORMAdminBundle.git",
-                "reference": "a8e4cb3723389b9ed60c83194d24026866ecd0a8"
+                "reference": "26e902cd2ac9f1d84c90c73958f9c6a9ba546f47"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataDoctrineORMAdminBundle/zipball/a8e4cb3723389b9ed60c83194d24026866ecd0a8",
-                "reference": "a8e4cb3723389b9ed60c83194d24026866ecd0a8",
+                "url": "https://api.github.com/repos/sonata-project/SonataDoctrineORMAdminBundle/zipball/26e902cd2ac9f1d84c90c73958f9c6a9ba546f47",
+                "reference": "26e902cd2ac9f1d84c90c73958f9c6a9ba546f47",
                 "shasum": ""
             },
             "require": {
@@ -3073,7 +3137,8 @@
                 "symfony/security": "~2.2"
             },
             "require-dev": {
-                "simplethings/entity-audit-bundle": "~0.1"
+                "simplethings/entity-audit-bundle": "~0.1",
+                "sonata-project/admin-bundle": "~2.2@dev"
             },
             "suggest": {
                 "simplethings/entity-audit-bundle": "If you want to support for versioning of entities and their associations."
@@ -3113,7 +3178,7 @@
                 "generator",
                 "sonata"
             ],
-            "time": "2014-01-24 14:05:29"
+            "time": "2014-02-10 14:31:08"
         },
         {
             "name": "sonata-project/exporter",
@@ -3762,6 +3827,7 @@
         "sonata-project/admin-bundle": 20,
         "sonata-project/doctrine-orm-admin-bundle": 20,
         "sonata-project/block-bundle": 20,
+        "sonata-project/cache": 20,
         "jms/security-extra-bundle": 20
     },
     "platform": {
