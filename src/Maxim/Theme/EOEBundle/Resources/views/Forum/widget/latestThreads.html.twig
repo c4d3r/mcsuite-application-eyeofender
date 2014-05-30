@@ -6,7 +6,7 @@
             </a>
             <div class="latestthread-text">
                 <a href="{{ path('forum_thread_view', {'id' : thread.forum.id, 'threadid' : thread.id}) }}" class="tooltip-init latestthread-title" title="{{ thread.title|purify }}">{{ thread.title|cutlength(15) }}</a>
-                <span class="latestpost-timeago">{{ thread.createdOn|date('U')|timeago }} ago in <a href="{{ path('forum_view', {'id' : thread.forum.id}) }}">{{ thread.forum.title }}</a></span>
+                <span class="latestpost-timeago">{{ thread.createdOn|date('U')|timeago }} ago in <a href="{{ path('forum_view', {'id' : thread.forum.id, 'seo' : thread.forum.title}) }}">{{ thread.forum.title }}</a></span>
             </div>
         </li>
     {% else %}

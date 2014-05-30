@@ -14,7 +14,7 @@
 
                 {# BREADCRUMB BAR #}
                 <ul class="breadcrumbs">
-                    <li><a href="{{ path('forum_view', {'id' : thread.forum.id}) }}">{{ thread.forum.title }}</a></li>
+                    <li><a href="{{ path('forum_view', {'id' : thread.forum.id, 'seo' : thread.forum.id}) }}">{{ thread.forum.title }}</a></li>
                     <li><a href="{{ path('forum_thread_view', {'id' :  thread.forum.id, 'threadid' : thread.id}) }}" class="active" style="color:gray">{{ thread.title }}</a></li>
                 </ul>
 
@@ -136,7 +136,7 @@
 
                 <div class="mcsf_thread_reply">
                     {% if thread.isLocked() %}
-                        <p>This thread is locked.</p>
+                        <p class="mcsf_thread_locked">This thread is locked.</p>
                     {% else %}
                         {% if app.user %}
                             <h3>Post a reply</h3>
@@ -147,7 +147,7 @@
                                 </div>
                             </form>
                         {% else %}
-                            <p>You must be logged in to reply to a thread.</p>
+                            <p class="mcsf_thread_notLoggedIn">You must be logged in to reply to a thread.</p>
                         {% endif %}
                     {% endif %}
                 </div>

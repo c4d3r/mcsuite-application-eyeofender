@@ -154,6 +154,10 @@ services:
         arguments: [ @doctrine, @security.context ]
         tags:
             - { name: twig.extension }
+    maxim_cms.seo.twig.extension:
+        class: Maxim\CMSBundle\Twig\Extension\SeoExtension
+        tags:
+            - { name: twig.extension }
 # LISTENERS
     maxim_cms.listener.minecraft_send:
         class: Maxim\CMSBundle\Listeners\MinecraftSendListener

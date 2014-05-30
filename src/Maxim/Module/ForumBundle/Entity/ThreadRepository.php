@@ -89,8 +89,8 @@ class ThreadRepository extends EntityRepository
             FROM MaximModuleForumBundle:Thread t
             LEFT JOIN t.createdBy u
             JOIN t.forum f
-            JOIN t.lastPost p
-            JOIN t.lastPostCreator u2
+            LEFT JOIN t.lastPost p
+            LEFT JOIN t.lastPostCreator u2
             WHERE f.id = :id AND t.pinned = :pinned
             ORDER BY p.createdOn DESC"
         )

@@ -659,11 +659,24 @@ textarea {
     background: #C9C9C9;
 }
 .breadcrumbs {
-    background-color: #333333;
-    border-color: #222222;
+    background-color: #3A3A3A;
+    border: none;
 }
 .breadcrumbs>* a, .breadcrumbs>* span {
     color: #9380B4;
+    padding: 2px 5px;
+
+    transition: all .5s ease-in;
+    -moz-transition: all .5s ease-in;
+    -webkit-transition: all .5s ease-in;
+}
+.breadcrumbs>*:hover a, .breadcrumbs>*:focus a {
+    background-color: rgb(95, 95, 95);
+    text-decoration: none;
+
+    border-radius: 3px;
+    text-decoration: none;
+    color: #fff;
 }
 .button, button {
     background-color: #7C5F92;

@@ -18,22 +18,23 @@ class DefaultController extends Controller{
             FROM MaximModuleForumBundle:Category c
             LEFT JOIN c.forums f
             INNER JOIN c.website w
-            JOIN f.lastPostCreator u
-            JOIN f.lastPost p
-            JOIN p.thread t
+            LEFT JOIN f.lastPostCreator u
+            LEFT JOIN f.lastPost p
+            LEFT JOIN p.thread t
             WHERE w.id = :wid
             ORDER BY c.sort DESC, f.sort DESC, c.title ASC, f.title ASC"
         )->setParameter("wid", $this->container->getParameter('website'));
         $query->useResultCache(true, 60, __METHOD__ . serialize($query->getParameters()));
         $data['categories'] = $query->getResult();
         $data['config'] = array("forum" => array("popularPERC" => 20));
+
         # CLEANUP
         $query = null;
 
         #RENDER
         return $this->render('MaximCMSBundle:Forum:main.html.twig', $data);
     }
-    public function forumViewAction($id)
+    public function forumViewAction($id, $seo)
     {
         $em = $this->getDoctrine()->getManager();
         $request = Request::createFromGlobals();
@@ -44,6 +45,10 @@ class DefaultController extends Controller{
         # threads
         $data['threads_pinned'] = $em->getRepository('MaximModuleForumBundle:Thread')->findThreads($id, true);
         $threads = $em->getRepository('MaximModuleForumBundle:Thread')->findThreads($id, false);
+
+        $logger = $this->get('logger');
+        $logger->err("id" . $id);
+        $logger->err(count($threads));
 
         $paginator  = $this->get('knp_paginator');
 

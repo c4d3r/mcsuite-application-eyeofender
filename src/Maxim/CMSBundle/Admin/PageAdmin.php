@@ -20,12 +20,12 @@ class PageAdmin extends Admin
         $formMapper
             ->add('name', 'text', array('label' => 'Page name'))
             ->add('url', 'text', array('label' => 'Page url (ex. staff-page)'))
-            ->add('website', 'text', array('label' => 'Website'))
+            ->add('website', 'entity', array('class' => 'Maxim\CMSBundle\Entity\Website', 'label' => 'website'))
             ->add('content', 'textarea', array(
                 'label' => 'Page content',
                 'attr'  => array(
                     'class' => 'redactor-init',
-                    'style' => 'width: 683px;min-height:500px;'
+                    'style' => 'width: 100%;min-height:500px;'
                 )
             ))
         ;

@@ -2,7 +2,7 @@ forum_main:
   path: /
   defaults: { _controller: MaximModuleForumBundle:Default:load }
 forum_view:
-  path: /{id}
+  path: /{id}/{seo}
   defaults: { _controller: MaximModuleForumBundle:Default:forumView }
 
 

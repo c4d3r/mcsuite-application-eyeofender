@@ -19,16 +19,16 @@
                         {% endif %}
                         <div class="mcsf_forum_text">
                             <h3>
-                                <a href="{{ path('forum_view', {'id' : forum.id}) }}">{{ forum.title }}</a>
+                                <a href="{{ path('forum_view', {'id' : forum.id, 'seo' : forum.title}) }}">{{ forum.title }}</a>
                             </h3>
                             <p>Threads: {{ forum.threadCount }}, posts: {{ forum.postCount }}</p>
                         </div>
 
                         <div class="mcsf_forum_latest">
                             {% if forum.lastPost != null and forum.lastPostCreator != null %}
-                                Latest: <a href="{{ path('forum_thread_view', {'id' : forum.id, 'threadid' : forum.lastPost.thread.id }) }}">{{ forum.lastPost.thread.title }}</a><br/>
-
-                                {{ forum.lastPostCreator.username }}, {{ forum.lastPost.createdOn|prettydate }}
+                                <a href="{{ path('forum_thread_view', {'id' : forum.id, 'threadid' : forum.lastPost.thread.id }) }}">{{ forum.lastPost.thread.title }}</a><br/>
+                                {{ forum.lastPost.createdOn|prettydate }}<br/>
+                                by <a href="{{ path('profile', {'name' : forum.lastPostCreator.username }) }}">{{ forum.lastPostCreator.username }}</a>
                             {% else %}
                                 <p>Unable to fetch last post</p>
                             {% endif %}

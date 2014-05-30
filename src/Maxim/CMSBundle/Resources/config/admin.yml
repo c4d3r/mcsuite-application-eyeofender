@@ -9,6 +9,17 @@ services:
             - ~
         calls:
             - [ setTemplate, [edit, MaximCMSBundle:AdminSonata:edit.html.twig]]
+
+    sonata.admin.page:
+        class: Maxim\CMSBundle\Admin\PageAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Pages" }
+        arguments:
+            - ~
+            - Maxim\CMSBundle\Entity\Page
+            - ~
+        calls:
+            - [ setTemplate, [edit, MaximCMSBundle:AdminSonata:edit.html.twig]]
     sonata.admin.store.items:
         class: Maxim\CMSBundle\Admin\StoreItemAdmin
         tags:

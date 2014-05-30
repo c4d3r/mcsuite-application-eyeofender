@@ -28,6 +28,7 @@ class CategoryAdmin extends Admin {
             ->add('sort', 'integer', array('label' => 'Forum sort'))
             ->add('description', 'text', array('label' => 'Category description'))
             ->add('website', 'entity', array('class' => 'Maxim\CMSBundle\Entity\Website'))
+            ->add('visible', 'checkbox')
         ;
     }
 
