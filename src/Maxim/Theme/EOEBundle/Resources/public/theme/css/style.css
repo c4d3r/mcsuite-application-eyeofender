@@ -522,9 +522,6 @@ textarea, input {
 textarea {
     overflow: auto;
 }
-.redactor_editor p, .redactor_editor span{
-    color: black !important;
-}
 
 /* FRIENDS */
 .friend-action

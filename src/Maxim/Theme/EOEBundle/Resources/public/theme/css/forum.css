@@ -362,39 +362,45 @@
     margin-bottom: 2px;
 }
 .mcsf_adminbar li a, .mcsf_adminbar li button {
-    padding: 2px 8px;
-    background: #444444;
+    padding: 5px 12px;
+    background: #444;
     border-radius: 3px;
-    color: #DDDDDD;
-    border: 1px solid #090909;
-    box-shadow: inset 0 0 1px 0 whiteSmoke;
+    color: #ddd;
     font-size: 8pt;
-    cursor:pointer;
+    cursor: pointer;
+    border:1px solid #444;
+}
+.mcsf_adminbar li a, .mcsf_adminbar li + li {
+    margin-left:3px;
 }
 .mcsf_adminbar li a:hover, .mcsf_adminbar li button:hover {
     opacity:0.8;
+    border-color:gray;
 }
 .mcsf_adminbar li {
     list-style:none;
     display:inline-block;
 }
 .mcsf_adminbar li select {
-    padding: 3px 8px;
-    background: #444444;
+    padding: 4px 12px;
+    background: #444;
     border-radius: 3px;
-    color: #DDDDDD;
-    border: 1px solid #090909;
-    box-shadow: inset 0 0 1px 0 whiteSmoke;
+    color: #ddd;
     font-size: 8pt;
-    cursor:pointer;
+    cursor: pointer;
+    border: none;
+    border:1px solid #444;
+    margin-right: 3px;
 }
 .mcsf_adminbar li select:focus {
     outline:none;
     opacity:0.8;
+    border-color:gray;
 }
 .mcsf_adminbar li select:hover {
     opacity:0.8;
     cursor:pointer;
+    border-color:gray;
 }
 .mcsf_admin_userip {
     display:block;
