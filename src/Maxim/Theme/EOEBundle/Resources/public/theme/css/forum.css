@@ -231,11 +231,7 @@
     text-align: justify;
     position: relative;
 }
-.mcsf_post_content > div {
-    /* PREVENT OVERLOAD */
-    max-height:2500px;
-    height: 20px;
-}
+
 .mcsf_post_content_lowerbar {
     float:right;
     overflow:visible !important;
