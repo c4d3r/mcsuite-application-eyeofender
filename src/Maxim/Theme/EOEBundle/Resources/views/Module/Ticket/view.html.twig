@@ -56,65 +56,6 @@
 {% endblock %}
 {% block scripttags %}
     <script>
-        function postForm( $form, callback ){
-
-            /*
-             * Get all form values
-             */
-            var values = {};
-            $.each( $form.serializeArray(), function(i, field) {
-                values[field.name] = field.value;
-                field.value = "";
-            });
-
-            /*
-             * Throw the form values to the server!
-             */
-            $.ajax({
-                type        : $form.attr( 'method' ),
-                url         : $form.attr( 'action' ),
-                data        : values,
-                success     : function(data) {
-                    callback( data );
-                }
-            });
-        }
-
-        function fetchContent($element, $url, $append) {
-            $.ajax({
-                type        : 'GET',
-                url         : $url,
-                success     : function(data) {
-
-                    console.log(data);
-
-                    if($append == true) {
-                        $element.append(data);
-                    } else {
-                        $element.html(data);
-                    }
-                }
-            });
-        }
-
-        function prepareNewSubmit(element, seconds) {
-
-            var submit = element.find(":submit");
-            var _text = submit.clone().text();
-            var currSecs = seconds + 1;
-
-            var timer = setInterval(function() {
-                currSecs--;
-                if(currSecs < 0) {
-                    clearInterval(timer);
-                    submit.removeAttr("disabled");
-                    submit.text(_text);
-                } else {
-                    submit.text("You can submit a new reply in " + currSecs + " seconds");
-                }
-            }, 1000);
-        }
-
         $(document).ready(function(){
 
             var isSubmit = false;
@@ -132,21 +73,22 @@
 
                     $(this).find(':submit').attr("disabled", "disabled");
 
-                    postForm( $(this), function( response ) {
+                    AJAX.postForm( $(this), function( response ) {
 
                         //refetch ticket replies
-                        fetchContent($('#ticket-replies'), "{{ path('ticket_ajax_replies', {'id' : ticket.id}) }}", false);
+                        AJAX.fetchContent($('#ticket-replies'), "{{ path('ticket_ajax_replies', {'id' : ticket.id}) }}", false);
                     });
 
-                    prepareNewSubmit($(this), 5);
+                    AJAX.prepareNewSubmit($(this), 5, function(){
+                        isSubmit = false;
+                    });
                 }
 
                 return false;
             });
 
             //fetch replies
-            fetchContent($('#ticket-replies'), "{{ path('ticket_ajax_replies', {'id' : ticket.id}) }}", false);
+            AJAX.fetchContent($('#ticket-replies'), "{{ path('ticket_ajax_replies', {'id' : ticket.id}) }}", false);
         });
-
     </script>
 {% endblock %}
