@@ -61,7 +61,7 @@ set   :update_vendors,    true
 set   :assets_install,    true
 set   :cache_warmup,      false
 set   :copy_vendors,      true
-set :dump_assetic_assets, true
+set   :dump_assetic_assets, true
 
 # Controllers to clear
 #set :controllers_to_clear, ['app_dev.php']
