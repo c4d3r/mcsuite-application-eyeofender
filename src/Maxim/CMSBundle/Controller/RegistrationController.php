@@ -9,44 +9,61 @@
 namespace Maxim\CMSBundle\Controller;
 
 use FOS\UserBundle\Controller\RegistrationController as BaseController;
+use FOS\UserBundle\Event\FilterUserResponseEvent;
+use FOS\UserBundle\Event\FormEvent;
+use FOS\UserBundle\Event\GetResponseUserEvent;
+use FOS\UserBundle\FOSUserEvents;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class RegistrationController extends BaseController
 {
-    public function registerAction()
+    public function registerAction(Request $request)
     {
+        /** @var $formFactory \FOS\UserBundle\Form\Factory\FactoryInterface */
+        $formFactory = $this->container->get('fos_user.registration.form.factory');
+        /** @var $userManager \FOS\UserBundle\Model\UserManagerInterface */
+        $userManager = $this->container->get('fos_user.user_manager');
+        /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
+        $dispatcher = $this->container->get('event_dispatcher');
+
+        $user = $userManager->createUser();
+        $user->setEnabled(true);
+
+        $minecraft = $this->container->get('minecraft.helper');
+        $minecraft->fetchUUID($user->getUsername());
+
         $logger = $this->container->get('logger');
-        $logger->error("HI TEST");
-        $form = $this->container->get('fos_user.registration.form');
-        $formHandler = $this->container->get('fos_user.registration.form.handler');
-        $confirmationEnabled = $this->container->getParameter('fos_user.registration.confirmation.enabled');
+        $logger->error($minecraft->fetchUUID($user->getUsername()));
 
-        $process = $formHandler->process($confirmationEnabled);
-        if ($process) {
-            $user = $form->getData();
+        $event = new GetResponseUserEvent($user, $request);
+        $dispatcher->dispatch(FOSUserEvents::REGISTRATION_INITIALIZE, $event);
 
-            /*****************************************************
-             * Add new functionality (e.g. log the registration) *
-             *****************************************************/
-            $minecraft = $this->container->get('minecraft.helper');
-            $minecraft->fetchUUID($user->getUsername());
-            $logger->error($minecraft->fetchUUID($user->getUsername()));
+        if (null !== $event->getResponse()) {
+            return $event->getResponse();
+        }
 
-            $userManager = $this->container->get('fos_user.user_manager');
-            $userManager->updateUser($user);
+        $form = $formFactory->createForm();
+        $form->setData($user);
 
-            if ($confirmationEnabled) {
-                $this->container->get('session')->set('fos_user_send_confirmation_email/email', $user->getEmail());
-                $route = 'fos_user_registration_check_email';
-            } else {
-                $this->authenticateUser($user);
-                $route = 'fos_user_registration_confirmed';
+        if ('POST' === $request->getMethod()) {
+            $form->bind($request);
+
+            if ($form->isValid()) {
+                $event = new FormEvent($form, $request);
+                $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
+
+                $userManager->updateUser($user);
+
+                if (null === $response = $event->getResponse()) {
+                    $url = $this->container->get('router')->generate('fos_user_registration_confirmed');
+                    $response = new RedirectResponse($url);
+                }
+
+                $dispatcher->dispatch(FOSUserEvents::REGISTRATION_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
+
+                return $response;
             }
-
-            $this->setFlash('fos_user_success', 'registration.flash.user_created');
-            $url = $this->container->get('router')->generate($route);
-
-            return new RedirectResponse($url);
         }
 
         return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:register.html.'.$this->getEngine(), array(
