@@ -168,11 +168,13 @@ class SecurityController extends BaseSecurityController
         $minecraft = $this->get('minecraft.helper');
 
         $this->details['verified'] = $minecraft->signIn($this->details['mcuser'], $this->details['mcpass']);
+        $uuid = $minecraft->getUUID($this->details['mcuser']);
 
         if(!$this->details['verified']["success"])
         {
             $this->details['verified']['message'] = "Minecraft.net - " . $this->details['verified']['message'];
             return new Response(json_encode($this->details['verified']));
+
         }
         else if(strtoupper(trim($this->details['verified']['account']["name"])) != strtoupper(trim($this->details['username'])))
         {
@@ -187,7 +189,7 @@ class SecurityController extends BaseSecurityController
         $user->setPasswordConfirm($this->details['password_confirm']);
         $user->setSkype($this->details['skype']);
 
-        $user->setMcUuid($minecraft->getUUID($this->details['mcuser']));
+        $user->setMcUuid($uuid);
 
         try
         {
@@ -197,7 +199,7 @@ class SecurityController extends BaseSecurityController
         }
         catch(\Exception $ex)
         {
-            $logger->err("REGISTER: " . $ex->getMessage());
+            $logger->error("REGISTER: " . $ex->getMessage());
             return new Response(json_encode(array("success" => false, "message" => "Please enter a correct date")));
         }
 
@@ -234,7 +236,7 @@ class SecurityController extends BaseSecurityController
         $em->flush();
 
         //log that the user has been registered succesfully
-        $logger->info('REGISTRATION: user '.$this->details['username'].' registrated succesfuly!');
+        $logger->error('REGISTRATION: user '.$this->details['username'].' registrated succesfuly!');
 
         //If register validation flag is true
         if($config['register']['validation']['enabled'] == true)

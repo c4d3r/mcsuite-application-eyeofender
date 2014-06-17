@@ -33,6 +33,9 @@ class MinecraftSendListener {
         $this->em = $em;
     }
 
+    /**
+     * var @Purchase $purchase
+     */
     public function onMinecraftSend(MinecraftSendEvent $event)
     {
         try {
@@ -53,10 +56,11 @@ class MinecraftSendListener {
             # send package
 
             //$msg = "10000d" . $event->getUsername() . ";" . $event->getCommand();
+
             foreach($event->getPurchases() as $purchase)
             {
                 //$pdo->query($this->minecraft->parseCommand($item->getCommand(), array("USER" => $purchase->getName())));
-                $command = $this->minecraft->parseCommand($purchase->getStoreItem()->getCommand(), array("USER" => $purchase->getName()));
+                $command = $this->minecraft->parseCommand($purchase->getStoreItem()->getCommand(), array("USER" => $purchase->getName(), "UUID" => $purchase->getUser()->getMcUuid()));
 
                 $this->logger->info("[SOCKET]command: " . $command);
                 $this->logger->info("[SOCKET]Wrote command: " . $command);

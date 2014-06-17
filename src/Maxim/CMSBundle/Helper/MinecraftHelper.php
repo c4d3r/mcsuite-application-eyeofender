@@ -25,77 +25,82 @@ class MinecraftHelper
 
     public function getUUID($username)
     {
+        $this->logger->error("START RESPONSE UUID");
         $this->rest->open(self::MINECRAFT_UUID);
         $response = $this->rest->execute(RESTHelper::METHOD_POST, array('Content-Type: application/json'));
         $response = (array)json_decode($response->getData(), true);
+
+        $this->logger->error("HI3");
+        $this->logger->error(print_r($response));
 
         return $response[0]["id"];
     }
 
 
-     public function signIn($username, $password)
-     {
-         //first check old system
-         $oldsignin = $this->Oldsignin($username, $password);
-         if($oldsignin != false && ($oldsignin['success'] && ($oldsignin['account'] == $username))) {
-             return $oldsignin;
-         }
+    public function signIn($username, $password)
+    {
+        $this->logger->error("HI2");
+        //first check old system
+        $oldsignin = $this->Oldsignin($username, $password);
+        if($oldsignin != false && ($oldsignin['success'] && ($oldsignin['account'] == $username))) {
+            return $oldsignin;
+        }
 
-         $payload['agent'] = array('name' => self::AGENT_NAME, 'version' => self::AGENT_VERSION);
-         $payload['username'] = $username;
-         $payload['password'] = $password;
+        $payload['agent'] = array('name' => self::AGENT_NAME, 'version' => self::AGENT_VERSION);
+        $payload['username'] = $username;
+        $payload['password'] = $password;
 
-         $headers = array(
-             'Content-Type: application/json',
-         );
+        $headers = array(
+            'Content-Type: application/json',
+        );
 
-         $this->rest->open(self::SERVER_AUTHENTICATE);
-         $response = $this->rest->execute(RESTHelper::METHOD_POST, $headers, json_encode($payload));
-         $response = (array)json_decode($response->getData(), true);
-         if(isset($response['error']))
-         {
-             $message = "An error occured please try again later";
-             $errorMessage = $response['errorMessage'];
+        $this->rest->open(self::SERVER_AUTHENTICATE);
+        $response = $this->rest->execute(RESTHelper::METHOD_POST, $headers, json_encode($payload));
+        $response = (array)json_decode($response->getData(), true);
+        if(isset($response['error']))
+        {
+            $message = "An error occured please try again later";
+            $errorMessage = $response['errorMessage'];
 
-             # review error types to send more details to the user
-             switch($response['error'])
-             {
-                 case "ForbiddenOperationException":
-                     $message = $response['errorMessage'];
-                     break;
+            # review error types to send more details to the user
+            switch($response['error'])
+            {
+                case "ForbiddenOperationException":
+                    $message = $response['errorMessage'];
+                    break;
 
-                 # Selecting profiles isn't implemented yet.
-                 case "IllegalArgumentException":
-                     break;
+                # Selecting profiles isn't implemented yet.
+                case "IllegalArgumentException":
+                    break;
 
-                 # Non-existing endpoint was called.
-                 case "Not Found":
-                     break;
+                # Non-existing endpoint was called.
+                case "Not Found":
+                    break;
 
-                 # Something other than a POST request was received.
-                 case "Method Not Allowed":
-                     break;
+                # Something other than a POST request was received.
+                case "Method Not Allowed":
+                    break;
 
-                 # Data was not submitted as application/json
-                 case "Unsupported Media Type":
-                     break;
+                # Data was not submitted as application/json
+                case "Unsupported Media Type":
+                    break;
 
-                 # Unknown error
-                 default:
-                     $errorMessage = "Unknown error";
-             }
+                # Unknown error
+                default:
+                    $errorMessage = "Unknown error";
+            }
 
-             //$this->logger->info("[MINECRAFT API]" . $errorMessage);
-             return array("success" => false, "message" => $message);
-         }
-         elseif(isset($response['selectedProfile']))
-         {
-             # user authenticated
-             return array("success" => true, "account" => $response['selectedProfile']);
-         }
+            //$this->logger->info("[MINECRAFT API]" . $errorMessage);
+            return array("success" => false, "message" => $message);
+        }
+        elseif(isset($response['selectedProfile']))
+        {
+            # user authenticated
+            return array("success" => true, "account" => $response['selectedProfile']);
+        }
 
-         return array("success" => false, "message" => "An unknown error occured");
-     }
+        return array("success" => false, "message" => "An unknown error occured");
+    }
 
 
     /**

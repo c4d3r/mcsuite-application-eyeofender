@@ -47,8 +47,6 @@ class DefaultController extends Controller{
         $threads = $em->getRepository('MaximModuleForumBundle:Thread')->findThreads($id, false);
 
         $logger = $this->get('logger');
-        $logger->err("id" . $id);
-        $logger->err(count($threads));
 
         $paginator  = $this->get('knp_paginator');
 
