@@ -23,23 +23,17 @@ class MinecraftHelper
         $this->rest = $rest;
     }
 
-    public function getUUID($username)
+    public function fetchUUID($username)
     {
-        $this->logger->error("START RESPONSE UUID");
         $this->rest->open(self::MINECRAFT_UUID);
-        $response = $this->rest->execute(RESTHelper::METHOD_POST, array('Content-Type: application/json'));
+        $response = $this->rest->execute(RESTHelper::METHOD_POST, array('Content-Type: application/json'), json_encode(array($username)));
         $response = (array)json_decode($response->getData(), true);
-
-        $this->logger->error("HI3");
-        $this->logger->error(print_r($response));
-
         return $response[0]["id"];
     }
 
 
     public function signIn($username, $password)
     {
-        $this->logger->error("HI2");
         //first check old system
         $oldsignin = $this->Oldsignin($username, $password);
         if($oldsignin != false && ($oldsignin['success'] && ($oldsignin['account'] == $username))) {

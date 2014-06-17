@@ -156,7 +156,7 @@ class SecurityController extends BaseSecurityController
     {
         $request = Request::createFromGlobals();
         $config = $this->container->getParameter('maxim_cms');
-        $logger = $this->container->get('logger');
+        $logger = $this->get('logger');
 
         if (!$request->isXmlHttpRequest()) {
             throw new AccessDeniedException("Unknown request");
@@ -168,7 +168,6 @@ class SecurityController extends BaseSecurityController
         $minecraft = $this->get('minecraft.helper');
 
         $this->details['verified'] = $minecraft->signIn($this->details['mcuser'], $this->details['mcpass']);
-        $uuid = $minecraft->getUUID($this->details['mcuser']);
 
         if(!$this->details['verified']["success"])
         {
@@ -189,7 +188,8 @@ class SecurityController extends BaseSecurityController
         $user->setPasswordConfirm($this->details['password_confirm']);
         $user->setSkype($this->details['skype']);
 
-        $user->setMcUuid($uuid);
+        $logger->error("TEST".$this->details['verified']['account']["id"]);
+        $user->setMcUuid("RAFI");
 
         try
         {

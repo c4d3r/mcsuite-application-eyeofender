@@ -35,7 +35,7 @@
         <!-- security fields -->
         <field name="lastIp"             type="string"      column="last_ip"        length="45" nullable="true" />
         <field name="verified"           type="boolean"     column="verified"                   nullable="false" />
-        <field name="mcUuid"             type="boolean"     column="minecraft_uuid"             nullable="true" />
+        <field name="mcUuid"             type="string"      column="minecraft_uuid"             nullable="true" />
 
         <one-to-many field="threads" target-entity="\Maxim\Module\ForumBundle\Entity\Thread" mapped-by="createdBy" />
         <one-to-many field="posts" target-entity="\Maxim\Module\ForumBundle\Entity\Post" mapped-by="createdBy" />

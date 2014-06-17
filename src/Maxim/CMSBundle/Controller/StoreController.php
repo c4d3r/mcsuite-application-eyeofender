@@ -139,10 +139,8 @@ class StoreController extends Controller
         $data = array(
             "currency"  =>  "GBP",
         );
-        $storage = $this->get('payum')->getStorageForClass(
-            'Maxim\CMSBundle\Entity\PaymentDetails',
-            $paymentName
-        );
+
+        $storage = $this->get('payum')->getStorage('Maxim\CMSBundle\Entity\PaymentDetails');
 
         $total = $item->getAmount() * 1;
 
