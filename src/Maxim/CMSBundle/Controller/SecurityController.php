@@ -5,6 +5,7 @@
 namespace Maxim\CMSBundle\Controller;
 
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -16,13 +17,14 @@ use Maxim\CMSBundle\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\Yaml\Yaml;
-use FOS\UserBundle\Controller\SecurityController as BaseSecurityController;
-//If it inherits from ModuleController then it can be overwrited!!
+use FOS\UserBundle\Controller\RegistrationController as BaseController;
 
-class SecurityController extends BaseSecurityController
+class SecurityController extends BaseController
 {
 
     protected $details = array();
+
+
 
     /* LOGIN */
     /*public function loginAction()
@@ -60,7 +62,7 @@ class SecurityController extends BaseSecurityController
         ));
     }     */
     /* REGISTER */
-    public function registerViewAction()
+    /*public function registerViewAction()
     {
         return $this->render('MaximCMSBundle:pages:register.html.twig');
     }
@@ -152,7 +154,7 @@ class SecurityController extends BaseSecurityController
     /**
      * Register Action
      */
-    public function registerAction()
+    /*public function registerAction()
     {
         $request = Request::createFromGlobals();
         $config = $this->container->getParameter('maxim_cms');
@@ -312,7 +314,7 @@ class SecurityController extends BaseSecurityController
             //error while sending mail
             $logger->err('REGISTER: Could not send mail: '.$ex->getMessage());
         }
-    }
+    }  */
     public function membersAction()
     {
         $em = $this->getDoctrine()->getManager();
