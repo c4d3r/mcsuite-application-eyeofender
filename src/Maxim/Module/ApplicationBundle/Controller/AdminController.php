@@ -12,6 +12,7 @@ namespace Maxim\Module\ApplicationBundle\Controller;
 use Maxim\Module\ApplicationBundle\Entity\Application;
 use Maxim\Module\ApplicationBundle\Entity\ApplicationReply;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Yaml\Yaml;
 use LanKit\DatatablesBundle\Datatables\DataTable;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;

@@ -38,6 +38,11 @@
                                 <div class="notification-date">{{ notification.createdOn|prettydate }}</div>
                             </div>
                         {% endif %}
+                    {% elseif notification.type == "NOTIFICATION_TICKET_REPLY" %}
+                        <div class="notification-container">
+                            <div class="notification-text">{{ notification.user }} has replied to your ticket</div>
+                            <div class="notification-date">{{ notification.createdOn|prettydate }}</div>
+                        </div>
                     {% endif %}
                 </li>
             {% else %}

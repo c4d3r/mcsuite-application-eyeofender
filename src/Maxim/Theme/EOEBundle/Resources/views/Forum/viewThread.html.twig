@@ -38,95 +38,119 @@
                 {# HEAD POST #}
                 {% if page is not defined %}
                 <div class="mcsf_post_main">
-                    <div class="mcsf_post row">
-                        <div class="mcsf_post_author large-3">
-                            <div class="mcsf_post_author_image{% if thread.createdBy.hasRole('ROLE_STAFF') %} mcsf_author_staff{% endif %}">
-                                <a href="{{ path('profile', {'name' : thread.createdBy.username}) }}" alt="visit profile of{{ thread.createdBy.username }}">
-                                    <img src="http://minotar.net/helm/{{ thread.createdBy.username }}/85.png" alt="mc the mass logo" class="preload"/>
-                                </a>
-                            </div>
-                            <div class="mcsf_post_author_info large-8 small-offset-1">
+                    <div class="mcsf_post">
 
-                                <span class="mcsf_post_author_posts">Posts: {{ thread.createdBy.posts|length }}</span>
-                                {% if is_granted('ROLE_STAFF') %}
-                                    <span class="mcsf_admin_userip">{{ thread.createdBy.lastIp }}</span>
-                                {% endif %}
-                                <p class="mcsf_post_author_name"><a href="{{ path('profile', {'name' : thread.createdBy.username}) }}" alt="visit profile of{{ thread.createdBy.username }}">{{ thread.createdBy.username }}</a></p>
-                                <p class="mcsf_post_author_title {{ thread.createdBy.group.cssClass }}">{{ thread.createdBy.group.name }}</p>
-                            </div>
+                        <div class="mcsf_post_author">
+                            {#
+                            {% if is_granted('ROLE_STAFF') %}
+                                <span class="mcsf_admin_userip">{{ post.createdBy.lastIp }}</span>
+                            {% endif %}
+                            #}
+
+                            <ul class="mcsf_post_author_details">
+                                <li class="mcsf_post_author_name">
+                                    <a href="{{ path('profile', {'name' : thread.createdBy.username}) }}" alt="visit profile of{{ thread.createdBy.username }}">
+                                        {{ thread.createdBy.username }}
+                                    </a>
+                                </li>
+                                <li class="mcsf_post_author_image">
+                                    <img src="http://minotar.net/avatar/{{ thread.createdBy.username }}/80.png" alt="image of {{ thread.createdBy.username }}"/>
+                                </li>
+                                <li class="mcsf_post_author_smalltext">Your personal message</li>
+                            </ul>
+
+                            <p class="mcsf_post_author_title {{ thread.createdBy.group.cssClass }}">{{ thread.createdBy.group.name }}</p>
+
+                            <ul class="mcsf_post_author_info">
+                                <li>Posts: {{ thread.createdBy.posts|length }}</li>
+                                <li>Joined: {{ thread.createdBy.createdAt|date('M Y') }}</li>
+                            </ul>
                         </div>
+
                         <div class="mcsf_post_content">
+
                             <div>
                                 {{ thread.text|purify }}
-
-                                {% for update in thread.updates %}
-                                    <div class="mcsf_post_update">
-                                        <h6>Updated on {{ update.updatedOn|prettydate }}</h6>
-                                        <p>{{ update.reason|purify }}</p>
-                                    </div>
-                                {% endfor %}
                             </div>
+
+
                             <div class="mcsf_post_content_lowerbar">
+                                {# OPTIONS #}
                                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and thread.createdBy.id == app.user.id %}
-                                    <a class="button mcsf_post_option_button" href="{{ path('forum_thread_edit', {'id' : thread.forum.id, 'threadid' : thread.id}) }}">Edit</a>
+                                    <a class="mcsf_post_option_button" href="{{ path('forum_post_edit', {'id' : thread.forum.id, 'threadid' : thread.id, 'postid': thread.id}) }}">Edit</a>
                                 {% endif %}
+
                                 <span class="mcsf_post_createdOn">{{ thread.createdOn|prettydate }}</span>
                             </div>
-                            <div style="clear:right;"></div>
                         </div>
                     </div>
-                   <div style="clear:both;"></div>
                 </div>
                 {% endif %}
 
                 {# POSTS #}
                 <div class="mcsf_posts">
-                    {% for post in posts %}
-                    <div class="mcsf_post row">
-                        <div class="mcsf_post_author large-3">
-                            <div class="mcsf_post_author_image{% if post.createdBy.hasRole('ROLE_STAFF') %} mcsf_author_staff{% endif %}">
-                                <a href="{{ path('profile', {'name' : post.createdBy.username}) }}" alt="visit profile of{{ post.createdBy.username }}">
-                                    <img src="http://minotar.net/helm/{{ post.createdBy.username }}/85.png" alt="mc the mass logo" class="preload"/>
-                                </a>
-                            </div>
-                            <div class="mcsf_post_author_info large-8 small-offset-1">
-                                <span class="mcsf_post_author_posts">Posts: {{ post.createdBy.posts|length }}</span>
+
+                    {% for index, post in posts %}
+                        <div class="mcsf_post">
+
+                            <div class="mcsf_post_author">
+                                {#
                                 {% if is_granted('ROLE_STAFF') %}
                                     <span class="mcsf_admin_userip">{{ post.createdBy.lastIp }}</span>
                                 {% endif %}
-                                <p class="mcsf_post_author_name">
-                                    <a href="{{ path('profile', {'name' : post.createdBy.username}) }}" alt="visit profile of{{ post.createdBy.username }}">
-                                        {{ post.createdBy.username }}
-                                    </a>
-                                </p>
-                                <p class="mcsf_post_author_title {{ post.createdBy.group.cssClass }}">{{ post.createdBy.group.name }}</p>
-                            </div>
-                        </div>
-                        <div class="mcsf_post_content">
-                            <div>
-                                {{ post.text|purify }}
-                            </div>
-                            <div class="mcsf_post_content_lowerbar">
-                                {# OPTIONS #}
-                                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and post.createdBy.id == app.user.id %}
-                                    <a class="button mcsf_post_option_button" href="{{ path('forum_post_edit', {'id' : thread.forum.id, 'threadid' : thread.id, 'postid': post.id}) }}">Edit</a>
-                                {% endif %}
-                                {% if post.likesHasUser(app.user) %}
-                                    <span class="mcsf_post_like_text">You liked this!</span>
-                                {% else %}
-                                    <button class="mcsf_post_like mcsf_post_option_button" value="{{ post.id }}">Like</button>
-                                {% endif %}
+                                #}
 
-                                {% if post.likes|length > 0 %}
-                                    <span class="mcsf_post_amountLikes{% if post.likes|length > 5 %} mcsf_post_amountLikes-extra{% endif %}">{{ post.likes|length }}</span>
-                                {% endif %}
-                                <span class="mcsf_post_createdOn">{{ post.createdOn|prettydate }}</span>
+                                <ul class="mcsf_post_author_details">
+                                    <li class="mcsf_post_author_name">
+                                        <a href="{{ path('profile', {'name' : post.createdBy.username}) }}" alt="visit profile of{{ post.createdBy.username }}">
+                                            {{ post.createdBy.username }}
+                                        </a>
+                                    </li>
+                                    <li class="mcsf_post_author_image">
+                                        <img src="http://minotar.net/avatar/{{ post.createdBy.username }}/80.png" alt="image of {{ post.createdBy.username }}"/>
+                                    </li>
+                                    <li class="mcsf_post_author_smalltext">Your personal message</li>
+                                </ul>
+
+                                <p class="mcsf_post_author_title {{ post.createdBy.group.cssClass }}">{{ post.createdBy.group.name }}</p>
+
+                                <ul class="mcsf_post_author_info">
+                                    <li>Posts: {{ post.createdBy.posts|length }}</li>
+                                    <li>Joined: {{ post.createdBy.createdAt|date('M Y') }}</li>
+                                </ul>
                             </div>
-                            <div style="clear:right;"></div>
+
+                            <div class="mcsf_post_content">
+                                <div class="mcsf_post_topbar">
+                                    <span class="mcsf_post_index">Post: #{{ index }}</span>
+                                </div>
+
+                                <div>
+                                    {{ post.text|purify }}
+                                </div>
+
+
+                                <div class="mcsf_post_content_lowerbar">
+                                    {# OPTIONS #}
+                                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and post.createdBy.id == app.user.id %}
+                                        <a class="mcsf_post_option_button" href="{{ path('forum_post_edit', {'id' : thread.forum.id, 'threadid' : thread.id, 'postid': post.id}) }}">Edit</a>
+                                    {% endif %}
+                                    {% if post.likesHasUser(app.user) %}
+                                        <span class="mcsf_post_like_text">You liked this!</span>
+                                    {% else %}
+                                        <button class="mcsf_post_like mcsf_post_option_button" value="{{ post.id }}">Like</button>
+                                    {% endif %}
+
+                                    {% if post.likes|length > 0 %}
+                                        <span class="mcsf_post_amountLikes{% if post.likes|length > 5 %} mcsf_post_amountLikes-extra{% endif %}">{{ post.likes|length }}</span>
+                                    {% endif %}
+                                    <span class="mcsf_post_createdOn">{{ post.createdOn|prettydate }}</span>
+                                </div>
+                            </div>
+                            <div style="clear:both;"></div>
                         </div>
-                        <div style="clear:both;"></div>
-                    </div>
                     {% endfor %}
+
                 </div>
 
                 {# DISPLAY PAGE NAV #}

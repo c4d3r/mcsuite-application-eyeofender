@@ -24,14 +24,13 @@
         {% stylesheets
             output='css'
             output='themes/eyeofender/css/main.css'
-            package='css'
             filter='cssrewrite'
+            'bundles/maximthemeeoe/theme/framework/zurb/css/*'
             'bundles/maximcms/plugins/tooltipster/css/tooltipster.css'
             'bundles/maximcms/plugins/tooltipster/css/themes/tooltipster-shadow.css'
             'bundles/maximcms/plugins/tooltip-toolbar/css/jquery.toolbars.css'
             'bundles/maximcms/plugins/tooltip-toolbar/css/toolbars-custom.css'
             'bundles/maximcms/plugins/redactor/redactor.css'
-            'bundles/maximthemeeoe/theme/framework/zurb/css/*'
             'bundles/maximthemeeoe/theme/css/*'
         %}
             <link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>
@@ -115,7 +114,7 @@
     <div id="global_messagebox"></div>
     {# END ANNOUNCEMENTS#}
 
-    <section id="mid" class="medium-7 large-7 columns">
+    <section id="mid">
 
         <div class="ip">Server address: <span class="color-purple">hub.eyeofender.com</span></div>
         {% block body %}
@@ -123,7 +122,7 @@
 
     </section>
 
-    <aside class="medium-4 medium-offset-1 large-4 large-offset-1 columns">
+    <aside>
         {# MODULE: Account Panel #}
         <div class="module">
             <div class="module-content" style="border-top-right-radius: 3px;border-top-left-radius: 3px;">
@@ -254,7 +253,6 @@
     '@MaximCMSBundle/Resources/public/plugins/tooltipster/js/jquery.tooltipster.min.js'
     '@MaximCMSBundle/Resources/public/plugins/tooltip-toolbar/js/jquery.toolbar.min.js'
     output='themes/eyeofender/js/main.js'
-    package='jsApp'
 %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
 {% endjavascripts %}

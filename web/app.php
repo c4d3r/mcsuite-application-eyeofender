@@ -14,11 +14,11 @@ $loader->register(true);
 */
 
 require_once __DIR__.'/../app/EoEKernel.php';
-//require_once __DIR__.'/../app/AppCache.php';
+require_once __DIR__.'/../app/EoeCache.php';
 
 $kernel = new EoEKernel('prod', false);
 $kernel->loadClassCache();
-//$kernel = new AppCache($kernel);
+$kernel = new EoeCache($kernel);
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
 $response->send();

@@ -44,7 +44,7 @@ class RESTHelper {
         $this->curl = curl_init($url);
         curl_setopt($this->curl, CURLOPT_URL, $this->url);
     }
-    public function execute($method, $headers, $data)
+    public function execute($method, $headers, $data = NULL)
     {
         curl_setopt ($this->curl, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt ($this->curl, CURLOPT_SSL_VERIFYPEER, 0);
@@ -56,8 +56,10 @@ class RESTHelper {
 
         if($method == self::METHOD_POST)
         {
+            if($data != NULL) {
+                curl_setopt($this->curl, CURLOPT_POSTFIELDS, $data);
+            }
             curl_setopt($this->curl, CURLOPT_POST, true);
-            curl_setopt($this->curl, CURLOPT_POSTFIELDS, $data);
         }
         else if($method == self::METHOD_GET)
         {

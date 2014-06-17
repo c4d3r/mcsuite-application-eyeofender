@@ -10,6 +10,7 @@ class MinecraftHelper
 {
 
     const SERVER_AUTHENTICATE = "https://authserver.mojang.com/authenticate";
+    const MINECRAFT_UUID = "https://api.mojang.com/profiles/minecraft";
     const AGENT_NAME = "Minecraft";
     const AGENT_VERSION = 1;
 
@@ -20,6 +21,15 @@ class MinecraftHelper
     {
         $this->logger = $logger;
         $this->rest = $rest;
+    }
+
+    public function getUUID($username)
+    {
+        $this->rest->open(self::MINECRAFT_UUID);
+        $response = $this->rest->execute(RESTHelper::METHOD_POST, array('Content-Type: application/json'));
+        $response = (array)json_decode($response->getData(), true);
+
+        return $response[0]["id"];
     }
 
 

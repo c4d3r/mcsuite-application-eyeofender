@@ -176,12 +176,6 @@ class SecurityController extends BaseSecurityController
         }
         else if(strtoupper(trim($this->details['verified']['account']["name"])) != strtoupper(trim($this->details['username'])))
         {
-
-            /*$logger->err("USERNAME:" . $this->details['mcuser']);
-            $logger->err(print_r($this->details['verified'], true));
-            $logger->err(print_r($this->details['username'], true));
-            $logger->err($this->details['verified']['account']["name"]);
-            $logger->err($this->details['username']);         */
             return new Response(json_encode(array("success" => false, "message" => "Please use your minecraft username as the website username")));
         }
 
@@ -192,6 +186,8 @@ class SecurityController extends BaseSecurityController
         $user->setLocation($this->details['location']);
         $user->setPasswordConfirm($this->details['password_confirm']);
         $user->setSkype($this->details['skype']);
+
+        $user->setMcUuid($minecraft->getUUID($this->details['mcuser']));
 
         try
         {

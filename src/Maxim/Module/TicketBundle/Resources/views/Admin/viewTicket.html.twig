@@ -42,8 +42,8 @@
                             <div class="tab-pane {% if loop.first %} active{% endif %}" id="{{ admin.uniqid }}_{{ loop.index }}">
                                 <fieldset>
                                     <div class="sonata-ba-collapsed-fields">
-                                        {% if form_group.description != false %}
-                                            <p>{{ form_group.description|raw }}</p>
+                                        {% if form_group.details != false %}
+                                            <p>{{ form_group.details|raw }}</p>
                                         {% endif %}
 
                                         {% for field_name in form_group.fields %}

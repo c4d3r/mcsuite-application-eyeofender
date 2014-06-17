@@ -72,6 +72,11 @@
 /* PROFILE ACTIONS */
 #profile-actions > ul {
     margin:0;
+    padding:0;
+}
+
+#profile-actions > ul > li {
+    list-style:none;
 }
 
 /* BUTTON */

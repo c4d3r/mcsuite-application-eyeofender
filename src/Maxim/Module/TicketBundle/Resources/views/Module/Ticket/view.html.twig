@@ -3,9 +3,9 @@
     <link href="{{ asset('/bundles/maximmoduleticket/css/style.css') }}" rel="stylesheet" type="text/css" >
 {% endblock %}
 {% block body %}
-    <h1>Tickets</h1>
-    <hr/>
-    {% if ticket is defined %}
+<div class="page">
+    <h3 class="page-header">Ticket</h3>
+    <div class="page-content">
         <div class="alert" id="status-ticket-reply" style="display:none"></div>
         <table class="table" id="tblTicketSingle">
             <tr>
@@ -14,98 +14,113 @@
             </tr>
             <tr>
                 <th>Status:</th>
-                <td>{{ ticket.status }}</td>
+                <td>{{ ticket.closed ? "Closed" : "Open" }}</td>
             </tr>
             <tr>
                 <th>Description</th>
-                <td>{{ ticket.description|raw }}</td>
+                <td>
+                    {% for key, detail in ticket.details %}
+
+                        <h5>{{ key }}</h5>
+                        <p>{{ detail }}</p>
+
+                    {% endfor %}
+                </td>
             </tr>
         </table>
         <hr/>
         <h3>Replies</h3>
-        <div class="ticket-replies">
-            {% for key, reply in replies %}
-                <div class="ticket-reply">
-                    <div class="ticket-reply-{% if key is even %}even{% else %}odd{% endif %}">
-                        <div class="ticket-reply-profile">
-                            <img src="https://minotar.net/helm/{{ reply.user.username }}/40.png" alt="{{ reply.user.username }}" rel="tooltip" data-original-title="{{ reply.user.username }}"/>
-                            <h3>{{ reply.user.username }}</h3>
-                            <p class="ticket-postedon">{{ reply.date|date('Y-m-d h:i:s') }}</p>
-                        </div>
-                        <div class="ticket-reply-content">
-                            <p>{{ reply.text|raw }}</p>
-                        </div>
-                    </div>
-                </div>
-            {% else %}
-                <tr>
-                    <td colspan="2">No replies found</td>
-                </tr>
-            {% endfor %}
-        </div>
-        <hr/>
-        <form action="{{ path('ticket_reply') }}" method="post" id="frmReplyTicket">
-            <fieldset>
-                <p>
-                    <label for="reply">Text: </label>
-                    <textarea id="reply" name="_reply" cols="30" rows="10" placeholder="Enter your reply here" style="width:90%;"></textarea>
-                </p>
-                <p>
-                    <input type="submit" class="btn btn-info" id="btnReply" name="_btnReply" value="Reply to ticket"/>
 
+        {# filled with ajax call #}
+        <div class="ticket-replies" id="ticket-replies"></div>
+
+        <hr/>
+        <form action="{{ path('ticket_view', {'id' : ticket.id, 'name' : ticket.ticket.name}) }}" method="post" class="form" id="frmReplyTicket" name="ReplyType" {{ form_enctype(replyform) }}>
+            <fieldset>
+                {{ form_widget(replyform) }}
+                <p>
+                    <button type="submit" class="btn btn-info">Add reply</button>
                 </p>
-                <input type="hidden" name="_hdnTicket" id="hdnTicket" value="{{ ticket.id }}"/>
             </fieldset>
         </form>
-        {% if ticket.closed == 0 %}
-            <button id="btnClose" name="_btnClose" class="btn" value="{{ ticket.id }}" >Close ticket</button>
-        {% else %}
-            <button id="btnOpen" name="_btnOpen" class="btn" value="{{ ticket.id }}" >Reopen ticket</button>
-        {% endif %}
-        <style>
-            #tblTicketSingle th{
-                width:50px;
-            }
-        </style>
 
-    {% else %}
-        <p>Could not find ticket</p>
-    {% endif %}
+        {% if ticket.closed == 0 %}
+            <form action="{{ path('ticket_close') }}" method="post" id="frmTicketClose">
+                <button id="btnClose" type="submit" name="_ticketid" class="btn" value="{{ ticket.id }}" >Close ticket</button>
+            </form>
+        {% else %}
+            <form action="{{ path('ticket_open') }}" method="post" id="frmTicketClose">
+                <button id="btnOpen"  type="submit" name="_ticketid" class="btn" value="{{ ticket.id }}" >Reopen ticket</button>
+            </form>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}
-{% block scripts %}
-    $('#btnClose').click(function(){
-        AJAX.post(
-            "{{ path('ticket_close') }}",
-            {
-            _ticket : $('#hdnTicket').val()
-            },
-            $("#status-ticket-reply"),
-            $("#btnClose")
-        );
-    });
-    $('#btnOpen').click(function(){
-        AJAX.post(
-            "{{ path('ticket_open') }}",
-            {
-            _ticket : $('#hdnTicket').val()
-            },
-            $("#status-ticket-reply"),
-            $("#btnOpen")
-        );
-    });
-    $("#frmReplyTicket").submit(function(e) {
-        e.preventDefault();
-        //get the url for the form
-        AJAX.post(
-            $("#frmReplyTicket").attr("action"),
-            {
-                _reply : $('#reply').val(),
-                _ticket : $('#hdnTicket').val()
-            },
-            $("#status-ticket-reply"),
-            $("#btnReply")
-        );
-        //we dont what the browser to submit the form
-        return false;
-    });
+{% block scripttags %}
+    <script>
+        function postForm( $form, callback ){
+
+            /*
+             * Get all form values
+             */
+            var values = {};
+            $.each( $form.serializeArray(), function(i, field) {
+                values[field.name] = field.value;
+            });
+
+            /*
+             * Throw the form values to the server!
+             */
+            $.ajax({
+                type        : $form.attr( 'method' ),
+                url         : $form.attr( 'action' ),
+                data        : values,
+                success     : function(data) {
+                    callback( data );
+                }
+            });
+        }
+
+        function fetchContent($element, $url, $append) {
+            $.ajax({
+                type        : 'GET',
+                url         : $url,
+                success     : function(data) {
+
+                    console.log(data);
+
+                    if($append == true) {
+                        $element.append(data);
+                    } else {
+                        $element.html(data);
+                    }
+                }
+            });
+        }
+
+        $(document).ready(function(){
+
+            //get forms and let them use ajax
+            var forms = [
+                '[ name="{{ replyform.vars.full_name }}"]'
+            ];
+
+            $( forms.join(',') ).submit( function( e ){
+                e.preventDefault();
+
+                postForm( $(this), function( response ) {
+                    console.log(response);
+
+                    //refetch ticket replies
+                    fetchContent($('#ticket-replies'), "{{ path('ticket_ajax_replies', {'id' : ticket.id}) }}", false);
+                });
+
+                return false;
+            });
+
+            //fetch replies
+            fetchContent($('#ticket-replies'), "{{ path('ticket_ajax_replies', {'id' : ticket.id}) }}", false);
+        });
+
+    </script>
 {% endblock %}

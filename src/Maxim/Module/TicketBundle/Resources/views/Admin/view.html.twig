@@ -21,10 +21,6 @@
                         <th>Status:</th>
                         <td>{{ ticket.status }}</td>
                     </tr>
-                    <tr>
-                        <th>Description</th>
-                        <td>{{ ticket.description|raw }}</td>
-                    </tr>
                 </table>
             </div>
         </div>
@@ -37,7 +33,7 @@
                             <div class="ticket-profile">
                                 <img src="https://minotar.net/helm/{{ reply.user.username }}/40.png" alt="{{ reply.user.username }}" rel="tooltip" data-original-title="{{ reply.user.username }}"/>
                                 <h3>{{ reply.user.username }}</h3>
-                                <p class="ticket-postedon">{{ reply.date|date('Y-m-d h:i:s') }}</p>
+                                <p class="ticket-postedon">{{ reply.createdOn|date('Y-m-d h:i:s') }}</p>
                                 <a href="{{ path('admin_reply_edit', {'ticketid' : ticket.id, 'id' : reply.id}) }}" class="button-small inline">Edit</a>
                                 <button data-id="{{ reply.id }}" class="reply-delete button-small inline" class="">Delete</button>
                             </div>

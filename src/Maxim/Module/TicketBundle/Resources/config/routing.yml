@@ -1,17 +1,32 @@
 tickets_index:
   path: /account/tickets
   defaults: { _controller: MaximModuleTicketBundle:Ticket:index }
-ticket_create:
-  path: /account/ticket/create
-  defaults: { _controller: MaximModuleTicketBundle:Ticket:create }
+tickets_index_create:
+  path: /account/tickets/create
+  defaults: { _controller: MaximModuleTicketBundle:Ticket:indexCreate }
 ticket_view:
-  path: /account/ticket/view/{id}
-  defaults: { _controller: MaximModuleTicketBundle:Ticket:viewTicket }
-ticket_view_pattern:
-  path: /account/ticket/view
-ticket_reply:
-  path: /account/ticket/reply
-  defaults: { _controller: MaximModuleTicketBundle:Ticket:reply }
+  path: /account/ticket/{id}-{name}
+  defaults: { _controller: MaximModuleTicketBundle:Ticket:view}
+tickets_create_view:
+  path: /account/ticket/create/{id}-{name}
+  defaults: { _controller: MaximModuleTicketBundle:Ticket:viewCreate }
+
+ticket_ajax_replies:
+  path: /ajax/ticket/{id}/replies
+  defaults: { _controller: MaximModuleTicketBundle:Ticket:fetchReplies }
+
+
+#ticket_create:
+#  path: /account/ticket/create
+#  defaults: { _controller: MaximModuleTicketBundle:Ticket:create }
+#ticket_view:
+#  path: /account/ticket/view/{id}
+#  defaults: { _controller: MaximModuleTicketBundle:Ticket:viewTicket }
+#ticket_view_pattern:
+#  path: /account/ticket/view
+#ticket_reply:
+#  path: /account/ticket/reply
+#  defaults: { _controller: MaximModuleTicketBundle:Ticket:reply }
 ticket_close:
   path: /account/ticket/close
   defaults: { _controller: MaximModuleTicketBundle:Ticket:close }

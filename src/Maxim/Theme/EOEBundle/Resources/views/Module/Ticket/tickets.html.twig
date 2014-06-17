@@ -1,0 +1,64 @@
+{% extends 'MaximCMSBundle:Default:index.html.twig' %}
+
+{% block body %}
+<div class="page">
+    <h3 class="page-header">Tickets</h3>
+    <div class="page-content">
+        <div class="tabbable"> <!-- Only required for left/right tabs -->
+            <ul class="menu menu-pills nav nav-tabs clearfix">
+                <li class="active"><a href="#tab1" data-toggle="tab">Tickets</a></li>
+                <li><a href="#tab2" data-toggle="tab">Make a ticket</a></li>
+            </ul>
+            <div class="tab-content" style="margin-top:10px;">
+                <div class="tab-pane active" id="tab1">
+                    <table class="table table-hover" id="tblTickets">
+                        <tr>
+                            <th>Number</th>
+                            <th>Description</th>
+                            <th>Last update</th>
+                        </tr>
+                        {% for ticket in tickets %}
+                            <tr data-link="{{ path('ticket_view', {'id' : ticket.id, 'name' : ticket.ticket.name}) }}" style="cursor:pointer;">
+                                <td>{{ ticket.id }}</td>
+                                <td>{{ ticket.ticket.name }}</td>
+                                <td>{{ ticket.updatedOn|date('Y-m-d h:i:s') }}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="3">No tickets have been found</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div class="tab-pane" id="tab2">
+                    <div id="ticket-status" class="alert" style="display:none;"></div>
+
+                    <form action="{{ path('tickets_index_create') }}" method="post" id="frmCreateTicket" class="form">
+                        <fieldset>
+                            <div>
+                                <label for="section">Tell us more about your problem:</label>
+                                <select name="_section" id="section">
+                                    {% for ticket in ticketForms %}
+                                        <option value="{{ ticket.id }}">{{ ticket.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div>
+                                <input type="submit" value="Continue" class="btn btn-info" name="_btnCreateTicket" id="btnCreateTicket"/>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripttags %}
+<script>
+    $('#tblTickets tr').on('click', function(){
+        window.location.href = $(this).attr('data-link');
+    });
+</script>
+{% endblock %}

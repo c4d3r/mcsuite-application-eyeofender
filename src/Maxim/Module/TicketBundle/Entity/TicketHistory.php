@@ -1,31 +1,44 @@
 <?php
 /**
  * Author: Maxim
- * Date: 12/06/2014
- * Time: 20:47
+ * Date: 13/06/2014
+ * Time: 12:38
  * Property of MCSuite
  */
 
 namespace Maxim\Module\TicketBundle\Entity;
 
-class TicketReply
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * TicketHistory
+ *
+ * @ORM\Table(name="ticket_history")
+ * @ORM\Entity
+ */
+class TicketHistory
 {
+    const TYPE_REPLY = "REPLY";
+    const TYPE_CLOSED = "CLOSED";
+    const TYPE_OPENED = "OPENED";
+    const TYPE_NEW = "NEW";
+
     protected $id;
 
     protected $userTicket;
 
-    protected $user;
-
     protected $createdOn;
 
-    protected $text;
+    protected $type;
 
+    //User who made the action
+    protected $user;
 
-
-    public function __construct($ticket = NULL, $text = NULL, $user = NULL)
+    function __construct($userTicket, $type, $user)
     {
-        $this->userTicket = $ticket;
-        $this->text = $text;
+        $this->userTicket = $userTicket;
+        $this->type = $type;
         $this->user = $user;
         $this->createdOn = new \DateTime("now");
     }
@@ -81,17 +94,17 @@ class TicketReply
     /**
      * @return mixed
      */
-    public function getUser()
+    public function getType()
     {
-        return $this->user;
+        return $this->type;
     }
 
     /**
-     * @param mixed $user
+     * @param mixed $type
      */
-    public function setUser($user)
+    public function setType($type)
     {
-        $this->user = $user;
+        $this->type = $type;
     }
 
     /**
@@ -109,4 +122,6 @@ class TicketReply
     {
         $this->userTicket = $userTicket;
     }
+
+
 } 

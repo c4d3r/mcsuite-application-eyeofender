@@ -21,6 +21,7 @@ class UserNotification
     const TYPE_FRIENDREQUEST = "NOTIFICATION_FRIENDREQUEST";
     const TYPE_PM            = "NOTIFICATION_PM";
     const TYPE_PURCHASE      = "NOTIFICATION_PURCHASE";
+    const TYPE_TICKET_REPLY  = "NOTIFICATION_TICKET_REPLY";
 
     protected $id;
 

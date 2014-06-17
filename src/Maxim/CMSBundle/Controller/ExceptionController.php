@@ -3,24 +3,40 @@ namespace Maxim\CMSBundle\Controller;
 
 use Symfony\Component\HttpKernel\Exception\FlattenException;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Bundle\TwigBundle\Controller\ExceptionController as BaseController;
+use Symfony\Bundle\FrameworkBundle\Templating\TemplateReference;
+
 class ExceptionController extends BaseController
 {
-    private $exceptionClass;
-
-    public function showAction(Request $request, FlattenException $exception, DebugLoggerInterface $logger = null, $format = 'html')
-    {
-        $this->exceptionClass = $exception->getClass();
-
-        return parent::showAction($request, $exception, $logger, $format);
-    }
-
     protected function findTemplate(Request $request, $format, $code, $debug)
     {
-        if (!$debug &&  strrpos($this->exceptionClass, "NotFound")) {
-            return 'MaximCMSBundle:Exception:error404.html.twig';
+        $name = $debug ? 'exception' : 'error';
+        if ($debug && 'html' == $format) {
+            $name = 'exception_full';
+        }
+
+        // when not in debug, try to find a template for the specific HTTP status code and format
+        if (!$debug) {
+            $template = new TemplateReference('MaximCMSBundle', 'Exception', $name.$code, $format, 'twig');
+            if ($this->templateExists($template)) {
+                return $template;
+            }
+        }
+
+        // try to find a template for the given format
+        $template = new TemplateReference('MaximCMSBundle', 'Exception', $name, $format, 'twig');
+        if ($this->templateExists($template)) {
+            return $template;
+        }
+
+        // default to a generic HTML exception
+        $request->setRequestFormat('html');
+
+        $template = new TemplateReference('MaximCMSBundle', 'Exception', $name, 'html', 'twig');
+        if ($this->templateExists($template)) {
+            return $template;
         }
 
         return parent::findTemplate($request, $format, $code, $debug);

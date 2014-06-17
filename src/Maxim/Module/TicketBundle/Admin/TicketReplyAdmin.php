@@ -1,8 +1,8 @@
 <?php
 /**
  * Author: Maxim
- * Date: 14/12/13
- * Time: 12:12
+ * Date: 13/06/2014
+ * Time: 20:55
  * Property of MCSuite
  */
 
@@ -21,7 +21,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 class TicketReplyAdmin extends Admin
 {
     public $supportsPreviewMode = false;
-    protected $parentAssociationMapping = 'ticket';
+    protected $parentAssociationMapping = 'userTicket';
     protected $security;
     protected $em;
 
@@ -29,13 +29,12 @@ class TicketReplyAdmin extends Admin
     {
         $admin = $this->isChild() ? $this->getParent() : $this;
         $id = $admin->getRequest()->get("id");
-        $ticket = $this->em->getRepository("MaximModuleTicketBundle:Ticket")->findOneBy(array("id" => $id));
+        $ticket = $this->em->getRepository("MaximModuleTicketBundle:UserTicket")->findOneBy(array("id" => $id));
         if(!$ticket)
-           die("could not find ticket id: " . $id);
+            die("could not find ticket id: " . $id);
 
         $instance = parent::getNewInstance();
-        $instance->setTicket($ticket);
-        $instance->setDate(new \DateTime("now"));
+        $instance->setUserTicket($ticket);
         $instance->setUser($this->security->getToken()->getUser());
 
         return $instance;
@@ -47,22 +46,22 @@ class TicketReplyAdmin extends Admin
         if ($this->id($this->getSubject()))
         {
             $formMapper->add('user', 'sonata_type_model_list', array(
-                'btn_add'       => 'Add user',      //Specify a custom label
-                        'btn_list'      => 'button.list',     //which will be translated
+                    'btn_add'       => 'Add user',      //Specify a custom label
+                    'btn_list'      => 'button.list',     //which will be translated
+                    'btn_delete'    => false,             //or hide the button.
+                ),array(
+                    'placeholder' => 'No user selected'
+                )
+            )
+                ->add('userTicket', 'sonata_type_model_list', array(
+                        'btn_add'       => false,      //Specify a custom label
+                        'btn_list'      => false,     //which will be translated
                         'btn_delete'    => false,             //or hide the button.
                     ),array(
-                'placeholder' => 'No user selected'
+                        'placeholder' => 'No ticket selected'
+                    )
                 )
-            )
-            ->add('ticket', 'sonata_type_model_list', array(
-                'btn_add'       => false,      //Specify a custom label
-                'btn_list'      => false,     //which will be translated
-                'btn_delete'    => false,             //or hide the button.
-                ),array(
-                    'placeholder' => 'No ticket selected'
-                )
-            )
-            ->add('date', 'datetime');
+                ->add('createdOn', 'datetime');
         }
         $formMapper
 
@@ -90,7 +89,7 @@ class TicketReplyAdmin extends Admin
                     'placeholder' => 'No user selected'
                 )
             )
-            ->add('ticket', 'sonata_type_model_list', array(
+            ->add('userTicket', 'sonata_type_model_list', array(
                     'btn_add'       => false,      //Specify a custom label
                     'btn_list'      => false,     //which will be translated
                     'btn_delete'    => false,             //or hide the button.
@@ -98,7 +97,7 @@ class TicketReplyAdmin extends Admin
                     'placeholder' => 'No ticket selected'
                 )
             )
-            ->add('date', 'datetime')
+            ->add('createdOn', 'datetime')
             ->add('text', 'textarea', array(
                 'label' => 'Text',
                 'attr'  => array(
@@ -114,7 +113,7 @@ class TicketReplyAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('date')
+            ->add('createdOn')
         ;
     }
 
@@ -122,9 +121,9 @@ class TicketReplyAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('ticket.id', null, array('route' => array('name' => 'show')))
+            ->addIdentifier('userTicket.id', null, array('route' => array('name' => 'show')))
             ->add('user')
-            ->add('date')
+            ->add('createdOn')
             ->add('text')
         ;
     }

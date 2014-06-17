@@ -21,6 +21,8 @@ class User extends BaseUser
 
     protected $mcPassword;
 
+    protected $mcUuid;
+
     public function getGroup()
     {
         if($this->groups[0] != null)
@@ -95,4 +97,19 @@ class User extends BaseUser
         return $this->mcPassword;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getMcUuid()
+    {
+        return $this->mcUuid;
+    }
+
+    /**
+     * @param mixed $mcUuid
+     */
+    public function setMcUuid($mcUuid)
+    {
+        $this->mcUuid = $mcUuid;
+    }
 } 

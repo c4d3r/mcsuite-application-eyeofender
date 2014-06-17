@@ -18,7 +18,7 @@ file that was distributed with this source code.
     {% endif %}
 
     <strong>{{ object|render_list_element(admin.list['user']) }}</strong> -
-    {{ object|render_list_element(admin.list['date']) }} <br />
+    {{ object|render_list_element(admin.list['createdOn']) }} <br />
 
     <small>
         {% set temp =  object|render_list_element(admin.list['text'])%}

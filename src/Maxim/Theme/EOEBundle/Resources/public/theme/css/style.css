@@ -219,23 +219,22 @@ h1, h2, h3, h4, h5, h6 {
 /* MID */
 #wrapper {
 	margin: 10px auto;
-    background: rgba(78, 78, 78, 0.15);
+    background:#2f2f2f;
+    display:flex;
+    padding:5px;
 }
 #mid {
 	border-radius:5px;
-	/*width: 700px;  */
-	background:#2f2f2f;
+	width: 70%;
 	min-height:100px;
-	/*float:left;*/
-	padding:.500rem;
+	float:left;
 }
 
 aside {
-	/*margin-left:730px;*/
-	background: #2f2f2f;
 	min-height:100px;
-	padding:10px;
 	border-radius:5px;
+    width:30%;
+    margin-left:5px;
 }
 
 /* PAGE */
@@ -277,6 +276,7 @@ article {
 	padding:10px;
 	color:#FFF;
 	clear:both;
+    border-radius: 2px;
 }
 article + article {
     margin-top: 10px;
@@ -310,7 +310,7 @@ article .comments {
     clear:right;
 }
 .module + .module {
-    margin-top:15px;
+    margin-top:5px;
 }
 .module-header {
     font-size: 14pt;
@@ -408,7 +408,7 @@ article .comments {
     background-color: #745b99;
     border: 1px solid #493961;
     border-radius: 5px;
-    color:#fff;
+    color: #fff;
 }
 .menu-simple , .menu-simple li, .menu-simple li a{
     background:none;
@@ -468,7 +468,7 @@ article .comments {
     border: 1px solid rgb(51, 51, 51);
 }
 .menu-pills li a:hover {
-    border-color:rgb(145, 145, 145);
+    border-color: #3C3141;
 }
 .menu-clean li a{
     text-align:left;
@@ -508,6 +508,7 @@ article .comments {
     padding:5px 10px;
     margin-bottom:5px;
     color: #FFF;
+    border-radius: 2px;
 }
 .ip .color-purple {
     text-shadow: 1px 1px black;
@@ -735,4 +736,57 @@ button.close {
 }
 .notification + .notification {
     border-top: 1px solid #3F3F3F;
+}
+
+
+
+/* FORMS **/
+select {
+    border: 1px solid rgb(51, 51, 51);
+    color: #fff;
+    -webkit-appearance: initial !important;
+    background:#4d4d4d;
+}
+select:hover {
+    cursor:pointer;
+    border-color: #979797;
+    background:#4d4d4d;
+}
+select:focus {
+    border-color: #979797;
+}
+
+.form > fieldset > div {
+    margin-bottom: 10px;
+}
+.page-content > form > div > div, .page-content > form > fieldset > div > div {
+    margin-bottom:10px;
+}
+button {
+    border-radius: 5px;
+    padding: 10px 15px;
+}
+button:hover {
+    background: #786281;
+    border-color: rgb(84, 60, 88);
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    -o-transition: all .5s ease;
+    -ms-transition: all .5s ease;
+    transition: all .5s ease;
+    color: #fff;
+}
+
+input[type="text"], input[type="password"], textarea {
+    border-radius: 5px;
+    background: none;
+    border: 1px solid #313131;
+    color: #999999;
+    box-shadow: none;
+}
+input[type="text"]:hover, input[type="password"]:hover, input[type="text"]:focus, input[type="password"]:focus, textarea:hover, textarea:focus {
+    box-shadow: none;
+    border-color: rgb(158, 158, 158);
+    color: #FEFEFE;
+    background: 0;
 }

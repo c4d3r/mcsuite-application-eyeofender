@@ -17,10 +17,10 @@
                         <th>Last update</th>
                     </tr>
                     {% for ticket in tickets %}
-                        <tr data-link="{{ ticket.id }}" style="cursor:pointer;">
+                        <tr data-link="{{ path('ticket_view', {'id' : ticket.id, 'name' : ticket.ticket.name}) }}" style="cursor:pointer;">
                             <td>{{ ticket.id }}</td>
-                            <td>{{ ticket.description|truncate(50) }}</td>
-                            <td>{{ ticket.statuschangedon|date('Y-m-d h:i:s') }}</td>
+                            <td>{{ ticket.ticket.name }}</td>
+                            <td>{{ ticket.updatedOn|date('Y-m-d h:i:s') }}</td>
                         </tr>
                     {% else %}
                         <tr>
@@ -31,46 +31,31 @@
             </div>
             <div class="tab-pane" id="tab2">
                 <div id="ticket-status" class="alert" style="display:none;"></div>
-                <form action="{{ path('ticket_create') }}" method="post" id="frmCreateTicket">
+
+                <form action="{{ path('tickets_index_create') }}" method="post" id="frmCreateTicket">
                     <fieldset>
-                        <p>
-                            <label for="section">Section:</label>
+                        <div>
+                            <label for="section">Tell us more about your problem:</label>
                             <select name="_section" id="section">
-                                {% for section in sections %}
-                                    <option value="{{ section.id }}">{{ section.name }}</option>
+                                {% for ticket in ticketForms %}
+                                    <option value="{{ ticket.id }}">{{ ticket.name }}</option>
                                 {% endfor %}
                             </select>
-                        </p>
-                        <p>
-                            <label for="description">Description: </label>
-                            <textarea id="description" name="_description" cols="30" rows="10" style="width:90%;"></textarea>
-                        </p>
-                        <p>
-                            <input type="submit" value="Open a ticket" class="btn btn-info" name="_btnCreateTicket" id="btnCreateTicket"/>
-                        </p>
+                        </div>
+                        <div>
+                            <input type="submit" value="Continue" class="btn btn-info" name="_btnCreateTicket" id="btnCreateTicket"/>
+                        </div>
                     </fieldset>
                 </form>
             </div>
         </div>
     </div>
 {% endblock %}
-{% block scripts %}
-    $('#tblTickets tr').click(function(){
-    if($(this).attr("data-link") != undefined)
-    {
-    window.location.href = '{{ path('ticket_view_pattern') }}' + '/' + $(this).attr("data-link");
-    }
-    })
 
-    $("#frmCreateTicket").submit(function() {
-    //get the url for the form
-    AJAX.post(
-    $("#frmCreateTicket").attr("action"),
-    $('#frmCreateTicket').serialize(),
-    $("#ticket-status"),
-    $("#btnCreateTicket"));
-    //we dont what the browser to submit the form
-    return false;
+{% block scripttags %}
+<script>
+    $('#tblTickets tr').on('click', function(){
+        window.location.href = $(this).attr('data-link');
     });
-
+</script>
 {% endblock %}

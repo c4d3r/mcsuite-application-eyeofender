@@ -1,8 +1,8 @@
 <?php
 /**
  * Author: Maxim
- * Date: 14/12/13
- * Time: 11:39
+ * Date: 13/06/2014
+ * Time: 20:58
  * Property of MCSuite
  */
 
@@ -38,71 +38,12 @@ class TicketAdmin extends Admin
         return $instance;
     }
 
-    // Fields to be shown on create/edit forms
-    protected function configureFormFields(FormMapper $formMapper)
-    {
-        $formMapper
-            ->add('description', 'textarea', array(
-                'label' => 'Description',
-                'attr'  => array(
-                    'class' => 'redactor-init',
-                    'style' => 'width: 683px;'
-                )
-            ))
-            ->add('closed', 'checkbox', array('label' => 'Ticket closed'))
-            ->add('status', 'text')
-            ->add('user', 'sonata_type_model_list', array(
-                    'btn_add'       => 'Add user',      //Specify a custom label
-                    'btn_list'      => 'button.list',     //which will be translated
-                    'btn_delete'    => false,             //or hide the button.
-                ),array(
-                    'placeholder' => 'No user selected'
-                )
-            )
-            ->add('description', 'textarea', array(
-                'label' => 'Description',
-                'attr'  => array(
-                    'class' => 'redactor-init',
-                    'style' => 'width: 683px;'
-                )
-            ))
-            ->add('date', 'datetime')
-            ->add('closed', 'checkbox')
-            ->add('status', 'text')
-            ->add('replies', 'sonata_type_collection', array(
-                // Prevents the "Delete" option from being displayed
-                'type_options' => array('delete' => false),
-                'btn_add'       => 'Add reply',      //Specify a custom label
-            ), array(
-                'edit' => 'inline',
-                'inline' => 'table',
-                'sortable' => 'position',
-            ))
-            /* ->add('section', 'sonata_type_model_list', array(
-                     'btn_add'       => 'Add section',      //Specify a custom label
-                     'btn_list'      => 'button.list',     //which will be translated
-                     'btn_delete'    => false,             //or hide the button.
-                 ),array(
-                     'placeholder' => 'No section selected'
-                 )
-             )
-       /*
-             ->add('website', 'sonata_type_model_list', array(
-                     'btn_add'       => 'Add section',      //Specify a custom label
-                     'btn_list'      => 'button.list',     //which will be translated
-                     'btn_delete'    => false,             //or hide the button.
-                 ),array(
-                     'placeholder' => 'No website selected'
-                 )
-             )     */
-        ;
-    }
-
     protected function configureRoutes(RouteCollection $collection)
     {
         $collection
             ->remove('create')
             ->remove('delete')
+            ->remove('edit')
         ;
     }
 
@@ -112,8 +53,7 @@ class TicketAdmin extends Admin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('description')
-            ->add('user', 'sonata_type_model_list', array(
+           ->add('user', 'sonata_type_model_list', array(
                     'btn_add'       => 'Add user',      //Specify a custom label
                     'btn_list'      => 'button.list',     //which will be translated
                     'btn_delete'    => false,             //or hide the button.
@@ -121,7 +61,7 @@ class TicketAdmin extends Admin
                     'placeholder' => 'No user selected'
                 )
             )
-            ->add('section', 'sonata_type_model_list', array(
+            ->add('ticket', 'sonata_type_model_list', array(
                     'btn_add'       => 'Add section',      //Specify a custom label
                     'btn_list'      => 'button.list',     //which will be translated
                     'btn_delete'    => false,             //or hide the button.
@@ -129,11 +69,9 @@ class TicketAdmin extends Admin
                     'placeholder' => 'No section selected'
                 )
             )
-            ->add('date')
+            ->add('createdOn', 'datetime')
             ->add('closed')
-            ->add('statusChangedOn', 'datetime')
-            ->add('status')
-            ->add('statusChangedBy')
+            ->add('details', 'string', array('template' => 'MaximCMSBundle:Admin:jsonToTable.html.twig'))
             ->add('replies', 'string', array('template' => 'MaximModuleTicketBundle:Admin:showTicketReplies.html.twig'))
         ;
     }
@@ -142,10 +80,8 @@ class TicketAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            //->add('user')
             ->add('closed')
-            ->add('website')
-            ->add('status')
-            ->add('section')
         ;
     }
 
@@ -155,10 +91,9 @@ class TicketAdmin extends Admin
         $listMapper
             ->addIdentifier('id', null, array('route' => array('name' => 'show')))
             ->add('user')
-            ->add('section')
-            ->add('closed', 'boolean', array('editable' => true))
-            ->add('status')
-            ->add('description')
+            ->add('closed', 'boolean')
+            ->add('ticket', 'string')
+            ->add('details', 'string', array('template' => 'MaximCMSBundle:Admin:jsonToValueString.html.twig'))
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'edit' => array(),

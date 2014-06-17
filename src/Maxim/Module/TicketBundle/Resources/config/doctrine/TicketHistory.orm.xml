@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="Maxim\Module\TicketBundle\Entity\TicketHistory" table="ticket_history">
+
+        <id name="id" type="integer" column="id">
+            <generator strategy="IDENTITY"/>
+        </id>
+
+        <field name="createdOn" type="datetime" column="created_on" nullable="true"/>
+        <field name="type" type="string" column="type" length="255" nullable="true"/>
+
+        <many-to-one field="userTicket" target-entity="UserTicket">
+            <join-columns>
+                <join-column name="user_ticket_id" referenced-column-name="id"/>
+            </join-columns>
+        </many-to-one>
+
+        <many-to-one field="user" target-entity="\Maxim\CMSBundle\Entity\User">
+            <join-columns>
+                <join-column name="user_id" referenced-column-name="id"/>
+            </join-columns>
+        </many-to-one>
+    </entity>
+</doctrine-mapping>

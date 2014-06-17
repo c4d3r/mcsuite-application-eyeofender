@@ -186,7 +186,7 @@ services:
             - { name: sonata.admin, manager_type: orm, group: "Ticket", label: "Tickets" }
          arguments:
             - ~
-            - Maxim\Module\TicketBundle\Entity\Ticket
+            - Maxim\Module\TicketBundle\Entity\UserTicket
             - ~
          calls:
             - [ setSecurityContext, [@security.context]]
@@ -201,10 +201,22 @@ services:
          arguments:
             - ~
             - Maxim\Module\TicketBundle\Entity\TicketReply
-            - ~
+            - "MaximModuleTicketBundle:AdminReply"
          calls:
             - [ setSecurityContext, [@security.context]]
             - [ setEntityManager, [@doctrine.orm.entity_manager]]
             - [ setTemplate, [inner_list_row, MaximModuleTicketBundle:Admin:inner_row_ticketreply.html.twig]]
             - [ setTemplate, [base_list_field, SonataAdminBundle:CRUD:base_list_flat_field.html.twig]]
             - [ setTemplate, [edit, MaximCMSBundle:AdminSonata:edit.html.twig]]
+
+    sonata.admin.module.ticketForm:
+         class: Maxim\Module\TicketBundle\Admin\TicketFormAdmin
+         tags:
+            - { name: sonata.admin, manager_type: orm, group: "Ticket", label: "Ticket forms" }
+         arguments:
+            - ~
+            - Maxim\Module\TicketBundle\Entity\Ticket
+            - "MaximModuleTicketBundle:Admin"
+         calls:
+            - [ setSecurityContext, [@security.context]]
+            - [ setTemplate, [edit, MaximModuleTicketBundle:Admin:createApplication.html.twig]]

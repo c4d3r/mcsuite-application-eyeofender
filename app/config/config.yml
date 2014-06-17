@@ -24,6 +24,7 @@ services:
 framework:
     #esi:             ~
     #translator:      { fallback: %locale% }
+    esi: {enabled: true}
     translator: ~
     secret:          %secret%
     router:
@@ -50,13 +51,6 @@ framework:
         #   - http://cdn.localhost.com
         #   - http://cdn1.localhost.com
         #   - http://cdn2.localhost.com
-        packages:
-           css:
-               version: 0.23a
-               version_format: "%%s?v=%%s"
-           jsApp:
-               version: 0.23a
-               version_format: "%%s?v=%%s"
 
 # Twig Configuration
 twig:
@@ -128,7 +122,7 @@ doctrine:
                     payum:
                         is_bundle: false
                         type: xml
-                        dir: %kernel.root_dir%/../vendor/payum/payum/src/Payum/Core/Bridge/Doctrine/Resources/mapping
+                        dir: %kernel.root_dir%/../vendor/payum/core/Payum/Core/Bridge/Doctrine/Resources/mapping
                         prefix: Payum\Core\Model
                         
 # Swiftmailer Configuration
@@ -167,29 +161,25 @@ payum:
     contexts:
         paypal_express_checkout_plus_doctrine:
             paypal_express_checkout_nvp:
-                api:
-                    #options:
-                    #    username:  %paypal.express_checkout.username%
-                    #    password:  %paypal.express_checkout.password%
-                    #    signature: %paypal.express_checkout.signature%
-                    #    sandbox: %paypal.express_checkout.sandbox%
-                    #options:
-                    #    username:  'c4d3r-facilitator_api1.hotmail.com'
-                    #    password:  '1370531911'
-                    #   signature: 'A5dlNjuK3lFO0sbl9JbP7PGWYlfNAG0QiZDCPrw5l4Cl1iAJ4juv4IkT'
-                    #    sandbox: true
-                    options:
-                        username: 'purchases_api1.eyeofender.com'
-                        password: 'XFN7RBRFZ8Y9R5L4'
-                        signature: 'AwxVz5m1pD5T3wcCseXSpNVzLX8RAKrJrfO4ijXLiT9aVe0MMRpjeg8j'
-                        sandbox: false
+                #options:
+                #    username:  %paypal.express_checkout.username%
+                #    password:  %paypal.express_checkout.password%
+                #    signature: %paypal.express_checkout.signature%
+                #    sandbox: %paypal.express_checkout.sandbox%
+                #options:
+                #    username:  'c4d3r-facilitator_api1.hotmail.com'
+                #    password:  '1370531911'
+                #   signature: 'A5dlNjuK3lFO0sbl9JbP7PGWYlfNAG0QiZDCPrw5l4Cl1iAJ4juv4IkT'
+                #    sandbox: true
+                username: 'purchases_api1.eyeofender.com'
+                password: 'XFN7RBRFZ8Y9R5L4'
+                signature: 'AwxVz5m1pD5T3wcCseXSpNVzLX8RAKrJrfO4ijXLiT9aVe0MMRpjeg8j'
+                sandbox: false
                 actions:
                     - maxim_cms.action.store_notification
-            storages:
-                Maxim\CMSBundle\Entity\PaymentDetails:
-                    doctrine:
-                        driver: orm
-                        payment_extension: true
+    storages:
+        Maxim\CMSBundle\Entity\PaymentDetails:
+            doctrine: orm
     security:
         token_storage:
             Maxim\CMSBundle\Entity\PayumSecurityToken:

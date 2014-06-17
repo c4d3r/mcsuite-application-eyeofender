@@ -3,22 +3,27 @@
 {% block body %}
     <div id="profile">
         <div id="profile-header" class="clearfix">
-            <img src="https://minotar.net/helm/{{ player.username }}/115.png" id="profile-image" class="left"/>
-            <div class="profile-header-text">
-                <h2>{{ player.username }}</h2>
-                <span class="profile-group {{ player.group.cssClass }}">{{ player.group }}</span>
-                {% if app.user and not (player.id == app.user.id) %}
-                    <div id="profile-actions" class="right">
-                        <ul>
-                            {% if player|isFriend(app.user) %}
-                                <li><button id="button_friend_delete" class="btn btn-xs profile-button" value="{{ player.id }}">Delete friend</button></li>
-                            {% elseif not hasFriendRequest(player) %}
-                                <li><button id="button_friend_request" class="btn btn-xs profile-button">Send friend request</button></li>
-                            {% endif %}
-                        </ul>
+
+                <img src="https://minotar.net/helm/{{ player.username }}/115.png" id="profile-image" class="left"/>
+
+                <div class="profile-header-text" class="clearfix">
+                    <div class="left">
+                        <h2>{{ player.username }}</h2>
+                        <span class="profile-group {{ player.group.cssClass }}">{{ player.group }}</span>
                     </div>
-                {% endif %}
-            </div>
+
+                    {% if app.user and not (player.id == app.user.id) %}
+                        <div id="profile-actions" class="right">
+                            <ul>
+                                {% if player|isFriend(app.user) %}
+                                    <li><button id="button_friend_delete" class="btn btn-xs profile-button" value="{{ player.id }}">Delete friend</button></li>
+                                {% elseif not hasFriendRequest(player) %}
+                                    <li><button id="button_friend_request" class="btn btn-xs profile-button">Send friend request</button></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                </div>
         </div>
         <div id="profile-content" class="row">
             <aside id="profile-sidebar" class="large-3 columns">

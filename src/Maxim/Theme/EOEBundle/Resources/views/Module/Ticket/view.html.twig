@@ -1,0 +1,152 @@
+{% extends 'MaximCMSBundle:Default:index.html.twig' %}
+{% block head %}
+    <link href="{{ asset('/bundles/maximmoduleticket/css/style.css') }}" rel="stylesheet" type="text/css" >
+{% endblock %}
+{% block body %}
+<div class="page">
+    <h3 class="page-header">Ticket</h3>
+    <div class="alert" id="status-ticket-reply" style="display:none"></div>
+    <table class="table" id="tblTicketSingle">
+        <tr>
+            <th>ID:</th>
+            <td><span class="ticket-id-{{ ticket.closed }}">#{{ ticket.id }}</span></td>
+        </tr>
+        <tr>
+            <th>Status:</th>
+            <td><span class="ticket-status {{ ticket.closed ? "ticket-status-closed" : "ticket-status-open" }}">{{ ticket.closed ? "Closed" : "Open" }}</span></td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>
+                {% for key, detail in ticket.details %}
+
+                    <h5>{{ key }}</h5>
+                    <p>{{ detail }}</p>
+
+                {% endfor %}
+            </td>
+        </tr>
+    </table>
+    <hr/>
+    <h3>Replies</h3>
+
+    {# filled with ajax call #}
+    <div class="ticket-replies" id="ticket-replies"></div>
+
+    <hr/>
+    <form action="{{ path('ticket_view', {'id' : ticket.id, 'name' : ticket.ticket.name}) }}" class="form" method="post" id="frmReplyTicket" name="ReplyType" {{ form_enctype(replyform) }}>
+        <fieldset>
+            {{ form_widget(replyform) }}
+            <p>
+                <button type="submit" class="btn btn-info">Add reply</button>
+            </p>
+        </fieldset>
+    </form>
+
+    {% if ticket.closed == 0 %}
+        <form action="{{ path('ticket_close') }}" method="post" id="frmTicketClose">
+            <button id="btnClose" type="submit" name="_ticketid" class="btn" value="{{ ticket.id }}" >Close ticket</button>
+        </form>
+    {% else %}
+        <form action="{{ path('ticket_open') }}" method="post" id="frmTicketClose">
+            <button id="btnOpen"  type="submit" name="_ticketid" class="btn" value="{{ ticket.id }}" >Reopen ticket</button>
+        </form>
+    {% endif %}
+    </div>
+{% endblock %}
+{% block scripttags %}
+    <script>
+        function postForm( $form, callback ){
+
+            /*
+             * Get all form values
+             */
+            var values = {};
+            $.each( $form.serializeArray(), function(i, field) {
+                values[field.name] = field.value;
+                field.value = "";
+            });
+
+            /*
+             * Throw the form values to the server!
+             */
+            $.ajax({
+                type        : $form.attr( 'method' ),
+                url         : $form.attr( 'action' ),
+                data        : values,
+                success     : function(data) {
+                    callback( data );
+                }
+            });
+        }
+
+        function fetchContent($element, $url, $append) {
+            $.ajax({
+                type        : 'GET',
+                url         : $url,
+                success     : function(data) {
+
+                    console.log(data);
+
+                    if($append == true) {
+                        $element.append(data);
+                    } else {
+                        $element.html(data);
+                    }
+                }
+            });
+        }
+
+        function prepareNewSubmit(element, seconds) {
+
+            var submit = element.find(":submit");
+            var _text = submit.clone().text();
+            var currSecs = seconds + 1;
+
+            var timer = setInterval(function() {
+                currSecs--;
+                if(currSecs < 0) {
+                    clearInterval(timer);
+                    submit.removeAttr("disabled");
+                    submit.text(_text);
+                } else {
+                    submit.text("You can submit a new reply in " + currSecs + " seconds");
+                }
+            }, 1000);
+        }
+
+        $(document).ready(function(){
+
+            var isSubmit = false;
+
+            //get forms and let them use ajax
+            var forms = [
+                '[ name="{{ replyform.vars.full_name }}"]'
+            ];
+
+            $( forms.join(',') ).submit( function( e ){
+                e.preventDefault();
+
+                if(!isSubmit) {
+                    isSubmit = true;
+
+                    $(this).find(':submit').attr("disabled", "disabled");
+
+                    postForm( $(this), function( response ) {
+
+                        //refetch ticket replies
+                        fetchContent($('#ticket-replies'), "{{ path('ticket_ajax_replies', {'id' : ticket.id}) }}", false);
+                    });
+
+                    prepareNewSubmit($(this), 5);
+                }
+
+                return false;
+            });
+
+            //fetch replies
+            fetchContent($('#ticket-replies'), "{{ path('ticket_ajax_replies', {'id' : ticket.id}) }}", false);
+        });
+
+    </script>
+{% endblock %}

@@ -1,0 +1,4 @@
+{% for key, v in value %}
+    {{ v|purify }}{% if loop.index != value|length %},{% endif %}
+{% endfor %}
+

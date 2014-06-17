@@ -1,0 +1,16 @@
+{% for key, reply in replies %}
+    <div class="ticket-reply clearfix">
+        <div class="ticket-reply-profile">
+            <img src="https://minotar.net/helm/{{ reply.user.username }}/40.png" alt="{{ reply.user.username }}" rel="tooltip" data-original-title="{{ reply.user.username }}"/>
+            <h3>{{ reply.user.username }}</h3>
+        </div>
+        <div class="ticket-reply-content">
+            <p>{{ reply.text|raw }}</p>
+            <p class="ticket-postedon">{{ reply.createdOn|date('Y-m-d h:i:s') }}</p>
+        </div>
+    </div>
+{% else %}
+    <tr>
+        <td colspan="2">No replies found</td>
+    </tr>
+{% endfor %}

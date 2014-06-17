@@ -1,51 +1,91 @@
 <?php
+/**
+ * Author: Maxim
+ * Date: 12/06/2014
+ * Time: 20:41
+ * Property of MCSuite
+ */
 
 namespace Maxim\Module\TicketBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-/**
- * Ticket
- *
- * @ORM\Table(name="ticket")
- * @ORM\Entity
- */
+
 class Ticket
 {
+    const FIELD_NAME = "NAME";
+    const FIELD_TYPE = "TYPE";
 
     protected $id;
 
-    protected $description;
+    protected $name;
 
-    protected $date;
+    protected $enabled;
 
-    protected $closed = 0;
-
-    protected $statuschangedon;
-
-    protected $status;
-
-    protected $sectionchangedby;
-
-    protected $section;
-
-    protected $user;
+    protected $fields;
 
     protected $website;
 
-    protected $replies;
+    protected $createdOn;
 
-    public function __construct($id)
+    protected $updatedOn;
+
+    function __construct()
     {
-        $this->setId($id);
-        $this->setDate(new \DateTime("now"));
-        $this->setStatuschangedon(new \DateTIme("now"));
-        $this->replies = new ArrayCollection();
+        $this->createdOn = new \DateTime("now");
     }
+
+
     /**
-     * Get id
-     *
-     * @return integer 
+     * @return mixed
+     */
+    public function getCreatedOn()
+    {
+        return $this->createdOn;
+    }
+
+    /**
+     * @param mixed $createdOn
+     */
+    public function setCreatedOn($createdOn)
+    {
+        $this->createdOn = $createdOn;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * @param mixed $enabled
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFields()
+    {
+        return $this->fields;
+    }
+
+    /**
+     * @param mixed $fields
+     */
+    public function setFields($fields)
+    {
+        $this->fields = $fields;
+    }
+
+    /**
+     * @return mixed
      */
     public function getId()
     {
@@ -53,229 +93,63 @@ class Ticket
     }
 
     /**
-     * set id
-     *
-     * @param integer $id
-     * @return Ticket
+     * @param mixed $id
      */
     public function setId($id)
     {
         $this->id = $id;
-
-        return $this;
     }
 
     /**
-     * Set description
-     *
-     * @param string $description
-     * @return Ticket
+     * @return mixed
      */
-    public function setDescription($description)
+    public function getName()
     {
-        $this->description = $description;
-    
-        return $this;
+        return $this->name;
     }
 
     /**
-     * Get description
-     *
-     * @return string 
+     * @param mixed $name
      */
-    public function getDescription()
+    public function setName($name)
     {
-        return $this->description;
+        $this->name = $name;
     }
 
     /**
-     * Set date
-     *
-     * @param \DateTime $date
-     * @return Ticket
+     * @return mixed
      */
-    public function setDate($date)
+    public function getUpdatedOn()
     {
-        $this->date = $date;
-    
-        return $this;
+        return $this->updatedOn;
     }
 
     /**
-     * Get date
-     *
-     * @return \DateTime 
+     * @param mixed $updatedOn
      */
-    public function getDate()
+    public function setUpdatedOn($updatedOn)
     {
-        return $this->date;
+        $this->updatedOn = $updatedOn;
     }
 
     /**
-     * Set closed
-     *
-     * @param boolean $closed
-     * @return Ticket
-     */
-    public function setClosed($closed)
-    {
-        $this->closed = $closed;
-    
-        return $this;
-    }
-
-    /**
-     * Get closed
-     *
-     * @return boolean 
-     */
-    public function getClosed()
-    {
-        return $this->closed;
-    }
-
-    /**
-     * Set statuschangedon
-     *
-     * @param \DateTime $statuschangedon
-     * @return Ticket
-     */
-    public function setStatuschangedon($statuschangedon)
-    {
-        $this->statuschangedon = $statuschangedon;
-    
-        return $this;
-    }
-
-    /**
-     * Get statuschangedon
-     *
-     * @return \DateTime 
-     */
-    public function getStatuschangedon()
-    {
-        return $this->statuschangedon;
-    }
-
-    /**
-     * Set status
-     *
-     * @param boolean $status
-     * @return Ticket
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-    
-        return $this;
-    }
-
-    /**
-     * Get status
-     *
-     * @return boolean 
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    /**
-     * Set sectionchangedby
-     *
-     * @param \Maxim\CMSBundle\Entity\User $sectionchangedby
-     * @return Ticket
-     */
-    public function setSectionchangedby(\Maxim\CMSBundle\Entity\User $sectionchangedby = null)
-    {
-        $this->sectionchangedby = $sectionchangedby;
-    
-        return $this;
-    }
-
-    /**
-     * Get sectionchangedby
-     *
-     * @return \Maxim\CMSBundle\Entity\User 
-     */
-    public function getSectionchangedby()
-    {
-        return $this->sectionchangedby;
-    }
-
-    /**
-     * Set section
-     *
-     * @param TicketSection $section
-     * @return Ticket
-     */
-    public function setSection(TicketSection $section = null)
-    {
-        $this->section = $section;
-    
-        return $this;
-    }
-
-    /**
-     * Get section
-     *
-     * @return \Maxim\CMSBundle\Entity\TicketSection 
-     */
-    public function getSection()
-    {
-        return $this->section;
-    }
-
-    /**
-     * @param \Maxim\Module\TicketBundle\Entity\Website $website
-     */
-    public function setWebsite($website)
-    {
-        $this->website = $website;
-    }
-
-    /**
-     * @return \Maxim\Module\TicketBundle\Entity\Website
+     * @return mixed
      */
     public function getWebsite()
     {
         return $this->website;
     }
 
+    /**
+     * @param mixed $website
+     */
+    public function setWebsite($website)
+    {
+        $this->website = $website;
+    }
+
     function __toString()
     {
-        return $this->id;
+        return $this->name;
     }
-
-    /**
-     * @param \Maxim\Module\TicketBundle\Entity\TicketReply $replies
-     */
-    public function setReplies($replies)
-    {
-        $this->replies = $replies;
-    }
-
-    /**
-     * @return \Maxim\Module\TicketBundle\Entity\TicketReply
-     */
-    public function getReplies()
-    {
-        return $this->replies;
-    }
-
-    /**
-     * @param \Maxim\CMSBundle\Entity\User $user
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
-    }
-
-    /**
-     * @return \Maxim\CMSBundle\Entity\User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-}
+} 

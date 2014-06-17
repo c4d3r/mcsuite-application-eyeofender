@@ -8,9 +8,61 @@
     text-shadow: 1px 1px rgb(46, 46, 46) !important;
     font-weight: bold !important;
 }
+
+.tabbable .tab-content {
+    margin-top:10px !important;
+}
+
+.ticket-reply > .ticket-reply-profile {
+    float:left;
+    padding:10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    text-align: center;
+    word-wrap: break-word;
+
+    margin-right:10px;
+}
+
+.ticket-reply-content {
+    padding:10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    min-height: 108px;
+    position:relative;
+
+    word-break:normal;
+    text-align: justify;
+}
+
+.ticket-postedon {
+    position: absolute;
+    bottom: -5px;
+    right: 15px;
+}
+
 .ticket-reply {
-    margin-bottom: 10px !important;
-    background-color: #2E2E2E !important;
-    border: 1px solid #252525 !important;
-    padding: 5px !important;
+    background:#444;
+    padding:0;
+}
+.ticket-reply + .ticket-reply {
+    margin-top:10px;
+}
+
+.ticket-reply-profile {
+    background: #414141;
+    width: 125px;
+}
+
+.ticket-status {
+    font-weight: bold;
+    text-shadow: 1px 1px rgb(65, 65, 65);
+}
+.ticket-status-closed {
+    color: rgb(218, 92, 92);
+}
+.ticket-status-open {
+    color: rgb(126, 218, 83);
 }

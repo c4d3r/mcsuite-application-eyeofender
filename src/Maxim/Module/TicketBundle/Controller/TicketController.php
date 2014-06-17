@@ -1,229 +1,211 @@
 <?php
 /**
- * Project: MCSuite
- * File: TicketController.php
- * User: Maxim
- * Date: 03/04/13
- * Time: 13:23
+ * Author: Maxim
+ * Date: 12/06/2014
+ * Time: 20:32
+ * Property of MCSuite
  */
+
 namespace Maxim\Module\TicketBundle\Controller;
 
 use Maxim\CMSBundle\Controller\ModuleController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Maxim\Module\TicketBundle\Entity\Ticket;
+use Maxim\Module\TicketBundle\Entity\TicketHistory;
 use Maxim\Module\TicketBundle\Entity\TicketReply;
-use Maxim\Module\TicketBundle\Entity\TicketSection;
+use Maxim\Module\TicketBundle\Entity\UserTicket;
+use Maxim\Module\TicketBundle\Form\Type\ReplyType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class TicketController extends ModuleController
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->bundle = "MaximModuleTicketBundle";
-    }
+
     public function indexAction()
     {
-        $doctrine = $this->getDoctrine()->getManager();
-        $data['tickets']  = $doctrine->getRepository('MaximModuleTicketBundle:Ticket')->findBy(array("user" => $this->getUser()));
-        $data['sections'] = $doctrine->getRepository('MaximModuleTicketBundle:TicketSection')->findAll();
+        $em = $this->getDoctrine();
 
+        $data['tickets'] = $em->getRepository('MaximModuleTicketBundle:UserTicket')->findBy(array("user" => $this->getUser()));
+        $data['ticketForms'] = $em->getRepository('MaximModuleTicketBundle:Ticket')->findBy(array("enabled" => true));
         return $this->render('Module:Ticket/tickets.html.twig', $data);
     }
 
-    public function createAction()
+    public function indexCreateAction()
     {
         $request = Request::createFromGlobals();
-        $logger = $this->get('logger');
 
-        if($request->isXmlHttpRequest())
+        $ticketid = $request->request->get("_section");
+        $ticket = $this->getDoctrine()->getRepository('MaximModuleTicketBundle:Ticket')->findOneBy(array("id" => $ticketid));
+
+        $data['id'] = $ticketid;
+        $data['name'] = $ticket->getName();
+
+        return $this->redirect($this->generateUrl("tickets_create_view", $data));
+    }
+
+    public function viewCreateAction($id, $name)
+    {
+        #init vars
+        $em = $this->getDoctrine()->getManager();
+        $request = Request::createFromGlobals();
+
+        #action
+        $ticket = $em->getRepository('MaximModuleTicketBundle:Ticket')->findOneBy(array("id" => $id));
+        if(!$ticket)
+            throw $this->createNotFoundException("We could not find the requested ticket form");
+
+        $formBuilder = $this->createFormBuilder();
+
+        $fields = $ticket->getFields();
+        foreach($fields as $key => $field)
         {
-            try
-            {
-                $bbcode = $this->get('bbcode.helper');
+            $formBuilder->add($key, ($field[Ticket::FIELD_TYPE] == "textfield" ? "text" : "textarea"), array('label' => $field[Ticket::FIELD_NAME]));
+        }
 
+        # regular actions
+        $formBuilder->add('Open ticket', 'submit');
+        $form = $formBuilder->getForm();
+
+        # handle action
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+
+            $data = $form->getData();
+
+            # build details
+            $details = array();
+            foreach($data as $key => $detail)
+            {
+                $details[$fields[$key][Ticket::FIELD_NAME]] = $detail;
+            }
+
+            $ut = new UserTicket($this->getUser(), $details, $ticket);
+            $em->persist($ut);
+
+            $th = new TicketHistory($ut, TicketHistory::TYPE_NEW, $this->getUser());
+            $em->persist($th);
+
+            $em->flush();
+
+            $this->get('session')->getFlashBag()->set('notice', 'Your Ticket has been created and was submitted to our staff team');
+
+            return $this->redirect($this->generateUrl("ticket_view", array('id' => $ut->getId(), "name" => $ticket->getName())));
+        }
+
+        return $this->render("Module:Ticket/create.html.twig", array(
+            'form' => $form->createView(),
+        ));
+    }
+
+    public function viewAction($id, $name)
+    {
+        $replyForm = $this->createForm(new ReplyType());
+
+        $request = Request::createFromGlobals();
+
+        if ( $request->isMethod( 'POST' ) ) {
+
+            $replyForm->bind( $request );
+
+            if ( $replyForm->isValid( ) ) {
+
+                /*
+                 * $data['title']
+                 * $data['body']
+                 */
+                $data = $replyForm->getData();
+
+                //create ticket reply
                 $em = $this->getDoctrine()->getManager();
 
-                $description = $request->request->get('_description');
-                $section     = $request->request->get('_section');
+                $ticket = $em->getRepository('MaximModuleTicketBundle:UserTicket')->findOneBy(array("id" => $id));
+                if(!$ticket) {
+                    $response['success'] = false;
+                    throw $this->createNotFoundException("Could not find ticket with id: " . $id);
+                } else {
+                    $tr = new TicketReply($ticket, $data['text'], $this->getUser());
+                    $th = new TicketHistory($ticket, TicketHistory::TYPE_REPLY, $this->getUser());
+                    $em->persist($tr);
+                    $em->persist($th);
+                    $em->flush();
+                }
 
-                $section = $em->getRepository('MaximModuleTicketBundle:TicketSection')->findOneBy(array("id" => $section));
-                $user = $this->getUser();
+                $response['success'] = true;
 
-                $ticket = new Ticket(time() . $user->getId());
+            }else{
 
-                $ticket->setDescription($bbcode->parse($description));
-                $ticket->setSection($section);
-                $ticket->setUser($this->getUser());
-                $ticket->setStatus("Waiting for response from a moderator");
-                $ticket->setWebsite($em->getRepository("MaximCMSBundle:Website")->findOneBy(array("id" => $this->container->getParameter("website"))));
-
-                $em->persist($ticket);
-                $em->flush();
-
-                $output = array("success" => true, "message" => "Your ticket has been created succesfuly");
+                $response['success'] = false;
+                $response['cause'] = 'whatever';
 
             }
-            catch(\Exception $ex)
-            {
-                $logger->err("MODULE TICKET: " . $ex->getMessage());
-                $output = array("success" => false, "message" => "An error has occured while creating this ticket, please try again later");
-            }
-            return new Response(json_encode($output));
+
+            return new JsonResponse( $response );
         }
+
+        $data['ticket'] = $this->getDoctrine()->getRepository('MaximModuleTicketBundle:UserTicket')->findOneBy(array("id" => $id, "user" => $this->getUser()));
+        $data['replyform'] = $replyForm->createView();
+
+        return $this->render("Module:Ticket/view.html.twig", $data);
     }
 
-    public function viewTicketAction($id)
+    public function fetchRepliesAction($id)
     {
-        $logger = $this->get('logger');
-        $data['ticket'] = $this->getDoctrine()->getManager()->getRepository('MaximModuleTicketBundle:Ticket')->findOneBy(array("id" => $id));
-        if(count($data['ticket']) == 0)
-        {
-            //Not found
-            return $this->render("Module:Ticket/notFound.html.twig");
-        }
-        $data['replies'] = $this->getDoctrine()->getManager()->getRepository('MaximModuleTicketBundle:TicketReply')->findBy(array("ticket" => $data['ticket']));
-
-        if($this->isTicketOwner($data['ticket'], $this->getUser()))
-        {
-            return $this->render("Module:Ticket/view.html.twig", $data);
-        }
-        else
-        {
-            return $this->render("Module:Ticket/notOwner.html.twig");
-        }
-    }
-    public function closeAction()
-    {
-        $request = Request::createFromGlobals();
-        if($request->isXmlHttpRequest())
-        {
-            $em         = $this->getDoctrine()->getManager();
-            $ticketid   = $request->request->get('_ticket');
-            $ticket     = $em->getRepository('MaximModuleTicketBundle:Ticket')->findOneBy(array("id" => $ticketid));
-
-            if($this->hasPermission())
-            {
-                $ticket->setClosed(1);
-                $ticket->setStatus("The ticket has been closed");
-                $em->flush();
-                $output = array("success" => true, "message" => "The ticket has been closed by a moderator");
-            }
-            else if($this->isTicketOwner($ticket, $this->getUser()))
-            {
-                $ticket->setClosed(1);
-                $ticket->setStatus("The ticket has been closed");
-                $em->flush();
-                $output = array("success" => true, "message" => "The ticket has been closed");
-            }
-            else
-            {
-                $output = array("success" => false, "message" => "this is not your ticket");
-            }
-        }
-        else
-        {
-            $output = array("success" => false, "message" => "Is not a post request");
-        }
-        return new Response(json_encode($output));
-
-    }
-    public function openAction()
-    {
-        $request = Request::createFromGlobals();
-        if($request->isXmlHttpRequest())
-        {
-            $em         = $this->getDoctrine()->getManager();
-            $ticketid   = $request->request->get('_ticket');
-            $ticket     = $em->getRepository('MaximModuleTicketBundle:Ticket')->findOneBy(array("id" => $ticketid));
-            if($this->isTicketOwner($ticket, $this->getUser()) || $this->hasPermission())
-            {
-                $ticket->setClosed(0);
-                $ticket->setStatus("The ticket has been reopened");
-                $em->flush();
-                $output = array("success" => true, "message" => "The ticket has been reopened");
-            }
-            else
-            {
-                $output = array("success" => false, "message" => "this is not your ticket");
-            }
-        }
-        else
-        {
-            $output = array("success" => false, "message" => "Is not a post request");
-        }
-        return new Response(json_encode($output));
-
-    }
-    public function replyAction()
-    {
-        $request = Request::createFromGlobals();
+        $em = $this->getDoctrine();
         $logger = $this->get('logger');
 
-        if($request->isXmlHttpRequest())
-        {
-            try
-            {
-                $bbcode = $this->get('bbcode.helper');
-                $em = $this->getDoctrine()->getManager();
+        /**
+         * @var UserTicket $ticket
+         */
+        $ticket = $em->getRepository('MaximModuleTicketBundle:UserTicket')->findOneBy(array("id" => $id));
 
-                $text       = $request->request->get('_reply');
-                $user       = $this->get('security.context')->getToken()->getUser();
-                $ticketid   = $request->request->get('_ticket');
-                $ticket     = $em->getRepository('MaximModuleTicketBundle:Ticket')->findOneBy(array("id" => $ticketid));
-
-                if($user)
-                {
-                    if($this->hasPermission())
-                    {
-                        $reply = new TicketReply();
-                        $reply->setText($bbcode->parse($text));
-                        $reply->setUser($user);
-                        $reply->setTicket($ticket);
-                        $ticket->setStatus("Waiting from a response from the ticket owner");
-                        $em->persist($reply);
-                        $em->flush();
-
-                        $output = array("success" => true, "message" => "Your reply has been added");
-                    }
-                    else if($this->isTicketOwner($ticket, $user))
-                    {
-                        $reply = new TicketReply();
-                        $reply->setText($bbcode->parse($text));
-                        $reply->setUser($user);
-                        $reply->setTicket($ticket);
-                        $ticket->setStatus("Waiting from a response from a moderator");
-                        $em->persist($reply);
-                        $em->flush();
-
-                        $output = array("success" => true, "message" => "Your reply has been added");
-                    }
-                    else
-                    {
-                        $output = array("success" => false, "message" => "This is not your ticket");
-                    }
-                }
-                else
-                {
-                    $output = array("success" => false, "message" => "We were unable to find the user account");
-                }
-            }
-            catch(\Exception $ex)
-            {
-                $logger->err("MODULE TICKET: " . $ex->getMessage());
-                $output = array("success" => false, "message" => "An error has occured while adding your reply, please try again later");
-            }
-            return new Response(json_encode($output));
+        if(!$ticket) {
+            $logger->err("could not find blabla");
+            throw $this->createNotFoundException("Could not find ticket with id:" . $id);
         }
+
+
+        $logger->err($id);
+        if($this->getUser() == null || $ticket->getUser() != $this->getUser()) {
+            throw new AccessDeniedException("You are not allowed to access the ticket with id: " . $id);
+        }
+
+        $data['replies'] = $ticket->getReplies();
+
+        return $this->render('Module:Ticket/Ajax/replies.html.twig', $data);
     }
-    public function isTicketOwner($ticket, $user)
+
+    public function closeAction(Request $request)
     {
-        return ($ticket->getUser()->getId() == $user->getId());
+        $em = $this->getDoctrine()->getManager();
+        $id = $request->request->get('_ticketid');
+
+        $ticket = $em->getRepository('MaximModuleTicketBundle:UserTicket')->findOneBy(array("id" => $id, "user" => $this->getUser()));
+
+        $ticket->setClosed(true);
+        $th = new TicketHistory($ticket, TicketHistory::TYPE_CLOSED, $this->getUser());
+        $em->persist($th);
+
+        $em->flush();
+
+        return $this->redirect($this->generateUrl("ticket_view", array("id" => $ticket->getId(), "name" => $ticket->getTicket()->getName())));
     }
-    public function hasPermission()
+
+    public function openAction(Request $request)
     {
-        $security = $this->get('security.context');
-        return ($security->isGranted('ROLE_STAFF') || $security->isGranted('ROLE_ADMIN'));
+        $em = $this->getDoctrine()->getManager();
+        $id = $request->request->get('_ticketid');
+
+        $ticket = $em->getRepository('MaximModuleTicketBundle:UserTicket')->findOneBy(array("id" => $id, "user" => $this->getUser()));
+
+        $ticket->setClosed(false);
+
+        $th = new TicketHistory($ticket, TicketHistory::TYPE_OPENED, $this->getUser());
+        $em->persist($th);
+
+        $em->flush();
+
+        return $this->redirect($this->generateUrl("ticket_view", array("id" => $ticket->getId(), "name" => $ticket->getTicket()->getName())));
     }
-}
+} 

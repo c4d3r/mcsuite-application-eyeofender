@@ -1,0 +1,6 @@
+{% for key, v in value %}
+    <div>
+        <h5>{{ key }}</h5>
+        <p>{{ v|purify }}</p>
+    </div>
+{% endfor %}
