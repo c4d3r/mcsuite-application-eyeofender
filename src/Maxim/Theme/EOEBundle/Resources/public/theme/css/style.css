@@ -34,6 +34,7 @@ body {
 
 .dropdown > li {
     box-sizing: border-box;
+    z-index:9999;
 }
 .dropdown > li > a {
     display: block;
@@ -42,6 +43,7 @@ body {
     padding: 7px 10px;
     box-sizing: border-box;
     color:#fff;
+    z-index:9999;
 }
 .dropdown > li > a:hover {
     background:#464646;
@@ -93,9 +95,6 @@ h1, h2, h3, h4, h5, h6 {
     background: url('../images/logo-eoe.png') no-repeat !important;
     width:258px;
     height:97px;
-    position: relative;
-    top: -14px;
-    left: -16px;
     z-index: 800;
     transition:         background-position 0.3s ease-in-out;
     -moz-transition:    background-position 0.3s ease-in-out;
