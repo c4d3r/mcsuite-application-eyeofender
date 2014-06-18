@@ -1,13 +1,13 @@
 {% extends 'MaximCMSBundle:Default:index.html.twig' %}
 
-{% block title %}404 - not found{% endblock title %}
+{% block title %}403 - Access forbidden{% endblock title %}
 
 {% block wrapper %}
     <div class="page">
-        <h3 class="page-header">404 - Page not found</h3>
+        <h3 class="page-header">503 - Access forbidden</h3>
 
         <div class="page-content" style="padding:5px;">
-            <p>We could not find the requested page</p>
+            <p>You are not allowed to view this page.</p>
 
             <ul class="menu menu-pills clearfix" style="margin-top:15px;">
                 <li><a href="{{ path('home') }}">Go back to the homepage</a></li>
@@ -15,5 +15,6 @@
         </div>
     </div>
 {% endblock %}
+
 
 

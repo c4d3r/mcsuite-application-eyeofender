@@ -15,7 +15,7 @@
 
         <div class="page-content">
             {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
-                <form class="form-horizontal" action="{{ path("fos_user_security_check") }}" method="post">
+                <form class="form" action="{{ path("fos_user_security_check") }}" method="post">
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
 
                     <div class="form-group">
@@ -32,7 +32,7 @@
                                 </label>
                             </div>
                             <div class="btn-group">
-                                <button type="submit" value="{{ 'security.login.submit'|trans }}" id="_submit" name="_submit" class="btn btn-default left">{{ 'security.login.submit'|trans }}</button>
+                                <button type="submit" value="{{ 'security.login.submit'|trans }}" id="_submit" name="_submit" class="btn left">{{ 'security.login.submit'|trans }}</button>
                                 <div style="margin-left:75px;">
                                     <a href="{{ path('register') }}" >Register</a><br/>
                                     <a href="{{ path('fos_user_resetting_request') }}" style="position: relative;top: 6px;">Forgot password</a>

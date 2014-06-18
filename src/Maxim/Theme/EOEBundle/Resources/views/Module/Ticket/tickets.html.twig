@@ -10,7 +10,7 @@
                 <li><a href="#tab2" data-toggle="tab">Make a ticket</a></li>
             </ul>
             <div class="tab-content" style="margin-top:10px;">
-                <div class="tab-pane active" id="tab1">
+                <div class="tab-pane animated fadeInRight active" id="tab1">
                     <table class="table table-hover" id="tblTickets">
                         <tr>
                             <th>Number</th>
@@ -30,7 +30,7 @@
                         {% endfor %}
                     </table>
                 </div>
-                <div class="tab-pane" id="tab2">
+                <div class="tab-pane animated fadeInRight" id="tab2">
                     <div id="ticket-status" class="alert" style="display:none;"></div>
 
                     <form action="{{ path('tickets_index_create') }}" method="post" id="frmCreateTicket" class="form">

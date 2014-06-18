@@ -8,17 +8,17 @@
         <h3 class="page-header">{{ forum.title }}</h3>
         <div class="page-content">
             {# BREADCRUMB BAR #}
-            <ul class="breadcrumbs">
+            <ul class="breadcrumbs clearfix">
                 <li><a href="{{ path('forum_main') }}">Back to forum list</a></li>
                 <li><a href="#">Forum - {{ forum.title }}</a></li>
             </ul>
 
             {# ACTION BAR #}
             {% if not forum.getShowOnHome() %}
-            <div class="mcsf_actionbar">
+            <div class="mcsf_actionbar clearfix" style="margin-bottom:10px;">
                 <ul>
                     <li>
-                        <a href="{{ path('forum_thread_create', {'id' : forum.id }) }}" class="button [small radfius round]">Create Thread</a>
+                        <a href="{{ path('forum_thread_create', {'id' : forum.id }) }}" class="btn">Create Thread</a>
                     </li>
                 </ul>
             </div>

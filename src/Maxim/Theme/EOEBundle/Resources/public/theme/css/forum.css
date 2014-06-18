@@ -223,7 +223,7 @@
 }
 
 .mcsf_post_content{
-    margin-left: 175px;
+    margin-left: 200px;
     height: auto!important;
     border-radius: 5px;
     padding: 10px;
@@ -232,6 +232,9 @@
     position: relative;
 }
 
+.mcsf_post_text {
+    margin-bottom: 20px;
+}
 .mcsf_post_content_lowerbar {
     float:right;
     overflow:visible !important;
@@ -248,6 +251,7 @@
     font-size: 8pt;
     margin-right: 3px;
     cursor: pointer;
+    border:none;
 }
 .mcsf_post_option_button:hover {
     opacity:0.8;
@@ -298,23 +302,26 @@
     padding: 10px;
     text-align: center;
 }
-.breadcrumb {
-    padding:4px 15px;
+
+/* BREADCRUMBS */
+.breadcrumb, .breadcrumbs {
+    padding: 15px 15px;
     border: 1px solid #585858;
     border-radius:3px;
     width: 95%;
     background: #2f2f2f;
+    margin:0 0 10px 0;
 }
-
-.breadcrumb li {
+.breadcrumb > li, .breadcrumbs > li {
     float:left;
     list-style:none;
 }
-.breadcrumb li:not(:last-child):after {
+.breadcrumb > li:not(:last-child):after, .breadcrumbs > li:not(:last-child):after {
     content: "/";
     color:white;
     padding:5px;
 }
+
 
 .mcsf_section_title {
     background: #2f2f2f;
@@ -400,42 +407,6 @@
     height:50px;
 }
 
-/* PAGINATION */
-.navigation {
-    margin-top:10px;
-}
-.pagination .page-indication {
-    font-size: 8pt;
-    margin: 0 5px;
-}
-.pagination span{
-    display:inline-block;
-    padding:0 !important;
-}
-.pagination span a {
-    color: rgb(148, 148, 148)!important;
-    display: inline-block;
-    height: 100%;
-    width: 100%;
-    padding: 5px 7px;
-}
-.pagination .page, .pagination .first, .pagination .last, .pagination .next, .pagination .current, .pagination .previous {
-    border: 1px solid #696969;
-    border-radius: 3px;
-    padding: 5px 8px;
-    font-size: 8pt;
-    background: #3C3C3C;
-    box-shadow: inset 0 0 1px 0 rgb(73, 73, 73);
-    margin: 0 1px;
-}
-.pagination .current {
-    background: #4E4E4E;
-    padding: 5px 7px !important;
-}
-.pagination .page:hover, .pagination .first:hover, .pagination .last:hover, .pagination .next:hover, .pagination .previous:hover {
-    background: #4E4E4E;
-    cursor:pointer;
-}
 .cke_chrome {
     -moz-box-shadow: none !important;
     -webkit-box-shadow: none !important;
@@ -443,6 +414,9 @@
 }
 
 
+.mcsf_post_topbar {
+    height: 15px;
+}
 .mcsf_post_topbar:after {
     clear:both;
 }
@@ -481,6 +455,27 @@
 
 .group-member {
     background: #4B4B4B;
+}
+
+/* MODULE: LATEST THREADS */
+.latestthread-profile, .latestpost-profile {
+    float:left;
+}
+.latestthread-text, .latestpost-text {
+    margin-left:50px;
+}
+.latestthread-title, .latestpost-title {
+    display:block;
+    font-size: 13px;
+}
+
+.latestthread-timeago, .latestpost-timeago {
+    display: block;
+    line-height: 13px;
+    font-size: 11px;
+}
+.latestthread > .latestthread-profile > img {
+    border-radius:20px;
 }
 
 

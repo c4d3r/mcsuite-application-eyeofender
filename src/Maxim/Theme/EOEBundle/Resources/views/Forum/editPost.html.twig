@@ -4,7 +4,7 @@
     <h2>Edit post</h2>
 
     {# BREADCRUMB BAR #}
-    <ul class="breadcrumbs">
+    <ul class="breadcrumbs clearfix">
         <li><a href="{{ path('forum_view', {'id' : post.thread.forum.id}) }}">{{ post.thread.forum.title }}</a></li>
         <li><a href="{{ path('forum_thread_view', {'id' : post.thread.forum.id, 'threadid' : post.thread.id}) }}" >{{ post.thread.title }}</a></li>
         <li>Editing post</li>

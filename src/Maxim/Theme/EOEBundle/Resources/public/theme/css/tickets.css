@@ -32,6 +32,7 @@
     box-sizing: border-box;
     min-height: 108px;
     position:relative;
+    margin-left: 125px;
 
     word-break:normal;
     text-align: justify;

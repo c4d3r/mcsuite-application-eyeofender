@@ -5,7 +5,7 @@
         <h3 class="page-header">Edit thread</h3>
         <div class="page-content">
             {# BREADCRUMB BAR #}
-            <ul class="breadcrumbs">
+            <ul class="breadcrumbs clearfix">
                 <li><a href="{{ path('forum_view', {'id' : thread.forum.id}) }}">{{ thread.forum.title }}</a></li>
                 <li><a href="{{ path('forum_thread_view', {'id' : thread.forum.id, 'threadid' : thread.id}) }}" >{{ thread.title }}</a></li>
                 <li><a href="{{ path('forum_thread_edit', {'id' : thread.forum.id, 'threadid' : thread.id}) }}" class="active" style="color:gray">Editing thread</a></li>

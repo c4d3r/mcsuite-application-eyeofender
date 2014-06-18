@@ -1,1 +1,20 @@
-TEST
+{% extends 'MaximCMSBundle:Default:index.html.twig' %}
+
+{% block title %}General error{% endblock title %}
+
+{% block wrapper %}
+    <div class="page">
+        <h3 class="page-header">An error has occurred</h3>
+
+        <div class="page-content" style="padding:5px;">
+            <p>An error has occurred while processing your request, please try again later.</p>
+
+            <ul class="menu menu-pills clearfix" style="margin-top:15px;">
+                <li><a href="{{ path('home') }}">Go back to the homepage</a></li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+
+

@@ -4,7 +4,7 @@
     <div class="page">
         <h3 class="page-header">Applications</h3>
         <div class="page-content">
-            <ul class="menu menu-clean">
+            <ul class="menu menu-squared clearfix">
                 {% for application in applications %}
                     <li>
                         <a href="{{ path('application', {'id' : application.id, 'name' : application.name|replace({" ": "-"})}) }}"><span>{{ application.name }}</span></a>

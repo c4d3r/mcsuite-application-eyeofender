@@ -25,12 +25,12 @@
             output='css'
             output='themes/eyeofender/css/main.css'
             filter='cssrewrite'
-            'bundles/maximthemeeoe/theme/framework/zurb/css/*'
             'bundles/maximcms/plugins/tooltipster/css/tooltipster.css'
             'bundles/maximcms/plugins/tooltipster/css/themes/tooltipster-shadow.css'
             'bundles/maximcms/plugins/tooltip-toolbar/css/jquery.toolbars.css'
             'bundles/maximcms/plugins/tooltip-toolbar/css/toolbars-custom.css'
             'bundles/maximcms/plugins/redactor/redactor.css'
+            'bundles/maximcms/plugins/animate/animate.css'
             'bundles/maximthemeeoe/theme/css/*'
         %}
             <link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>
@@ -44,171 +44,167 @@
 <header>
 
     <nav class="top-bar" data-topbar>
-        {# TOP BAR #}
-        {% if networks %}
-        <section class="top-bar-section auto" id="networks">
-            <ul class="left">
-                <li class="has-dropdown">
-                    <a href="#">Eye of Ender</a>
-                    <ul class="dropdown">
-                        <li><a href="#" title="Eye of Ender">Eye of Ender</a></li>
-                    </ul>
-                </li>
-            </ul>
-            {% if app.security.token and is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                {{ render(controller('MaximCMSBundle:Default:notification')) }}
+        <div class="wrapper-top clearfix">
+            {# TOP BAR #}
+            {% if networks %}
+                <ul class="left" id="networks">
+                    <li>
+                        <a href="#" data-dropdown="drop-networks">Eye of Ender</a>
+
+                        <ul id="drop-networks" class="dropdown menu" data-dropdown-content>
+                            <li><a href="http://eyeofender.com" title="Eye of Ender">Eye of Ender</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                {% if app.security.token and is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                    {{ render(controller('MaximCMSBundle:Default:notification')) }}
+                {% endif %}
             {% endif %}
-        </section>
-        {% endif %}
+        </div>
     </nav>
 
-    <nav id="navigation" class="row">
+    <nav id="navigation" class="wrapper clearfix">
         <div class="left navigation-logo">
             <h1 class="logo-text"><a href="{{ path('home') }}" title="Eye Of Ender home page">Eye Of Ender</a></h1>
             <span class="logo-caption">Minigame network</span>
         </div>
         <ul class="right">
 
-            <li><a href="{{ path('home') }}">Home</a></li>
+            <li><a href="{{ path('home') }}"><span class="glyphicon glyphicon-home"></span>Home</a></li>
             <li>
-                <a href="#" data-dropdown="drop-servers">Servers &raquo;</a>
+                <a href="#" data-dropdown="drop-servers"><span class="glyphicon glyphicon-tasks"></span>Servers &raquo;</a>
 
-                <ul id="drop-servers" class="f-dropdown" data-dropdown-content>
+                <ul id="drop-servers" class="dropdown animated fadeInDown menu" data-dropdown-content>
                     <li><a href="#">Archergames</a></li>
                 </ul>
             </li>
-            <li><a href="{{ path('shop') }}" title="Shop">Shop</a></li>
-            <li><a href="{{ path('forum_main') }}" title="Forums">Forum</a></li>
-            <li><a href="#" title="About Us">About Us</a></li>
-            <li><a href="{{ path('tickets_index') }}" title="Contact">Contact</a></li>
+            <li><a href="{{ path('shop') }}" title="Shop"><span class="glyphicon glyphicon-shopping-cart"></span>Shop</a></li>
+            <li><a href="{{ path('forum_main') }}" title="Forums"><span class="glyphicon glyphicon-list-alt"></span>Forum</a></li>
+            <li><a href="#" title="About Us"><span class="glyphicon glyphicon-info-sign"></span>About Us</a></li>
+            <li><a href="{{ path('tickets_index') }}" title="Contact"><span class="glyphicon glyphicon-envelope"></span>Contact</a></li>
             <li>
-                <a href="#" data-dropdown="drop-pages">Other &raquo;</a>
+                <a href="#" data-dropdown="drop-pages"><span class="glyphicon glyphicon-plus"></span>Other &raquo;</a>
 
-                <ul id="drop-pages" class="f-dropdown" data-dropdown-content>
+                <ul id="drop-pages" class="dropdown animated fadeInDown menu" data-dropdown-content>
                     {{ render(controller('MaximCMSBundle:Default:custom_pages')) }}
                 </ul>
             </li>
-
-            {% if app.security.token and not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                <li><a href="{{ path('login') }}">Login</a></li>
-            {% else %}
-                <li><a href="{{ path('logout') }}">Logout</a></li>
-            {% endif %}
-
         </ul>
     </nav>
 </header>
 
-<div id="wrapper" class="row">
+<div id="wrapper" class="wrapper">
 
-    {# ANNOUNCEMENTS #}
-    {{ render(controller('MaximCMSBundle:Default:announcementsLoad')) }}
+    {% block wrapper %}
+        {# ANNOUNCEMENTS #}
+        {{ render(controller('MaximCMSBundle:Default:announcementsLoad')) }}
 
-    {% for key, flash in app.session.flashbag.all %}
-        <div class="alert alert-{{ key }}">
-            {{ flash[0] }}
-        </div>
-    {% endfor %}
+        {% for key, flash in app.session.flashbag.all %}
+            <div class="alert alert-{{ key }}">
+                {{ flash[0] }}
+            </div>
+        {% endfor %}
 
-    <!-- for statuses etc... -->
-    <div id="global_messagebox"></div>
-    {# END ANNOUNCEMENTS#}
+        <!-- for statuses etc... -->
+        <div id="global_messagebox"></div>
+        {# END ANNOUNCEMENTS#}
 
-    <section id="mid">
+        <section id="mid">
 
-        <div class="ip">Server address: <span class="color-purple">hub.eyeofender.com</span></div>
-        {% block body %}
-        {% endblock body %}
+            <div class="ip">Server address: <span class="color-purple">hub.eyeofender.com</span></div>
+            {% block body %}
+            {% endblock body %}
 
-    </section>
+        </section>
 
-    <aside>
-        {# MODULE: Account Panel #}
-        <div class="module">
-            <div class="module-content" style="border-top-right-radius: 3px;border-top-left-radius: 3px;">
-                <ul class="menu menu-stacked">
-                    {% if app.security.token and not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                        <ul class="menu" style="padding:5px;">
-                            <li class="logo-eoe"><a href="{{ path('register') }}"></a></li>
-                        </ul>
-                        <li><a href="{{ path('login') }}" class="color-purple">Login</a></li>
-                        <li><a href="{{ path('register') }}" class="color-purple">Register</a></li>
-                    {% else %}
-                        <div class="profile-container">
-                            <a href="{{ path('profile', { 'name' : app.user.username }) }}" class="left">
-                                <img src="http://minotar.net/helm/{{ app.user.username }}/75.png" alt="avatar from {{ app.user.username }}" class="preload"/>
-                            </a>
-                            <ul class="sidebar-profile-holder">
-                                 <li>
-                                     <span class="radius secondary label bg-purple">{{ app.user.group.name }}</span>
-                                 </li>
+
+        <aside>
+            {# MODULE: Account Panel #}
+            <div class="module">
+                <div class="module-content" style="border-top-right-radius: 3px;border-top-left-radius: 3px;">
+                    <ul class="menu menu-stacked">
+                        {% if app.user %}
+                            <div class="profile-container clearfix">
+                                <a href="{{ path('profile', { 'name' : app.user.username }) }}" class="left">
+                                    <img src="http://minotar.net/helm/{{ app.user.username }}/75.png" alt="avatar from {{ app.user.username }}" class="preload"/>
+                                </a>
+                                <ul class="list sidebar-profile-holder">
+                                    <li>
+                                        <span class="label label-main">{{ app.user.group.name }}</span>
+                                    </li>
+                                    <li>
+                                        <span class="label">{{ app.user.username }}</span>
+                                    </li>
+                                    <li>
+                                        <span class="label">{{ app.user.lastLogin|date("M j, Y, g:i a") }}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            {% if app.security.token and is_granted('ROLE_PREVIOUS_ADMIN') %}
                                 <li>
-                                    <span class="radius secondary label">{{ app.user.username }}</span>
+                                    <a href="?_switch_user=_exit" title="stop impersonate user">Stop impersonating</a>
                                 </li>
-                                <li>
-                                    <span class="radius secondary label">{{ app.user.lastLogin|date("M j, Y, g:i a") }}</span>
-                                </li>
+                            {% endif %}
+                            <li><a href="{{ path('account') }}" class="btn">Account panel</a></li>
+                            {% if app.security.token and is_granted('ROLE_STAFF') %}
+                                <li><a href="{{ path('sonata_admin_dashboard') }}" class="btn">Admin panel</a></li>
+                            {% endif %}
+                            <li><a href="{{ path('logout') }}" class="btn">Logout</a></li>
+                        {% else %}
+                            <ul class="menu" style="padding:5px;">
+                                <li class="logo-eoe"><a href="{{ path('register') }}"></a></li>
                             </ul>
-                        </div>
-                        {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
-                            <li>
-                                <a href="?_switch_user=_exit" title="stop impersonate user">Stop impersonating</a>
-                            </li>
+                            <li><a href="{{ path('login') }}" class="color-purple">Login</a></li>
+                            <li><a href="{{ path('register') }}" class="color-purple">Register</a></li>
                         {% endif %}
-                        <li><a href="{{ path('account') }}" class="button [radius round]">Account panel</a></li>
-                        {% if app.security.token and is_granted('ROLE_STAFF') %}
-                            <li><a href="{{ path('sonata_admin_dashboard') }}" class="button [radius round]">Admin panel</a></li>
-                        {% endif %}
-                        <li><a href="{{ path('logout') }}" class="button [radius round]">Logout</a></li>
-                    {% endif %}
-                </ul>
+                    </ul>
+                </div>
             </div>
-        </div>
 
-        {# MODULE: Voting #}
-        <div class="module">
-            <h3 class="module-header">Voting</h3>
-            <div class="module-content">
-                {{ render(controller('MaximCMSBundle:Vote:render')) }}
+            {# MODULE: Voting #}
+            <div class="module">
+                <h3 class="module-header">Voting</h3>
+                <div class="module-content">
+                    {{ render(controller('MaximCMSBundle:Vote:render')) }}
+                </div>
             </div>
-        </div>
 
-        {# MODULE: Latest Posts #}
-        {#<div class="module">
-            <h3 class="module-header">Latest Posts</h3>
-            <div class="module-content">
-                {{ render(controller('MaximModuleForumBundle:Widget:latestPosts')) }}
+            {# MODULE: Latest Posts #}
+            {#<div class="module">
+                <h3 class="module-header">Latest Posts</h3>
+                <div class="module-content">
+                    {{ render(controller('MaximModuleForumBundle:Widget:latestPosts')) }}
+                </div>
+            </div>#}
+
+            {# MODULE: Latest threads #}
+            <div class="module">
+                <h3 class="module-header">Latest Threads</h3>
+                <div class="module-content">
+                    {{ render(controller('MaximModuleForumBundle:Widget:latestThreads')) }}
+                </div>
             </div>
-        </div>#}
 
-        {# MODULE: Latest threads #}
-        <div class="module">
-            <h3 class="module-header">Latest Threads</h3>
-            <div class="module-content">
-                {{ render(controller('MaximModuleForumBundle:Widget:latestThreads')) }}
+            {# Twitter timeline #}
+            <div style="margin-top:10px;">
+                <a class="twitter-timeline" href="https://twitter.com/EyeOfEnderLtd" data-widget-id="401824404578910208">Tweets by @EyeOfEnderLtd</a>
             </div>
-        </div>
+        </aside>
 
-        {# Twitter timeline #}
-        <div style="margin-top:10px;">
-            <a class="twitter-timeline" href="https://twitter.com/EyeOfEnderLtd" data-widget-id="401824404578910208">Tweets by @EyeOfEnderLtd</a>
-        </div>
-    </aside>
-
-    <div style="clear:both;"></div>
-
+        <div style="clear:both;"></div>
+    {% endblock wrapper %}
 </div>
 
 {# FOOTER #}
-<footer class="row">
-    <div class="medium-2 columns hide-for-small-only">
+<footer class="clearfix">
+    <div>
         <img src="{{ asset('bundles/maximthemeeoe/theme/images/logo-small.png') }}" class="logo left" />
     </div>
-    <div class="medium-9 medium-centered columns">
+    <div>
         <p>All Rights Reserved 2013 © Eye of Ender, Created by <a href="mailto:c4d3r@hotmail.com">C4D3R</a></p>
         <p>Visit our other websites: <a href="http://eyeofender.com">EyeOfEnder.com</a></p>
         <nav>
-            <ul class="menu menu-simple">
+            <ul class="menu menu-horizontal">
                 <li><a href="#">Home</a></li>
                 <li><a href="#">Forum</a></li>
                 <li><a href="#">Contact</a></li>

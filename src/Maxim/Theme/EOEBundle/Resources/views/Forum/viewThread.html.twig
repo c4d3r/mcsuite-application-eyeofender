@@ -13,7 +13,7 @@
                 <div id="admin-status" class="alert"></div>
 
                 {# BREADCRUMB BAR #}
-                <ul class="breadcrumbs">
+                <ul class="breadcrumbs clearfix">
                     <li><a href="{{ path('forum_view', {'id' : thread.forum.id, 'seo' : thread.forum.id}) }}">{{ thread.forum.title }}</a></li>
                     <li><a href="{{ path('forum_thread_view', {'id' :  thread.forum.id, 'threadid' : thread.id}) }}" class="active" style="color:gray">{{ thread.title }}</a></li>
                 </ul>
@@ -121,16 +121,16 @@
                             </div>
 
                             <div class="mcsf_post_content">
-                                <div class="mcsf_post_topbar">
+                                <div class="mcsf_post_topbar clearfix">
                                     <span class="mcsf_post_index">Post: #{{ index }}</span>
                                 </div>
 
-                                <div>
+                                <div class="mcsf_post_text clearfix">
                                     {{ post.text|purify }}
                                 </div>
 
 
-                                <div class="mcsf_post_content_lowerbar">
+                                <div class="mcsf_post_content_lowerbar clearfix">
                                     {# OPTIONS #}
                                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and post.createdBy.id == app.user.id %}
                                         <a class="mcsf_post_option_button" href="{{ path('forum_post_edit', {'id' : thread.forum.id, 'threadid' : thread.id, 'postid': post.id}) }}">Edit</a>
@@ -166,7 +166,7 @@
                             <form action="{{ path('forum_thread_view', {'id' : thread.forum.id, 'threadid' : thread.id}) }}" {{ form_enctype(form) }} method="post">
                                 {{ form_widget(form) }}
                                 <div style="margin-top:5px;">
-                                    <input type="submit" value="Reply to thread" class="button [small radfius round]"/>
+                                    <input type="submit" value="Reply to thread" class="btn"/>
                                 </div>
                             </form>
                         {% else %}

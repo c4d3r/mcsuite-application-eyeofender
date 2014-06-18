@@ -51,7 +51,7 @@
 
                         <div class="tab-content">
                             {% for key, category in categories if category.items|length > 0 %}
-                                <div class="tab-pane slide-left{% if key == 0 %} in active{% endif %}" id="tab{{ category.id }}">
+                                <div class="tab-pane animated fadeInRight slide-left{% if key == 0 %} in active{% endif %}" id="tab{{ category.id }}">
                                     <div class="items">
                                     {% for item in category.items if item.visible %}
 
