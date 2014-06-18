@@ -30,12 +30,6 @@ class RegistrationController extends BaseController
         $user = $userManager->createUser();
         $user->setEnabled(true);
 
-        $minecraft = $this->container->get('minecraft.helper');
-        $minecraft->fetchUUID($user->getUsername());
-
-        $logger = $this->container->get('logger');
-        $logger->error($minecraft->fetchUUID($user->getUsername()));
-
         $event = new GetResponseUserEvent($user, $request);
         $dispatcher->dispatch(FOSUserEvents::REGISTRATION_INITIALIZE, $event);
 
@@ -52,6 +46,13 @@ class RegistrationController extends BaseController
             if ($form->isValid()) {
                 $event = new FormEvent($form, $request);
                 $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
+
+                // get UUID
+                $minecraft = $this->container->get('minecraft.helper');
+                $minecraft->fetchUUID($user->getUsername());
+
+                $logger = $this->container->get('logger');
+                $logger->error($minecraft->fetchUUID($user->getUsername()));
 
                 $userManager->updateUser($user);
 

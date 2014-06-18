@@ -23,14 +23,11 @@ news_comments:
   path: /news/{newsId}
   defaults: { _controller: MaximCMSBundle:Default:post }
 
-register:
-  path: /register
-  defaults: { _controller: MaximCMSBundle:Security:registerView }
-register_validation:
-  path: /validate/{key}
-  defaults: { _controller: MaximCMSBundle:Security:validate }
-  requirements:
-     key: ".+"
+#register_validation:
+#  path: /validate/{key}
+#  defaults: { _controller: MaximCMSBundle:Security:validate }
+#  requirements:
+#     key: ".+"
 
 #vote
 topvoters:
@@ -101,7 +98,10 @@ account_profile_save:
     _method: POST
 login:
     pattern:   /login
-    defaults:  { _controller: MaximCMSBundle:Security:login } # Where ViewSubDir is a folder in the views directory of your bundle. And, where login is your controller action.
+    defaults:  { _controller: FOSUserBundle:Security:login } # Where ViewSubDir is a folder in the views directory of your bundle. And, where login is your controller action.
+register:
+    pattern: /register
+    defaults: { _controller: FOSUserBundle:Registration:register }
 #loginForm:
 #    pattern:   /login
 #    defaults:  { _controller: MaximCMSBundle:Security:loginForm } # Where ViewSubDir is a folder in the views directory of your bundle. And, where login is your controller action.
@@ -238,8 +238,6 @@ page_clan:
 admin_shop_resend:
   path: /admin/shop/resend
   defaults: { _controller: MaximCMSBundle:Admin:resendPurchase }
-CMS_DEFAULT_HOME:
-  path: /
-  defaults: { _controller: MaximCMSBundle:Default:index }
+
 # note routes to create new users are not here but you'll need to create them just like you would any other route.
 # I left them out here because this is just meant to get you up and running as simply as possible (That at it will take me longer to type all this up... LOL)

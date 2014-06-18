@@ -17,7 +17,7 @@ use Maxim\CMSBundle\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\Yaml\Yaml;
-use FOS\UserBundle\Controller\RegistrationController as BaseController;
+use FOS\UserBundle\Controller\SecurityController as BaseController;
 
 class SecurityController extends BaseController
 {

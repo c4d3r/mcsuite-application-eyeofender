@@ -1,6 +1,7 @@
 <?php
 namespace Maxim\CMSBundle\Controller;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\FlattenException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -10,6 +11,27 @@ use Symfony\Bundle\FrameworkBundle\Templating\TemplateReference;
 
 class ExceptionController extends BaseController
 {
+
+    private $logger;
+
+    public function showAction(Request $request, FlattenException $exception, DebugLoggerInterface $logger = null, $_format = 'html')
+    {
+        $currentContent = $this->getAndCleanOutputBuffering($request->headers->get('X-Php-Ob-Level', -1));
+
+        $code = $exception->getStatusCode();
+
+        return new Response($this->twig->render(
+            $this->findTemplate($request, $_format, $code, $this->debug),
+            array(
+                'status_code'    => $code,
+                'status_text'    => isset(Response::$statusTexts[$code]) ? Response::$statusTexts[$code] : '',
+                'exception'      => $exception,
+                'logger'         => $logger,
+                'currentContent' => $currentContent,
+            )
+        ));
+    }
+
     protected function findTemplate(Request $request, $format, $code, $debug)
     {
         $name = $debug ? 'exception' : 'error';
@@ -34,11 +56,6 @@ class ExceptionController extends BaseController
         // default to a generic HTML exception
         $request->setRequestFormat('html');
 
-        $template = new TemplateReference('MaximCMSBundle', 'Exception', $name, 'html', 'twig');
-        if ($this->templateExists($template)) {
-            return $template;
-        }
-
-        return parent::findTemplate($request, $format, $code, $debug);
+        return new TemplateReference('TwigBundle', 'Exception', $name, 'html', 'twig');
     }
 }
