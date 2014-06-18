@@ -31,6 +31,7 @@
         <field name="gplusName"       type="string"     column="gplus_name"     length="255"    nullable="true" />
         <field name="gplusData"       type="json_array" column="gplus_data"                     nullable="true" />
         <field name="skype"           type="string"     column="skype"          length="32"     nullable="true" />
+        <field name="forumText"       type="string"     column="forum_text"     length="50"     nullable="true" />
 
         <!-- security fields -->
         <field name="lastIp"             type="string"      column="last_ip"        length="45" nullable="true" />

@@ -26,6 +26,7 @@ class ProfileFormType extends BaseProfileFormType
             ->add('phone', 'text', array('label' => 'phone number', 'required' => false))
             ->add('email', 'email', array('label' => 'form.email', 'translation_domain' => 'FOSUserBundle'))
             ->add('skype', 'text', array('label' => 'skype'))
+            ->add('forumText', 'text', array('required' => false))
             ->add('dateOfBirth', 'date', array(
                 'label' => 'Date of birth',
                 'years' => range(1910, 2014),

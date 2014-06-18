@@ -17,6 +17,10 @@ Maxim\CMSBundle\Entity\User:
         dateOfBirth:
             - NotBlank: { message: "Field date of birth is required" }
             - Date: ~
+        forumText:
+            - Length:
+                max: 50
+                maxMessage: "Your personal text can only contain a maximum of {{ limit }} characters."
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: username
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: email

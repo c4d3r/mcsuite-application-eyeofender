@@ -73,6 +73,8 @@ abstract class User extends BaseUser
 
     protected $groups;
 
+    protected $forumText;
+
 
     public function __construct()
     {
@@ -603,6 +605,22 @@ abstract class User extends BaseUser
     public function getVerified()
     {
         return $this->verified;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getForumText()
+    {
+        return $this->forumText;
+    }
+
+    /**
+     * @param mixed $forumText
+     */
+    public function setForumText($forumText)
+    {
+        $this->forumText = $forumText;
     }
 
 } 
