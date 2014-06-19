@@ -109,7 +109,7 @@ class StoreNotificationAction implements ActionInterface
             $this->logger->info("Payment " . $succeeded ? "completed" : "failed" . " for user: " . $purchase->getUser()->getUsername());
 
         } else {
-            $this->logger->err("PAYUM: custom field not found, " . print_r($details, true));
+            $this->logger->error("PAYUM: custom field not found, " . print_r($details, true));
         }
     }
 

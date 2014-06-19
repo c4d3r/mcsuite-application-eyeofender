@@ -64,7 +64,7 @@ class AdminAnnouncementController extends Controller{
             $em->persist($a);
             $em->flush();
         }catch(\Exception $ex) {
-            $logger->err("error" . $ex->getMessage());
+            $logger->error("error" . $ex->getMessage());
             return new Response(json_encode(array("success" => false, "message" => "An error has occured when adding your announcement, please contact your web administrator or try again later")));
         }
 

@@ -39,7 +39,7 @@ class IpnController extends Controller
         catch(\Exception $ex)
         {
             $logger = $this->get('logger');
-            $logger->err('SHOP: '.$ex->getMessage());
+            $logger->error('SHOP: '.$ex->getMessage());
         }
     }
 
@@ -185,7 +185,7 @@ class IpnController extends Controller
             $this->logger->info("Payment " . $succeeded ? "completed" : "failed" . " for user: " . $purchase->getUser()->getUsername());
 
         } else {
-            $this->logger->err("PAYUM: custom field not found, " . print_r($details, true));
+            $this->logger->error("PAYUM: custom field not found, " . print_r($details, true));
         }
     }
 
@@ -194,7 +194,7 @@ class IpnController extends Controller
         $logger = $this->get('logger');
         if($status['success'] == false) {
             $body = "We were unable to complete your payment, we have informed our staff team.<br/>Feel free to make a ticket on our website.";
-            $logger->err("[STORE]" . print_r($status['message'], true));
+            $logger->error("[STORE]" . print_r($status['message'], true));
         } else {
             $body = "Thank you for your purchase at mcthefridge.com";
         }
@@ -214,7 +214,7 @@ class IpnController extends Controller
             $this->get('mailer')->send($message);
 
         }catch(\Exception $ex) {
-            $logger->err("[STORE] Could not send mail: " . $ex->getMessage());
+            $logger->error("[STORE] Could not send mail: " . $ex->getMessage());
         }
 
     }

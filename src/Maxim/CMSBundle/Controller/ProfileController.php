@@ -51,11 +51,11 @@ class ProfileController extends BaseProfileController
 
         # EXCEPTIONS
         if(!$user) {
-            $logger->err("Could not find requesting user");
+            $logger->error("Could not find requesting user");
             throw new NotFoundHttpException("Could not find requesting user");
         }
         if(!$recipient) {
-            $logger->err("Could not find receiving user");
+            $logger->error("Could not find receiving user");
             throw new NotFoundHttpException("Could not find receiving user");
         }
 
@@ -78,7 +78,7 @@ class ProfileController extends BaseProfileController
             $em->flush();
 
         }catch(\Exception $ex) {
-            $logger->err("[FRIEND]" . $ex->getMessage());
+            $logger->error("[FRIEND]" . $ex->getMessage());
             return new Response(json_encode(array("success" => false, "message" => "An error has occured, please try again later.")));
         }
 
@@ -133,7 +133,7 @@ class ProfileController extends BaseProfileController
         }
         catch(\Exception $ex)
         {
-            $logger->err("[FRIEND]" . $ex->getMessage());
+            $logger->error("[FRIEND]" . $ex->getMessage());
             return new Response(json_encode(array("success" => false, "message" => "An error occurred when deleting the friend, please try again later")));
         }
 
@@ -212,7 +212,7 @@ class ProfileController extends BaseProfileController
         }
         catch(\Exception $ex)
         {
-            $this->container->get('logger')->err($ex->getMessage());
+            $this->container->get('logger')->error($ex->getMessage());
             return new Response(json_encode(array("success" => false, "userid" => $user->getId(), "message" => "An error occured, please try again later")));
         }
 

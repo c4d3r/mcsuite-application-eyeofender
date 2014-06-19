@@ -86,7 +86,7 @@ class IpnPaypalController extends IpnController{
         }
 
         if($status['success']) {
-            $logger->err('IPN: SUCCESS');
+            $logger->error('IPN: SUCCESS');
             $email  = $custom[4];
             $em = $this->getDoctrine()->getManager();
 
@@ -109,7 +109,7 @@ class IpnPaypalController extends IpnController{
             if(!$result['success']){ $status = $result; }
 
         } else {
-            $logger->err('IPN: ' . print_r($errors, true));
+            $logger->error('IPN: ' . print_r($errors, true));
             $status = array("success" => false, "message" => json_encode($errors));
         }
 

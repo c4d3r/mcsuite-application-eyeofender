@@ -109,7 +109,7 @@ class MinecraftHelper
         $parameters = array('user' => $username, 'password' => $password, 'version' => $version);
         $request = $this->request('http://login.minecraft.net/', $parameters);
         $response = explode(':', $request);
-        $this->logger->err(print_r($response, true));
+        $this->logger->error(print_r($response, true));
         if (count($response) >= 0) {
             return array(
                 "success" => true,
@@ -320,21 +320,21 @@ class MinecraftHelper
         {
             if(!($sock = socket_create(AF_INET, SOCK_STREAM, 0)))
             {
-                $logger->err("[CONNECTION]: error creating socket: ".socket_strerror(socket_last_error()));
+                $logger->error("[CONNECTION]: error creating socket: ".socket_strerror(socket_last_error()));
                 return false;
             }
             // Set timeout
             // socket_set_option($sock, SOL_SOCKET, SO_SNDTIMEO, array('sec' => 5, 'usec' => 0));
             if(!($succ = socket_connect($sock, $host, $port)))
             {
-                $logger->err("[CONNECTION]: error connecting socket: ".socket_strerror(socket_last_error()));
+                $logger->error("[CONNECTION]: error connecting socket: ".socket_strerror(socket_last_error()));
                 return false;
             }
             $socket = true;
         }
         catch(\Exception $ex)
         {
-            $logger->err("[CONNECTION]: error connecting to host: ".$ex->getMessage());
+            $logger->error("[CONNECTION]: error connecting to host: ".$ex->getMessage());
             return false;
         }
 
@@ -358,7 +358,7 @@ class MinecraftHelper
         }
         catch(\Exception $ex)
         {
-            $logger->err("[CONNECTION]: error writing to socket: ".$ex->getMessage());
+            $logger->error("[CONNECTION]: error writing to socket: ".$ex->getMessage());
             return false;
         }
         $count=0;
@@ -383,13 +383,13 @@ class MinecraftHelper
         }
         catch(\Exception $ex)
         {
-            $logger->err("[CONNECTION]: error reading from socket: ".$ex->getMessage());
+            $logger->error("[CONNECTION]: error reading from socket: ".$ex->getMessage());
             return false;
         }
         // Lets make sure we logged in ok if not index zero will = "LOGINERROR"
         if($results[0] == "LOGINERROR")
         {
-            $logger->err("[CONNECTION]: wrong credentials when connecting to MCS plugin");
+            $logger->error("[CONNECTION]: wrong credentials when connecting to MCS plugin");
         }
         else
         {
@@ -401,7 +401,7 @@ class MinecraftHelper
                 // First make sure we did not get and error for this command.
                 if((stripos($result[1],"ERROR") != 0) && (stripos($result[1],"UNKNOWN") != 0))
                 {
-                    $logger->err("[CONNECTION]: error when executing command to MCS plugin");
+                    $logger->error("[CONNECTION]: error when executing command to MCS plugin");
                 }
                 else
                 {

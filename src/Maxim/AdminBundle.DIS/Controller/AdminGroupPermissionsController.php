@@ -101,7 +101,7 @@ class AdminGroupPermissionsController extends Controller
             }
             catch(\Exception $ex)
             {
-                $this->get('logger')->err("PERMISSIONS: " . $ex->getMessage());
+                $this->get('logger')->error("PERMISSIONS: " . $ex->getMessage());
                 $output = array("success" => false, "message" =>  "An error occured, please try again later");
             }
         }

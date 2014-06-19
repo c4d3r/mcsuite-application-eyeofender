@@ -116,12 +116,12 @@ class AdminPollController extends Controller{
             catch(\Exception $ex)
             {
                 $output = array("success" => false, "message" => "An error has occured while adding the poll, please report to the website administrator");
-                $logger->err("POLL: Error adding new poll: ".$ex->getMessage());
+                $logger->error("POLL: Error adding new poll: ".$ex->getMessage());
             }
         }
         else
         {
-            $logger->err("POLL: Got none POST request");
+            $logger->error("POLL: Got none POST request");
             $output = array("success" => false, "message" => "not a post request");
         }
         return new Response(json_encode($output));
@@ -159,12 +159,12 @@ class AdminPollController extends Controller{
             catch(\Exception $ex)
             {
                 $output = array("success" => false, "message" => "An error has occured while saving the poll, please report to the website administrator");
-                $logger->err("POLL: Error saving poll: ".$ex->getMessage());
+                $logger->error("POLL: Error saving poll: ".$ex->getMessage());
             }
         }
         else
         {
-            $logger->err("POLL: Got none POST request");
+            $logger->error("POLL: Got none POST request");
             $output = array("success" => false, "message" => "not a post request");
         }
 

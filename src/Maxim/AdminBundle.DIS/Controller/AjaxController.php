@@ -52,7 +52,7 @@ class AjaxController extends Controller {
 				}
 				else
 				{
-					$logger->err('MODULE: could not find the module with id: '.$id);
+					$logger->error('MODULE: could not find the module with id: '.$id);
 					$output = array("success" => false, "message" => "could not find the module with id: ".$id);
 				}
 
@@ -65,7 +65,7 @@ class AjaxController extends Controller {
 		}
 		else
 		{
-			$logger->err("MODULE: Got none POST request");
+			$logger->error("MODULE: Got none POST request");
 			$output = array("success" => false, "message" => "not a post request");	
 		}
 		

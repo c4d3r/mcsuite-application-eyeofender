@@ -36,7 +36,8 @@
         "sonata-project/admin-bundle" : "dev-master",
         "sonata-project/doctrine-orm-admin-bundle" : "dev-master",
         "beberlei/DoctrineExtensions": "*",
-        "jms/security-extra-bundle": "dev-master"
+        "jms/security-extra-bundle": "dev-master",
+        "sonata-project/media-bundle": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

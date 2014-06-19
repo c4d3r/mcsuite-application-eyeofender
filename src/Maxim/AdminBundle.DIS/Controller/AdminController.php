@@ -125,8 +125,8 @@ class AdminController extends Controller
         }
         catch(\Exception $ex)
         {
-            $logger->err('[FILE EDIT]: '.$ex->getMessage());
-            $logger->err('[FILE EDIT]: '.$ex->getMessage());
+            $logger->error('[FILE EDIT]: '.$ex->getMessage());
+            $logger->error('[FILE EDIT]: '.$ex->getMessage());
         }
         $data['content'] = ($content != FALSE) ? $content : "Could not load file: ".$file;
         $data["format"] = (isset($format_details[$ext]) ? $format_details[$ext] : false);
@@ -146,7 +146,7 @@ class AdminController extends Controller
         }
         catch(\Exception $ex)
         {
-            $logger->err('[FILE EDIT]: '.$ex->getMessage());
+            $logger->error('[FILE EDIT]: '.$ex->getMessage());
             return new Response(json_encode(array("success" => false, "message" => "Error editing file")));
         }
 
@@ -194,7 +194,7 @@ class AdminController extends Controller
 		catch(\Exception $ex)
 		{
 			//error while sending mail
-			$logger->err('ADMIN: Could not send mail: '.$ex->getMessage());
+			$logger->error('ADMIN: Could not send mail: '.$ex->getMessage());
 			$result = array('success' => false, 'message' => 'error while sending mail');
 		}
 	    

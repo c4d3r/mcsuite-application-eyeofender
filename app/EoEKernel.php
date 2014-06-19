@@ -53,6 +53,8 @@ class EoEKernel extends Kernel
             new Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(), // a dependency on sonataadminbundle
             new Sonata\AdminBundle\SonataAdminBundle(),   // the sonata admin bundle
             new Sonata\BlockBundle\SonataBlockBundle(),   //used for blocks on the acp
+            new Sonata\MediaBundle\SonataMediaBundle(),
+            new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -97,20 +97,20 @@ class AdminApplicationController extends Controller {
         {
             if(!$handle = fopen($path, 'a'))
             {
-                $logger->err("FILEHANDLER: Can not open file name $path");
+                $logger->error("FILEHANDLER: Can not open file name $path");
                 return new Response(json_encode(array("success" => false, "message" => "Can not open the file")));
             }
 
             if(fwrite($handle, $content) === FALSE)
             {
-                $logger->err("FILEHANDLER: Can not write to file ($path)");
+                $logger->error("FILEHANDLER: Can not write to file ($path)");
                 return new Response(json_encode(array("success" => false, "message" => "Can not write to file")));
             }
             fclose($handle);
         }
         else
         {
-            $logger->err("FILEHANDLER: the file is not writable ($path)");
+            $logger->error("FILEHANDLER: the file is not writable ($path)");
             return new Response(json_encode(array("success" => false, "message" => "The file ($path) is not writable")));
         }
 
@@ -178,7 +178,7 @@ class AdminApplicationController extends Controller {
             }
             catch(\Exception $ex)
             {
-                $logger->err("APPLICATION: " . $ex->getMessage());
+                $logger->error("APPLICATION: " . $ex->getMessage());
                 $output = array("success" => false, "message" => "An error has occured while adding your reply, please try again later");
             }
             return new Response(json_encode($output));

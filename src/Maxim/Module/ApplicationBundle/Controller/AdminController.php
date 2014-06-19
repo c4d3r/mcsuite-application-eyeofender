@@ -323,7 +323,7 @@ class AdminController extends Controller
             }
             catch(\Exception $ex)
             {
-                $logger->err("APPLICATION: " . $ex->getMessage());
+                $logger->error("APPLICATION: " . $ex->getMessage());
                 $output = array("success" => false, "message" => "An error has occured while adding your reply, please try again later");
             }
             return new Response(json_encode($output));

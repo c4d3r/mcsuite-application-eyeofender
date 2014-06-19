@@ -80,7 +80,7 @@ class RESTHelper {
 
 
         if(!($response = curl_exec($this->curl))) {
-            $this->logger->err('[cURL Failure] ' . curl_error($this->curl));
+            $this->logger->error('[cURL Failure] ' . curl_error($this->curl));
         }
 
         $this->treatResponse($response);

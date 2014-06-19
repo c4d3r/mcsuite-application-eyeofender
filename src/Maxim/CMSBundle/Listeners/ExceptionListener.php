@@ -53,7 +53,7 @@ class ExceptionListener {
             $exception->getLine()
         );
 
-        $this->logger->err($message);
+        $this->logger->error($message);
         // Customize your response object to display the exception details
         $response = new Response();
 

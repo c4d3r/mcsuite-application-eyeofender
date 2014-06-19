@@ -42,7 +42,7 @@ class PostController extends Controller
         }
         catch(\Exception $ex)
         {
-            $logger->err("[FORUM]" . $ex->getMessage());
+            $logger->error("[FORUM]" . $ex->getMessage());
             return new Response(json_encode(array("success" => false, "message" => "Can not like this post at this moment, please try again later or contact an administrator")));
         }
     }

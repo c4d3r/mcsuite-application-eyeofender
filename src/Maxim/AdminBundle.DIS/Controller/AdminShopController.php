@@ -125,12 +125,12 @@ class AdminShopController extends Controller{
             catch(\Exception $ex)
             {
                 $output = array("success" => false, "message" => "An error has occured while adding the item, please report to the website administrator");
-                $logger->err("SHOP: Error adding new item: ".$ex->getMessage());
+                $logger->error("SHOP: Error adding new item: ".$ex->getMessage());
             }
         }
         else
         {
-            $logger->err("SHOP: Got none POST request");
+            $logger->error("SHOP: Got none POST request");
             $output = array("success" => false, "message" => "not a post request");
         }
         return new Response(json_encode($output));
@@ -195,12 +195,12 @@ class AdminShopController extends Controller{
             catch(\Exception $ex)
             {
                 $output = array("success" => false, "message" => "An error has occured while editing the item, please report to the website administrator");
-                $logger->err("SHOP: Error editing item: ".$ex->getMessage());
+                $logger->error("SHOP: Error editing item: ".$ex->getMessage());
             }
         }
         else
         {
-            $logger->err("SHOP: Got none POST request");
+            $logger->error("SHOP: Got none POST request");
             $output = array("success" => false, "message" => "not a post request");
         }
         return new Response(json_encode($output));
@@ -268,12 +268,12 @@ class AdminShopController extends Controller{
             catch(\Exception $ex)
             {
                 $output = array("success" => false, "message" => "An error has occured while adding the section, please report to the website administrator");
-                $logger->err("SHOP SECTION: Error adding new section: ".$ex->getMessage());
+                $logger->error("SHOP SECTION: Error adding new section: ".$ex->getMessage());
             }
         }
         else
         {
-            $logger->err("SHOP: Got none POST request");
+            $logger->error("SHOP: Got none POST request");
             $output = array("success" => false, "message" => "not a post request");
         }
         return new Response(json_encode($output));
@@ -307,12 +307,12 @@ class AdminShopController extends Controller{
             catch(\Exception $ex)
             {
                 $output = array("success" => false, "message" => "An error has occured while editing the section, please report to the website administrator");
-                $logger->err("SHOP SECTION: Error editing section: ".$ex->getMessage());
+                $logger->error("SHOP SECTION: Error editing section: ".$ex->getMessage());
             }
         }
         else
         {
-            $logger->err("SHOP SECTION: Got none POST request");
+            $logger->error("SHOP SECTION: Got none POST request");
             $output = array("success" => false, "message" => "not a post request");
         }
         return new Response(json_encode($output));

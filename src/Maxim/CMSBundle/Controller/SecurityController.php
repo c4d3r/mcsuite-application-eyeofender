@@ -104,7 +104,7 @@ class SecurityController extends BaseController
                         //REMOVE THE USER
                         $em->remove($user);
                         $output = array('success' => false, 'message' => 'The verification key has expired, please register again.');
-                        $logger->err('REGISTRATION: validation key expired for user with id: '.$userid);
+                        $logger->error('REGISTRATION: validation key expired for user with id: '.$userid);
                     }
                     $em->flush();
                 }
@@ -116,12 +116,12 @@ class SecurityController extends BaseController
             else
             {
                 $output = array('success' => false, 'message' => 'We could not find the user specified, please try again later');
-                $logger->err('REGISTRATION: can not find user with id: '.$userid);
+                $logger->error('REGISTRATION: can not find user with id: '.$userid);
             }
         }
         catch(\Exception $ex)
         {
-            $logger->err("REGISTRATION: error while validating user");
+            $logger->error("REGISTRATION: error while validating user");
         }
 
         $data['register_verified'] = $output;
@@ -264,8 +264,8 @@ class SecurityController extends BaseController
         $config   = $this->container->getParameter('maxim_cms');
         $security = $this->get('security.helper');
 
-        $logger->err("TEST REGISTER MAIL");
-        $logger->err(print_r($config, true));
+        $logger->error("TEST REGISTER MAIL");
+        $logger->error(print_r($config, true));
 
         //Generate validation key
         $salt = $config['register']['validation']['salt'];
@@ -288,7 +288,7 @@ class SecurityController extends BaseController
         catch(\Exception $ex)
         {
             //error while sending mail
-            $logger->err('REGISTER: Could not send mail to '.$this->details['email'].': '.$ex->getMessage());
+            $logger->error('REGISTER: Could not send mail to '.$this->details['email'].': '.$ex->getMessage());
         }
     }
     public function registerMail()
@@ -312,7 +312,7 @@ class SecurityController extends BaseController
         catch(\Exception $ex)
         {
             //error while sending mail
-            $logger->err('REGISTER: Could not send mail: '.$ex->getMessage());
+            $logger->error('REGISTER: Could not send mail: '.$ex->getMessage());
         }
     }  */
     public function membersAction()

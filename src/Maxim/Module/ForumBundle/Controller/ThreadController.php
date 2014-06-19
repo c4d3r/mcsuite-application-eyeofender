@@ -222,7 +222,7 @@ class ThreadController extends Controller
 
             return new Response(json_encode(array("success" => true, "message" => "The thread has been " . ($thread->isPinned() ? "pinned" : "unpinned"))));
         }catch(\Exception $ex) {
-            $logger->err("[FORUM]" . $ex->getMessage());
+            $logger->error("[FORUM]" . $ex->getMessage());
             return new Response(json_encode(array("success" => false, "message" => "An error occured, please try again later.")));
         }
     }
@@ -246,7 +246,7 @@ class ThreadController extends Controller
 
             return new Response(json_encode(array("success" => true, "message" => "The thread has been " . ($thread->isPinned() ? "pinned" : "unpinned"))));
         }catch(\Exception $ex) {
-            $logger->err("[FORUM]" . $ex->getMessage());
+            $logger->error("[FORUM]" . $ex->getMessage());
             return new Response(json_encode(array("success" => false, "message" => "An error occured, please try again later.")));
         }
     }
@@ -284,7 +284,7 @@ class ThreadController extends Controller
             $em->flush();
             return new Response(json_encode(array("success" => true, "message" => "The thread has been " . ($thread->isLocked() ? "locked" : "unlocked"))));
         }catch(\Exception $ex) {
-            $logger->err("[FORUM]" . $ex->getMessage());
+            $logger->error("[FORUM]" . $ex->getMessage());
             return new Response(json_encode(array("success" => false, "message" => "An error occured, please try again later.")));
         }
 
@@ -317,7 +317,7 @@ class ThreadController extends Controller
 
             return new Response(json_encode(array("success" => true, "message" => "The thread has been moved to " . $forum->getTitle())));
         }catch(\Exception $ex) {
-            $logger->err("[FORUM]" . $ex->getMessage());
+            $logger->error("[FORUM]" . $ex->getMessage());
             return new Response(json_encode(array("success" => false, "message" => "An error occured, please try again later.")));
         }
     }

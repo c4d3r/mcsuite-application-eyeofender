@@ -161,12 +161,12 @@ class TicketController extends ModuleController
         $ticket = $em->getRepository('MaximModuleTicketBundle:UserTicket')->findOneBy(array("id" => $id));
 
         if(!$ticket) {
-            $logger->err("could not find blabla");
+            $logger->error("could not find blabla");
             throw $this->createNotFoundException("Could not find ticket with id:" . $id);
         }
 
 
-        $logger->err($id);
+        $logger->error($id);
         if($this->getUser() == null || $ticket->getUser() != $this->getUser()) {
             throw new AccessDeniedException("You are not allowed to access the ticket with id: " . $id);
         }

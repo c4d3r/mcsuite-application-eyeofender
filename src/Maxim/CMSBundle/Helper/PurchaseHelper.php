@@ -56,7 +56,7 @@ class PurchaseHelper {
         catch(\Exception $ex)
         {
             $logger = $this->logger;
-            $logger->err('STORE: '.$ex->getMessage());
+            $logger->error('STORE: '.$ex->getMessage());
         }
     }
 

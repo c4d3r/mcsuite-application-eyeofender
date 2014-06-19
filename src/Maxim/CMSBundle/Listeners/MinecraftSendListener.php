@@ -88,7 +88,7 @@ class MinecraftSendListener {
             $socket = null;
 
         }catch(\Exception $ex) {
-            $this->logger->err($ex->getMessage());
+            $this->logger->error($ex->getMessage());
             throw new CommandExecutionException("[COMMAND]Could not execute command: " . $ex->getMessage());
         }
     }

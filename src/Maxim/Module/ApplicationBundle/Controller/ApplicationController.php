@@ -163,7 +163,7 @@ class ApplicationController extends ModuleController
             }
             catch(\Exception $ex)
             {
-                $logger->err("APPLICATION: " . $ex->getMessage());
+                $logger->error("APPLICATION: " . $ex->getMessage());
                 $output = array("success" => false, "message" => "An error has occured while adding your reply, please try again later");
             }
             return new Response(json_encode($output));
@@ -214,7 +214,7 @@ class ApplicationController extends ModuleController
                 $em->persist($application);
                 $em->flush();
 
-                $logger->err("h6i");
+                $logger->error("h6i");
                 $output = array("success" => true, "message" => "Your application was submited succesfuly");
             }
             else

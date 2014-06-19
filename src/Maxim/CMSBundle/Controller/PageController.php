@@ -8,7 +8,7 @@ class PageController extends Controller
     public function internalAction($page)
     {
     	$logger = $this->container->get('logger');
-		$logger->err('INTERNAL: '.$page);
+		$logger->error('INTERNAL: '.$page);
     	$config = $this->container->getParameter('maxim_cms.general');
         return $this->redirect($config['domain'].$page);
     }
