@@ -1033,7 +1033,7 @@ button:hover {
     transition: all .5s ease;
     color: #fff;
 }
-.btn {
+.btn, button {
     background:#745b99;
     border: 1px solid #493961;
     color: rgb(233, 233, 233);

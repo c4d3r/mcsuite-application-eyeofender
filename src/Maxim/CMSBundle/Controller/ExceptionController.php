@@ -11,9 +11,6 @@ use Symfony\Bundle\FrameworkBundle\Templating\TemplateReference;
 
 class ExceptionController extends BaseController
 {
-
-    private $logger;
-
     public function showAction(Request $request, FlattenException $exception, DebugLoggerInterface $logger = null, $_format = 'html')
     {
         $currentContent = $this->getAndCleanOutputBuffering($request->headers->get('X-Php-Ob-Level', -1));
