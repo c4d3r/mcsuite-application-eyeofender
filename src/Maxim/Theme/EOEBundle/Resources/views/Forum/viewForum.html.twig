@@ -63,10 +63,10 @@
                                 <h3>
                                     <a href="{{ path('forum_thread_view', {'id' : forum.id, 'threadid' : thread.id}) }}" class="tooltip-init" title="{{ thread.title }}">{{ thread.title|cutlength(33) }}</a>
                                 </h3>
-                                <p><a href="{{ path('profile', {'name' : thread.lastPostCreator.username}) }}" class="profile">{{ thread.createdBy.username }}</a>, {{ thread.createdOn|prettydate }}</p>
+                                <p><a href="{{ path('profile', {'name' : thread.createdBy.username}) }}" class="profile">{{ thread.createdBy.username }}</a>, {{ thread.createdOn|prettydate }}</p>
                             </div>
                             <div class="mcsf_thread_update">
-                                {% if thread.lastPost is not null %}
+                                {% if thread.lastPost %}
                                     <h4>last post by <a href="{{ path('profile', {'name' : thread.lastPostCreator.username}) }}" class="profile">{{ thread.lastPostCreator.username }}</a></h4>
                                     <p>{{ thread.lastPost.createdOn|prettydate }}</p>
                                 {% endif %}

@@ -73,6 +73,12 @@ services:
     maxim_cms.action.store_notification:
         class: Maxim\CMSBundle\Action\StoreNotificationAction
         arguments: [ @doctrine.orm.entity_manager, @logger, @purchase.helper, @event_dispatcher, @maxim_cms.deliver.helper]
+
+    maxim_cms.oneupload.listener:
+        class: Maxim\CMSBundle\EventListener\UploadListener
+        arguments: [@doctrine]
+        tags:
+            - { name: kernel.event_listener, event: oneup_uploader.post_persist, method: onUpload }
 # VALIDATORS
     maxim_cms.validator.minecraft:
         class: Maxim\CMSBundle\Component\Validator\ValidMinecraftValidator

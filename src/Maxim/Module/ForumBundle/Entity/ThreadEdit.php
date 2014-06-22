@@ -56,8 +56,10 @@ class ThreadEdit
      */
     protected $updatedOn;
 
-    public function __construct() {
+    public function __construct($thread = null, $updater = null) {
         $this->updatedOn = new \DateTime("now");
+        $this->thread = $thread;
+        $this->updatedBy = $updater;
     }
 
     /**

@@ -14,8 +14,9 @@ use Doctrine\ORM\Query;
 use Maxim\Module\ForumBundle\Entity\Post;
 use Maxim\Module\ForumBundle\Entity\Thread;
 use Maxim\Module\ForumBundle\Entity\ThreadEdit;
-use Maxim\Module\ForumBundle\Form\Type\PostFormType;
-use Maxim\Module\ForumBundle\Form\Type\ThreadFormType;
+use Maxim\Module\ForumBundle\Form\Type\PostType;
+use Maxim\Module\ForumBundle\Form\Type\ThreadType;
+use Maxim\Module\ForumBundle\Form\Type\ThreadEditType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,7 +27,7 @@ class ThreadController extends Controller
     public function createAction($id)
     {
         $request = Request::createFromGlobals();
-        $em      = $this->getDoctrine()->getEntityManager();
+        $em      = $this->getDoctrine()->getManager();
         $user    = $this->get('security.context')->getToken()->getUser();
 
         # search forum
@@ -35,7 +36,7 @@ class ThreadController extends Controller
 
         # create form
         $thread = new Thread($user, $forum);
-        $form = $this->createForm(new ThreadFormType(), $thread);
+        $form = $this->createForm(new ThreadType(), $thread);
 
         # handle form
         $form->handleRequest($request);
@@ -64,26 +65,11 @@ class ThreadController extends Controller
 
     public function editAction($id, $threadid)
     {
-        $em = $this->getDoctrine();
+        $request = Request::createFromGlobals();
+        $em      = $this->getDoctrine()->getManager();
+        $user    = $this->get('security.context')->getToken()->getUser();
 
-        $thread = $em->getRepository('MaximModuleForumBundle:Thread')->findOneBy(array("id" => $threadid));
-
-        if(!$thread) {
-            throw $this->createNotFoundException("Could not find the requested thread");
-        }
-        if($thread->getCreatedBy() != $this->getUser()) {
-            throw new AccessDeniedException("You are not allowed to edit this thread");
-        }
-
-        $data['thread'] = $thread;
-
-        return $this->render('MaximCMSBundle:Forum:editThread.html.twig', $data);
-    }
-    public function editAjaxAction($id, $threadid)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $logger = $this->get('logger');
+        # get thread and validate
         $thread = $em->getRepository('MaximModuleForumBundle:Thread')->findOneBy(array("id" => $threadid));
 
         if(!$thread) {
@@ -93,42 +79,29 @@ class ThreadController extends Controller
             throw new AccessDeniedException("You are not allowed to edit this thread");
         }
 
-        $request = Request::createFromGlobals();
-        $text = $request->request->get('_thread_text');
+        # create form
+        $threadEdit = new ThreadEdit($thread, $this->getUser());
+        $form = $this->createForm(new ThreadEditType(), $threadEdit);
 
-        $thread->setText(strip_tags($text));
+        # handle form
+        $form->handleRequest($request);
+        if ($form->isValid()) {
 
-        $reason = $request->request->get('_reason');
+            $threadEdit = $form->getData();
+            $em->flush();
 
-        $tu = new ThreadEdit();
-        $tu->setReason(strip_tags($reason));
-        $tu->setUpdatedBy($this->getUser());
-        $tu->setThread($thread);
-
-        # validate thread object and edit object
-        $validator = $this->get('validator');
-        $result = $validator->validate($thread);
-        $result2 = $validator->validate($tu);
-
-        $data['array'] = $result;
-        if ((count($result) > 0)){
-            return new Response(json_encode(array('success' => false, 'message' => $this->renderView('MaximCMSBundle:Exception:arrayToList.html.twig', $data))));
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'Your thread has been updated!'
+            );
+            return $this->redirect($this->generateUrl('forum_thread_view', array('id' => $thread->getForum()->getId(), 'threadid' => $thread->getId())));
         }
 
-        $data['array'] = $result2;
-        if ((count($result2) > 0)){
-            return new Response(json_encode(array('success' => false, 'message' => $this->renderView('MaximCMSBundle:Exception:arrayToList.html.twig', $data))));
-        }
+        # set vars
+        $data['form']  = $form->createView();
+        $data['thread'] = $thread;
 
-        $thread->setText($text);
-        $tu->setReason($reason);
-        $em->persist($tu);
-        $em->flush();
-
-        return new Response(json_encode(array("success" => true, "message" => "Your thread has been updated", "redirect" => $this->generateUrl(
-            'forum_thread_view',
-            array('id' => $thread->getForum()->getId(), 'threadid' => $threadid)
-        ))));
+        return $this->render('MaximCMSBundle:Forum:editThread.html.twig', $data);
     }
 
     public function viewAction($id, $threadid)
@@ -162,7 +135,7 @@ class ThreadController extends Controller
 
         # create form
         $post = new Post($user, $thread);
-        $form = $this->createForm(new PostFormType(), $post);
+        $form = $this->createForm(new PostType(), $post);
 
         # handle form
         $form->handleRequest($request);

@@ -1,35 +1,39 @@
 <?php
 /**
  * Author: Maxim
- * Date: 05/02/14
- * Time: 14:21
+ * Date: 22/06/2014
+ * Time: 10:08
  * Property of MCSuite
  */
 
 namespace Maxim\Module\ForumBundle\Form\Type;
+
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class PostFormType extends AbstractType
+class PostEditType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $this->buildPostForm($builder, $options);
+        $this->buildThreadForm($builder, $options);
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Maxim\Module\ForumBundle\Entity\Post',
+            'data_class' => 'Maxim\Module\ForumBundle\Entity\PostEdit',
             'intention'  => 'thread',
         ));
     }
 
-    public function buildPostForm(FormBuilderInterface $builder, array $options)
+    public function buildThreadForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('text', 'textarea', array(
+            ->add('post', new PostType())
+            ->add('reason', 'textarea', array(
+                'required' => true,
                 'attr' => array(
                     'class' => 'redactor-init'
                 )
@@ -38,6 +42,6 @@ class PostFormType extends AbstractType
 
     public function getName()
     {
-        return 'maxim_module_forum_post';
+        return "maxim_module_forum_post_edit";
     }
-} 
+}

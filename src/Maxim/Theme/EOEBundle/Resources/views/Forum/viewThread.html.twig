@@ -41,12 +41,6 @@
                     <div class="mcsf_post">
 
                         <div class="mcsf_post_author">
-                            {#
-                            {% if is_granted('ROLE_STAFF') %}
-                                <span class="mcsf_admin_userip">{{ post.createdBy.lastIp }}</span>
-                            {% endif %}
-                            #}
-
                             <ul class="mcsf_post_author_details">
                                 <li class="mcsf_post_author_name">
                                     <a href="{{ path('profile', {'name' : thread.createdBy.username}) }}" alt="visit profile of{{ thread.createdBy.username }}">
@@ -56,7 +50,7 @@
                                 <li class="mcsf_post_author_image">
                                     <img src="http://minotar.net/helm/{{ thread.createdBy.username }}/80.png" alt="image of {{ thread.createdBy.username }}"/>
                                 </li>
-                                <li class="mcsf_post_author_smalltext">Your personal message</li>
+                                <li class="mcsf_post_author_smalltext">{{ thread.createdBy.forumText }}</li>
                             </ul>
 
                             <p class="mcsf_post_author_title {{ thread.createdBy.group.cssClass }}">{{ thread.createdBy.group.name }}</p>
@@ -74,14 +68,13 @@
                             </div>
 
 
-                            <div class="mcsf_post_content_lowerbar">
+                            <ul class="mcsf_post_content_lowerbar clearfix">
                                 {# OPTIONS #}
                                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and thread.createdBy.id == app.user.id %}
-                                    <a class="mcsf_post_option_button" href="{{ path('forum_post_edit', {'id' : thread.forum.id, 'threadid' : thread.id, 'postid': thread.id}) }}">Edit</a>
+                                    <li><a class="mcsf_post_option_button" href="{{ path('forum_thread_edit', {'id' : thread.forum.id, 'threadid' : thread.id}) }}">Edit</a></li>
                                 {% endif %}
-
-                                <span class="mcsf_post_createdOn">{{ thread.createdOn|prettydate }}</span>
-                            </div>
+                                <li><span class="mcsf_post_createdOn">{{ thread.createdOn|prettydate }}</span></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -94,12 +87,6 @@
                         <div class="mcsf_post clearfix">
 
                             <div class="mcsf_post_author">
-                                {#
-                                {% if is_granted('ROLE_STAFF') %}
-                                    <span class="mcsf_admin_userip">{{ post.createdBy.lastIp }}</span>
-                                {% endif %}
-                                #}
-
                                 <ul class="mcsf_post_author_details">
                                     <li class="mcsf_post_author_name">
                                         <a href="{{ path('profile', {'name' : post.createdBy.username}) }}" alt="visit profile of{{ post.createdBy.username }}">
@@ -109,7 +96,7 @@
                                     <li class="mcsf_post_author_image">
                                         <img src="http://minotar.net/helm/{{ post.createdBy.username }}/80.png" alt="image of {{ post.createdBy.username }}"/>
                                     </li>
-                                    <li class="mcsf_post_author_smalltext">Your personal message</li>
+                                    <li class="mcsf_post_author_smalltext">{{ thread.createdBy.forumText }}</li>
                                 </ul>
 
                                 <p class="mcsf_post_author_title {{ post.createdBy.group.cssClass }}">{{ post.createdBy.group.name }}</p>
@@ -130,22 +117,22 @@
                                 </div>
 
 
-                                <div class="mcsf_post_content_lowerbar clearfix">
+                                <ul class="mcsf_post_content_lowerbar clearfix">
                                     {# OPTIONS #}
                                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and post.createdBy.id == app.user.id %}
-                                        <a class="mcsf_post_option_button" href="{{ path('forum_post_edit', {'id' : thread.forum.id, 'threadid' : thread.id, 'postid': post.id}) }}">Edit</a>
+                                        <li><a class="mcsf_post_option_button" href="{{ path('forum_post_edit', {'id' : thread.forum.id, 'threadid' : thread.id, 'postid': post.id}) }}">Edit</a></li>
                                     {% endif %}
                                     {% if post.likesHasUser(app.user) %}
-                                        <span class="mcsf_post_like_text">You liked this!</span>
+                                        <li><span class="mcsf_post_like_text">You liked this!</span></li>
                                     {% else %}
-                                        <button class="mcsf_post_like mcsf_post_option_button" value="{{ post.id }}">Like</button>
+                                        <li><button class="mcsf_post_like mcsf_post_option_button" value="{{ post.id }}">Like</button></li>
                                     {% endif %}
 
                                     {% if post.likes|length > 0 %}
-                                        <span class="mcsf_post_amountLikes{% if post.likes|length > 5 %} mcsf_post_amountLikes-extra{% endif %}">{{ post.likes|length }}</span>
+                                        <li><span class="mcsf_post_amountLikes{% if post.likes|length > 5 %} mcsf_post_amountLikes-extra{% endif %}">{{ post.likes|length }}</span></li>
                                     {% endif %}
-                                    <span class="mcsf_post_createdOn">{{ post.createdOn|prettydate }}</span>
-                                </div>
+                                    <li><span class="mcsf_post_createdOn">{{ post.createdOn|prettydate }}</span></li>
+                                </ul>
                             </div>
                         </div>
                     {% endfor %}

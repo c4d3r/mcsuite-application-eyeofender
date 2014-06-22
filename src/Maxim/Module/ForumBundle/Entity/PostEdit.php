@@ -28,8 +28,10 @@ class PostEdit
 
     protected $updatedOn;
 
-    public function __construct() {
+    public function __construct($post = null, $updater = null) {
         $this->updatedOn = new \DateTime("now");
+        $this->post = $post;
+        $this->updatedBy = $updater;
     }
 
     /**

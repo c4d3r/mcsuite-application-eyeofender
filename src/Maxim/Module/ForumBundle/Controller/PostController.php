@@ -11,6 +11,7 @@ namespace Maxim\Module\ForumBundle\Controller;
 
 use Maxim\Module\ForumBundle\Entity\Post;
 use Maxim\Module\ForumBundle\Entity\PostEdit;
+use Maxim\Module\ForumBundle\Form\Type\PostEditType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,69 +49,42 @@ class PostController extends Controller
     }
     public function editAction($id, $threadid, $postid)
     {
-        $em = $this->getDoctrine();
+        $request = Request::createFromGlobals();
+        $em      = $this->getDoctrine()->getManager();
+        $user    = $this->get('security.context')->getToken()->getUser();
 
+        # get thread and validate
         $post = $em->getRepository('MaximModuleForumBundle:Post')->findOneBy(array("id" => $postid));
 
         if(!$post) {
-            throw $this->createNotFoundException("Could not find the requested thread");
+            throw $this->createNotFoundException("Could not find the requested post");
         }
-        if($post->getCreatedBy()->getId() != $this->getUser()->getId()) {
-            throw new AccessDeniedException("You are not allowed to edit this thread");
+        if($post->getCreatedBy()->getId() != $user->getId()) {
+            throw new AccessDeniedException("You are not allowed to edit this post");
         }
 
+        # create form
+        $postedit = new PostEdit($post, $user);
+        $form = $this->createForm(new PostEditType(), $postedit);
+
+        # handle form
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+
+            $postedit = $form->getData();
+            $em->flush();
+
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'Your post has been updated!'
+            );
+            return $this->redirect($this->generateUrl('forum_thread_view', array('id' => $post->getThread()->getForum()->getId(), 'threadid' => $post->getThread()->getId())));
+        }
+
+        # set vars
+        $data['form']  = $form->createView();
         $data['post'] = $post;
 
         return $this->render('MaximCMSBundle:Forum:editPost.html.twig', $data);
-    }
-    public function editAjaxAction($id, $threadid, $postid)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $post = $em->getRepository('MaximModuleForumBundle:Post')->findOneBy(array("id" => $postid));
-
-        if(!$post) {
-            throw $this->createNotFoundException("Could not find the requested thread");
-        }
-        if($post->getCreatedBy()->getId() != $this->getUser()->getId()) {
-            throw new AccessDeniedException("You are not allowed to edit this thread");
-        }
-
-        $request = Request::createFromGlobals();
-        $text = $request->request->get('_post_text');
-
-        $post->setText(strip_tags($text));
-
-        $pu = new PostEdit();
-        $reason = $request->request->get('_reason');
-        $pu->setReason(strip_tags($reason));
-        $pu->setUpdatedBy($this->getUser());
-        $pu->setPost($post);
-
-        # validate thread object and edit object
-        $validator = $this->get('validator');
-        $result = $validator->validate($post);
-        $result2 = $validator->validate($pu);
-
-        $data['array'] = $result;
-        if ((count($result) > 0)){
-            return new Response(json_encode(array('success' => false, 'message' => $this->renderView('MaximCMSBundle:Exception:arrayToList.html.twig', $data))));
-        }
-
-        $data['array'] = $result2;
-        if ((count($result2) > 0)){
-            return new Response(json_encode(array('success' => false, 'message' => $this->renderView('MaximCMSBundle:Exception:arrayToList.html.twig', $data))));
-        }
-
-        $pu->setReason($reason);
-        $post->setText($text);
-
-        $em->persist($pu);
-        $em->flush();
-
-        return new Response(json_encode(array("success" => true, "message" => "Your post has been updated", "redirect" => $this->generateUrl(
-            'forum_thread_view',
-            array('id' => $id, 'threadid' => $threadid)
-        ))));
     }
 }

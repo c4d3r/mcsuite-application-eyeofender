@@ -9,18 +9,12 @@ forum_view:
 ##################
 # THREAD ACTIONS
 ##################
-forum_thread_create_ajax:
-  path: /{id}/thread/create/ajax
-  defaults: { _controller: MaximModuleForumBundle:Thread:createAjax }
 forum_thread_create:
   path: /{id}/thread/create
   defaults: { _controller: MaximModuleForumBundle:Thread:create }
 forum_thread_view:
   path: /{id}/thread/{threadid}
   defaults: { _controller: MaximModuleForumBundle:Thread:view }
-forum_thread_edit_ajax:
-  path: /{id}/thread/{threadid}/edit/ajax
-  defaults: { _controller: MaximModuleForumBundle:Thread:editAjax }
 forum_thread_edit:
   path: /{id}/thread/{threadid}/edit
   defaults: { _controller: MaximModuleForumBundle:Thread:edit }
@@ -52,9 +46,6 @@ forum_thread_reply_ajax:
 forum_post_like_ajax:
   path: /post/{id}/like/ajax
   defaults: { _controller: MaximModuleForumBundle:Post:likeAjax }
-forum_post_edit_ajax:
-  path: /{id}/thread/{threadid}/post/{postid}/edit/ajax
-  defaults: { _controller: MaximModuleForumBundle:Post:editAjax }
 forum_post_edit:
   path: /{id}/thread/{threadid}/post/{postid}/edit
   defaults: { _controller: MaximModuleForumBundle:Post:edit }
