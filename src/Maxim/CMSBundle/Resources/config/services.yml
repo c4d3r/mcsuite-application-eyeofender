@@ -79,6 +79,11 @@ services:
         arguments: [@doctrine]
         tags:
             - { name: kernel.event_listener, event: oneup_uploader.post_persist, method: onUpload }
+    maxim_cms.registration.listener:
+        class: Maxim\CMSBundle\EventListener\RegistrationListener
+        arguments: [@doctrine, @minecraft.helper]
+        tags:
+            - { name: kernel.event_subscriber }
 # VALIDATORS
     maxim_cms.validator.minecraft:
         class: Maxim\CMSBundle\Component\Validator\ValidMinecraftValidator

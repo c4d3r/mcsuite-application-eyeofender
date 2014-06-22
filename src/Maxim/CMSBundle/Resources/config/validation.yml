@@ -22,8 +22,14 @@ Maxim\CMSBundle\Entity\User:
                 max: 50
                 maxMessage: "Your personal text can only contain a maximum of {{ limit }} characters."
     constraints:
-        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: username
-        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: email
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+            fields: [username]
+            errorPath: username
+            message: 'This username has already been used'
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+            fields: [email]
+            errorPath: email
+            message: 'This email has alread been used'
         - Maxim\CMSBundle\Validator\Constraints\ValidMinecraft: { groups: [Registration] }
     getters:
         #passwordMatch:
