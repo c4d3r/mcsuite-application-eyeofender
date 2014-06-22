@@ -1,9 +1,9 @@
 <ul class="right">
-    <li class="has-dropdown">
+    <li class="dropdown">
 
-        <a href="#" data-dropdown="drop-notifications">Notifications<span class="badge">{{ userNotifications|length }}</span></a>
+        <a href="#" role="button" data-dropdown="drop-notifications" data-toggle="dropdown">Notifications<span class="badge">{{ userNotifications|length }}</span></a>
 
-        <ul class="dropdown menu" id="drop-notifications" data-dropdown-content>
+        <ul class="dropdown-menu" id="drop-notifications" aria-labelledby="drop-notifications">
             {% for notification in userNotifications %}
                 <li class="notification{% if notification.isRead() %} notification-read{% endif %}" id="{{ notification.id }}">
                     {% if notification.type == "NOTIFICATION_FRIENDREQUEST" %}

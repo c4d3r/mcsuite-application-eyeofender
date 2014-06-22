@@ -26,7 +26,6 @@ class ValidMinecraftValidator extends ConstraintValidator
         if(!$verified['success'])
         {
             # return violation
-            print_r($verified);
             $this->context->addViolation($constraint->customMinecraftMessage, array('%string%' => $verified['message']));
         }
         else if(strtoupper(trim($verified['account']["name"])) != strtoupper(trim($object->getUsername())))

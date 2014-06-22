@@ -54,7 +54,7 @@ class StoreController extends Controller
 		$data['config'] = array("currency" => $donate_config['currency_symbol']);
         $data['categories'] = $storeCategories;
 
-        return $this->render('MaximCMSBundle:pages:store/view.html.twig', $data);
+        return $this->render('MaximCMSBundle:Store:view.html.twig', $data);
 	}
 	
 	public function step2Action(Request $request)
@@ -65,7 +65,7 @@ class StoreController extends Controller
 
         $username 	= $request->request->get('_ign');
 
-        return $this->render('MaximCMSBundle:pages:store/step2.html.twig', array(
+        return $this->render('MaximCMSBundle:Store:step2.html.twig', array(
             'item'      =>   $id,
             'ign'       =>   $username
         ));
@@ -129,7 +129,7 @@ class StoreController extends Controller
         );
         $data['config'] = $donate_config;
 
-        return $this->render('MaximCMSBundle:pages:store/confirm.html.twig', $data);
+        return $this->render('MaximCMSBundle:Store:confirm.html.twig', $data);
     }
 
     public function prepareAction(User $user, $mcuser, StoreItem $item)

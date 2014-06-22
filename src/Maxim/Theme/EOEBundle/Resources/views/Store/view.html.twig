@@ -1,0 +1,78 @@
+{% extends 'MaximCMSBundle:Default:index.html.twig' %}
+{% block body %}
+
+    {% set shopEnabled = true %}
+    <div class="page">
+        <h3 class="page-header">Shop</h3>
+        <div class="page-content clearfix">
+
+            {% if shopEnabled == true %}
+            <form action="{{ path('shop_step2') }}" method="post" class="frmShop">
+                <div class="tabbable">
+                    <ul class="menu menu-pills clearfix" id="shop-tabs">
+                        {% for key, category in categories %}
+                            {% if key == 0 %}
+                                <li class="active"><a href="#tab{{ category.id }}" data-toggle="tab">{{ category.name }}</a></li>
+                            {% else %}
+                                <li><a href="#tab{{ category.id }}" data-toggle="tab">{{ category.name }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+
+                    <div class="tab-content">
+
+                        <div id="store">
+                            {% for key, category in categories if category.items|length > 0 %}
+                                <ul class="tab-pane store-items animated{% if key == 0 %} in active{% endif %}" id="tab{{ category.id }}">
+                                    {% for item in category.items if item.visible %}
+                                        <li class="store-item">
+                                            <div class="store-item-image">
+                                                <figure>
+                                                    <img src="{{ item.image }}" alt="{{ item.image }}"/>
+                                                    <figcaption>
+                                                        <span class="store-button-buy-price">{{ config.currency }} {{ item.amount + (item.amount * (item.tax / 100)) }}</span>
+                                                    </figcaption>
+                                                </figure>
+                                            </div>
+
+                                            <h4 class="store-item-name">{{ item.name }}</h4>
+
+                                            <div class="store-buttons">
+                                                <button class="store-button-info" data-toggle="modal" data-target="#item-description-holder{{ item.id }}" type="button">
+                                                    <i class="glyphicon glyphicon-info-sign"></i>
+                                                </button>
+                                                <button class="store-button-buy" name="_btnBuy" value="{{ item.id }}" type="submit">
+                                                    <i class="glyphicon glyphicon-shopping-cart"></i>
+                                                    <span>Buy</span>
+                                                </button>
+                                            </div>
+
+                                            <div class="modal animated fadeInDown" id="item-description-holder{{ item.id }}" tabindex="-1" role="dialog" aria-labelledby="item-description-holder{{ item.id }} label" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                            <h4 class="modal-title" id="myModalLabel">{{ item.name }}</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            {{ item.description|raw }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    {% else %}
+                                        <li class="store-no-items"><p>No items have been found in this category</p></li>
+                                    {% endfor %}
+                                </ul>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </form>
+            {% else %}
+                <p>Shop is closed currently and will re-open soon.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

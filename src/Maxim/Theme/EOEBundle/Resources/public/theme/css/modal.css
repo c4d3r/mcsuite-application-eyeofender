@@ -4,13 +4,16 @@
 .modal {
     display: none;
     overflow: auto;
-    overflow-y: scroll;
+    overflow-y: hidden;
     position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: 1040;
+    z-index: 1050;
+    -webkit-overflow-scrolling: touch;
+    outline: 0;
+    color: #FFF;
 }
 .modal.fade .modal-dialog {
     -webkit-transform: translate(0, -25%);
@@ -28,15 +31,12 @@
 }
 .modal-dialog {
     position: relative;
-    margin-left: auto;
-    margin-right: auto;
     width: auto;
-    padding: 10px;
-    z-index: 1050;
+    margin: 10px;
 }
 .modal-content {
     position: relative;
-    background-color: #ffffff;
+    background-color: #4d4d4d;
     border: 1px solid #999999;
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 6px;
@@ -44,6 +44,7 @@
     box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
     background-clip: padding-box;
     outline: none;
+    overflow-y: auto;
 }
 .modal-backdrop {
     position: fixed;
@@ -51,7 +52,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: 1030;
+    z-index: 1040;
     background-color: #000000;
 }
 .modal-backdrop.fade {
@@ -64,15 +65,20 @@
 }
 .modal-header {
     padding: 15px;
-    border-bottom: 1px solid #e5e5e5;
-    min-height: 16.428571429px;
+    border-bottom: 1px solid #2C2C2C;
+    min-height: 16.42857143px;
 }
 .modal-header .close {
     margin-top: -2px;
+    padding: 10px 15px;
+}
+.modal-header .close:hover {
+    cursor:pointer;
 }
 .modal-title {
     margin: 0;
-    line-height: 1.428571429;
+    line-height: 1.42857143;
+    font-size: 16pt;
 }
 .modal-body {
     position: relative;
@@ -84,18 +90,6 @@
     text-align: right;
     border-top: 1px solid #e5e5e5;
 }
-.modal-footer:before,
-.modal-footer:after {
-    content: " ";
-    /* 1 */
-
-    display: table;
-    /* 2 */
-
-}
-.modal-footer:after {
-    clear: both;
-}
 .modal-footer .btn + .btn {
     margin-left: 5px;
     margin-bottom: 0;
@@ -106,14 +100,22 @@
 .modal-footer .btn-block + .btn-block {
     margin-left: 0;
 }
-@media screen and (min-width: 768px) {
+@media (min-width: 768px) {
     .modal-dialog {
         width: 600px;
-        padding-top: 30px;
-        padding-bottom: 30px;
+        margin: 30px auto;
     }
     .modal-content {
         -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
     }
+    .modal-sm {
+        width: 300px;
+    }
 }
+@media (min-width: 992px) {
+    .modal-lg {
+        width: 900px;
+    }
+}
+

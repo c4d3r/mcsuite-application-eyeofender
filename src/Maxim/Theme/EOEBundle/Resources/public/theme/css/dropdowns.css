@@ -1,3 +1,13 @@
+.caret {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 2px;
+    vertical-align: middle;
+    border-top: 4px solid;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+}
 .dropdown {
     position: relative;
 }
@@ -16,7 +26,7 @@
     margin: 2px 0 0;
     list-style: none;
     font-size: 14px;
-    background-color: #ffffff;
+    background-color: #4d4d4d;
     border: 1px solid #cccccc;
     border: 1px solid rgba(0, 0, 0, 0.15);
     border-radius: 4px;
@@ -39,24 +49,15 @@
     padding: 3px 20px;
     clear: both;
     font-weight: normal;
-    line-height: 1.428571429;
-    color: #333333;
+    line-height: 1.42857143;
+    color: #FFF;
     white-space: nowrap;
-
-    width:100%;
-
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-
-    display:table-cell;
-    vertical-align:middle;
 }
 .dropdown-menu > li > a:hover,
 .dropdown-menu > li > a:focus {
     text-decoration: none;
-    color: #262626;
-    background-color: #f5f5f5;
+    color: #FFF;
+    background-color: #745b99;
 }
 .dropdown-menu > .active > a,
 .dropdown-menu > .active > a:hover,
@@ -85,11 +86,19 @@
 .open > a {
     outline: 0;
 }
+.dropdown-menu-right {
+    left: auto;
+    right: 0;
+}
+.dropdown-menu-left {
+    left: 0;
+    right: auto;
+}
 .dropdown-header {
     display: block;
     padding: 3px 20px;
     font-size: 12px;
-    line-height: 1.428571429;
+    line-height: 1.42857143;
     color: #999999;
 }
 .dropdown-backdrop {
@@ -106,8 +115,8 @@
 }
 .dropup .caret,
 .navbar-fixed-bottom .dropdown .caret {
-    border-top: 0 dotted;
-    border-bottom: 4px solid #000000;
+    border-top: 0;
+    border-bottom: 4px solid;
     content: "";
 }
 .dropup .dropdown-menu,
@@ -118,10 +127,11 @@
 }
 @media (min-width: 768px) {
     .navbar-right .dropdown-menu {
-        right: 0;
         left: auto;
+        right: 0;
     }
-}
-.dropdown-menu > li > a{
-    width:100%;
+    .navbar-right .dropdown-menu-left {
+        left: 0;
+        right: auto;
+    }
 }

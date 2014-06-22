@@ -41,6 +41,10 @@ class RegistrationController extends BaseController
         $form->setData($user);
 
         if ('POST' === $request->getMethod()) {
+
+            $logger = $this->container->get('logger');
+            $logger->error(print_r($user, true));
+
             $form->bind($request);
 
             if ($form->isValid()) {

@@ -48,10 +48,10 @@
             {# TOP BAR #}
             {% if networks %}
                 <ul class="left" id="networks">
-                    <li>
-                        <a href="#" data-dropdown="drop-networks">Eye of Ender</a>
+                    <li class="dropdown">
+                        <a href="#" role="button" id="drop-networks" data-toggle="dropdown">Eye of Ender <b class="caret"></b></a>
 
-                        <ul id="drop-networks" class="dropdown menu" data-dropdown-content>
+                        <ul id="drop-network" class="dropdown-menu" role="menu" aria-labelledby="drop-networks">
                             <li><a href="http://eyeofender.com" title="Eye of Ender">Eye of Ender</a></li>
                         </ul>
                     </li>
@@ -71,10 +71,10 @@
         <ul class="right">
 
             <li><a href="{{ path('home') }}"><span class="glyphicon glyphicon-home"></span>Home</a></li>
-            <li>
-                <a href="#" data-dropdown="drop-servers"><span class="glyphicon glyphicon-tasks"></span>Servers &raquo;</a>
+            <li class="dropdown">
+                <a href="#" role="button" id="drop-servers" data-toggle="dropdown"><span class="glyphicon glyphicon-tasks"></span>Servers &raquo;</a>
 
-                <ul id="drop-servers" class="dropdown animated fadeInDown menu" data-dropdown-content>
+                <ul class="dropdown-menu" aria-labelledby="drop-servers">
                     <li><a href="#">Archergames</a></li>
                 </ul>
             </li>
@@ -82,10 +82,10 @@
             <li><a href="{{ path('forum_main') }}" title="Forums"><span class="glyphicon glyphicon-list-alt"></span>Forum</a></li>
             <li><a href="#" title="About Us"><span class="glyphicon glyphicon-info-sign"></span>About Us</a></li>
             <li><a href="{{ path('tickets_index') }}" title="Contact"><span class="glyphicon glyphicon-envelope"></span>Contact</a></li>
-            <li>
-                <a href="#" data-dropdown="drop-pages"><span class="glyphicon glyphicon-plus"></span>Other &raquo;</a>
+            <li class="dropdown">
+                <a href="#" role="button" id="drop-pages" data-toggle="dropdown"><span class="glyphicon glyphicon-plus"></span>Other &raquo;</a>
 
-                <ul id="drop-pages" class="dropdown animated fadeInDown menu" data-dropdown-content>
+                <ul class="dropdown-menu" aria-labelledby="drop-pages">
                     {{ render(controller('MaximCMSBundle:Default:custom_pages')) }}
                 </ul>
             </li>
@@ -218,10 +218,8 @@
 
 <!-- SCRIPTS -->
 <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 {% javascripts
-    '@MaximThemeEOEBundle/Resources/public/theme/framework/zurb/js/modernizr.js'
-    '@MaximThemeEOEBundle/Resources/public/theme/framework/zurb/js/foundation.min.js'
     '@MaximCMSBundle/Resources/public/js/AJAX.js'
     '@MaximCMSBundle/Resources/public/js/UI.js'
     '@MaximCMSBundle/Resources/public/plugins/redactor/plugins/fontcolor.js'
@@ -258,9 +256,6 @@
 <script>
     {% block scripts %}
     {% endblock scripts %}
-    // foundation init
-    $(document).foundation();
-
     // twitter
     !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
 

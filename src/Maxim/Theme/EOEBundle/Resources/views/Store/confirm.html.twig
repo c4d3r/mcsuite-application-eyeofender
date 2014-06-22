@@ -2,26 +2,24 @@
 
 {% block body %}
 <div class="page">
-	<div class="page-header">
-		<h3>Shop - Confirm</h3>
-	</div>
-	<div class="page-content">
+    <h3 class="page-header">Shop - Confirm</h3>
+    <div class="page-content">
         <div class="well">
-            <h4>CONFIRMATION</h4>
-			<table class="table">
+            <h4>Confirmation</h4>
+            <table class="table">
                 <tr>
-                    <th>Category:</th>
+                    <th style="width: 100px;">Category:</th>
                     <td>{{ item.category.name }}</td>
                 </tr>
-				<tr>
-					<th>Group / Item:</th>
-					<td>{{ item.name }}</td>
-				</tr>
-				<tr>
-					<th>User:</th>
-					<td>{{ user.username }}</td>
-				</tr>
-				<tr>
+                <tr>
+                    <th>Group / Item:</th>
+                    <td>{{ item.name }}</td>
+                </tr>
+                <tr>
+                    <th>User:</th>
+                    <td>{{ user.username }}</td>
+                </tr>
+                <tr>
                     <th>Price:</th>
                     <td>{{ config.currency_symbol }} {{ item.amount|number_format(2) }}</td>
                 </tr>
@@ -33,8 +31,8 @@
                     <th>Grand total:</th>
                     <td>{{ config.currency_symbol }} {{ (item.amount + (item.amount * (item.tax / 100)))|number_format(2) }}</td>
                 </tr>
-			</table>
-            <h3>Checkout</h3>
+            </table>
+            <h4>Checkout</h4>
             <div class="ShopConfirmBox-payment-method panel">
                 <form action="{{ path('shop_finish') }}" method="post" style="margin:0;" id="frmShop">
                     <input type="hidden" name="cmd" value="_xclick" />
@@ -49,7 +47,7 @@
             <div id="iframe-loader" class="alert alert-info"></div>
             <div id="frmIframeHolder" class="panel" style="display:none;"></div>
         </div>
-	</div>
+    </div>
 </div>
 {% endblock %}
 {% block scripttags %}

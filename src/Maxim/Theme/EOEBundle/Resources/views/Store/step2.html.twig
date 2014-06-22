@@ -1,0 +1,49 @@
+{% extends 'MaximCMSBundle:Default:index.html.twig' %}
+
+{% block body %}
+<div class="page">
+    <h3 class="page-header">Shop - step 2</h3>
+	<div class="page-content">
+
+		<form action="{{ path('shop_confirm') }}" method="post">
+            <fieldset>
+                <div class="form-group">
+                    <label for="shop-name" class="control-label">Username: </label>
+                    <input type="text" name="_ign" id="shop-name" class="form-control" value="{{ app.user.username }}" placeholder="Place your minecraft username in here">
+                </div>
+                <div class="shop-terms">
+                    <div class="box-scroll-content" id="shop-terms">
+                        {{ getNode('shop.terms') }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" id="shop-terms-continue" name="confirm_donation_submit" style="margin-top:10px;">Agree and continue</button>
+                </div>
+                <div class="form-group">
+                    <input type="hidden" name="_previousChoice" value="{{ item }}" />
+                </div>
+            </fieldset>
+		</form>
+	</div>
+</div>
+{% endblock %}
+{#{% block scripttags %}
+<script>
+    $(document).ready(function(){
+
+        var config = {
+            accept: "I have read the terms and accept them"
+        }
+
+        $('#shop-terms').bind('scroll', function()
+        {
+            if($(this).scrollTop() +$(this).innerHeight() >= $(this)[0].scrollHeight)
+            {
+                $('#shop-terms-text').text(config.accept);
+                $('#shop-terms-accept').removeAttr("disabled");
+                $('#shop-terms-continue').removeAttr("disabled");
+            }
+        });
+    });
+</script>
+{% endblock %}#}
