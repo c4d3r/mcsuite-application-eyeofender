@@ -102,13 +102,12 @@ class StoreController extends Controller
         $today = new \DateTime("now");
         $purchase = $em->getRepository('MaximCMSBundle:Purchase')->findOneBy(array("name" => $username, "storeItem" => $item));
 
-        if($purchase && ($purchase->getDate()->getTimestamp() + $item->getDuration() > $today->getTimestamp())){
-            echo "set flashbag";
+       /* if($purchase && ($purchase->getDate()->getTimestamp() + $item->getDuration() > $today->getTimestamp())){
             $this->get('session')->getFlashBag()->add(
                 'warning',
                 sprintf("%s already has the item you are trying to buy.", $username)
             );
-        }
+        }  */
 
         $custom = $username.'|'.date("Y-m-d H:i:s").'|'.$id.'|'.$_SERVER['REMOTE_ADDR'].'|'.$user->getEmail();
 
@@ -298,7 +297,7 @@ class StoreController extends Controller
         if ($status->isSuccess())
         {
             $session->getFlashBag()->set(
-                'notice',
+                'success',
                 'Payment success.'
             );
         }
@@ -306,7 +305,7 @@ class StoreController extends Controller
         {
             $session->getFlashBag()->set(
                 'notice',
-                'Payment is still pending. Credits were not added'
+                'Thank you for your payment, your payment was received and your credits will be awarded shortly.'
             );
         }
         else

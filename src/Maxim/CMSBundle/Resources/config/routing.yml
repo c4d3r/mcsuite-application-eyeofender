@@ -19,10 +19,6 @@ commentAction:
   defaults: { _controller: MaximCMSBundle:Default:add }
   requirements:
      key: ".+"
-news_comments:
-  path: /news/{newsId}
-  defaults: { _controller: MaximCMSBundle:Default:post }
-
 #register_validation:
 #  path: /validate/{key}
 #  defaults: { _controller: MaximCMSBundle:Security:validate }
