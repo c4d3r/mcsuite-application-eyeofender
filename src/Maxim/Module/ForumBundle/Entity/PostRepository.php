@@ -31,7 +31,7 @@ class PostRepository extends EntityRepository
     public function findLatestPosts($amount = 10, $websiteid)
     {
         $query = $this->getEntityManager()->createQuery(
-            "SELECT p, u2, t
+            "SELECT p, u2, t, f
             FROM MaximModuleForumBundle:Post p
             INNER JOIN p.createdBy u2
             LEFT JOIN p.thread t

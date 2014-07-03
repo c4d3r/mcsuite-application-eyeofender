@@ -107,7 +107,7 @@ class ThreadController extends Controller
         return $this->render('MaximCMSBundle:Forum:editThread.html.twig', $data);
     }
 
-    public function viewAction($id, $threadid, $page = NULL)
+    public function viewAction($threadid, $page = NULL)
     {
         $em      = $this->getDoctrine()->getManager();
         $request = Request::createFromGlobals();
