@@ -13,8 +13,14 @@ file that was distributed with this source code.
 
 {% block row %}
 
+    {% if object.getLastReply().user.hasRole('ROLE_STAFF') and object.getLastHistory().isReply() and object.user != object.getLastReply().user %}
+        <span class="label label-success">Awaiting user action</span>
+    {% else %}
+        <span class="label label-danger">Awaiting moderator action</span>
+    {% endif %}
+
     {% if object.user.hasRole('ROLE_STAFF')%}
-        <span class="label label-info">Staff</span>
+        <span class="label label-info">Staffs</span>
     {% endif %}
 
     {% if object.closed == true %}

@@ -11,12 +11,6 @@ namespace Maxim\Module\TicketBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * TicketHistory
- *
- * @ORM\Table(name="ticket_history")
- * @ORM\Entity
- */
 class TicketHistory
 {
     const TYPE_REPLY = "REPLY";
@@ -123,5 +117,9 @@ class TicketHistory
         $this->userTicket = $userTicket;
     }
 
+    public function isReply()
+    {
+        return $this->type == self::TYPE_REPLY;
+    }
 
 } 

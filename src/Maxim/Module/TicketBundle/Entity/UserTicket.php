@@ -184,4 +184,14 @@ class UserTicket
     {
         $this->replies = $replies;
     }
+
+    public function getLastHistory()
+    {
+        return $this->history[count($this->history) - 1];
+    }
+
+    public function getLastReply()
+    {
+        return $this->replies[count($this->replies) - 1];
+    }
 } 
