@@ -96,6 +96,9 @@ services:
         calls:
             - [ setTemplate, [edit, MaximCMSBundle:AdminSonata:edit.html.twig]]
 
+    # ---------
+    #   FORUM
+    # ---------
     sonata.admin.forum.category:
         class: Maxim\Module\ForumBundle\Admin\CategoryAdmin
         tags:
@@ -138,6 +141,18 @@ services:
             - ~
             - Maxim\Module\ForumBundle\Entity\Post
             - ~
+    sonata.admin.forum.award:
+        class: Maxim\Module\ForumBundle\Admin\AwardAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Forum", label: "Awards" }
+        arguments:
+            - ~
+            - Maxim\CMSBundle\Entity\Award
+            - ~
+
+    # ---------------
+    #   APPLICATION
+    # ---------------
     sonata.admin.module.applicationForms:
          class: Maxim\Module\ApplicationBundle\Admin\ApplicationFormAdmin
          tags:
@@ -187,7 +202,7 @@ services:
          arguments:
             - ~
             - Maxim\Module\TicketBundle\Entity\UserTicket
-            - ~
+            - "MaximModuleTicketBundle:Admin"
          calls:
             - [ setSecurityContext, [@security.context]]
             - [ setTemplate, [inner_list_row, MaximModuleTicketBundle:Admin:inner_row_ticket.html.twig]]

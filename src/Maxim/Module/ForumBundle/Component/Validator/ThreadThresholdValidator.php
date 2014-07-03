@@ -11,6 +11,7 @@ namespace Maxim\Module\ForumBundle\Component\Validator;
 use Doctrine\ORM\EntityManager;
 use Maxim\CMSBundle\Entity\User;
 use Maxim\CMSBundle\Helper\MinecraftHelper;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -31,6 +32,10 @@ class ThreadThresholdValidator extends ConstraintValidator
 
     public function validate($object, Constraint $constraint)
     {
+        if(!$this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ){
+            throw new AccessDeniedException("You are not logged in");
+        }
+
         # get user
         $user = $this->securityContext->getToken()->getUser();
 

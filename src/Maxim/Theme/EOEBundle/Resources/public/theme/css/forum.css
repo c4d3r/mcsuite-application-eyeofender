@@ -216,6 +216,7 @@
 }
 .mcsf_post_author_details > li, .mcsf_post_author_info > li {
     list-style:none;
+    word-break: break-all;
 }
 .mcsf_post_author_image > img{
     width:80px;

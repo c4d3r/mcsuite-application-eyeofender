@@ -8,7 +8,13 @@
 
 namespace Maxim\Module\TicketBundle\Controller;
 
+use Maxim\Module\TicketBundle\Entity\TicketHistory;
+use Maxim\Module\TicketBundle\Entity\TicketReply;
+use Maxim\Module\TicketBundle\Form\Type\ReplyType;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class AdminController extends Controller
@@ -164,6 +170,65 @@ class AdminController extends Controller
             'action' => 'create',
             'form'   => $view,
             'object' => $object,
+        ));
+    }
+
+    public function showAction($id = null)
+    {
+        $id = $this->get('request')->get($this->admin->getIdParameter());
+
+        $object = $this->admin->getObject($id);
+
+        if (!$object) {
+            throw new NotFoundHttpException(sprintf('unable to find the object with id : %s', $id));
+        }
+
+        if (false === $this->admin->isGranted('VIEW', $object)) {
+            throw new AccessDeniedException();
+        }
+
+        $this->admin->setSubject($object);
+
+        # reply form
+        $replyForm = $this->createForm(new ReplyType());
+
+        $request = Request::createFromGlobals();
+
+        if ( $request->isMethod( 'POST' ) ) {
+
+            $replyForm->bind( $request );
+
+            if ( $replyForm->isValid( ) ) {
+
+                /*
+                 * $data['title']
+                 * $data['body']
+                 */
+                $data = $replyForm->getData();
+
+                //create ticket reply
+                $em = $this->getDoctrine()->getManager();
+
+                $ticket = $object;
+                if(!$ticket) {
+                    $response['success'] = false;
+                    throw $this->createNotFoundException("Could not find ticket with id: " . $id);
+                } else {
+                    $tr = new TicketReply($ticket, $data['text'], $this->getUser());
+                    $th = new TicketHistory($ticket, TicketHistory::TYPE_REPLY, $this->getUser());
+                    $em->persist($tr);
+                    $em->persist($th);
+                    $em->flush();
+                }
+            }
+        }
+
+        return $this->render("MaximModuleTicketBundle:Admin:ticket_show.html.twig", array(
+            'ticket'    => $object,
+            'replyform' => $replyForm->createView(),
+            'action'    => 'show',
+            'object'    => $object,
+            'elements'  => $this->admin->getShow(),
         ));
     }
 } 

@@ -2,14 +2,9 @@
 
 namespace Maxim\Module\ApplicationBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * UserApplication
- *
- * @ORM\Table(name="user_application")
- * @ORM\Entity
- */
 class UserApplication
 {
 
@@ -147,6 +142,9 @@ class UserApplication
      */
     public function getReplies()
     {
+        if($this->replies == NULL) {
+            return new ArrayCollection();
+        }
         return $this->replies;
     }
 

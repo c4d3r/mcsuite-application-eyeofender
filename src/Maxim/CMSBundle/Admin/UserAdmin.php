@@ -61,6 +61,9 @@ class UserAdmin extends Admin
                     'multiple' => true
                 ))
             ->end()
+            ->with('Forums')
+                ->add('awards', null, array('required' => false, 'multiple' => true))
+            ->end()
         ;
     }
 

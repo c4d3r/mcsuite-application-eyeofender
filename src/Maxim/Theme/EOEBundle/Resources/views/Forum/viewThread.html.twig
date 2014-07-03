@@ -36,7 +36,7 @@
                 {% endif %}
 
                 {# HEAD POST #}
-                {% if page is not defined %}
+                {% if posts.getCurrentPageNumber == 1 %}
                 <div class="mcsf_post_main">
                     <div class="mcsf_post">
 
@@ -82,9 +82,8 @@
 
                 {# POSTS #}
                 <div class="mcsf_posts">
-
                     {% for index, post in posts %}
-                        <div class="mcsf_post clearfix">
+                        <div class="mcsf_post clearfix" id="post-{{ posts.getItemNumberPerPage * (posts.getCurrentPageNumber - 1) + index + 1 }}">
 
                             <div class="mcsf_post_author">
                                 <ul class="mcsf_post_author_details">
@@ -109,7 +108,7 @@
 
                             <div class="mcsf_post_content">
                                 <div class="mcsf_post_topbar clearfix">
-                                    <span class="mcsf_post_index">Post: #{{ index }}</span>
+                                    <span class="mcsf_post_index">Post: <a href="{{ path('forum_thread_view', {'id': thread.forum.id, 'threadid': thread.id}) }}?page={{ posts.getItemNumberPerPage * (posts.getCurrentPageNumber - 1) + index + 1 }}#post-{{ posts.getItemNumberPerPage * (posts.getCurrentPageNumber - 1) + index + 1 }}">#{{ posts.getItemNumberPerPage * (posts.getCurrentPageNumber - 1) + index + 1 }}</a></span>
                                 </div>
 
                                 <div class="mcsf_post_text clearfix">
@@ -150,10 +149,10 @@
                     {% else %}
                         {% if app.user %}
                             <h3>Post a reply</h3>
-                            <form action="{{ path('forum_thread_view', {'id' : thread.forum.id, 'threadid' : thread.id}) }}" {{ form_enctype(form) }} method="post">
+                            <form action="{{ path('forum_thread_view', {'id' : thread.forum.id, 'threadid' : thread.id}) }}" {{ form_enctype(form) }} method="post" id="frmReply">
                                 {{ form_widget(form) }}
                                 <div style="margin-top:5px;">
-                                    <input type="submit" value="Reply to thread" class="btn"/>
+                                    <input type="submit" value="Reply to thread" class="btn" id="btnReply"/>
                                 </div>
                             </form>
                         {% else %}
@@ -205,18 +204,8 @@
     </script>
     {% endif %}
     <script>
-        $('#thread_reply').submit(function(e) {
-            e.preventDefault();
-
-            AJAX.post(
-                    $("#thread_reply").attr("action"),
-                    {
-                        _forumid : {{  thread.forum.id }},
-                        _post_reply_text : $("#post_reply_text").val()
-                    },
-                    $("#reply-status"),
-                    $('#thread_reply_button')
-            );
+        $('#frmReply').submit(function(e) {
+            $('#btnReply').attr('disabled', 'disabled');
         });
     </script>
 {% endblock scripttags%}

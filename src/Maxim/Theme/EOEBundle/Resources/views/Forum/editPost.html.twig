@@ -11,12 +11,13 @@
             <li>Editing post</li>
         </ul>
 
-        <form action="{{ path('forum_post_edit', {'id': post.thread.forum.id, 'threadid': post.thread.id, 'postid' : post.id }) }}" {{ form_enctype(form) }} method="POST" class="thread_edit">
+        <form action="{{ path('forum_post_edit', {'id': post.thread.forum.id, 'threadid': post.thread.id, 'postid' : post.id }) }}" {{ form_enctype(form) }} method="POST" class="post_edit" id="post-edit">
             {{ form_widget(form) }}
             <div>
-                <input type="submit" value="Create thread" class="btn btn-default"/>
+                <input type="submit" value="Edit post" class="btn btn-default"/>
             </div>
         </form>
     </div>
 </div>
 {% endblock %}
+

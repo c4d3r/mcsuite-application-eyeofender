@@ -11,10 +11,11 @@ namespace Maxim\Module\ApplicationBundle\Controller;
 
 use Maxim\Module\ApplicationBundle\Entity\Application;
 use Maxim\Module\ApplicationBundle\Entity\ApplicationReply;
+use Maxim\Module\ApplicationBundle\Form\Type\ReplyType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Yaml\Yaml;
-use LanKit\DatatablesBundle\Datatables\DataTable;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 
 class AdminController extends Controller
@@ -42,9 +43,61 @@ class AdminController extends Controller
         return $this->render('MaximModuleApplicationBundle:Admin:createApplication.html.twig', $data);
     }
 
+    public function showAction($id = null)
+    {
+        $id = $this->get('request')->get($this->admin->getIdParameter());
+
+        $object = $this->admin->getObject($id);
+
+        if (!$object) {
+            throw new NotFoundHttpException(sprintf('unable to find the object with id : %s', $id));
+        }
+
+        if (false === $this->admin->isGranted('VIEW', $object)) {
+            throw new AccessDeniedException();
+        }
+
+        $this->admin->setSubject($object);
+
+        # reply form
+        $replyForm = $this->createForm(new ReplyType());
+
+        $request = Request::createFromGlobals();
+
+        if ( $request->isMethod( 'POST' ) ) {
+
+            $replyForm->bind( $request );
+
+            if ( $replyForm->isValid( ) ) {
+
+                $data = $replyForm->getData();
+
+                //create ticket reply
+                $em = $this->getDoctrine()->getManager();
+
+                $application = $object;
+                if(!$application) {
+                    throw $this->createNotFoundException("Could not find ticket with id: " . $id);
+                }
+
+                $ar = new ApplicationReply($application, $data['text'], $this->getUser());
+                $em->persist($ar);
+                $em->flush();
+            }
+        }
+
+        return $this->render("MaximModuleTicketBundle:Admin:ticket_show.html.twig", array(
+            'application'    => $object,
+            'replyform' => $replyForm->createView(),
+            'action'    => 'show',
+            'object'    => $object,
+            'elements'  => $this->admin->getShow(),
+        ));
+    }
+
     public function applicationDenyAction()
     {
-        $request = $this->getRequest();
+        $request = Request::createFromGlobals();
         if ($request->isXmlHttpRequest()) {
             try
             {

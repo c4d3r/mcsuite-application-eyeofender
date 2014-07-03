@@ -1,0 +1,58 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{% extends 'SonataAdminBundle:CRUD:show.html.twig' %}
+
+{% block show %}
+    <div class="sonata-ba-view">
+
+        {{ sonata_block_render_event('sonata.admin.show.top', { 'admin': admin, 'object': object }) }}
+
+        {% for name, view_group in admin.showgroups %}
+            <table class="table table-bordered">
+                {% if name %}
+                    <thead>
+                    <tr class="sonata-ba-view-title">
+                        <th colspan="2">
+                            {{ admin.trans(name) }}
+                        </th>
+                    </tr>
+                    </thead>
+                {% endif %}
+
+                <tbody>
+                {% for field_name in view_group.fields %}
+                    <tr class="sonata-ba-view-container">
+                        {% if elements[field_name] is defined %}
+                            {{ elements[field_name]|render_view_element(object) }}
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="panel-body">
+                <form method="post" class="form" id="frmReplyTicket" name="ReplyType" {{ form_enctype(replyform) }}>
+                    <fieldset>
+                        {{ form_widget(replyform) }}
+
+                        <p>
+                            <button type="submit" class="btn btn-info" style="margin-top:10px;">Add reply</button>
+                        </p>
+                    </fieldset>
+                </form>
+            </div>
+        {% endfor %}
+
+        {{ sonata_block_render_event('sonata.admin.show.bottom', { 'admin': admin, 'object': object }) }}
+
+    </div>
+{% endblock %}

@@ -10,12 +10,7 @@
 namespace Maxim\CMSBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-/**
- * Maxim\CMSBundle\Entity\Announcement
- *
- * @ORM\Table(name="announcement")
- * @ORM\Entity
- */
+
 class Announcement {
 
     const TYPE_ERROR   = "error";

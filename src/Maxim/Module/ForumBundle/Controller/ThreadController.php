@@ -24,6 +24,9 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ThreadController extends Controller
 {
+
+    const POSTS_PER_PAGE = 10;
+
     public function createAction($id)
     {
         $request = Request::createFromGlobals();
@@ -104,7 +107,7 @@ class ThreadController extends Controller
         return $this->render('MaximCMSBundle:Forum:editThread.html.twig', $data);
     }
 
-    public function viewAction($id, $threadid)
+    public function viewAction($id, $threadid, $page = NULL)
     {
         $em      = $this->getDoctrine()->getManager();
         $request = Request::createFromGlobals();
@@ -121,21 +124,13 @@ class ThreadController extends Controller
         $posts = $paginator->paginate(
             $query,
             $this->get('request')->query->get('page', 1)/*page number*/,
-            10/*limit per page*/
+            self::POSTS_PER_PAGE/*limit per page*/
         );
 
-        # send page to check if
-        $page = $request->query->get('page');
-
-        if(!($page == null))  {
-            if(!($page == 1)) {
-                $data['page'] = true;
-            }
-        }
+        $pageCount = ceil(count($query) / self::POSTS_PER_PAGE);
 
         # create form
-        $post = new Post($user, $thread);
-        $form = $this->createForm(new PostType(), $post);
+        $form = $this->createForm(new PostType(), new Post($user, $thread));
 
         # handle form
         $form->handleRequest($request);
@@ -159,7 +154,7 @@ class ThreadController extends Controller
                 'notice',
                 'Your post has been added!'
             );
-            return $this->redirect($this->generateUrl('forum_thread_view', array('id' => $forum->getId(), 'threadid' => $thread->getId())));
+            return $this->redirect($this->generateUrl('forum_thread_view', array('id' => $forum->getId(), 'threadid' => $thread->getId(), 'page' => $pageCount)));
         }
 
         $data['posts']  = $posts;

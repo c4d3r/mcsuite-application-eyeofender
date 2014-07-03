@@ -24,8 +24,11 @@ class ApplicationReply
     protected $user;
 
 
-    public function __construct()
+    public function __construct($application = null, $text = null, $user = null)
     {
+        $this->application = $application;
+        $this->text = $text;
+        $this->user = $user;
         $this->setDate(new \DateTime("now"));
     }
 

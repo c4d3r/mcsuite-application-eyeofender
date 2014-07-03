@@ -46,7 +46,6 @@ class PostRepository extends EntityRepository
         $query->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true);
 
         return $query->getResult();
-
     }
 
     public function findThreadPosts($threadid)
@@ -64,6 +63,8 @@ class PostRepository extends EntityRepository
             ->setParameter("id", $threadid)
             ->setHint(Query::HYDRATE_OBJECT, true)
         ;
+
+        //add an index
         return $query->getResult();
     }
 }

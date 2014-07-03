@@ -23,6 +23,8 @@ class User extends BaseUser
 
     protected $mcUuid;
 
+    protected $awards;
+
     public function getGroup()
     {
         if($this->groups[0] != null)
@@ -111,5 +113,26 @@ class User extends BaseUser
     public function setMcUuid($mcUuid)
     {
         $this->mcUuid = $mcUuid;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAwards()
+    {
+        return $this->awards;
+    }
+
+    /**
+     * @param mixed $awards
+     */
+    public function setAwards($awards)
+    {
+        $this->awards = $awards;
+    }
+
+    public function addAward($award)
+    {
+        $this->awards[] = $award;
     }
 } 
