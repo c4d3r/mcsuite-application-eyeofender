@@ -1,5 +1,4 @@
 {% for keyCategory, category in categories %}
-
     <div class="online-users">
         <div class="online-users-category">
             <h4>
@@ -12,7 +11,16 @@
             {% for key, user in category|slice(0, 18) if keyCategory|upper != "GUESTS" %}
                 <li><img src="http://minotar.net/helm/{{ user['username'] }}/36.png" alt="profile image of {{ user['username'] }}"/></li>
             {% endfor %}
+
         </ul>
     </div>
 {% endfor %}
-
+<div class="online-users">
+    <div class="online-users-total">
+        <h4>
+            Total
+            <span class="online-users-count">{{ total }}</span>
+        </h4>
+    </div>
+    <small class="italic" style="font-size: 8pt;">(Users active in the last 10 minutes)</small>
+</div>

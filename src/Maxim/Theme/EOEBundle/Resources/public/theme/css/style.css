@@ -17,6 +17,9 @@ body {
     font-family: "Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif;
 }
 
+.italic {
+    font-style:italic;
+}
 /* image preloader */
 img.preload {
     background: url('../images/preloader.gif') no-repeat 50% 50%;

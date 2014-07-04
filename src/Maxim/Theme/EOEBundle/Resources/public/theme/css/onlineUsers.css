@@ -1,11 +1,11 @@
-.online-users > .online-users-category {
+.online-users > .online-users-category, .online-users > .online-users-total {
     text-align: center;
     background: rgb(50, 50, 51);
     padding: 10px 5px;
     margin: 0;
     box-sizing: border-box;
 }
-.online-users > .online-users-category > h4 {
+.online-users > .online-users-category > h4, .online-users > .online-users-total > h4 {
     margin: 0;
     position: relative;
 }

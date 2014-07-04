@@ -27,7 +27,7 @@ class OnlineUsersHelper
     const USERNAME_GUEST = "*g"; //Make sure you dont take a minecraft username
 
     // timeout in minutes
-    const TIMEOUT = 0.5;
+    const TIMEOUT = 10;
 
     public function __construct(SecurityContext $security, ApcCache $cache)
     {
