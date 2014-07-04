@@ -1,0 +1,40 @@
+.online-users > .online-users-category {
+    text-align: center;
+    background: rgb(50, 50, 51);
+    padding: 10px 5px;
+    margin: 0;
+    box-sizing: border-box;
+}
+.online-users > .online-users-category > h4 {
+    margin: 0;
+    position: relative;
+}
+
+.online-users-content {
+    margin: 2px 0;
+    padding: 0;
+}
+.online-users-content > li {
+    list-style:none;
+    display:inline-block;
+    width:36px;
+    height:36px;
+}
+.online-users-content > li > img {
+    width:36px;
+    height:36px;
+}
+.online-users-content > li + li {
+    margin-left:2px;
+}
+.online-users-content > li:nth-child(7n + 1) {
+    margin:0;
+}
+.online-users-count {
+    background: rgb(77, 129, 77);
+    padding: 5px 10px;
+    box-sizing: border-box;
+    position: absolute;
+    right: 0;
+    top: -3px;
+}

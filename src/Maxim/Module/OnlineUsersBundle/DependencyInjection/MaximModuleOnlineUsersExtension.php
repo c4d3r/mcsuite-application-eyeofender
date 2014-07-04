@@ -1,21 +1,20 @@
 <?php
 /**
  * Author: Maxim
- * Date: 14/12/13
- * Time: 17:39
+ * Date: 03/07/2014
+ * Time: 20:04
  * Property of MCSuite
  */
 
-namespace Maxim\Module\ForumBundle\DependencyInjection;
+namespace Maxim\Module\OnlineUsersBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-class MaximModuleForumExtension extends Extension
+class MaximModuleOnlineUsersExtension extends Extension
 {
-
     /**
      * Loads a specific configuration.
      *
@@ -28,15 +27,7 @@ class MaximModuleForumExtension extends Extension
      */
     public function load(array $config, ContainerBuilder $container)
     {
-        $configuration = new Configuration();
-
-        $config = $this->processConfiguration($configuration, $config);
-
-        $container->setParameter('maxim_module_forum.threads.threshold', $config['threads']['threshold']);
-        $container->setParameter('maxim_module_forum.posts.threshold', $config['posts']['threshold']);
-
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
-
     }
-}
+} 

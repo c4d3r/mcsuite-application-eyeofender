@@ -35,6 +35,7 @@ class EoEKernel extends Kernel
             new Maxim\CMSBundle\MaximCMSBundle(),
             //new Maxim\InstallBundle\MaximInstallBundle(),
             new Maxim\Module\ForumBundle\MaximModuleForumBundle(),
+            new Maxim\Module\OnlineUsersBundle\MaximModuleOnlineUsersBundle(),
             
             # Theme
             new Maxim\Theme\EOEBundle\MaximThemeEOEBundle(),

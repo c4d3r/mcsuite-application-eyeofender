@@ -1,0 +1,14 @@
+services:
+    apc_cache:
+        class: Doctrine\Common\Cache\ApcCache
+    maxim_online_players.helper:
+        class: Maxim\Module\OnlineUsersBundle\Helper\OnlineUsersHelper
+        arguments:
+            - @security.context
+            - @apc_cache
+    maxim_online_players.page_listener:
+         class: Maxim\Module\OnlineUsersBundle\EventListener\PageLoadListener
+         arguments:
+             - @maxim_online_players.helper
+         tags:
+           - { name: kernel.event_listener, event: kernel.controller,  method: onKernelController, priority: 64 }
