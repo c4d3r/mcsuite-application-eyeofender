@@ -1,11 +1,13 @@
 services:
     apc_cache:
         class: Doctrine\Common\Cache\ApcCache
+    xcache_cache:
+        class: Doctrine\Common\Cache\XcacheCache
     maxim_online_players.helper:
         class: Maxim\Module\OnlineUsersBundle\Helper\OnlineUsersHelper
         arguments:
             - @security.context
-            - @apc_cache
+            - @xcache_cache
     maxim_online_players.page_listener:
          class: Maxim\Module\OnlineUsersBundle\EventListener\PageLoadListener
          arguments:

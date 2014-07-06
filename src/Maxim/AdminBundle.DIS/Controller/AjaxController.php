@@ -47,7 +47,7 @@ class AjaxController extends Controller {
                     //RELOAD ROUTING
                     $loader = $this->get('module.loader');
                     $loader->reload();
-                    apc_clear_cache();
+
 					$output = array("success" => true, "message" => "Module changed");
 				}
 				else

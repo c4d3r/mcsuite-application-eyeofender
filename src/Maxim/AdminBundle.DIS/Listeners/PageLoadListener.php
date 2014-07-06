@@ -1,12 +1,12 @@
 <?php
 namespace Maxim\CMSBundle\Listeners;
+use Doctrine\Common\Cache\XcacheCache;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Routing\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
-use Doctrine\Common\Cache\ApcCache;
 class PageLoadListener extends controller
 {
     private $securityContext;
@@ -20,7 +20,7 @@ class PageLoadListener extends controller
         $this->securityContext = $context;
         $this->container = $container;
         $this->query = $query;
-        $this->cacheDriver = new ApcCache();
+        $this->cacheDriver = new XcacheCache();
     }
     public function onKernelController(FilterControllerEvent $event)
     {

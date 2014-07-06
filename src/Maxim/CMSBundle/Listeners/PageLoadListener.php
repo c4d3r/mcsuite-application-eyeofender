@@ -20,7 +20,6 @@ class PageLoadListener
         $this->securityContext = $context;
         $this->container = $container;
         $this->query = $query;
-        //$this->cacheDriver = new ApcCache();
     }
     public function onKernelController(FilterControllerEvent $event)
     {

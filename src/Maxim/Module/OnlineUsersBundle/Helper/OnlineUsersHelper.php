@@ -1,7 +1,7 @@
 <?php
 namespace Maxim\Module\OnlineUsersBundle\Helper;
 
-use Doctrine\Common\Cache\ApcCache;
+use Doctrine\Common\Cache\XcacheCache;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContext;
 
@@ -22,17 +22,17 @@ class OnlineUsersHelper
     const KEY_MEMBERS = "members";
     const KEY_STAFF = "staff";
 
-    const KEY_CACHE = "online_players";
+    const KEY_CACHE = "OnlineUsersHelper_online_players";
 
     const USERNAME_GUEST = "*g"; //Make sure you dont take a minecraft username
 
     // timeout in minutes
     const TIMEOUT = 10;
 
-    public function __construct(SecurityContext $security, ApcCache $cache)
+    public function __construct(SecurityContext $security, XcacheCache $cache)
     {
         $this->security = $security;
-        $this->cache = new ApcCache();
+        $this->cache = $cache;
 
         $this->users = array(
             self::KEY_GUESTS => array(),
@@ -47,7 +47,7 @@ class OnlineUsersHelper
      */
     public function count($arr)
     {
-        return count($arr[OnlineUsersHelper::KEY_MEMBERS]) + count($arr[OnlineUsersHelper::KEY_STAFF]);
+        return count($arr[self::KEY_MEMBERS]) + count($arr[self::KEY_STAFF]) + count($arr[self::KEY_GUESTS]);
     }
     /**
      * @return $this->users
@@ -99,6 +99,13 @@ class OnlineUsersHelper
                 $this->users[self::KEY_GUESTS][$request->getClientIp()] = array("time" => time(), "username" => self::USERNAME_GUEST);
             }
         }
+
+        //TEST DATA
+        /*$this->users[self::KEY_GUESTS]["135.68.4.5"] = array("time" => time(), "username" => self::USERNAME_GUEST);
+        $this->users[self::KEY_GUESTS]["135.68.4.6"] = array("time" => time(), "username" => self::USERNAME_GUEST);
+        $this->users[self::KEY_MEMBERS]["135.68.4.4"] = array("time" => time(), "username" => "Notch");
+        $this->users[self::KEY_STAFF]["135.68.2.5"] = array("time" => time(), "username" => "enayet123");
+        $this->users[self::KEY_STAFF]["135.68.1.5"] = array("time" => time(), "username" => "shazz96");*/
     }
 
     /**

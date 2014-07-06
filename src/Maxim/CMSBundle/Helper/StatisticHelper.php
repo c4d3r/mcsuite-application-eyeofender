@@ -19,7 +19,6 @@ class StatisticHelper extends controller{
 
     public function getVisitorsOnline()
     {
-       /* $cacheDriver    = new ApcCache();*/
         $em             = $this->doctrine->getManager();
 
         /*if (!$cacheDriver->contains('_db_statistic_10minutes')) {*/
