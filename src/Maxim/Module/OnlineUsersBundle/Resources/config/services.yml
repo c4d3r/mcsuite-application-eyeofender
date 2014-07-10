@@ -1,8 +1,6 @@
 services:
     apc_cache:
         class: Doctrine\Common\Cache\ApcCache
-    xcache_cache:
-        class: Doctrine\Common\Cache\XcacheCache
     maxim_online_players.helper:
         class: Maxim\Module\OnlineUsersBundle\Helper\OnlineUsersHelper
         arguments:
