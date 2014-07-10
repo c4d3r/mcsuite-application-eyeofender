@@ -1,7 +1,7 @@
 <?php
 namespace Maxim\Module\OnlineUsersBundle\Helper;
 
-use Doctrine\Common\Cache\XcacheCache;
+use Doctrine\Common\Cache\CacheProvider;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContext;
 
@@ -29,7 +29,7 @@ class OnlineUsersHelper
     // timeout in minutes
     const TIMEOUT = 10;
 
-    public function __construct(SecurityContext $security, XcacheCache $cache)
+    public function __construct(SecurityContext $security, CacheProvider $cache)
     {
         $this->security = $security;
         $this->cache = $cache;
