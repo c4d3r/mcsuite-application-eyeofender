@@ -218,6 +218,8 @@ sonata_block:
         # Your other blocks
 sonata_admin:
     title:      MCSuite
+    options:
+        use_select2: true
     #title_logo: bundles/acmedemo/img/fancy_acme_logo.png
     security:
         handler: sonata.admin.security.handler.role

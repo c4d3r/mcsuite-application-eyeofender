@@ -62,8 +62,8 @@ class ThreadAdmin extends Admin{
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
+            ->addIdentifier('title')
             ->addIdentifier('forum')
-            ->add('title')
             ->add('createdBy')
             ->add('locked', 'boolean', array('editable' => true))
             ->add('pinned', 'boolean', array('editable' => true))
