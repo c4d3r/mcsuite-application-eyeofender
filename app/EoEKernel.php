@@ -17,9 +17,10 @@ class EoEKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new FOS\UserBundle\FOSUserBundle(),
+            
 
             # MY BUNDLES
+            new FOS\UserBundle\FOSUserBundle(),
             new Exercise\HTMLPurifierBundle\ExerciseHTMLPurifierBundle(), //purify html to prevent xss
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(), // generate menus

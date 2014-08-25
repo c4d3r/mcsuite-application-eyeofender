@@ -55,7 +55,7 @@ class StoreItemAdmin extends Admin{
             ->add('command', 'textarea', array(
                 'label' => 'Item Command',
                 'attr'  => array(
-                    //'class' => 'ace-init',
+                    'class' => 'redactor-init',
                     'style' => 'width: 683px;height: 250px;',
                     'data-editor' => "sql"
                 )

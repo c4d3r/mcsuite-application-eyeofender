@@ -22,7 +22,7 @@ Modernizr.addTest('ios',function(){return!!navigator.userAgent.match(/iPhone|iPa
 (function(a,b){"use strict";var c="undefined"!=typeof Element&&"ALLOW_KEYBOARD_INPUT"in Element,d=function(){for(var a,c,d=[["requestFullscreen","exitFullscreen","fullscreenElement","fullscreenEnabled","fullscreenchange","fullscreenerror"],["webkitRequestFullscreen","webkitExitFullscreen","webkitFullscreenElement","webkitFullscreenEnabled","webkitfullscreenchange","webkitfullscreenerror"],["webkitRequestFullScreen","webkitCancelFullScreen","webkitCurrentFullScreenElement","webkitCancelFullScreen","webkitfullscreenchange","webkitfullscreenerror"],["mozRequestFullScreen","mozCancelFullScreen","mozFullScreenElement","mozFullScreenEnabled","mozfullscreenchange","mozfullscreenerror"]],e=0,f=d.length,g={};f>e;e++)if(a=d[e],a&&a[1]in b){for(e=0,c=a.length;c>e;e++)g[d[0][e]]=a[e];return g}return!1}(),e={request:function(a){var e=d.requestFullscreen;a=a||b.documentElement,/5\.1[\.\d]* Safari/.test(navigator.userAgent)?a[e]():a[e](c&&Element.ALLOW_KEYBOARD_INPUT)},exit:function(){b[d.exitFullscreen]()},toggle:function(a){this.isFullscreen?this.exit():this.request(a)},onchange:function(){},onerror:function(){},raw:d};return d?(Object.defineProperties(e,{isFullscreen:{get:function(){return!!b[d.fullscreenElement]}},element:{enumerable:!0,get:function(){return b[d.fullscreenElement]}},enabled:{enumerable:!0,get:function(){return!!b[d.fullscreenEnabled]}}}),b.addEventListener(d.fullscreenchange,function(a){e.onchange.call(e,a)}),b.addEventListener(d.fullscreenerror,function(a){e.onerror.call(e,a)}),a.screenfull=e,void 0):a.screenfull=!1})(window,document);
 
 
-// data-shift api 
+// data-shift api
 +function ($) { "use strict";
 
  /* SHIFT CLASS DEFINITION
@@ -39,7 +39,7 @@ Modernizr.addTest('ios',function(){return!!navigator.userAgent.match(/iPhone|iPa
 
     , init:function(){
     	var $el = this.$element
-    	, method = $el.data()['toggle'].split(':')[1]    	
+    	, method = $el.data()['toggle'].split(':')[1]
     	, $target = $el.data('target')
     	$el.hasClass('in') || $el[method]($target).addClass('in')
     }
@@ -101,7 +101,7 @@ Date.now = Date.now || function() { return +new Date; };
         $modal.load($remote);
       }
     );
-    
+
     // dropdown menu
     $.fn.dropdown.Constructor.prototype.change = function(e){
       e.preventDefault();
@@ -131,7 +131,7 @@ Date.now = Date.now || function() { return +new Date; };
           $label.html($text);
       }else{
         $label.html($label.data('placeholder'));
-      }      
+      }
     }
     $(document).on('click.dropdown-menu', '.dropdown-select > li > a', $.fn.dropdown.Constructor.prototype.change);
 
@@ -162,10 +162,10 @@ Date.now = Date.now || function() { return +new Date; };
         $target.find('.panel-body').toggleClass($class);
         $this.toggleClass('active');
     });
-  	
+
   	// carousel
   	$('.carousel.auto').carousel();
-  	
+
   	// button loading
   	$(document).on('click.button.data-api', '[data-loading-text]', function (e) {
   	    var $this = $(e.target);
@@ -178,7 +178,7 @@ Date.now = Date.now || function() { return +new Date; };
   		    if (!pageYOffset) window.scrollTo(0, 0);
   		}, 1000);
   	};
-  	
+
     var $window = $(window);
     // mobile
   	var mobile = function(option){
@@ -201,7 +201,7 @@ Date.now = Date.now || function() { return +new Date; };
         $window.width() >= 768 && mobile('reset') && fixVbox();
       }, 500);
   	});
-    
+
     // fix vbox
     var fixVbox = function(){
       $('.ie11 .vbox').each(function(){
@@ -212,18 +212,18 @@ Date.now = Date.now || function() { return +new Date; };
 
     // collapse nav
     $(document).on('click', '.nav-primary a', function (e) {
-      var $this = $(e.target), $active;      
+      var $this = $(e.target), $active;
       $this.is('a') || ($this = $this.closest('a'));
       if( $('.nav-vertical').length ){
         return;
       }
-      
+
       $active = $this.parent().siblings( ".active" );
       $active && $active.find('> a').toggleClass('active') && $active.toggleClass('active').find('> ul:visible').slideUp(200);
-      
+
       ($this.hasClass('active') && $this.next().slideUp(200)) || $this.next().slideDown(200);
       $this.toggleClass('active').parent().toggleClass('active');
-      
+
       $this.next().is('ul') && e.preventDefault();
     });
 

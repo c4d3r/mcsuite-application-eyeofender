@@ -44,13 +44,14 @@ class UserAdmin extends Admin
             ->with('General')
                 ->add('username', 'text', array('label' => 'Username'))
                 ->add('email', 'email', array('label' => 'E-mail'))
-                ->add('lastIp', 'text', array('label' => 'last Ip-address'))
+                ->add('lastIp', 'text', array('label' => 'last Ip-address', 'required' => false))
             ->end()
             ->with('Profile')
                 ->add('location', 'country', array('required' => false))
                 ->add('skype', 'text', array('label' => 'Skype', 'required' => false))
-                ->add('dateOfBirth', 'date', array('years' => range(1910, 2014), 'label' => 'Date of birth'))
+                ->add('dateOfBirth', 'date', array('years' => range(1910, 2014), 'label' => 'Date of birth', 'required' => false))
                 ->add('gender', 'choice', array(
+                    'required' => false,
                     'multiple' => false,
                     'choices' => User::getGenderList()
                 ))
