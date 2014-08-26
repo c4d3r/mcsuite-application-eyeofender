@@ -14,6 +14,7 @@ use Doctrine\ORM\Query;
 use Maxim\Module\ForumBundle\Entity\Post;
 use Maxim\Module\ForumBundle\Entity\Thread;
 use Maxim\Module\ForumBundle\Entity\ThreadEdit;
+use Maxim\Module\ForumBundle\Entity\ThreadRepository;
 use Maxim\Module\ForumBundle\Form\Type\PostType;
 use Maxim\Module\ForumBundle\Form\Type\ThreadType;
 use Maxim\Module\ForumBundle\Form\Type\ThreadEditType;
@@ -290,4 +291,40 @@ class ThreadController extends Controller
         }
     }
 
+    /**
+     * @param $id
+     * @return Response|\Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @var Thread $thread
+     */
+    public function adminDisableAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $logger = $this->get('logger');
+
+        $thread = $em->getRepository('MaximModuleForumBundle:Thread')->findOneBy(array("id" => $id));
+        if(!$thread)
+            return $this->createNotFoundException("Could not find thread with id: " . $id);
+
+        try
+        {
+            if($thread->isDisabled()) {
+                $thread->toVisibleState();
+            } else {
+                $thread->toDeletedState();
+            }
+            $em->flush();
+
+            // clear cache
+            $cacheDriver = $em->getConfiguration()->getResultCacheImpl();
+            $cacheDriver->delete(ThreadRepository::CACHE_THREAD_BYID . $thread->getId());
+
+            return new Response(json_encode(array("success" => true, "message" => sprintf("The requested thread has been %s", $thread->isDisabled() ? "disabled" : "made visible"))));
+
+        }
+        catch(\Exception $ex)
+        {
+            $logger->err("[FORUM-THREAD]" . $ex->getMessage());
+            return new Response(json_encode(array("success" => true, "message" => "An error occured, please try again later or contact amn administrator")));
+        }
+    }
 }

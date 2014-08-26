@@ -12,6 +12,9 @@ use Doctrine\ORM\Query;
 
 class ThreadRepository extends EntityRepository
 {
+
+    const CACHE_THREAD_BYID = "cache_thread_byid";
+
     public function findLatestThreads($amount, $website)
     {
         return $this->getEntityManager()
@@ -22,9 +25,11 @@ class ThreadRepository extends EntityRepository
                 INNER JOIN t.createdBy u
                 INNER JOIN f.category c
                 WHERE c.website = :website
+                AND t.state = :state
                 ORDER BY t.createdOn DESC'
             )
             ->setParameter("website", $website)
+            ->setParameter("state", Thread::THREAD_STATE_VISIBLE)
             ->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true)
             ->setMaxResults($amount)
             ->useResultCache(true, 60, __METHOD__ . serialize("website_forum_latestthreads"))
@@ -56,10 +61,12 @@ class ThreadRepository extends EntityRepository
                 INNER JOIN c.website w
                 INNER JOIN t.createdBy u
                 WHERE f.showOnHome = true AND w.id = :website
+                AND t.state = :state
                 ORDER BY t.createdOn DESC
                 '
             )
             ->setParameter("website", $websiteid)
+            ->setParameter("state", Thread::THREAD_STATE_VISIBLE)
             ->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true)
             ->useResultCache(true, 3600, __METHOD__ . serialize("website_newsposts"))
             ->getArrayResult();
@@ -78,7 +85,7 @@ class ThreadRepository extends EntityRepository
         )
             ->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true)
             ->setParameter("id", $threadid);
-        $query->useResultCache(true, 10, __METHOD__ . serialize($query->getParameters()));
+        $query->useResultCache(true, 60, self::CACHE_THREAD_BYID . $threadid);
         return $query->getSingleResult();
     }
 
@@ -92,10 +99,12 @@ class ThreadRepository extends EntityRepository
             LEFT JOIN t.lastPost p
             LEFT JOIN t.lastPostCreator u2
             WHERE f.id = :id AND t.pinned = :pinned
+            AND t.state = :state
             ORDER BY p.createdOn DESC"
         )
             ->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true)
             ->setParameter('pinned', $pinned)
+            ->setParameter("state", Thread::THREAD_STATE_VISIBLE)
             ->setParameter('id', $forumid);
         $query->useResultCache(true, 60, __METHOD__ . serialize($query->getParameters()));
 

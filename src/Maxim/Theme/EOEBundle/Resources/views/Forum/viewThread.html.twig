@@ -7,7 +7,7 @@
         <h3 class="page-header">{{ thread.title }}<p>Created on {{ thread.createdOn|date('M j \, Y H:i:s') }}</p></h3>
         <div class="page-content">
             {# MAIN TOPIC #}
-            <div class="mcsf_thread" id="thread-{{ thread.id }}">
+            <div class="mcsf_thread{% if thread.disabled %} mcsf_thread_disabled{% endif %}" id="thread-{{ thread.id }}">
 
                 {# STATUS BAR #}
                 <div id="admin-status" class="alert"></div>
@@ -32,6 +32,7 @@
                         <li><button data-href="{{ path('forum_thread_archive_ajax', {'id' : thread.id}) }}" id="admin_thread_archive">Archive</button></li>
                         <li><button data-href="{{ path('forum_thread_pin_ajax', {'id' : thread.id}) }}" id="admin_thread_pin">{% if thread.isPinned() %}unpin{% else %}pin{% endif %}</button></li>
                         <li><button data-href="{{ path('forum_thread_lock_ajax', {'id' : thread.id}) }}" id="admin_thread_lock">{% if thread.isLocked() %}open{% else %}close{% endif %}</button></li>
+                        <li><button data-href="{{ path('forum_thread_disable_ajax', {'id' : thread.id}) }}" id="admin_thread_disable">{% if thread.isDisabled() %}Make Visible{% else %}Disable (Not Visible to others){% endif %}</button></li>
                     </ul>
                 {% endif %}
 
@@ -59,6 +60,13 @@
                                 <li>Posts: {{ thread.createdBy.posts|length }}</li>
                                 <li>Joined: {{ thread.createdBy.createdAt|date('M Y') }}</li>
                             </ul>
+
+                            {% if is_granted('ROLE_STAFF') %}
+                            <ul class="mcsf_admin_user">
+                                <li><button data-href="{{ path('forum_thread_lock_ajax', {'id' : thread.id}) }}" id="mcsf_admin_user_ban">Ban User</button></li>
+                                <li><button data-href="{{ path('forum_thread_lock_ajax', {'id' : thread.id}) }}" id="mcsf_admin_user_ipban">IP Ban User</button></li>
+                            </ul>
+                            {% endif %}
                         </div>
 
                         <div class="mcsf_post_content">
@@ -144,7 +152,7 @@
                 </div>
 
                 <div class="mcsf_thread_reply">
-                    {% if thread.isLocked() %}
+                    {% if thread.isLocked() or thread.isDisabled() %}
                         <p class="mcsf_thread_locked">This thread is locked.</p>
                     {% else %}
                         {% if app.user %}
@@ -186,6 +194,10 @@
         });
 
         $('#admin_thread_pin').on('click', function(){
+            AJAX.post_noButton($(this).attr("data-href"),{}, $("#admin-status"));
+        });
+
+        $('#admin_thread_disable').on('click', function(){
             AJAX.post_noButton($(this).attr("data-href"),{}, $("#admin-status"));
         });
 

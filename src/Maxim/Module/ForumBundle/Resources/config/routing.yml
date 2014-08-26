@@ -31,6 +31,9 @@ forum_thread_archive_ajax:
 forum_thread_move_ajax:
   path: /admin/thread/{id}/move/ajax
   defaults: { _controller: MaximModuleForumBundle:Thread:adminMoveAjax }
+forum_thread_disable_ajax:
+  path: /admin/thread/{id}/close
+  defaults: { _controller: MaximModuleForumBundle:Thread:adminDisable }
 
 ################
 # THREAD POSTS

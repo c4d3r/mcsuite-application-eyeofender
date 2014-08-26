@@ -285,7 +285,7 @@ class Thread
             throw new \InvalidArgumentException("Invalid type specified for Entity Thread");
         }
 
-        $this->threadState = $threadState;
+        $this->state = $threadState;
 
     }
 
@@ -293,6 +293,22 @@ class Thread
     {
         return $this->state;
     }
+
+    public function isDisabled()
+    {
+        return $this->state == self::THREAD_STATE_DELETED;
+    }
+
+    public function toDeletedState()
+    {
+        $this->state = self::THREAD_STATE_DELETED;
+    }
+
+    public function toVisibleState()
+    {
+        $this->state = self::THREAD_STATE_VISIBLE;
+    }
+
 
     /**
      * @param int $postCount
