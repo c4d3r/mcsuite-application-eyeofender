@@ -235,5 +235,8 @@ admin_shop_resend:
   path: /admin/shop/resend
   defaults: { _controller: MaximCMSBundle:Admin:resendPurchase }
 
+admin_user_ban:
+   path: /admin/user/{id}/ban
+   defaults: { _controller: MaximCMSBundle:Admin:ban }
 # note routes to create new users are not here but you'll need to create them just like you would any other route.
 # I left them out here because this is just meant to get you up and running as simply as possible (That at it will take me longer to type all this up... LOL)

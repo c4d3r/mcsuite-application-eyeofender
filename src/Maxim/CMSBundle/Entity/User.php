@@ -35,6 +35,7 @@ class User extends BaseUser
         return $group;
 
     }
+
     public function __construct()
     {
         parent::__construct();
@@ -55,6 +56,23 @@ class User extends BaseUser
     public function preUpdate()
     {
         $this->updatedAt = new \DateTime;
+    }
+
+    public function isGranted($role)
+    {
+        foreach($this->getGroups() as $g)
+        {
+            foreach($g->getRoles() as $role)
+            {
+                if(strtoupper($role) == strtoupper($role))
+                    return true;
+            }
+        }
+    }
+
+    public function isBanned()
+    {
+        return $this->isGranted(Group::ROLE_BANNED);
     }
 
     /**

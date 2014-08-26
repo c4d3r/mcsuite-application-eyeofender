@@ -294,13 +294,19 @@ class ThreadController extends Controller
     /**
      * @param $id
      * @return Response|\Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     * @var Thread $thread
+     * @throws AccessDeniedException
      */
     public function adminDisableAction($id)
     {
+        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN') || false === $this->get('security.context')->isGranted('ROLE_STAFF')) {
+            throw new AccessDeniedException();
+        }
         $em = $this->getDoctrine()->getManager();
         $logger = $this->get('logger');
 
+        /**
+         * @var Thread $thread
+         */
         $thread = $em->getRepository('MaximModuleForumBundle:Thread')->findOneBy(array("id" => $id));
         if(!$thread)
             return $this->createNotFoundException("Could not find thread with id: " . $id);

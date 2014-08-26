@@ -463,6 +463,30 @@ abstract class User extends BaseUser
         return $this->groups;
     }
 
+    public function addRank($group)
+    {
+        $this->groups[] = $group;
+    }
+
+    public function hasRank($group)
+    {
+        return $this->getGroups()->contains($group);
+    }
+
+    /**
+     * @param String $group
+     * @return $this
+     */
+    public function removeRank($group)
+    {
+        if($this->getGroups()->contains($group)) {
+            $this->getGroups()->removeElement($group);
+        }
+
+        return $this;
+    }
+
+
     /**
      * @param mixed $skype
      */

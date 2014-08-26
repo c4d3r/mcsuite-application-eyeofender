@@ -54,7 +54,7 @@
                                 <li class="mcsf_post_author_smalltext">{{ thread.createdBy.forumText }}</li>
                             </ul>
 
-                            <p class="mcsf_post_author_title {{ thread.createdBy.group.cssClass }}">{{ thread.createdBy.group.name }}</p>
+                            <p class="mcsf_post_author_title {{ thread.createdBy.group.cssClass }}"1>{{ thread.createdBy.group.name }}</p>
 
                             <ul class="mcsf_post_author_info">
                                 <li>Posts: {{ thread.createdBy.posts|length }}</li>
@@ -63,8 +63,7 @@
 
                             {% if is_granted('ROLE_STAFF') %}
                             <ul class="mcsf_admin_user">
-                                <li><button data-href="{{ path('forum_thread_lock_ajax', {'id' : thread.id}) }}" id="mcsf_admin_user_ban">Ban User</button></li>
-                                <li><button data-href="{{ path('forum_thread_lock_ajax', {'id' : thread.id}) }}" id="mcsf_admin_user_ipban">IP Ban User</button></li>
+                                <li><button data-href="{{ path('admin_user_ban', {'id' : thread.createdBy.id}) }}" class="mcsf_admin_user_ban">{% if thread.createdBy.isBanned() %}Unban user{% else %}Ban User{% endif %}</button></li>
                             </ul>
                             {% endif %}
                         </div>
@@ -112,6 +111,12 @@
                                     <li>Posts: {{ post.createdBy.posts|length }}</li>
                                     <li>Joined: {{ post.createdBy.createdAt|date('M Y') }}</li>
                                 </ul>
+
+                                {% if is_granted('ROLE_STAFF') %}
+                                    <ul class="mcsf_admin_user">
+                                        <li><button data-href="{{ path('admin_user_ban', {'id' : post.createdBy.id}) }}" class="mcsf_admin_user_ban">{% if post.createdBy.isBanned() %}Unban user{% else %}Ban User{% endif %}</button></li>
+                                    </ul>
+                                {% endif %}
                             </div>
 
                             <div class="mcsf_post_content">
@@ -198,6 +203,10 @@
         });
 
         $('#admin_thread_disable').on('click', function(){
+            AJAX.post_noButton($(this).attr("data-href"),{}, $("#admin-status"));
+        });
+
+        $('.mcsf_admin_user_ban').on('click', function(){
             AJAX.post_noButton($(this).attr("data-href"),{}, $("#admin-status"));
         });
 
