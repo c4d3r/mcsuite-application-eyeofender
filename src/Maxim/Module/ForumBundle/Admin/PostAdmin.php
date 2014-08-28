@@ -26,7 +26,7 @@ class PostAdmin extends Admin {
         $formMapper
             ->add('text', 'text', array('label' => 'Post Title'))
             ->add('thread', 'entity',
-                array('class' => 'Maxim\Module\ForumBundle\Entity\Thread'),
+                array('class' => 'Maxim\Module\ForumBundle\Entity\Thread', 'attr' => array('class' => 'form-control')),
                 array(
                     'edit' => 'inline',
                     'sortable' => 'pos',

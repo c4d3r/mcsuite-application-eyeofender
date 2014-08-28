@@ -177,9 +177,9 @@ payum:
                 #    password:  '1370531911'
                 #   signature: 'A5dlNjuK3lFO0sbl9JbP7PGWYlfNAG0QiZDCPrw5l4Cl1iAJ4juv4IkT'
                 #    sandbox: true
-                username: 'purchases_api1.eyeofender.com'
-                password: 'XFN7RBRFZ8Y9R5L4'
-                signature: 'AwxVz5m1pD5T3wcCseXSpNVzLX8RAKrJrfO4ijXLiT9aVe0MMRpjeg8j'
+                username: %payum.username%
+                password: %payum.password%
+                signature: %payum.signature%
                 sandbox: false
                 actions:
                     - maxim_cms.action.store_notification

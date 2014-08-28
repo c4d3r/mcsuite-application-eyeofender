@@ -1,16 +1,15 @@
 {% extends 'SonataAdminBundle::standard_layout.html.twig' %}
 
 {% block stylesheets %}
-    {{ parent() }}
+
 
     <link rel="stylesheet" href="{{ asset('bundles/maximthemeadminnotepad/css/bootstrap.css') }}" type="text/css" media="all" />
     <link rel="stylesheet" href="{{ asset('bundles/maximthemeadminnotepad/css/animate.css') }}" type="text/css" media="all" />
     <link rel="stylesheet" href="{{ asset('bundles/maximthemeadminnotepad/css/font-awesome.min.css') }}" type="text/css" media="all" />
     <link rel="stylesheet" href="{{ asset('bundles/maximthemeadminnotepad/css/font.css') }}" type="text/css" media="all" />
-    <link rel="stylesheet" href="{{ asset('bundles/maximthemeadminnotepad/css/app.css') }}" type="text/css" media="all" />
     <link rel="stylesheet" href="{{ asset('bundles/maximthemeadminnotepad/css/maxim-extra.css') }}" type="text/css" media="all" />
-
     <link rel="stylesheet" href="{{ asset('bundles/maximthemeadminnotepad/js/calendar/bootstrap_calendar.css') }}" type="text/css" media="all" />
+
 
     <style>
         .select2-container {
@@ -50,9 +49,14 @@
     {% endif %}
 
     <link rel="stylesheet" href="{{ asset('bundles/maximcms/plugins/redactor/redactor.css') }}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{{ asset('bundles/maximthemeadminnotepad/css/app.css') }}" type="text/css" media="all" />
 {% endblock %}
 
 {% block javascripts %}
+
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    {#<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>#}
+
     {{ parent() }}
 
     <!--[if lt IE 9]>
@@ -61,8 +65,6 @@
     <script src="{{ asset('bundles/maximthemeadminnotepad/js/ie/excanvas.js') }}" cache="false"></script>
     <![endif]-->
 
-    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="{{ asset('bundles/maximthemeadminnotepad/js/bootstrap.js') }}"></script>
 
     <script src="{{ asset('bundles/maximcms/js/admin/resendPurchase.js') }}" type="text/javascript"></script>

@@ -36,10 +36,11 @@ class AwardAdmin extends Admin
             ->add('description', 'text', array('label' => 'Description'))
             ->add('type', 'choice', array(
                 'multiple' => false,
-                'choices' => Award::getTypeList()
+                'choices' => Award::getTypeList(),
+                'attr' => array('class' => 'form-control')
             ))
             ->add('image', 'sonata_type_model_list', array('label' => 'Award icon'))
-            ->add('website', 'entity', array('class' => 'Maxim\CMSBundle\Entity\Website'))
+            ->add('website', 'entity', array('class' => 'Maxim\CMSBundle\Entity\Website', 'attr' => array('class' => 'form-control')))
         ;
     }
 

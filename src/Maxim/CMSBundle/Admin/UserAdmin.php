@@ -47,23 +47,25 @@ class UserAdmin extends Admin
                 ->add('lastIp', 'text', array('label' => 'last Ip-address', 'required' => false))
             ->end()
             ->with('Profile')
-                ->add('location', 'country', array('required' => false))
+                ->add('location', 'country', array('required' => false, 'attr' => array('class' => 'form-control') ))
                 ->add('skype', 'text', array('label' => 'Skype', 'required' => false))
                 ->add('dateOfBirth', 'date', array('years' => range(1910, 2014), 'label' => 'Date of birth', 'required' => false))
                 ->add('gender', 'choice', array(
                     'required' => false,
                     'multiple' => false,
-                    'choices' => User::getGenderList()
+                    'choices' => User::getGenderList(),
+                    'attr' => array('class' => 'form-control')
                 ))
             ->end()
             ->with('Groups')
                 ->add('groups', null, array(
                     'required' => false,
-                    'multiple' => true
+                    'multiple' => true,
+                    'attr' => array('class' => 'form-control')
                 ))
             ->end()
             ->with('Forums')
-                ->add('awards', null, array('required' => false, 'multiple' => true))
+                ->add('awards', null, array('required' => false, 'multiple' => true, 'attr' => array('class' => 'form-control')))
             ->end()
         ;
     }

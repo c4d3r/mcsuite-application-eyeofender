@@ -29,7 +29,8 @@ class AnnouncementAdmin extends Admin
         $formMapper
             ->add('type', 'choice', array(
                 'multiple' => false,
-                'choices' => Announcement::getTypeList()
+                'choices' => Announcement::getTypeList(),
+                'attr' => array('class' => 'form-control')
             ))
             ->add('startdate', 'datetime', array(
                 'label' => 'Start date'

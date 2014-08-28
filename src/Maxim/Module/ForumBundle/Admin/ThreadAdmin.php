@@ -35,7 +35,7 @@ class ThreadAdmin extends Admin{
         $formMapper
             ->add('locked', 'checkbox', array('label' => 'Locked', 'required' => false))
             ->add('pinned', 'checkbox', array('label' => 'Pinned', 'required' => false))
-            ->add('forum', 'entity', array('class' => 'Maxim\Module\ForumBundle\Entity\Forum'))
+            ->add('forum', 'entity', array('class' => 'Maxim\Module\ForumBundle\Entity\Forum', 'attr' => array('class' => 'form-control')))
             ->add('title', 'text', array('label' => 'title'))
             ->add('text', 'textarea', array(
                 'label' => 'Text',

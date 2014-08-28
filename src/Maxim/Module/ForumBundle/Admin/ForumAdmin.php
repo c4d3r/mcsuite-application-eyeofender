@@ -37,7 +37,7 @@ class ForumAdmin extends Admin{
             ->add('sort', 'integer', array('label' => 'Forum sort'))
             ->add('showOnHome', 'checkbox', array('label' => 'Show on home page', 'required' => false))
             ->add('category', 'entity',
-                array('class' => 'Maxim\Module\ForumBundle\Entity\Category'),
+                array('class' => 'Maxim\Module\ForumBundle\Entity\Category', 'attr' => array('class' => 'form-control')),
                 array(
                     'edit' => 'inline',
                     'sortable' => 'pos',
